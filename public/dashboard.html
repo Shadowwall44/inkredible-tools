@@ -1472,7 +1472,7 @@
                 <div class="chat-header-icon">🤖</div>
                 <div class="chat-header-info">
                     <div class="chat-title">Financial Advisor AI</div>
-                    <div class="chat-subtitle">INKredible Printing · Kimi K2.5</div>
+                    <div class="chat-subtitle">INKredible Printing · Gemini 2.5 Flash</div>
                 </div>
             </div>
             <button class="chat-close-btn" id="chatClose" type="button" title="Close">✕</button>
@@ -1621,9 +1621,8 @@
 
         // ===== AI FINANCIAL CHAT WITH CHART.JS =====
         (function() {
-            const AI_KEY = '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';
-            const AI_URL = 'https://integrate.api.nvidia.com/v1/chat/completions';
-            const AI_MODEL = 'moonshotai/kimi-k2.5';
+            const GEMINI_KEY = 'AIzaSyDuTJuG5mXl72Gp85uaKSrkNdB0Y71kWXQ';
+            const GEMINI_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=' + GEMINI_KEY;
 
             // Chart tracking
             let chartIdCounter = 0;
@@ -2195,26 +2194,25 @@ Chart rules:
                 chatMessages.scrollTop = chatMessages.scrollHeight;
 
                 try {
-                    const messages = [
-                        { role: 'system', content: SYSTEM_PROMPT },
+                    const contents = [
+                        { role: 'user', parts: [{ text: SYSTEM_PROMPT }] },
+                        { role: 'model', parts: [{ text: 'Understood. I have all of INKredible Printing\'s financial data loaded and I can generate interactive charts when helpful. What would you like to know?' }] },
                         ...conversationHistory.map(m => ({
-                            role: m.role === 'model' ? 'assistant' : m.role,
-                            content: m.parts ? m.parts[0].text : m.content
+                            role: m.role === 'assistant' ? 'model' : 'user',
+                            parts: [{ text: m.content }]
                         }))
                     ];
 
-                    const res = await fetch(AI_URL, {
+                    const res = await fetch(GEMINI_URL, {
                         method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': 'Bearer ' + AI_KEY
-                        },
+                        headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
-                            model: AI_MODEL,
-                            messages: messages,
-                            temperature: 0.7,
-                            max_tokens: 4096,
-                            top_p: 0.9
+                            contents: contents,
+                            generationConfig: {
+                                temperature: 0.7,
+                                maxOutputTokens: 8192,
+                                topP: 0.9
+                            }
                         })
                     });
 
@@ -2224,7 +2222,7 @@ Chart rules:
                     }
 
                     const data = await res.json();
-                    const reply = data.choices?.[0]?.message?.content || 'Sorry, I couldn\'t generate a response.';
+                    const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || 'Sorry, I couldn\'t generate a response.';
 
                     conversationHistory.push({ role: 'assistant', content: reply });
                     addMessage(reply, 'ai');
