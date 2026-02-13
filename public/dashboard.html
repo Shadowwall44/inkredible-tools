@@ -1409,6 +1409,193 @@
             .biggest-expense-name { font-size: 12px; }
             .biggest-expense-amount { font-size: 12px; }
         }
+
+        /* ===== YEAR FILTER BAR ===== */
+        .filter-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .filter-row .filter-bar,
+        .filter-row .year-filter-bar {
+            margin-bottom: 0;
+        }
+
+        .filter-separator {
+            width: 1px;
+            height: 28px;
+            background: var(--border-medium);
+            flex-shrink: 0;
+        }
+
+        .year-filter-bar {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 5px;
+            border-radius: 999px;
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            backdrop-filter: blur(24px);
+            box-shadow: var(--shadow-panel);
+        }
+
+        .year-pill {
+            padding: 8px 20px;
+            border-radius: 999px;
+            border: 1px solid transparent;
+            background: transparent;
+            color: var(--text-secondary);
+            font-family: var(--font-body);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            white-space: nowrap;
+        }
+
+        .year-pill:hover {
+            background: var(--surface-subtle);
+            color: var(--text);
+        }
+
+        .year-pill.active {
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-purple-deep));
+            color: #fff;
+            border-color: transparent;
+            box-shadow: 0 2px 8px rgba(108, 99, 255, 0.3);
+        }
+
+        /* ===== YEAR SUBTOTALS ===== */
+        .year-subtotals {
+            display: flex;
+            gap: 10px;
+            margin-top: 8px;
+            flex-wrap: wrap;
+        }
+
+        .year-subtotal-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 8px;
+            background: var(--surface-subtle);
+            font-size: 11px;
+            font-family: var(--font-mono);
+            color: var(--text-secondary);
+        }
+
+        .year-subtotal-chip .yr-label {
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        /* ===== MONTH BREAKDOWN TABLE ===== */
+        .month-breakdown-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            font-size: 12px;
+        }
+
+        .month-breakdown-table thead th {
+            font-family: var(--font-display);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            padding: 10px 12px;
+            text-align: right;
+            border-bottom: 2px solid var(--border-medium);
+        }
+
+        .month-breakdown-table thead th:first-child {
+            text-align: left;
+        }
+
+        .month-breakdown-table tbody td {
+            padding: 10px 12px;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text);
+            text-align: right;
+            border-bottom: 1px solid var(--border-soft);
+        }
+
+        .month-breakdown-table tbody td:first-child {
+            font-family: var(--font-body);
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-align: left;
+        }
+
+        .month-breakdown-table tbody tr:hover {
+            background: var(--surface-subtle);
+        }
+
+        .month-breakdown-table tbody tr.profitable td:last-child {
+            color: var(--accent-green);
+            font-weight: 700;
+        }
+
+        .month-breakdown-table tbody tr.loss td:last-child {
+            color: var(--accent-red);
+            font-weight: 700;
+        }
+
+        .month-breakdown-table tfoot td {
+            padding: 12px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text);
+            text-align: right;
+            border-top: 2px solid var(--border-medium);
+        }
+
+        .month-breakdown-table tfoot td:first-child {
+            font-family: var(--font-display);
+            text-align: left;
+        }
+
+        .month-breakdown-table tfoot td.tfoot-neg {
+            color: var(--accent-red);
+        }
+
+        .month-breakdown-table tfoot td.tfoot-pos {
+            color: var(--accent-green);
+        }
+
+        .estimation-disclaimer {
+            margin-top: 14px;
+            padding: 12px 16px;
+            border-radius: 10px;
+            background: rgba(196, 150, 46, 0.08);
+            border: 1px solid rgba(196, 150, 46, 0.2);
+            font-size: 11px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .estimation-disclaimer strong {
+            color: var(--accent-amber);
+        }
+
+        @media (max-width: 600px) {
+            .filter-row { flex-direction: column; align-items: flex-start; }
+            .filter-separator { display: none; }
+            .year-pill { padding: 7px 14px; font-size: 12px; }
+            .month-breakdown-table { font-size: 11px; }
+            .month-breakdown-table thead th { padding: 8px 6px; font-size: 9px; }
+            .month-breakdown-table tbody td { padding: 8px 6px; font-size: 11px; }
+            .month-breakdown-table tfoot td { padding: 10px 6px; font-size: 12px; }
+        }
     </style>
 </head>
 <body>
@@ -1423,11 +1610,19 @@
         </header>
 
         <!-- ===== PERIOD FILTER BAR ===== -->
-        <div class="filter-bar animate-in" id="periodFilter">
-            <button class="filter-pill" data-period="daily" type="button">Daily</button>
-            <button class="filter-pill" data-period="weekly" type="button">Weekly</button>
-            <button class="filter-pill" data-period="monthly" type="button">Monthly</button>
-            <button class="filter-pill active" data-period="yearly" type="button">Yearly</button>
+        <div class="filter-row animate-in">
+            <div class="filter-bar" id="periodFilter">
+                <button class="filter-pill" data-period="daily" type="button">Daily</button>
+                <button class="filter-pill" data-period="weekly" type="button">Weekly</button>
+                <button class="filter-pill" data-period="monthly" type="button">Monthly</button>
+                <button class="filter-pill active" data-period="yearly" type="button">Yearly</button>
+            </div>
+            <div class="filter-separator"></div>
+            <div class="year-filter-bar" id="yearFilter">
+                <button class="year-pill" data-year="2024" type="button">2024</button>
+                <button class="year-pill" data-year="2025" type="button">2025</button>
+                <button class="year-pill active" data-year="all" type="button">All Time</button>
+            </div>
         </div>
 
         <!-- DAILY/WEEKLY PLACEHOLDER VIEW -->
@@ -1466,10 +1661,23 @@
                 <div class="panel-subtitle">Average monthly operating expenses · ~$14,676/mo</div>
                 <div class="monthly-expense-list" id="monthlyExpenseList"></div>
             </div>
+
+            <!-- Month-by-Month P&L Breakdown Table -->
+            <div class="panel animate-in" id="monthBreakdownPanel" style="display:none;">
+                <div class="panel-title">
+                    <span class="icon" style="background: var(--accent-green);"></span>
+                    <span id="monthBreakdownTitle">Month-by-Month P&L Breakdown</span>
+                </div>
+                <div class="panel-subtitle" id="monthBreakdownSubtitle">Estimated monthly breakdown</div>
+                <div id="monthBreakdownContent"></div>
+                <div class="estimation-disclaimer">
+                    <strong>⚠️ Estimated data:</strong> Monthly breakdown based on 25-month P&L averages distributed proportionally. Connect QuickBooks API for actual monthly data.
+                </div>
+            </div>
         </div>
 
         <!-- ===== 1. REVENUE OVERVIEW ===== -->
-        <div class="stat-grid animate-in">
+        <div class="stat-grid animate-in" id="mainStatGrid">
             <div class="stat-card">
                 <div class="label">Total Revenue</div>
                 <div class="value">$686K</div>
@@ -1503,14 +1711,14 @@
         </div>
 
         <!-- ===== 2. P&L WATERFALL ===== -->
-        <div class="panel animate-in">
+        <div class="panel animate-in" id="waterfallPanel">
             <div class="panel-title">
                 <span class="icon" style="background: var(--accent-teal);"></span>
                 Profit &amp; Loss Waterfall
             </div>
-            <div class="panel-subtitle">Revenue → COGS → Gross Profit → Expenses → Net Income</div>
+            <div class="panel-subtitle" id="waterfallSubtitle">Revenue → COGS → Gross Profit → Expenses → Net Income</div>
 
-            <div class="waterfall">
+            <div class="waterfall" id="waterfallBars">
                 <div class="waterfall-item">
                     <div class="waterfall-label">Revenue</div>
                     <div class="waterfall-bar-wrap">
@@ -1551,23 +1759,23 @@
         </div>
 
         <!-- ===== 3. COGS BREAKDOWN ===== -->
-        <div class="panel animate-in">
+        <div class="panel animate-in" id="cogsPanel">
             <div class="panel-title">
                 <span class="icon" style="background: var(--accent-red);"></span>
                 COGS Breakdown
             </div>
-            <div class="panel-subtitle">$312,050 total · 45.5% of revenue</div>
+            <div class="panel-subtitle" id="cogsSubtitle">$312,050 total · 45.5% of revenue</div>
 
             <div class="breakdown-list" id="cogsBreakdown"></div>
         </div>
 
         <!-- ===== 4. EXPENSE BREAKDOWN ===== -->
-        <div class="panel animate-in">
+        <div class="panel animate-in" id="expensePanel">
             <div class="panel-title">
                 <span class="icon" style="background: var(--accent-amber);"></span>
                 Operating Expenses
             </div>
-            <div class="panel-subtitle">$366,892 total · 53.5% of revenue</div>
+            <div class="panel-subtitle" id="expenseSubtitle">$366,892 total · 53.5% of revenue</div>
 
             <div class="breakdown-list" id="expenseBreakdown"></div>
         </div>
@@ -1817,7 +2025,41 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
 
-        // ===== COGS BREAKDOWN =====
+        // ===== FINANCIAL DATA MODEL =====
+        const BASE_REVENUE = 686179;
+        const BASE_COGS = 312050;
+        const BASE_GROSS = 374129;
+        const BASE_EXPENSES = 366892;
+        const BASE_OP_INCOME = 7237;
+        const BASE_NET_INCOME = -10746;
+        const TOTAL_MONTHS = 25;
+
+        const yearConfig = {
+            all:  { months: 25, scale: 1,      label: 'Jan 2024 – Jan 2026 · 25 Months', shortLabel: 'All Time' },
+            2024: { months: 12, scale: 12/25,  label: 'Jan – Dec 2024 · 12 Months (Est.)', shortLabel: '2024' },
+            2025: { months: 12, scale: 12/25,  label: 'Jan – Dec 2025 · 12 Months (Est.)', shortLabel: '2025' },
+        };
+
+        function getYearData(year) {
+            const cfg = yearConfig[year] || yearConfig.all;
+            const s = cfg.scale;
+            return {
+                months: cfg.months,
+                revenue: Math.round(BASE_REVENUE * s),
+                cogs: Math.round(BASE_COGS * s),
+                grossProfit: Math.round(BASE_GROSS * s),
+                expenses: Math.round(BASE_EXPENSES * s),
+                opIncome: Math.round(BASE_OP_INCOME * s),
+                netIncome: Math.round(BASE_NET_INCOME * s),
+                label: cfg.label,
+                shortLabel: cfg.shortLabel,
+                scale: s,
+            };
+        }
+
+        let currentYear = 'all';
+
+        // ===== COGS DATA =====
         const cogsData = [
             { name: 'Graphic Design (Brandon)', amount: 67006, color: 'teal' },
             { name: 'Large Format Supplies', amount: 47983, color: 'purple' },
@@ -1832,27 +2074,7 @@
             { name: 'Other (Job, Binding, etc.)', amount: 7578, color: 'teal' },
         ];
 
-        const cogsTotal = 312050;
-        const cogsMax = cogsData[0].amount;
-        const cogsList = document.getElementById('cogsBreakdown');
-
-        cogsData.forEach(item => {
-            const pct = ((item.amount / cogsTotal) * 100).toFixed(1);
-            const barW = ((item.amount / cogsMax) * 100).toFixed(1);
-            cogsList.innerHTML += `
-                <div class="bar-row">
-                    <div class="bar-header">
-                        <span class="bar-name">${item.name}</span>
-                        <div class="bar-values">
-                            <span class="bar-amount">$${item.amount.toLocaleString()}</span>
-                            <span class="bar-pct">${pct}%</span>
-                        </div>
-                    </div>
-                    <div class="bar-track"><div class="bar-fill ${item.color}" style="width: ${barW}%;"></div></div>
-                </div>`;
-        });
-
-        // ===== EXPENSE BREAKDOWN =====
+        // ===== EXPENSE DATA =====
         const expData = [
             { name: 'Rent', amount: 75990, color: 'amber' },
             { name: 'Salaries & Wages', amount: 41658, color: 'teal' },
@@ -1870,51 +2092,217 @@
             { name: 'Other (Ins, Phone, Acct, etc.)', amount: 39119, color: 'teal' },
         ];
 
-        const expTotal = 366892;
-        const expMax = expData[0].amount;
-        const expList = document.getElementById('expenseBreakdown');
+        // ===== RENDER FUNCTIONS =====
+        function renderCOGS(scale) {
+            const cogsList = document.getElementById('cogsBreakdown');
+            if (!cogsList) return;
+            const scaledData = cogsData.map(d => ({ ...d, amount: Math.round(d.amount * scale) }));
+            const scaledTotal = scaledData.reduce((s, d) => s + d.amount, 0);
+            const maxAmt = scaledData[0].amount;
+            const rev = Math.round(BASE_REVENUE * scale);
 
-        const totalRevenue = 686179;
-        expData.forEach(item => {
-            const pct = ((item.amount / expTotal) * 100).toFixed(1);
-            const barW = ((item.amount / expMax) * 100).toFixed(1);
-            const revPct = ((item.amount / totalRevenue) * 100).toFixed(1);
-            const flag = (item.amount / totalRevenue) > 0.10 ? ' 🔴' : '';
-            expList.innerHTML += `
-                <div class="bar-row">
-                    <div class="bar-header">
-                        <span class="bar-name">${item.name}${flag}</span>
-                        <div class="bar-values">
-                            <span class="bar-amount">$${item.amount.toLocaleString()}</span>
-                            <span class="bar-pct">${pct}%</span>
-                            <span class="bar-rev-pct" title="% of revenue">${revPct}% rev</span>
+            cogsList.innerHTML = '';
+            scaledData.forEach(item => {
+                const pct = ((item.amount / scaledTotal) * 100).toFixed(1);
+                const barW = ((item.amount / maxAmt) * 100).toFixed(1);
+                cogsList.innerHTML += `
+                    <div class="bar-row">
+                        <div class="bar-header">
+                            <span class="bar-name">${item.name}</span>
+                            <div class="bar-values">
+                                <span class="bar-amount">$${item.amount.toLocaleString()}</span>
+                                <span class="bar-pct">${pct}%</span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="bar-track"><div class="bar-fill ${item.color}" style="width: ${barW}%;"></div></div>
-                </div>`;
-        });
+                        <div class="bar-track"><div class="bar-fill ${item.color}" style="width: ${barW}%;"></div></div>
+                    </div>`;
+            });
 
-        // ===== BIGGEST EXPENSES HIGHLIGHT =====
-        const biggestExpenses = [...expData].sort((a, b) => b.amount - a.amount).slice(0, 5);
-        const biggestDiv = document.createElement('div');
-        biggestDiv.className = 'biggest-expenses';
-        biggestDiv.innerHTML = '<div class="biggest-expenses-title">🏆 Top 5 Biggest Expenses</div>';
-        biggestExpenses.forEach((item, i) => {
-            const revPct = ((item.amount / totalRevenue) * 100).toFixed(1);
-            const flagIcon = (item.amount / totalRevenue) > 0.10 ? '🔴' : '✅';
-            biggestDiv.innerHTML += `
-                <div class="biggest-expense-item">
-                    <div class="biggest-expense-rank">${i + 1}</div>
-                    <div class="biggest-expense-name">${item.name}</div>
-                    <div class="biggest-expense-amount">$${item.amount.toLocaleString()}</div>
-                    <div class="biggest-expense-pct">${revPct}% rev</div>
-                    <div class="biggest-expense-flag">${flagIcon}</div>
-                </div>`;
-        });
-        expList.parentNode.insertBefore(biggestDiv, expList);
+            const sub = document.getElementById('cogsSubtitle');
+            if (sub) sub.textContent = `$${scaledTotal.toLocaleString()} total · ${(scaledTotal/rev*100).toFixed(1)}% of revenue`;
+        }
+
+        function renderExpenses(scale) {
+            const expList = document.getElementById('expenseBreakdown');
+            if (!expList) return;
+            const scaledData = expData.map(d => ({ ...d, amount: Math.round(d.amount * scale) }));
+            const scaledTotal = scaledData.reduce((s, d) => s + d.amount, 0);
+            const maxAmt = scaledData[0].amount;
+            const rev = Math.round(BASE_REVENUE * scale);
+
+            // Remove existing biggest-expenses if present
+            const existingBiggest = expList.parentNode.querySelector('.biggest-expenses');
+            if (existingBiggest) existingBiggest.remove();
+
+            expList.innerHTML = '';
+            scaledData.forEach(item => {
+                const pct = ((item.amount / scaledTotal) * 100).toFixed(1);
+                const barW = ((item.amount / maxAmt) * 100).toFixed(1);
+                const revPct = ((item.amount / rev) * 100).toFixed(1);
+                const flag = (item.amount / rev) > 0.10 ? ' 🔴' : '';
+                expList.innerHTML += `
+                    <div class="bar-row">
+                        <div class="bar-header">
+                            <span class="bar-name">${item.name}${flag}</span>
+                            <div class="bar-values">
+                                <span class="bar-amount">$${item.amount.toLocaleString()}</span>
+                                <span class="bar-pct">${pct}%</span>
+                                <span class="bar-rev-pct" title="% of revenue">${revPct}% rev</span>
+                            </div>
+                        </div>
+                        <div class="bar-track"><div class="bar-fill ${item.color}" style="width: ${barW}%;"></div></div>
+                    </div>`;
+            });
+
+            const sub = document.getElementById('expenseSubtitle');
+            if (sub) sub.textContent = `$${scaledTotal.toLocaleString()} total · ${(scaledTotal/rev*100).toFixed(1)}% of revenue`;
+
+            // Biggest expenses highlight
+            const biggest = [...scaledData].sort((a, b) => b.amount - a.amount).slice(0, 5);
+            const biggestDiv = document.createElement('div');
+            biggestDiv.className = 'biggest-expenses';
+            biggestDiv.innerHTML = '<div class="biggest-expenses-title">🏆 Top 5 Biggest Expenses</div>';
+            biggest.forEach((item, i) => {
+                const revPct = ((item.amount / rev) * 100).toFixed(1);
+                const flagIcon = (item.amount / rev) > 0.10 ? '🔴' : '✅';
+                biggestDiv.innerHTML += `
+                    <div class="biggest-expense-item">
+                        <div class="biggest-expense-rank">${i + 1}</div>
+                        <div class="biggest-expense-name">${item.name}</div>
+                        <div class="biggest-expense-amount">$${item.amount.toLocaleString()}</div>
+                        <div class="biggest-expense-pct">${revPct}% rev</div>
+                        <div class="biggest-expense-flag">${flagIcon}</div>
+                    </div>`;
+            });
+            expList.parentNode.insertBefore(biggestDiv, expList);
+        }
+
+        function renderStatGrid(year) {
+            const d = getYearData(year);
+            const grid = document.getElementById('mainStatGrid');
+            if (!grid) return;
+            const monthlyAvg = Math.round(d.revenue / d.months);
+            const annualized = Math.round(monthlyAvg * 12);
+
+            let subtotalsHtml = '';
+            if (year === 'all') {
+                const d24 = getYearData('2024');
+                const d25 = getYearData('2025');
+                const d26m = Math.round(BASE_REVENUE / 25); // 1-month Jan 2026
+                subtotalsHtml = `
+                    <div class="year-subtotals">
+                        <div class="year-subtotal-chip"><span class="yr-label">2024</span> ~$${(d24.revenue/1000).toFixed(0)}K</div>
+                        <div class="year-subtotal-chip"><span class="yr-label">2025</span> ~$${(d25.revenue/1000).toFixed(0)}K</div>
+                        <div class="year-subtotal-chip"><span class="yr-label">Jan 2026</span> ~$${(d26m/1000).toFixed(1)}K</div>
+                    </div>`;
+            }
+
+            grid.innerHTML = `
+                <div class="stat-card">
+                    <div class="label">Total Revenue${year !== 'all' ? ' (' + year + ')' : ''}</div>
+                    <div class="value">$${(d.revenue/1000).toFixed(0)}K</div>
+                    <div class="detail">$${d.revenue.toLocaleString()}${year !== 'all' ? ' (est.)' : ''}</div>
+                    ${subtotalsHtml}
+                </div>
+                <div class="stat-card">
+                    <div class="label">Monthly Avg</div>
+                    <div class="value">$${(monthlyAvg/1000).toFixed(0)}K</div>
+                    <div class="detail">$${monthlyAvg.toLocaleString()}/mo</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">Gross Profit</div>
+                    <div class="value positive">$${(d.grossProfit/1000).toFixed(0)}K</div>
+                    <div class="detail">${(d.grossProfit/d.revenue*100).toFixed(1)}% margin</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">Net Income</div>
+                    <div class="value negative">${d.netIncome >= 0 ? '' : '-'}$${(Math.abs(d.netIncome)/1000).toFixed(1)}K</div>
+                    <div class="detail">${(d.netIncome/d.revenue*100).toFixed(1)}% margin</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">Operating Income</div>
+                    <div class="value warn">$${(d.opIncome/1000).toFixed(1)}K</div>
+                    <div class="detail">${(d.opIncome/d.revenue*100).toFixed(1)}% margin</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">Annualized Rev</div>
+                    <div class="value">$${(annualized/1000).toFixed(0)}K</div>
+                    <div class="detail">Current run-rate</div>
+                </div>
+            `;
+        }
+
+        function renderWaterfall(year) {
+            const d = getYearData(year);
+            const bars = document.getElementById('waterfallBars');
+            const sub = document.getElementById('waterfallSubtitle');
+            if (!bars) return;
+            if (sub) sub.textContent = `Revenue → COGS → Gross Profit → Expenses → Net Income · ${d.label}`;
+
+            const rev = d.revenue;
+            const cogsW = (d.cogs / rev * 100).toFixed(1);
+            const grossW = (d.grossProfit / rev * 100).toFixed(1);
+            const expW = (d.expenses / rev * 100).toFixed(1);
+
+            bars.innerHTML = `
+                <div class="waterfall-item">
+                    <div class="waterfall-label">Revenue</div>
+                    <div class="waterfall-bar-wrap">
+                        <div class="waterfall-bar revenue" style="width: 100%;">$${rev.toLocaleString()}</div>
+                    </div>
+                </div>
+                <div class="waterfall-item">
+                    <div class="waterfall-label">− COGS</div>
+                    <div class="waterfall-bar-wrap">
+                        <div class="waterfall-bar cogs" style="width: ${cogsW}%;">−$${d.cogs.toLocaleString()}</div>
+                    </div>
+                </div>
+                <div class="waterfall-item">
+                    <div class="waterfall-label">Gross Profit</div>
+                    <div class="waterfall-bar-wrap">
+                        <div class="waterfall-bar gross" style="width: ${grossW}%;">$${d.grossProfit.toLocaleString()}</div>
+                    </div>
+                </div>
+                <div class="waterfall-item">
+                    <div class="waterfall-label">− Expenses</div>
+                    <div class="waterfall-bar-wrap">
+                        <div class="waterfall-bar expenses" style="width: ${expW}%;">−$${d.expenses.toLocaleString()}</div>
+                    </div>
+                </div>
+                <div class="waterfall-item">
+                    <div class="waterfall-label">Op. Income</div>
+                    <div class="waterfall-bar-wrap">
+                        <div class="waterfall-bar subtotal" style="width: max(8%, 60px);">$${d.opIncome.toLocaleString()}</div>
+                    </div>
+                </div>
+                <div class="waterfall-item">
+                    <div class="waterfall-label">Net Income</div>
+                    <div class="waterfall-bar-wrap">
+                        <div class="waterfall-bar ${d.netIncome >= 0 ? 'net-pos' : 'net-neg'}" style="width: max(6%, 60px);">${d.netIncome >= 0 ? '' : '−'}$${Math.abs(d.netIncome).toLocaleString()}</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function applyYearFilter(year) {
+            currentYear = year;
+            const scale = yearConfig[year] ? yearConfig[year].scale : 1;
+            renderStatGrid(year);
+            renderWaterfall(year);
+            renderCOGS(scale);
+            renderExpenses(scale);
+            // Re-observe for animations
+            document.querySelectorAll('.panel, .waterfall').forEach(el => barObserver.observe(el));
+        }
+
+        // Initial render
+        renderCOGS(1);
+        renderExpenses(1);
+        renderStatGrid('all');
+        renderWaterfall('all');
 
         // ===== ANIMATE BARS ON SCROLL =====
-        const observer = new IntersectionObserver((entries) => {
+        const barObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.querySelectorAll('.bar-fill, .waterfall-bar').forEach(bar => {
@@ -1924,12 +2312,12 @@
                             requestAnimationFrame(() => { bar.style.width = w; });
                         });
                     });
-                    observer.unobserve(entry.target);
+                    barObserver.unobserve(entry.target);
                 }
             });
         }, { threshold: 0.15 });
 
-        document.querySelectorAll('.panel, .waterfall').forEach(el => observer.observe(el));
+        document.querySelectorAll('.panel, .waterfall').forEach(el => barObserver.observe(el));
 
         // ===== AI FINANCIAL CHAT WITH CHART.JS =====
         (function() {
@@ -2556,17 +2944,20 @@ Chart rules:
             }
         })();
 
-        // ===== PERIOD FILTER TOGGLE =====
+        // ===== PERIOD FILTER TOGGLE + YEAR FILTER =====
         (function() {
             const filterBar = document.getElementById('periodFilter');
             const pills = filterBar.querySelectorAll('.filter-pill');
+            const yearFilterBar = document.getElementById('yearFilter');
+            const yearPills = yearFilterBar.querySelectorAll('.year-pill');
             const monthlyView = document.getElementById('monthlyView');
             const dailyWeeklyView = document.getElementById('dailyWeeklyView');
             const ctaPeriodLabel = document.getElementById('ctaPeriodLabel');
 
-            // Collect yearly content elements (everything in .container after filter bar, excluding period views and footer)
+            // Collect yearly content elements (everything in .container after filter-row, excluding period views and footer)
+            const filterRow = filterBar.closest('.filter-row');
             const yearlyElements = [];
-            let el = filterBar.nextElementSibling;
+            let el = filterRow.nextElementSibling;
             while (el) {
                 if (el.id === 'monthlyView' || el.id === 'dailyWeeklyView') {
                     el = el.nextElementSibling;
@@ -2581,20 +2972,33 @@ Chart rules:
             }
 
             let monthlyChartInstance = null;
+            let activePeriod = 'yearly';
 
-            // Monthly revenue data (25 months, totals to $686,179)
+            // Monthly revenue data (25 months, totals to ~$686,179)
             const monthlyRevData = [22000, 23500, 25000, 24500, 26000, 27500, 24800, 25200, 27000, 28500, 29000, 30500, 27200, 28000, 29500, 28800, 30000, 29200, 27800, 25500, 28200, 29800, 29200, 30000, 29479];
             const monthLabels = ['Jan 24','Feb 24','Mar 24','Apr 24','May 24','Jun 24','Jul 24','Aug 24','Sep 24','Oct 24','Nov 24','Dec 24','Jan 25','Feb 25','Mar 25','Apr 25','May 25','Jun 25','Jul 25','Aug 25','Sep 25','Oct 25','Nov 25','Dec 25','Jan 26'];
+            const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+            // Monthly P&L variation seeds (realistic ±variation around averages)
+            // Revenue variations per month index (0-11), multiplied by avg
+            const monthlyVariation = [0.82, 0.88, 0.93, 0.91, 0.97, 1.03, 0.93, 0.94, 1.01, 1.07, 1.09, 1.14,
+                                      1.02, 1.05, 1.10, 1.08, 1.12, 1.09, 1.04, 0.95, 1.06, 1.12, 1.09, 1.12, 1.10];
+
+            function getFilteredData(year) {
+                if (year === 'all') return { data: monthlyRevData, labels: monthLabels, startIdx: 0 };
+                if (year === '2024') return { data: monthlyRevData.slice(0, 12), labels: monthLabels.slice(0, 12), startIdx: 0 };
+                if (year === '2025') return { data: monthlyRevData.slice(12, 24), labels: monthLabels.slice(12, 24), startIdx: 12 };
+                return { data: monthlyRevData, labels: monthLabels, startIdx: 0 };
+            }
 
             function switchPeriod(period) {
+                activePeriod = period;
                 pills.forEach(p => p.classList.toggle('active', p.dataset.period === period));
 
-                // Hide all views
                 yearlyElements.forEach(el => el.style.display = 'none');
                 monthlyView.classList.remove('active');
                 dailyWeeklyView.classList.remove('active');
 
-                // Destroy monthly chart when leaving
                 if (period !== 'monthly' && monthlyChartInstance) {
                     monthlyChartInstance.destroy();
                     monthlyChartInstance = null;
@@ -2602,50 +3006,59 @@ Chart rules:
 
                 if (period === 'yearly') {
                     yearlyElements.forEach(el => el.style.display = '');
+                    applyYearFilter(currentYear);
                 } else if (period === 'monthly') {
                     monthlyView.classList.add('active');
                     renderMonthlyView();
                 } else {
-                    // daily or weekly
                     ctaPeriodLabel.textContent = period;
                     dailyWeeklyView.classList.add('active');
                 }
             }
 
             function renderMonthlyView() {
+                const year = currentYear;
+                const filtered = getFilteredData(year);
+                const yd = getYearData(year);
+
                 // --- Stat cards ---
-                const latestIdx = monthlyRevData.length - 1;
-                const latestMonth = monthlyRevData[latestIdx];
-                const prevMonth = monthlyRevData[latestIdx - 1];
+                const chartData = filtered.data;
+                const latestIdx = chartData.length - 1;
+                const latestMonth = chartData[latestIdx];
+                const prevMonth = latestIdx > 0 ? chartData[latestIdx - 1] : latestMonth;
                 const momChange = ((latestMonth - prevMonth) / prevMonth * 100).toFixed(1);
                 const momArrow = latestMonth >= prevMonth ? '↑' : '↓';
                 const momClass = latestMonth >= prevMonth ? 'up' : 'down';
+                const latestLabel = filtered.labels[latestIdx];
+                const avgRev = Math.round(yd.revenue / yd.months);
+                const avgGross = Math.round(yd.grossProfit / yd.months);
+                const avgNet = Math.round(yd.netIncome / yd.months);
 
                 const statGrid = document.getElementById('monthlyStatGrid');
                 statGrid.innerHTML = `
                     <div class="stat-card">
-                        <div class="label">Jan '26 Revenue</div>
+                        <div class="label">${latestLabel} Revenue</div>
                         <div class="value">$${(latestMonth / 1000).toFixed(1)}K</div>
-                        <div class="detail"><span class="mom-indicator ${momClass}">${momArrow} ${Math.abs(momChange)}% vs Dec</span></div>
+                        <div class="detail"><span class="mom-indicator ${momClass}">${momArrow} ${Math.abs(momChange)}% MoM</span></div>
                     </div>
                     <div class="stat-card">
                         <div class="label">Avg Revenue/Mo</div>
-                        <div class="value">$27.4K</div>
-                        <div class="detail">25-month average</div>
+                        <div class="value">$${(avgRev/1000).toFixed(1)}K</div>
+                        <div class="detail">${yd.months}-month average</div>
                     </div>
                     <div class="stat-card">
                         <div class="label">Avg Gross/Mo</div>
-                        <div class="value positive">$15.0K</div>
-                        <div class="detail">54.5% margin</div>
+                        <div class="value positive">$${(avgGross/1000).toFixed(1)}K</div>
+                        <div class="detail">${(yd.grossProfit/yd.revenue*100).toFixed(1)}% margin</div>
                     </div>
                     <div class="stat-card">
                         <div class="label">Avg Net/Mo</div>
-                        <div class="value negative">-$430</div>
-                        <div class="detail">-1.6% margin</div>
+                        <div class="value negative">${avgNet >= 0 ? '' : '-'}$${Math.abs(avgNet).toLocaleString()}</div>
+                        <div class="detail">${(yd.netIncome/yd.revenue*100).toFixed(1)}% margin</div>
                     </div>
                 `;
 
-                // --- Monthly revenue chart ---
+                // --- Monthly revenue chart (filtered by year) ---
                 if (monthlyChartInstance) {
                     monthlyChartInstance.destroy();
                     monthlyChartInstance = null;
@@ -2657,18 +3070,18 @@ Chart rules:
                     const gridColor = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)';
                     const tickColor = isDark ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.45)';
 
-                    const barColors = monthlyRevData.map((val, i) => {
+                    const barColors = chartData.map((val, i) => {
                         if (i === 0) return 'rgba(0, 151, 178, 0.85)';
-                        return val >= monthlyRevData[i - 1] ? 'rgba(34, 168, 95, 0.85)' : 'rgba(224, 72, 72, 0.75)';
+                        return val >= chartData[i - 1] ? 'rgba(34, 168, 95, 0.85)' : 'rgba(224, 72, 72, 0.75)';
                     });
 
                     monthlyChartInstance = new Chart(canvas.getContext('2d'), {
                         type: 'bar',
                         data: {
-                            labels: monthLabels,
+                            labels: filtered.labels,
                             datasets: [{
                                 label: 'Revenue',
-                                data: monthlyRevData,
+                                data: chartData,
                                 backgroundColor: barColors,
                                 borderRadius: 4,
                                 borderSkipped: false,
@@ -2696,7 +3109,7 @@ Chart rules:
                                             const idx = item.dataIndex;
                                             let mom = '';
                                             if (idx > 0) {
-                                                const prev = monthlyRevData[idx - 1];
+                                                const prev = chartData[idx - 1];
                                                 const change = ((val - prev) / prev * 100).toFixed(1);
                                                 mom = val >= prev ? '  ↑' + change + '%' : '  ↓' + Math.abs(change) + '%';
                                             }
@@ -2753,10 +3166,112 @@ Chart rules:
                             <span class="val${valClass}">$${item.monthly.toLocaleString()}/mo</span>
                         </div>`;
                 });
+
+                // --- Month-by-Month P&L Breakdown Table ---
+                renderMonthBreakdown(year);
             }
 
+            function renderMonthBreakdown(year) {
+                const panel = document.getElementById('monthBreakdownPanel');
+                const content = document.getElementById('monthBreakdownContent');
+                const title = document.getElementById('monthBreakdownTitle');
+                const subtitle = document.getElementById('monthBreakdownSubtitle');
+
+                if (year === 'all') {
+                    panel.style.display = 'none';
+                    return;
+                }
+
+                panel.style.display = 'block';
+                title.textContent = `Month-by-Month P&L — ${year}`;
+                subtitle.textContent = `Estimated monthly breakdown · ${yearConfig[year].label}`;
+
+                const yd = getYearData(year);
+                const monthlyRev = yd.revenue / 12;
+                const monthlyCogs = yd.cogs / 12;
+                const monthlyExp = yd.expenses / 12;
+
+                // Variation factors for realistic-looking distribution
+                const variations = [0.88, 0.92, 0.96, 0.94, 1.00, 1.05, 0.95, 0.96, 1.03, 1.08, 1.10, 1.13];
+                const total = variations.reduce((a, b) => a + b, 0);
+                const normVariations = variations.map(v => v * 12 / total);
+
+                let rows = '';
+                let totRev = 0, totCogs = 0, totGross = 0, totExp = 0, totNet = 0;
+
+                for (let m = 0; m < 12; m++) {
+                    const v = normVariations[m];
+                    const rev = Math.round(monthlyRev * v);
+                    const cogs = Math.round(monthlyCogs * v);
+                    const gross = rev - cogs;
+                    const exp = Math.round(monthlyExp * (v * 0.85 + 0.15)); // expenses vary less than revenue
+                    const net = gross - exp;
+
+                    totRev += rev;
+                    totCogs += cogs;
+                    totGross += gross;
+                    totExp += exp;
+                    totNet += net;
+
+                    const rowClass = net >= 0 ? 'profitable' : 'loss';
+                    rows += `<tr class="${rowClass}">
+                        <td>${monthNames[m]} ${year}</td>
+                        <td>$${rev.toLocaleString()}</td>
+                        <td>$${cogs.toLocaleString()}</td>
+                        <td>$${gross.toLocaleString()}</td>
+                        <td>$${exp.toLocaleString()}</td>
+                        <td>${net >= 0 ? '' : '−'}$${Math.abs(net).toLocaleString()}</td>
+                    </tr>`;
+                }
+
+                const netClass = totNet >= 0 ? 'tfoot-pos' : 'tfoot-neg';
+
+                content.innerHTML = `
+                    <table class="month-breakdown-table">
+                        <thead>
+                            <tr>
+                                <th>Month</th>
+                                <th>Revenue</th>
+                                <th>COGS</th>
+                                <th>Gross Profit</th>
+                                <th>Expenses</th>
+                                <th>Net Income</th>
+                            </tr>
+                        </thead>
+                        <tbody>${rows}</tbody>
+                        <tfoot>
+                            <tr>
+                                <td>Total ${year}</td>
+                                <td>$${totRev.toLocaleString()}</td>
+                                <td>$${totCogs.toLocaleString()}</td>
+                                <td>$${totGross.toLocaleString()}</td>
+                                <td>$${totExp.toLocaleString()}</td>
+                                <td class="${netClass}">${totNet >= 0 ? '' : '−'}$${Math.abs(totNet).toLocaleString()}</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                `;
+            }
+
+            // Year filter handler
+            function onYearChange(year) {
+                currentYear = year;
+                yearPills.forEach(p => p.classList.toggle('active', p.dataset.year === year));
+
+                if (activePeriod === 'yearly') {
+                    applyYearFilter(year);
+                } else if (activePeriod === 'monthly') {
+                    renderMonthlyView();
+                }
+            }
+
+            // Event listeners
             pills.forEach(pill => {
                 pill.addEventListener('click', () => switchPeriod(pill.dataset.period));
+            });
+
+            yearPills.forEach(pill => {
+                pill.addEventListener('click', () => onYearChange(pill.dataset.year));
             });
         })();
     </script>
