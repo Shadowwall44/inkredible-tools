@@ -1621,8 +1621,9 @@
 
         // ===== AI FINANCIAL CHAT WITH CHART.JS =====
         (function() {
-            const GEMINI_KEY = 'AIzaSyDuTJuG5mXl72Gp85uaKSrkNdB0Y71kWXQ';
-            const GEMINI_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemma-3-27b-it:generateContent?key=' + GEMINI_KEY;
+            const NVIDIA_API_KEY = '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';
+            const NVIDIA_URL = 'https://integrate.api.nvidia.com/v1/chat/completions';
+            const NVIDIA_MODEL = 'moonshotai/kimi-k2.5';
 
             // Chart tracking
             let chartIdCounter = 0;
@@ -2194,35 +2195,40 @@ Chart rules:
                 chatMessages.scrollTop = chatMessages.scrollHeight;
 
                 try {
-                    const contents = [
-                        { role: 'user', parts: [{ text: SYSTEM_PROMPT }] },
-                        { role: 'model', parts: [{ text: 'Understood. I have all of INKredible Printing\'s financial data loaded and I can generate interactive charts when helpful. What would you like to know?' }] },
-                        ...conversationHistory.map(m => ({
-                            role: m.role === 'assistant' ? 'model' : 'user',
-                            parts: [{ text: m.content }]
-                        }))
+                    const messages = [
+                        { role: 'system', content: SYSTEM_PROMPT },
+                        ...conversationHistory
                     ];
 
-                    const res = await fetch(GEMINI_URL, {
+                    const res = await fetch(NVIDIA_URL, {
                         method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer ' + NVIDIA_API_KEY
+                        },
                         body: JSON.stringify({
-                            contents: contents,
-                            generationConfig: {
-                                temperature: 0.7,
-                                maxOutputTokens: 8192,
-                                topP: 0.9
-                            }
+                            model: NVIDIA_MODEL,
+                            messages: messages,
+                            temperature: 0.7,
+                            max_tokens: 8192,
+                            top_p: 0.9
                         })
                     });
 
                     if (!res.ok) {
-                        const err = await res.text();
-                        throw new Error('API error ' + res.status + ': ' + err.substring(0, 200));
+                        const errBody = await res.text();
+                        let errMsg = 'API error ' + res.status;
+                        try {
+                            const errJson = JSON.parse(errBody);
+                            errMsg += ': ' + (errJson.error?.message || errBody.substring(0, 200));
+                        } catch(e) {
+                            errMsg += ': ' + errBody.substring(0, 200);
+                        }
+                        throw new Error(errMsg);
                     }
 
                     const data = await res.json();
-                    const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || 'Sorry, I couldn\'t generate a response.';
+                    const reply = data.choices?.[0]?.message?.content || 'Sorry, I couldn\'t generate a response.';
 
                     conversationHistory.push({ role: 'assistant', content: reply });
                     addMessage(reply, 'ai');
