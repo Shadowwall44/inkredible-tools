@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-02-13T11:01:00-05:00",
+  "lastUpdated": "2026-02-13T11:07:00-05:00",
   "mission": "Automating the print business 24/7",
   "agents": [
     {
@@ -7,7 +7,7 @@
       "name": "Aviel",
       "role": "CEO",
       "status": "active",
-      "currentTask": "Setting up Chrome Browser Relay",
+      "currentTask": "At store — setting up Chrome Browser Relay",
       "model": "Human",
       "cost": "Boss",
       "skills": ["Vision & Strategy", "Final Decisions", "Business Development"]
@@ -17,7 +17,7 @@
       "name": "Chet",
       "role": "COO / Chief Strategy Officer",
       "status": "working",
-      "currentTask": "Coordinating sub-agents, talking to Aviel",
+      "currentTask": "Coordinating browser relay setup with Aviel",
       "model": "Claude Opus 4.6",
       "cost": "$200/mo flat",
       "skills": ["Strategic Planning", "Task Orchestration", "Complex Reasoning", "Coaching"]
@@ -67,6 +67,8 @@
       {"title": "Brain Dump Round 3", "agent": "aviel", "priority": "high"}
     ],
     "done": [
+      {"title": "Mission Control Live Update", "agent": "codex", "completedAt": "2026-02-13T11:06:00"},
+      {"title": "Idea Queue Created", "agent": "codex", "completedAt": "2026-02-13T11:01:00"},
       {"title": "Mission Control v1", "agent": "codex", "completedAt": "2026-02-13T09:54:00"},
       {"title": "Hub Landing Page", "agent": "codex", "completedAt": "2026-02-13T10:47:00"},
       {"title": "Dashboard AI Chat (Kimi K2.5)", "agent": "codex", "completedAt": "2026-02-13T09:49:00"},
@@ -77,28 +79,31 @@
     ]
   },
   "activity": [
+    {"time": "11:07", "text": "Status.json updated — Mission Control now live-polling"},
+    {"time": "11:06", "text": "Mission Control live update deployed ✅"},
+    {"time": "11:02", "text": "All app bookmarks sent to Aviel"},
     {"time": "11:01", "text": "Idea queue created — 14 items captured and prioritized"},
     {"time": "10:59", "text": "Spawned android-keyboard-research sub-agent"},
-    {"time": "10:53", "text": "Usage recalibrated: 7% session, 7% weekly (was estimating 51%)"},
+    {"time": "10:53", "text": "Usage recalibrated: 7% session, 7% weekly"},
     {"time": "10:47", "text": "Hub landing page deployed — one bookmark for all apps"},
     {"time": "10:42", "text": "Aviel arrived at store, action list sent"},
     {"time": "09:54", "text": "Mission Control v1 deployed to GitHub Pages"},
     {"time": "09:49", "text": "Dashboard AI chat migrated to Kimi K2.5"},
     {"time": "09:44", "text": "Alex Finn transcript analysis complete — 10 action items"},
-    {"time": "09:41", "text": "2 YouTube transcripts extracted (Running ClawdBot + Ultimate Setup)"},
+    {"time": "09:41", "text": "2 YouTube transcripts extracted"},
     {"time": "09:24", "text": "Personal Kanban redesigned with Origin design system"}
   ],
   "usage": {
-    "sessionPct": 8,
+    "sessionPct": 9,
     "weeklyPct": 7,
     "sessionResetsAt": "2:59 PM",
     "weeklyResetsAt": "Fri 12:00 AM",
     "model": "Opus 4.6",
-    "exchangeCount": 34
+    "exchangeCount": 37
   },
   "schedule": [
     {"name": "Morning Brief", "schedule": "8 AM Mon-Fri", "model": "Codex 5.3", "lastRun": "Today 8:00 AM", "status": "ok"},
-    {"name": "Gauge Sync", "schedule": "Every 15 min", "model": "Codex Mini", "lastRun": "10:45 AM", "status": "ok"},
+    {"name": "Gauge Sync", "schedule": "Every 15 min", "model": "Codex Mini", "lastRun": "11:00 AM", "status": "ok"},
     {"name": "Journaling", "schedule": "5 PM Mon-Fri", "model": "Codex 5.3", "lastRun": "Yesterday", "status": "ok"},
     {"name": "Invoice Extraction", "schedule": "6 AM daily", "model": "Codex 5.3", "lastRun": "Today 6:00 AM", "status": "timeout"},
     {"name": "Afternoon Research", "schedule": "2 PM Mon-Fri", "model": "Codex 5.3", "lastRun": "Yesterday", "status": "ok"},
