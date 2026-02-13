@@ -788,6 +788,231 @@
         .animate-in:nth-child(7) { animation-delay: 0.3s; }
         .animate-in:nth-child(8) { animation-delay: 0.35s; }
         .animate-in:nth-child(9) { animation-delay: 0.4s; }
+
+        /* ===== AI CHAT PANEL ===== */
+        .chat-fab {
+            position: fixed;
+            bottom: 28px;
+            right: 80px;
+            z-index: 9600;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            background: linear-gradient(135deg, var(--accent-teal), var(--accent-purple));
+            color: #fff;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 16px rgba(0, 151, 178, 0.35), 0 8px 32px rgba(108, 99, 255, 0.2);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease, opacity 0.3s ease;
+        }
+        .chat-fab:hover { transform: scale(1.08) translateY(-2px); box-shadow: 0 6px 20px rgba(0, 151, 178, 0.45), 0 12px 40px rgba(108, 99, 255, 0.3); }
+        .chat-fab:active { transform: scale(0.95); }
+        .chat-fab.hidden { opacity: 0; pointer-events: none; transform: scale(0.5); }
+
+        .chat-panel {
+            position: fixed;
+            bottom: 28px;
+            right: 22px;
+            z-index: 9700;
+            width: 400px;
+            height: 520px;
+            border-radius: var(--radius-panel);
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            backdrop-filter: blur(32px);
+            -webkit-backdrop-filter: blur(32px);
+            box-shadow: 0 8px 40px rgba(0,0,0,0.18), 0 24px 60px rgba(0,0,0,0.12);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transform: translateY(20px) scale(0.95);
+            opacity: 0;
+            pointer-events: none;
+            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.25s ease;
+        }
+        .chat-panel.open { transform: translateY(0) scale(1); opacity: 1; pointer-events: all; }
+
+        html[data-theme="dark"] .chat-panel {
+            box-shadow: 0 8px 40px rgba(0,0,0,0.5), 0 24px 60px rgba(0,0,0,0.4);
+        }
+
+        .chat-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 18px;
+            border-bottom: 1px solid var(--border-soft);
+            flex-shrink: 0;
+        }
+        .chat-header-left { display: flex; align-items: center; gap: 10px; }
+        .chat-header-icon {
+            width: 32px; height: 32px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-teal), var(--accent-purple));
+            display: flex; align-items: center; justify-content: center;
+            font-size: 16px; color: #fff; flex-shrink: 0;
+        }
+        .chat-header-info .chat-title { font-family: var(--font-display); font-size: 14px; font-weight: 700; color: var(--text); }
+        .chat-header-info .chat-subtitle { font-size: 10px; color: var(--text-muted); letter-spacing: 0.04em; }
+        .chat-close-btn {
+            width: 28px; height: 28px; border-radius: 50%;
+            border: none; background: var(--surface-subtle);
+            color: var(--text-muted); cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 16px; transition: background 0.2s, color 0.2s;
+        }
+        .chat-close-btn:hover { background: var(--border-medium); color: var(--text); }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .chat-msg {
+            max-width: 85%;
+            padding: 10px 14px;
+            border-radius: 14px;
+            font-size: 13px;
+            line-height: 1.55;
+            word-wrap: break-word;
+        }
+        .chat-msg.user {
+            align-self: flex-end;
+            background: linear-gradient(135deg, var(--accent-teal), var(--accent-teal-deep));
+            color: #fff;
+            border-bottom-right-radius: 4px;
+        }
+        .chat-msg.ai {
+            align-self: flex-start;
+            background: var(--surface-subtle);
+            color: var(--text);
+            border-bottom-left-radius: 4px;
+        }
+        .chat-msg.ai strong { color: var(--text); font-weight: 600; }
+        .chat-msg.ai ul, .chat-msg.ai ol { margin: 6px 0; padding-left: 18px; }
+        .chat-msg.ai li { margin-bottom: 3px; }
+        .chat-msg.ai p { margin-bottom: 8px; }
+        .chat-msg.ai p:last-child { margin-bottom: 0; }
+        .chat-msg.ai code {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            background: var(--border-soft);
+            padding: 1px 5px;
+            border-radius: 4px;
+        }
+
+        .chat-msg.system {
+            align-self: center;
+            background: transparent;
+            color: var(--text-muted);
+            font-size: 11px;
+            text-align: center;
+            padding: 4px 8px;
+        }
+
+        .chat-typing {
+            align-self: flex-start;
+            display: none;
+            align-items: center;
+            gap: 4px;
+            padding: 10px 16px;
+            border-radius: 14px;
+            background: var(--surface-subtle);
+            border-bottom-left-radius: 4px;
+        }
+        .chat-typing.visible { display: flex; }
+        .chat-typing-dot {
+            width: 7px; height: 7px; border-radius: 50%;
+            background: var(--text-muted);
+            animation: typingBounce 1.4s infinite ease-in-out;
+        }
+        .chat-typing-dot:nth-child(2) { animation-delay: 0.16s; }
+        .chat-typing-dot:nth-child(3) { animation-delay: 0.32s; }
+
+        @keyframes typingBounce {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+            30% { transform: translateY(-6px); opacity: 1; }
+        }
+
+        .chat-input-area {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 14px;
+            border-top: 1px solid var(--border-soft);
+            flex-shrink: 0;
+        }
+        .chat-input {
+            flex: 1;
+            padding: 10px 14px;
+            border-radius: 12px;
+            border: 1px solid var(--border-medium);
+            background: var(--surface-subtle);
+            color: var(--text);
+            font-family: var(--font-body);
+            font-size: 13px;
+            outline: none;
+            transition: border-color 0.2s;
+            resize: none;
+        }
+        .chat-input::placeholder { color: var(--text-muted); }
+        .chat-input:focus { border-color: var(--accent-teal); }
+
+        .chat-send-btn {
+            width: 38px; height: 38px;
+            border-radius: 50%; border: none;
+            background: linear-gradient(135deg, var(--accent-teal), var(--accent-purple));
+            color: #fff;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+            transition: transform 0.2s, opacity 0.2s;
+        }
+        .chat-send-btn:hover { transform: scale(1.06); }
+        .chat-send-btn:active { transform: scale(0.94); }
+        .chat-send-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+        .chat-send-btn svg { width: 18px; height: 18px; fill: currentColor; }
+
+        .chat-suggestions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            padding: 0 16px 12px;
+        }
+        .chat-suggestion {
+            padding: 6px 12px;
+            border-radius: 20px;
+            border: 1px solid var(--border-medium);
+            background: transparent;
+            color: var(--text-secondary);
+            font-size: 11px;
+            font-family: var(--font-body);
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s, border-color 0.2s;
+        }
+        .chat-suggestion:hover {
+            background: var(--accent-teal);
+            color: #fff;
+            border-color: var(--accent-teal);
+        }
+
+        @media (max-width: 600px) {
+            .chat-panel {
+                width: calc(100vw - 16px);
+                height: calc(100vh - 80px);
+                bottom: 8px;
+                right: 8px;
+                border-radius: 16px;
+            }
+            .chat-fab { right: 16px; bottom: 80px; }
+        }
     </style>
 </head>
 <body>
@@ -1086,6 +1311,41 @@
         </button>
     </div>
 
+    <!-- AI FINANCIAL CHAT -->
+    <button class="chat-fab" id="chatFab" type="button" title="Ask the AI Financial Advisor">💬</button>
+    <div class="chat-panel" id="chatPanel">
+        <div class="chat-header">
+            <div class="chat-header-left">
+                <div class="chat-header-icon">🤖</div>
+                <div class="chat-header-info">
+                    <div class="chat-title">Financial Advisor AI</div>
+                    <div class="chat-subtitle">INKredible Printing · Gemini</div>
+                </div>
+            </div>
+            <button class="chat-close-btn" id="chatClose" type="button" title="Close">✕</button>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <div class="chat-msg system">Ask anything about INKredible's finances — P&amp;L, expenses, cash flow, or strategy.</div>
+        </div>
+        <div class="chat-suggestions" id="chatSuggestions">
+            <button class="chat-suggestion" data-q="What are my biggest expense problems?">Top expenses?</button>
+            <button class="chat-suggestion" data-q="How can I improve my net income and stop losing money?">Improve profit</button>
+            <button class="chat-suggestion" data-q="Should I refinance my line of credit? Break down the interest savings.">Refinance LOC?</button>
+            <button class="chat-suggestion" data-q="What's my break-even revenue per month and how far am I from a healthy profit?">Break-even</button>
+        </div>
+        <div class="chat-typing" id="chatTyping">
+            <div class="chat-typing-dot"></div>
+            <div class="chat-typing-dot"></div>
+            <div class="chat-typing-dot"></div>
+        </div>
+        <div class="chat-input-area">
+            <input class="chat-input" id="chatInput" type="text" placeholder="Ask about your finances…" autocomplete="off">
+            <button class="chat-send-btn" id="chatSend" type="button" title="Send">
+                <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+            </button>
+        </div>
+    </div>
+
     <script>
         // ===== THEME TOGGLE =====
         const THEME_KEY = 'inkredible_dash_theme';
@@ -1206,6 +1466,233 @@
         }, { threshold: 0.15 });
 
         document.querySelectorAll('.panel, .waterfall').forEach(el => observer.observe(el));
+
+        // ===== AI FINANCIAL CHAT =====
+        (function() {
+            const GEMINI_KEY = 'AIzaSyBnUFBNanVJH-TQ1I3JRtCTMH4aMIGlGhA';
+            const GEMINI_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + GEMINI_KEY;
+
+            const SYSTEM_PROMPT = `You are a financial advisor and QuickBooks expert specializing in the commercial printing industry. You have access to the following financial data for INKredible Printing, a custom print shop in Brooklyn, NY. Answer questions using this data. Be specific with numbers. Give actionable advice.
+
+=== P&L SUMMARY (Jan 2024 – Feb 2026, ~25 months, Cash Basis) ===
+Total Revenue: $686,179 ($26,909/month avg)
+Gross Profit: $374,129 (54.5% margin)
+Total COGS: $312,050 (45.5% of revenue)
+Total Operating Expenses: $366,892 (53.5% of revenue)
+Net Operating Income: $7,237 (1.1% margin)
+Net Income (after other): -$10,746 (-1.6% margin — donations + depreciation push it negative)
+Annualized Run-Rate: ~$323K revenue, ~$0 profit
+
+=== REVENUE BREAKDOWN ===
+Main Sales: $581,653 (85%)
+Large Format NEW: $67,955 (10%)
+Small Format NEW: $29,521 (4%)
+UPS Shipping: $2,078
+Design Fees: $339
+
+=== COGS BREAKDOWN ($312,050) ===
+Graphic Design (Brandon): $67,006 (21.5%) — Brandon's pay, correctly categorized as COGS (~$2,680/mo)
+Large Format Supplies: $47,983
+Paper Supply: $43,454
+Third Party Printing: $41,820 — outsourced jobs
+Supplies & Materials: $28,379
+Cost Per Click: $26,986
+COGS General: $18,727
+Printing Costs + Afinia: $16,764
+Label Supply: $6,699
+Printing Supplies: $6,654
+Other (Job, Binding, etc.): $7,578
+
+=== OPERATING EXPENSES ($366,892) ===
+Rent: $75,990 (11.1% of rev — $2,980/mo)
+Salaries/Wages: $41,658 (Brandon + Diandra)
+Postage/Shipping: $41,518 (mostly Messilot account — biggest customer, monthly recurring)
+Officers Payroll (Aviel): $39,185 (~$1,537/mo or $18.4K/yr)
+Auto: $23,043
+Meals/Entertainment: $20,766 ⚠️ RED FLAG — mostly personal, $832/mo, IRS audit risk
+Bank Charges/Interest: $18,641 ⚠️ RED FLAG — interest on $43K line of credit at ~17-18% APR
+Utilities: $14,367 ($563/mo)
+Donations: $13,500 ⚠️ — Jewish tithing (maaser) while net negative
+Travel: $12,481
+Payroll Taxes: $9,158
+Office Supplies: $11,262
+Dues/Subscriptions: $6,204
+Medical Insurance: $5,433
+Independent Contractors: $6,635
+Fuel: $4,736
+Telephone: $4,141
+Accounting: $4,676
+Insurance: $3,399
+Other: remaining
+
+=== BALANCE SHEET ===
+ASSETS:
+Checking: -$14,000 (OVERDRAWN)
+Accounts Receivable: $18,000
+Equipment/Other: $36,000
+Total Assets: ~$40,000
+
+LIABILITIES:
+Line of Credit: $43,000
+Loans/Notes: $39,000
+Other Liabilities: $92,000
+Total Liabilities: ~$82,000 (displayed) / Total Debt Exposure: ~$174,000
+
+Owner's Equity: -$42,000 (liabilities exceed assets)
+Debt-to-Revenue Ratio: 25.4%
+Liability-to-Assets: 2.1×
+
+=== KEY RED FLAGS ===
+1. Line of Credit at ~17-18% APR ($18.6K interest on $43K LOC). Refinancing to 8-10% could save $4-5K/year.
+2. Meals & Entertainment $20.8K mostly personal — IRS audit risk, 3% of revenue.
+3. Donations $13.5K while net negative — maaser should be based on net profit, not gross.
+4. Checking account OVERDRAWN -$14K — cash flow stress.
+5. Break-even utilization at 98% — no profit buffer.
+
+=== KEY RATIOS ===
+Gross Margin: 54.5% (decent for printing)
+Expense Ratio: 53.5%
+Net Margin: -1.6%
+Break-Even Revenue/Mo: ~$27.2K (currently at edge)`;
+
+            const chatFab = document.getElementById('chatFab');
+            const chatPanel = document.getElementById('chatPanel');
+            const chatClose = document.getElementById('chatClose');
+            const chatMessages = document.getElementById('chatMessages');
+            const chatInput = document.getElementById('chatInput');
+            const chatSend = document.getElementById('chatSend');
+            const chatTyping = document.getElementById('chatTyping');
+            const chatSuggestions = document.getElementById('chatSuggestions');
+
+            let conversationHistory = [];
+            let isProcessing = false;
+
+            chatFab.addEventListener('click', () => {
+                chatPanel.classList.add('open');
+                chatFab.classList.add('hidden');
+                chatInput.focus();
+            });
+
+            chatClose.addEventListener('click', () => {
+                chatPanel.classList.remove('open');
+                chatFab.classList.remove('hidden');
+            });
+
+            // Suggestion chips
+            chatSuggestions.addEventListener('click', (e) => {
+                const btn = e.target.closest('.chat-suggestion');
+                if (btn) {
+                    const q = btn.getAttribute('data-q');
+                    chatInput.value = q;
+                    sendMessage();
+                }
+            });
+
+            chatSend.addEventListener('click', sendMessage);
+            chatInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+            });
+
+            function addMessage(text, role) {
+                const div = document.createElement('div');
+                div.className = 'chat-msg ' + role;
+                if (role === 'ai') {
+                    div.innerHTML = renderMarkdown(text);
+                } else {
+                    div.textContent = text;
+                }
+                chatMessages.appendChild(div);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+
+            function renderMarkdown(text) {
+                // Basic markdown: bold, italic, bullets, numbered lists, code, line breaks
+                let html = text
+                    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+                    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+                    .replace(/\*(.+?)\*/g, '<em>$1</em>')
+                    .replace(/`(.+?)`/g, '<code>$1</code>');
+
+                // Split into paragraphs
+                const blocks = html.split(/\n\n+/);
+                const rendered = blocks.map(block => {
+                    const lines = block.split('\n');
+                    // Check if block is a list
+                    const isBullet = lines.every(l => /^\s*[\-\*•]\s/.test(l) || l.trim() === '');
+                    const isNumbered = lines.every(l => /^\s*\d+[\.\)]\s/.test(l) || l.trim() === '');
+
+                    if (isBullet) {
+                        const items = lines.filter(l => l.trim()).map(l => '<li>' + l.replace(/^\s*[\-\*•]\s+/, '') + '</li>').join('');
+                        return '<ul>' + items + '</ul>';
+                    }
+                    if (isNumbered) {
+                        const items = lines.filter(l => l.trim()).map(l => '<li>' + l.replace(/^\s*\d+[\.\)]\s+/, '') + '</li>').join('');
+                        return '<ol>' + items + '</ol>';
+                    }
+                    return '<p>' + block.replace(/\n/g, '<br>') + '</p>';
+                });
+                return rendered.join('');
+            }
+
+            async function sendMessage() {
+                const text = chatInput.value.trim();
+                if (!text || isProcessing) return;
+
+                isProcessing = true;
+                chatInput.value = '';
+                chatSend.disabled = true;
+                // Hide suggestions after first message
+                chatSuggestions.style.display = 'none';
+
+                addMessage(text, 'user');
+
+                conversationHistory.push({ role: 'user', parts: [{ text: text }] });
+
+                // Show typing
+                chatTyping.classList.add('visible');
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+
+                try {
+                    const contents = [
+                        { role: 'user', parts: [{ text: SYSTEM_PROMPT }] },
+                        { role: 'model', parts: [{ text: 'Understood. I have all of INKredible Printing\'s financial data loaded. I\'m ready to answer questions with specific numbers and actionable advice. What would you like to know?' }] },
+                        ...conversationHistory
+                    ];
+
+                    const res = await fetch(GEMINI_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            contents: contents,
+                            generationConfig: {
+                                temperature: 0.7,
+                                maxOutputTokens: 1024,
+                                topP: 0.9
+                            }
+                        })
+                    });
+
+                    if (!res.ok) {
+                        const err = await res.text();
+                        throw new Error('API error ' + res.status + ': ' + err.substring(0, 200));
+                    }
+
+                    const data = await res.json();
+                    const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || 'Sorry, I couldn\'t generate a response.';
+
+                    conversationHistory.push({ role: 'model', parts: [{ text: reply }] });
+                    addMessage(reply, 'ai');
+
+                } catch (err) {
+                    addMessage('⚠️ Error: ' + err.message, 'system');
+                } finally {
+                    chatTyping.classList.remove('visible');
+                    isProcessing = false;
+                    chatSend.disabled = false;
+                    chatInput.focus();
+                }
+            }
+        })();
     </script>
 </body>
 </html>
