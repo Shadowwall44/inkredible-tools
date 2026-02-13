@@ -114,7 +114,7 @@ export default function SecondBrainDashboard() {
           <Stat label="Viewport Target" value={manifest?.viewportTarget ?? "900-1000px"} />
         </section>
 
-        <section className="space-y-3 pb-8">
+        <section className="pb-8">
           {loading ? <p className="text-sm text-slate-500">Loading memory index...</p> : null}
 
           {!loading && filteredDocs.length === 0 ? (
@@ -123,26 +123,31 @@ export default function SecondBrainDashboard() {
             </div>
           ) : null}
 
-          {filteredDocs.map((doc) => (
-            <article
-              key={doc.id}
-              className="rounded-2xl bg-white p-4 shadow-[0_6px_20px_rgba(15,23,42,0.03)] ring-1 ring-slate-100"
-            >
-              <div className="flex items-start justify-between gap-2">
-                <h2 className="font-heading text-base font-semibold text-slate-900">{doc.title}</h2>
-                <span
-                  className={`whitespace-nowrap rounded-full px-2 py-1 text-[11px] font-semibold ${
-                    categoryColors[doc.category]
-                  }`}
-                >
-                  {labels[doc.category]}
-                </span>
-              </div>
+          <div className="grid grid-cols-1 gap-3 [@media(min-width:900px)]:grid-cols-2">
+            {filteredDocs.map((doc) => (
+              <article
+                key={doc.id}
+                className="rounded-2xl bg-white p-4 shadow-[0_6px_20px_rgba(15,23,42,0.03)] ring-1 ring-slate-100"
+              >
+                <div className="flex items-start justify-between gap-2">
+                  <h2 className="font-heading text-base font-semibold text-slate-900">{doc.title}</h2>
+                  <span
+                    className={`whitespace-nowrap rounded-full px-2 py-1 text-[11px] font-semibold ${
+                      categoryColors[doc.category]
+                    }`}
+                  >
+                    {labels[doc.category]}
+                  </span>
+                </div>
 
-              <p className="mt-1 text-xs text-slate-500">{doc.source}</p>
-              <p className="mt-2 text-sm text-slate-700">{snippet(doc, query)}</p>
-            </article>
-          ))}
+                <p className="mt-1 text-xs text-slate-500">
+                  {doc.source}
+                  {doc.date ? ` • ${doc.date}` : ""}
+                </p>
+                <p className="mt-2 text-sm text-slate-700">{snippet(doc, query)}</p>
+              </article>
+            ))}
+          </div>
         </section>
       </div>
     </main>
