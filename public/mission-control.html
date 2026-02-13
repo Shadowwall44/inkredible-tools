@@ -1340,7 +1340,53 @@
             .org-connector-branch { display: none; }
             .top-header { padding: 12px 16px; }
             .gauge-container { flex-direction: column; }
+            .live-status #lastSynced { display: none; }
         }
+
+        /* ===== LIVE STATUS INDICATORS ===== */
+        @keyframes headerPulse {
+            0% { border-bottom-color: var(--accent-teal); box-shadow: inset 0 -2px 8px rgba(19, 176, 201, 0.15); }
+            100% { border-bottom-color: var(--panel-border); box-shadow: none; }
+        }
+
+        .top-header.pulse {
+            animation: headerPulse 0.8s ease-out;
+        }
+
+        .live-status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            font-family: var(--font-mono);
+            color: var(--text-muted);
+            padding: 4px 12px;
+            border-radius: 20px;
+            background: var(--surface-subtle);
+            border: 1px solid var(--border-soft);
+        }
+
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent-green);
+            box-shadow: 0 0 6px rgba(34, 197, 94, 0.5);
+            flex-shrink: 0;
+            transition: background 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .live-status.disconnected .live-dot {
+            background: var(--accent-red);
+            box-shadow: 0 0 6px rgba(224, 72, 72, 0.5);
+        }
+
+        @keyframes livePulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .live-dot { animation: livePulse 2s ease-in-out infinite; }
     </style>
 </head>
 <body>
@@ -1354,6 +1400,11 @@
             </div>
         </div>
         <div class="header-right">
+            <div class="live-status" id="liveStatus">
+                <span class="live-dot"></span>
+                <span id="liveLabel">🟢 Connecting…</span>
+                <span id="lastSynced"></span>
+            </div>
             <div class="theme-toggle active" onclick="toggleTheme()" title="Toggle light/dark mode">
                 <div class="theme-toggle-knob">🌙</div>
             </div>
@@ -2110,6 +2161,268 @@
 
         window.addEventListener('hashchange', handleHash);
         if (window.location.hash) handleHash();
+
+        // =============================================
+        // LIVE AUTO-UPDATING — status.json polling
+        // =============================================
+        (function() {
+            const POLL_INTERVAL = 15000;
+            let lastFetchTime = null;
+            let isConnected = false;
+
+            const liveStatusEl = document.getElementById('liveStatus');
+            const liveLabelEl = document.getElementById('liveLabel');
+            const lastSyncedEl = document.getElementById('lastSynced');
+
+            const agentEmoji = {
+                'aviel': '👨‍💼', 'chet': '🤖', 'codex': '⚡',
+                'codex-mini': '🔧', 'gemma': '📊'
+            };
+
+            const agentNames = {
+                'aviel': 'Aviel', 'chet': 'Chet', 'codex': 'Codex 5.3',
+                'codex-mini': 'Codex Mini', 'gemma': 'Gemma 3 27B'
+            };
+
+            function statusToDotClass(s) {
+                return (s === 'active' || s === 'working') ? 'active' : (s === 'moving' ? 'sleeping' : 'idle');
+            }
+            function statusToOfficeClass(s) {
+                return (s === 'active' || s === 'working') ? 'working' : (s === 'moving' ? 'sleeping' : 'idle');
+            }
+            function statusToOfficeLabel(s) {
+                return (s === 'active' || s === 'working') ? 'Working' : (s === 'moving' ? 'Moving' : 'Idle');
+            }
+
+            // Build maps by DOM structure
+            function buildAgentCardMap() {
+                const map = {};
+                const cards = document.querySelectorAll('#view-orgchart .agent-card');
+                const order = ['aviel', 'chet', 'codex', 'codex-mini', 'gemma'];
+                cards.forEach((card, i) => { if (order[i]) map[order[i]] = card; });
+                return map;
+            }
+
+            function buildDeskMap() {
+                const map = {};
+                document.querySelectorAll('.desk').forEach(desk => {
+                    const label = desk.querySelector('.desk-label');
+                    if (!label) return;
+                    const t = label.textContent.trim();
+                    if (t === 'Aviel') map['aviel'] = desk;
+                    else if (t === 'Chet') map['chet'] = desk;
+                    else if (t === 'Codex 5.3') map['codex'] = desk;
+                    else if (t === 'Codex Mini') map['codex-mini'] = desk;
+                    else if (t === 'Gemma 3 27B') map['gemma'] = desk;
+                });
+                return map;
+            }
+
+            // ——— UPDATE: Org Chart ———
+            function updateOrgChart(agents) {
+                const cardMap = buildAgentCardMap();
+                agents.forEach(agent => {
+                    const card = cardMap[agent.id];
+                    if (!card) return;
+                    const dot = card.querySelector('.status-dot');
+                    if (dot) dot.className = 'status-dot ' + statusToDotClass(agent.status);
+                    const roleEl = card.querySelector('.agent-role');
+                    if (roleEl) roleEl.textContent = agent.role + (agent.id === 'aviel' ? ' — Human' : '');
+                });
+            }
+
+            // ——— UPDATE: Office View ———
+            function updateOffice(agents) {
+                const deskMap = buildDeskMap();
+                agents.forEach(agent => {
+                    const desk = deskMap[agent.id];
+                    if (!desk) return;
+                    const monitor = desk.querySelector('.desk-monitor');
+                    if (monitor) {
+                        monitor.classList.toggle('on', agent.status === 'active' || agent.status === 'working');
+                    }
+                    const statusEl = desk.querySelector('.desk-status');
+                    if (statusEl) {
+                        statusEl.className = 'desk-status ' + statusToOfficeClass(agent.status);
+                        statusEl.textContent = statusToOfficeLabel(agent.status);
+                    }
+                });
+            }
+
+            // ——— UPDATE: Tasks (Kanban) ———
+            function updateTasks(tasks) {
+                const board = document.querySelector('#view-tasks .kanban-board');
+                if (!board) return;
+
+                function priClass(p) { return (p === 'critical' || p === 'high') ? 'high' : (p === 'medium' ? 'medium' : 'low'); }
+                function priLabel(p) { return p === 'critical' ? 'Crit' : p === 'high' ? 'High' : p === 'medium' ? 'Med' : 'Low'; }
+                function agentTag(id) { return (agentEmoji[id] || '🤖') + ' ' + (agentNames[id] || id); }
+
+                function buildCard(item, isDone) {
+                    const d = document.createElement('div');
+                    d.className = 'kanban-card';
+                    d.innerHTML = '<div class="kanban-card-title">' + item.title + '</div>'
+                        + '<div class="kanban-card-meta">'
+                        + '<div class="kanban-agent">' + agentTag(item.agent) + '</div>'
+                        + '<div class="priority-pill ' + (isDone ? 'low' : priClass(item.priority)) + '">' + (isDone ? 'Done' : priLabel(item.priority)) + '</div>'
+                        + '</div>';
+                    return d;
+                }
+
+                function buildCol(emoji, title, items, isDone) {
+                    const col = document.createElement('div');
+                    col.className = 'kanban-column';
+                    let header = '<div class="kanban-col-header"><div class="kanban-col-title">' + emoji + ' ' + title + '</div>'
+                        + '<div class="kanban-col-count">' + items.length + '</div></div>';
+                    col.innerHTML = header;
+                    const cards = document.createElement('div');
+                    cards.className = 'kanban-cards';
+                    if (items.length === 0) {
+                        cards.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text-muted);font-size:12px;">No items</div>';
+                    } else {
+                        items.forEach(t => cards.appendChild(buildCard(t, isDone)));
+                    }
+                    col.appendChild(cards);
+                    return col;
+                }
+
+                board.innerHTML = '';
+                board.appendChild(buildCol('📥', 'Queued', tasks.queued || [], false));
+                board.appendChild(buildCol('🔄', 'In Progress', tasks.inProgress || [], false));
+                board.appendChild(buildCol('👀', 'Review', [], false));
+                board.appendChild(buildCol('✅', 'Done', tasks.done || [], true));
+            }
+
+            // ——— UPDATE: Costs (gauge) ———
+            function updateCosts(usage) {
+                const gaugePct = document.querySelector('.gauge-pct');
+                if (gaugePct) gaugePct.textContent = usage.sessionPct + '%';
+
+                const fillCircle = document.querySelector('.fill-circle');
+                if (fillCircle) {
+                    const circumference = 2 * Math.PI * 56; // ~351.86
+                    fillCircle.style.strokeDashoffset = circumference * (1 - usage.sessionPct / 100);
+                }
+
+                const stats = document.querySelectorAll('.gauge-stat .g-value');
+                if (stats.length >= 1) stats[0].textContent = usage.exchangeCount;
+
+                // Update sidebar agent count
+                const sidebarInfo = document.querySelector('#sidebar div[style]');
+                const blocks = document.querySelectorAll('#sidebar > div[style]');
+                blocks.forEach(block => {
+                    if (block.textContent.includes('agents')) {
+                        block.innerHTML = '5 agents · <span id="activeAgentCount">3</span> active<br>'
+                            + '<span style="font-family:var(--font-mono);font-size:10px;">Session: ' + usage.sessionPct + '% · Weekly: ' + usage.weeklyPct + '%</span>';
+                    }
+                });
+            }
+
+            // ——— UPDATE: Schedule ———
+            function updateSchedule(schedule) {
+                const list = document.querySelector('#view-schedule .schedule-list');
+                if (!list) return;
+                const icons = { 'Morning Brief': '☀️', 'Gauge Sync': '📊', 'Journaling': '📝', 'Invoice Extraction': '🧾', 'Afternoon Research': '🔬', 'Nightly Work': '🌙' };
+                list.innerHTML = '';
+                schedule.forEach(item => {
+                    const icon = icons[item.name] || '⏰';
+                    const sClass = item.status === 'ok' ? 'ok' : 'warn';
+                    const sText = item.status === 'ok' ? ('✓ ' + item.lastRun) : ('⚠ ' + (item.status === 'timeout' ? 'Timeout' : item.status));
+                    const el = document.createElement('div');
+                    el.className = 'schedule-item';
+                    el.innerHTML = '<div class="schedule-icon">' + icon + '</div>'
+                        + '<div class="schedule-info"><div class="schedule-name">' + item.name + '</div>'
+                        + '<div class="schedule-time">' + item.schedule + '</div></div>'
+                        + '<div class="schedule-meta"><div class="schedule-model">' + item.model + '</div>'
+                        + '<div class="schedule-status ' + sClass + '">' + sText + '</div></div>';
+                    list.appendChild(el);
+                });
+            }
+
+            // ——— UPDATE: Digest (activity feed) ———
+            function updateDigest(activity, tasks) {
+                const content = document.querySelector('#view-digest .digest-content');
+                if (!content) return;
+                let html = '<h3>📡 Live Activity Feed</h3><ul>';
+                activity.forEach(item => { html += '<li><strong>' + item.time + '</strong> — ' + item.text + '</li>'; });
+                html += '</ul>';
+                if (tasks && tasks.done && tasks.done.length > 0) {
+                    html += '<h3>✅ Completed Today</h3><ul>';
+                    tasks.done.forEach(t => {
+                        const time = t.completedAt ? new Date(t.completedAt).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }) : '';
+                        html += '<li><strong>' + t.title + '</strong>' + (time ? ' — ' + time : '') + '</li>';
+                    });
+                    html += '</ul>';
+                }
+                if (tasks && tasks.inProgress && tasks.inProgress.length > 0) {
+                    html += '<h3>🔄 In Progress Now</h3><ul>';
+                    tasks.inProgress.forEach(t => {
+                        html += '<li><strong>' + t.title + '</strong> — ' + (agentEmoji[t.agent] || '') + ' ' + (agentNames[t.agent] || t.agent) + '</li>';
+                    });
+                    html += '</ul>';
+                }
+                content.innerHTML = html;
+                const ts = document.querySelector('#view-digest .digest-timestamp');
+                if (ts) ts.textContent = 'Auto-updating · ' + new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+                const dt = document.querySelector('#view-digest .digest-title');
+                if (dt) dt.textContent = '📰 Live Feed — ' + new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            }
+
+            // ——— Sync timer ———
+            function updateSyncTimer() {
+                if (!lastFetchTime || !lastSyncedEl) return;
+                const s = Math.floor((Date.now() - lastFetchTime) / 1000);
+                lastSyncedEl.textContent = s < 5 ? '· just now' : s < 60 ? ('· ' + s + 's ago') : ('· ' + Math.floor(s / 60) + 'm ago');
+            }
+
+            // ——— Header pulse ———
+            function pulseHeader() {
+                const h = document.querySelector('.top-header');
+                if (h) { h.classList.remove('pulse'); void h.offsetWidth; h.classList.add('pulse'); }
+            }
+
+            // ——— Connection state ———
+            function setConnected(ok) {
+                isConnected = ok;
+                if (liveStatusEl) liveStatusEl.classList.toggle('disconnected', !ok);
+                if (liveLabelEl) liveLabelEl.textContent = ok ? '🟢 Live' : '🔴 Disconnected';
+            }
+
+            // ——— Main fetch loop ———
+            async function fetchAndUpdate() {
+                try {
+                    const resp = await fetch('status.json?t=' + Date.now());
+                    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+                    const data = await resp.json();
+                    lastFetchTime = Date.now();
+                    setConnected(true);
+                    pulseHeader();
+                    if (data.agents) { updateOrgChart(data.agents); updateOffice(data.agents); }
+                    if (data.tasks) updateTasks(data.tasks);
+                    if (data.usage) updateCosts(data.usage);
+                    if (data.schedule) updateSchedule(data.schedule);
+                    if (data.activity) updateDigest(data.activity, data.tasks);
+                    if (data.mission) {
+                        const m = document.querySelector('.header-brand .mission');
+                        if (m) m.textContent = data.mission;
+                    }
+                    // Update active agent count in sidebar
+                    if (data.agents) {
+                        const activeCount = data.agents.filter(a => a.status === 'active' || a.status === 'working').length;
+                        const el = document.getElementById('activeAgentCount');
+                        if (el) el.textContent = activeCount;
+                    }
+                } catch (err) {
+                    console.warn('[Mission Control] Status fetch failed:', err);
+                    setConnected(false);
+                }
+            }
+
+            // Start
+            fetchAndUpdate();
+            setInterval(fetchAndUpdate, POLL_INTERVAL);
+            setInterval(updateSyncTimer, 1000);
+        })();
     </script>
 </body>
 </html>
