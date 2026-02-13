@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-02-13T11:07:00-05:00",
+  "lastUpdated": "2026-02-13T11:24:00-05:00",
   "mission": "Automating the print business 24/7",
   "agents": [
     {
@@ -7,7 +7,7 @@
       "name": "Aviel",
       "role": "CEO",
       "status": "active",
-      "currentTask": "At store — setting up Chrome Browser Relay",
+      "currentTask": "Heading to computer for Chrome relay setup",
       "model": "Human",
       "cost": "Boss",
       "skills": ["Vision & Strategy", "Final Decisions", "Business Development"]
@@ -17,7 +17,7 @@
       "name": "Chet",
       "role": "COO / Chief Strategy Officer",
       "status": "working",
-      "currentTask": "Coordinating browser relay setup with Aviel",
+      "currentTask": "Orchestrating team, waiting for Chrome relay",
       "model": "Claude Opus 4.6",
       "cost": "$200/mo flat",
       "skills": ["Strategic Planning", "Task Orchestration", "Complex Reasoning", "Coaching"]
@@ -27,7 +27,7 @@
       "name": "Codex 5.3",
       "role": "Lead Software Engineer",
       "status": "working",
-      "currentTask": "Android keyboard research",
+      "currentTask": "Kanban board sync + Android keyboard research",
       "model": "GPT-5.3 Codex",
       "cost": "API pay-per-use",
       "skills": ["Full-Stack Dev", "Code Review", "Debugging", "Architecture"]
@@ -57,53 +57,55 @@
     "queued": [
       {"title": "QuickBooks API Integration", "agent": "chet", "priority": "critical"},
       {"title": "Himalaya Email Setup", "agent": "codex", "priority": "medium"},
-      {"title": "Kanban Board Sync", "agent": "codex", "priority": "medium"},
-      {"title": "Dashboard Time Filters", "agent": "codex", "priority": "high"},
-      {"title": "Org Chart Revision (Role-Based)", "agent": "chet", "priority": "medium"}
+      {"title": "Org Chart Revision (Role-Based)", "agent": "chet", "priority": "medium"},
+      {"title": "Skills Research & Activation", "agent": "chet", "priority": "medium"},
+      {"title": "Dashboard Chatbot Testing", "agent": "codex", "priority": "medium"}
     ],
     "inProgress": [
       {"title": "Chrome Browser Relay Setup", "agent": "chet", "priority": "high"},
+      {"title": "Kanban Board Sync", "agent": "codex", "priority": "high"},
       {"title": "Android Keyboard Research", "agent": "codex", "priority": "medium"},
       {"title": "Brain Dump Round 3", "agent": "aviel", "priority": "high"}
     ],
     "done": [
+      {"title": "Dashboard Time Filters", "agent": "codex", "completedAt": "2026-02-13T11:24:00"},
       {"title": "Mission Control Live Update", "agent": "codex", "completedAt": "2026-02-13T11:06:00"},
       {"title": "Idea Queue Created", "agent": "codex", "completedAt": "2026-02-13T11:01:00"},
-      {"title": "Mission Control v1", "agent": "codex", "completedAt": "2026-02-13T09:54:00"},
       {"title": "Hub Landing Page", "agent": "codex", "completedAt": "2026-02-13T10:47:00"},
+      {"title": "Mission Control v1", "agent": "codex", "completedAt": "2026-02-13T09:54:00"},
       {"title": "Dashboard AI Chat (Kimi K2.5)", "agent": "codex", "completedAt": "2026-02-13T09:49:00"},
+      {"title": "Alex Finn Analysis", "agent": "codex", "completedAt": "2026-02-13T09:44:00"},
       {"title": "Personal Kanban Redesign", "agent": "codex", "completedAt": "2026-02-13T09:24:00"},
       {"title": "Financial Dashboard", "agent": "codex", "completedAt": "2026-02-13T07:56:00"},
-      {"title": "Second Brain UI", "agent": "codex", "completedAt": "2026-02-13T02:35:00"},
-      {"title": "Alex Finn Analysis", "agent": "codex", "completedAt": "2026-02-13T09:44:00"}
+      {"title": "Second Brain UI", "agent": "codex", "completedAt": "2026-02-13T02:35:00"}
     ]
   },
   "activity": [
-    {"time": "11:07", "text": "Status.json updated — Mission Control now live-polling"},
+    {"time": "11:24", "text": "Dashboard time filters deployed ✅ — Daily/Weekly/Monthly/Yearly toggle live"},
+    {"time": "11:23", "text": "Kanban board sync dispatched"},
+    {"time": "11:07", "text": "Status.json pushed — Mission Control live-polling active"},
     {"time": "11:06", "text": "Mission Control live update deployed ✅"},
     {"time": "11:02", "text": "All app bookmarks sent to Aviel"},
     {"time": "11:01", "text": "Idea queue created — 14 items captured and prioritized"},
     {"time": "10:59", "text": "Spawned android-keyboard-research sub-agent"},
     {"time": "10:53", "text": "Usage recalibrated: 7% session, 7% weekly"},
-    {"time": "10:47", "text": "Hub landing page deployed — one bookmark for all apps"},
-    {"time": "10:42", "text": "Aviel arrived at store, action list sent"},
-    {"time": "09:54", "text": "Mission Control v1 deployed to GitHub Pages"},
-    {"time": "09:49", "text": "Dashboard AI chat migrated to Kimi K2.5"},
-    {"time": "09:44", "text": "Alex Finn transcript analysis complete — 10 action items"},
-    {"time": "09:41", "text": "2 YouTube transcripts extracted"},
-    {"time": "09:24", "text": "Personal Kanban redesigned with Origin design system"}
+    {"time": "10:47", "text": "Hub landing page deployed ✅"},
+    {"time": "09:54", "text": "Mission Control v1 deployed ✅"},
+    {"time": "09:49", "text": "Dashboard AI chat migrated to Kimi K2.5 ✅"},
+    {"time": "09:44", "text": "Alex Finn transcript analysis complete"},
+    {"time": "09:24", "text": "Personal Kanban redesigned ✅"}
   ],
   "usage": {
-    "sessionPct": 9,
+    "sessionPct": 10,
     "weeklyPct": 7,
     "sessionResetsAt": "2:59 PM",
     "weeklyResetsAt": "Fri 12:00 AM",
     "model": "Opus 4.6",
-    "exchangeCount": 37
+    "exchangeCount": 42
   },
   "schedule": [
     {"name": "Morning Brief", "schedule": "8 AM Mon-Fri", "model": "Codex 5.3", "lastRun": "Today 8:00 AM", "status": "ok"},
-    {"name": "Gauge Sync", "schedule": "Every 15 min", "model": "Codex Mini", "lastRun": "11:00 AM", "status": "ok"},
+    {"name": "Gauge Sync", "schedule": "Every 15 min", "model": "Codex Mini", "lastRun": "11:15 AM", "status": "ok"},
     {"name": "Journaling", "schedule": "5 PM Mon-Fri", "model": "Codex 5.3", "lastRun": "Yesterday", "status": "ok"},
     {"name": "Invoice Extraction", "schedule": "6 AM daily", "model": "Codex 5.3", "lastRun": "Today 6:00 AM", "status": "timeout"},
     {"name": "Afternoon Research", "schedule": "2 PM Mon-Fri", "model": "Codex 5.3", "lastRun": "Yesterday", "status": "ok"},
