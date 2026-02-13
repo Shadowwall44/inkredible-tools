@@ -10,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
     <style>
         /* ================================================
            ORIGIN DESIGN SYSTEM — Financial Dashboard
@@ -1013,6 +1014,158 @@
             }
             .chat-fab { right: 16px; bottom: 80px; }
         }
+
+        /* ===== CHART STYLES IN CHAT ===== */
+        .chat-msg.ai:has(.chart-container) {
+            max-width: 95%;
+        }
+
+        .chart-container {
+            margin: 10px -6px 6px;
+            padding: 14px;
+            border-radius: 12px;
+            background: var(--surface-subtle);
+            border: 1px solid var(--border-soft);
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+            gap: 8px;
+        }
+
+        .chart-title {
+            font-family: var(--font-display);
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text);
+            line-height: 1.3;
+        }
+
+        .chart-date-range {
+            font-size: 10px;
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+            margin-top: 2px;
+        }
+
+        .chart-toggle {
+            display: flex;
+            gap: 4px;
+            flex-shrink: 0;
+        }
+
+        .chart-toggle-btn {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            border: 1px solid var(--border-medium);
+            background: transparent;
+            color: var(--text-muted);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            transition: all 0.2s ease;
+        }
+
+        .chart-toggle-btn:hover {
+            background: var(--surface-subtle);
+            color: var(--text);
+        }
+
+        .chart-toggle-btn.active {
+            background: var(--accent-teal);
+            color: #fff;
+            border-color: var(--accent-teal);
+        }
+
+        .chart-toggle-btn svg {
+            width: 14px;
+            height: 14px;
+            fill: currentColor;
+            stroke: none;
+        }
+
+        .chart-canvas-wrap {
+            position: relative;
+            width: 100%;
+            height: 230px;
+            margin-bottom: 10px;
+        }
+
+        @media (min-width: 600px) {
+            .chart-canvas-wrap { height: 260px; }
+        }
+
+        .donut-center-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .donut-center-label {
+            font-size: 10px;
+            color: var(--text-muted);
+            font-family: var(--font-body);
+            max-width: 110px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            margin: 0 auto;
+        }
+
+        .donut-center-amount {
+            font-family: var(--font-mono);
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--text);
+            letter-spacing: -0.03em;
+            line-height: 1.2;
+        }
+
+        .donut-center-pct {
+            font-size: 10px;
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+        }
+
+        .chart-summary {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .chart-summary-card {
+            padding: 10px 12px;
+            border-radius: 8px;
+            background: var(--glass-faint);
+            border: 1px solid var(--border-soft);
+            text-align: center;
+        }
+
+        .chart-summary-label {
+            font-size: 9px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 2px;
+        }
+
+        .chart-summary-value {
+            font-family: var(--font-mono);
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text);
+            letter-spacing: -0.03em;
+        }
     </style>
 </head>
 <body>
@@ -1325,7 +1478,6 @@
             <button class="chat-close-btn" id="chatClose" type="button" title="Close">✕</button>
         </div>
         <div class="chat-messages" id="chatMessages">
-            <div class="chat-msg system">Ask anything about INKredible's finances — P&amp;L, expenses, cash flow, or strategy.</div>
         </div>
         <div class="chat-suggestions" id="chatSuggestions">
             <button class="chat-suggestion" data-q="What are my biggest expense problems?">Top expenses?</button>
@@ -1467,10 +1619,15 @@
 
         document.querySelectorAll('.panel, .waterfall').forEach(el => observer.observe(el));
 
-        // ===== AI FINANCIAL CHAT =====
+        // ===== AI FINANCIAL CHAT WITH CHART.JS =====
         (function() {
             const GEMINI_KEY = 'AIzaSyBnUFBNanVJH-TQ1I3JRtCTMH4aMIGlGhA';
             const GEMINI_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + GEMINI_KEY;
+
+            // Chart tracking
+            let chartIdCounter = 0;
+            const chartInstances = new Map();
+            const pendingChartData = new Map();
 
             const SYSTEM_PROMPT = `You are a financial advisor and QuickBooks expert specializing in the commercial printing industry. You have access to the following financial data for INKredible Printing, a custom print shop in Brooklyn, NY. Answer questions using this data. Be specific with numbers. Give actionable advice.
 
@@ -1491,69 +1648,82 @@ UPS Shipping: $2,078
 Design Fees: $339
 
 === COGS BREAKDOWN ($312,050) ===
-Graphic Design (Brandon): $67,006 (21.5%) — Brandon's pay, correctly categorized as COGS (~$2,680/mo)
-Large Format Supplies: $47,983
-Paper Supply: $43,454
-Third Party Printing: $41,820 — outsourced jobs
-Supplies & Materials: $28,379
-Cost Per Click: $26,986
-COGS General: $18,727
-Printing Costs + Afinia: $16,764
-Label Supply: $6,699
-Printing Supplies: $6,654
+Graphic Design (Brandon): $67,006 (21.5%) — ~$2,680/mo
+Large Format Supplies: $47,983 — ~$1,919/mo
+Paper Supply: $43,454 — ~$1,738/mo
+Third Party Printing: $41,820 — ~$1,673/mo
+Supplies & Materials: $28,379 — ~$1,135/mo
+Cost Per Click: $26,986 — ~$1,079/mo
+COGS General: $18,727 — ~$749/mo
+Printing Costs + Afinia: $16,764 — ~$671/mo
+Label Supply: $6,699 — ~$268/mo
+Printing Supplies: $6,654 — ~$266/mo
 Other (Job, Binding, etc.): $7,578
 
 === OPERATING EXPENSES ($366,892) ===
 Rent: $75,990 (11.1% of rev — $2,980/mo)
-Salaries/Wages: $41,658 (Brandon + Diandra)
-Postage/Shipping: $41,518 (mostly Messilot account — biggest customer, monthly recurring)
-Officers Payroll (Aviel): $39,185 (~$1,537/mo or $18.4K/yr)
-Auto: $23,043
-Meals/Entertainment: $20,766 ⚠️ RED FLAG — mostly personal, $832/mo, IRS audit risk
-Bank Charges/Interest: $18,641 ⚠️ RED FLAG — interest on $43K line of credit at ~17-18% APR
-Utilities: $14,367 ($563/mo)
-Donations: $13,500 ⚠️ — Jewish tithing (maaser) while net negative
-Travel: $12,481
-Payroll Taxes: $9,158
-Office Supplies: $11,262
-Dues/Subscriptions: $6,204
-Medical Insurance: $5,433
-Independent Contractors: $6,635
-Fuel: $4,736
-Telephone: $4,141
-Accounting: $4,676
-Insurance: $3,399
-Other: remaining
+Salaries/Wages: $41,658 — ~$1,666/mo
+Postage/Shipping: $41,518 — ~$1,661/mo (mostly Messilot)
+Officers Payroll (Aviel): $39,185 — ~$1,567/mo
+Auto: $23,043 — ~$922/mo
+Meals/Entertainment: $20,766 ⚠️ — ~$831/mo, mostly personal, IRS audit risk
+Bank Charges/Interest: $18,641 ⚠️ — ~$746/mo, 17-18% APR on $43K LOC
+Utilities: $14,367 — ~$575/mo
+Donations: $13,500 ⚠️ — maaser while net negative
+Travel: $12,481 — ~$499/mo
+Office Supplies: $11,262 — ~$450/mo
+Payroll Taxes: $9,158 — ~$366/mo
+Independent Contractors: $6,635 — ~$265/mo
+Dues/Subscriptions: $6,204 — ~$248/mo
+Medical Insurance: $5,433 — ~$217/mo
+Fuel: $4,736 — ~$189/mo
+Accounting: $4,676 — ~$187/mo
+Telephone: $4,141 — ~$166/mo
+Insurance (Hartford): $3,399 — ~$136/mo
 
 === BALANCE SHEET ===
-ASSETS:
-Checking: -$14,000 (OVERDRAWN)
-Accounts Receivable: $18,000
-Equipment/Other: $36,000
-Total Assets: ~$40,000
-
-LIABILITIES:
-Line of Credit: $43,000
-Loans/Notes: $39,000
-Other Liabilities: $92,000
-Total Liabilities: ~$82,000 (displayed) / Total Debt Exposure: ~$174,000
-
-Owner's Equity: -$42,000 (liabilities exceed assets)
-Debt-to-Revenue Ratio: 25.4%
-Liability-to-Assets: 2.1×
+Checking: -$14,000 (OVERDRAWN) | AR: $18,000 | Equipment: $36,000 | Total Assets: ~$40,000
+LOC: $43,000 | Loans: $39,000 | Other Liab: $92,000 | Total Liabilities: ~$174,000
+Owner's Equity: -$42,000 | Debt-to-Revenue: 25.4% | Liability-to-Assets: 2.1×
 
 === KEY RED FLAGS ===
-1. Line of Credit at ~17-18% APR ($18.6K interest on $43K LOC). Refinancing to 8-10% could save $4-5K/year.
-2. Meals & Entertainment $20.8K mostly personal — IRS audit risk, 3% of revenue.
-3. Donations $13.5K while net negative — maaser should be based on net profit, not gross.
-4. Checking account OVERDRAWN -$14K — cash flow stress.
-5. Break-even utilization at 98% — no profit buffer.
+1. LOC at ~17-18% APR — refinancing to 8-10% could save $4-5K/year
+2. Meals $20.8K mostly personal — IRS audit risk
+3. Donations $13.5K while net negative — recalibrate with rabbi
+4. Checking OVERDRAWN -$14K — cash flow stress
+5. Break-even at 98% — no profit buffer
 
 === KEY RATIOS ===
-Gross Margin: 54.5% (decent for printing)
-Expense Ratio: 53.5%
-Net Margin: -1.6%
-Break-Even Revenue/Mo: ~$27.2K (currently at edge)`;
+Gross Margin: 54.5% | Expense Ratio: 53.5% | Net Margin: -1.6% | Break-Even/Mo: ~$27.2K
+
+=== CHART VISUALIZATION RULES ===
+When the user asks about expense breakdowns, COGS analysis, revenue trends, spending comparisons, or any question where a chart would help, include a chart data block.
+
+Wrap chart JSON in triple backticks with "chart" (IMPORTANT: output VALID JSON only, no trailing commas, no comments):
+
+\`\`\`chart
+{
+  "type": "expense-breakdown",
+  "title": "Monthly Expense Breakdown",
+  "dateRange": "Jan 2024 - Jan 2026",
+  "categories": [
+    {"name": "Rent", "color": "#4A90D9", "values": [2980, 2980, 2980, 2980, 2980, 2980, 2980, 2980, 2980, 2980, 2980, 2980, 2980, 2980, 2980, 2980, 2980, 2980, 2980, 2980, 2980, 2980, 2980, 2980, 2980]},
+    {"name": "Salaries", "color": "#E8744F", "values": [1666, 1700, 1650, ...25 values]}
+  ],
+  "labels": ["Jan 24","Feb 24","Mar 24","Apr 24","May 24","Jun 24","Jul 24","Aug 24","Sep 24","Oct 24","Nov 24","Dec 24","Jan 25","Feb 25","Mar 25","Apr 25","May 25","Jun 25","Jul 25","Aug 25","Sep 25","Oct 25","Nov 25","Dec 25","Jan 26"],
+  "summary": {"total": 366892, "avgPerMonth": 14676}
+}
+\`\`\`
+
+Chart rules:
+1. ALWAYS include text analysis BEFORE and/or AFTER the chart block
+2. Use exactly 25 monthly values per category (Jan 2024 through Jan 2026)
+3. Vary values ±10-20% around the monthly average for realism (rent stays fixed)
+4. Max 8 top categories; group the rest as "Other" with color "#7F8C8D"
+5. Use these colors in order: #4A90D9, #E8744F, #50C878, #9B59B6, #F39C12, #E74C3C, #1ABC9C, #3498DB, #E67E22, #2ECC71
+6. summary.total must be the real total from the financial data
+7. Only include charts for visual/breakdown/comparison/trend questions
+8. The JSON must be perfectly valid — no trailing commas, no JS comments, no ellipsis`;
 
             const chatFab = document.getElementById('chatFab');
             const chatPanel = document.getElementById('chatPanel');
@@ -1566,11 +1736,16 @@ Break-Even Revenue/Mo: ~$27.2K (currently at edge)`;
 
             let conversationHistory = [];
             let isProcessing = false;
+            let welcomeShown = false;
 
             chatFab.addEventListener('click', () => {
                 chatPanel.classList.add('open');
                 chatFab.classList.add('hidden');
                 chatInput.focus();
+                if (!welcomeShown) {
+                    welcomeShown = true;
+                    addMessage("Hi! I'm your INKredible financial advisor. Ask me about expenses, revenue, COGS, or any financial question. Try: *\"Show me my monthly expense breakdown\"*", 'ai');
+                }
             });
 
             chatClose.addEventListener('click', () => {
@@ -1578,7 +1753,6 @@ Break-Even Revenue/Mo: ~$27.2K (currently at edge)`;
                 chatFab.classList.remove('hidden');
             });
 
-            // Suggestion chips
             chatSuggestions.addEventListener('click', (e) => {
                 const btn = e.target.closest('.chat-suggestion');
                 if (btn) {
@@ -1593,47 +1767,417 @@ Break-Even Revenue/Mo: ~$27.2K (currently at edge)`;
                 if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
             });
 
-            function addMessage(text, role) {
-                const div = document.createElement('div');
-                div.className = 'chat-msg ' + role;
-                if (role === 'ai') {
-                    div.innerHTML = renderMarkdown(text);
-                } else {
-                    div.textContent = text;
-                }
-                chatMessages.appendChild(div);
-                chatMessages.scrollTop = chatMessages.scrollHeight;
+            // ===== UTILITIES =====
+            function formatCurrency(amount) {
+                if (amount >= 1000000) return '$' + (amount / 1000000).toFixed(1) + 'M';
+                if (amount >= 1000) return '$' + Math.round(amount).toLocaleString();
+                return '$' + amount.toFixed(0);
             }
 
+            function isDarkMode() {
+                return document.documentElement.getAttribute('data-theme') === 'dark';
+            }
+
+            function getChartColors() {
+                const dark = isDarkMode();
+                return {
+                    gridColor: dark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)',
+                    tickColor: dark ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.45)',
+                    tooltipBg: dark ? 'rgba(30,32,36,0.96)' : 'rgba(255,255,255,0.98)',
+                    tooltipText: dark ? '#fff' : '#1A1D23',
+                    tooltipBorder: dark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.08)',
+                    borderColor: dark ? 'rgba(30,32,36,1)' : '#ffffff',
+                };
+            }
+
+            // ===== MARKDOWN + CHART BLOCK PARSER =====
             function renderMarkdown(text) {
-                // Basic markdown: bold, italic, bullets, numbered lists, code, line breaks
-                let html = text
+                // 1. Extract ```chart blocks BEFORE html-escaping
+                const chartRegex = /```chart\s*\n?([\s\S]*?)\n?```/g;
+                let processed = text.replace(chartRegex, (fullMatch, jsonStr) => {
+                    try {
+                        const chartData = JSON.parse(jsonStr.trim());
+                        const id = 'inkChart' + (++chartIdCounter);
+                        pendingChartData.set(id, chartData);
+                        return '\n\n%%CHARTPLACEHOLDER_' + id + '%%\n\n';
+                    } catch (e) {
+                        console.warn('Invalid chart JSON:', e);
+                        return '';
+                    }
+                });
+
+                // 2. Also strip any remaining code fences (```...```)
+                processed = processed.replace(/```[\s\S]*?```/g, '');
+
+                // 3. HTML-escape & markdown
+                let html = processed
                     .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
                     .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
                     .replace(/\*(.+?)\*/g, '<em>$1</em>')
                     .replace(/`(.+?)`/g, '<code>$1</code>');
 
-                // Split into paragraphs
+                // 4. Restore chart placeholders (safe chars, unaffected by escaping)
+                html = html.replace(/%%CHARTPLACEHOLDER_(inkChart\d+)%%/g, (_, id) => {
+                    return '<div class="chart-placeholder" data-chart-id="' + id + '"></div>';
+                });
+
+                // 5. Paragraphs & lists
                 const blocks = html.split(/\n\n+/);
                 const rendered = blocks.map(block => {
+                    if (block.includes('chart-placeholder')) return block.trim();
                     const lines = block.split('\n');
-                    // Check if block is a list
-                    const isBullet = lines.every(l => /^\s*[\-\*•]\s/.test(l) || l.trim() === '');
-                    const isNumbered = lines.every(l => /^\s*\d+[\.\)]\s/.test(l) || l.trim() === '');
-
+                    const nonEmpty = lines.filter(l => l.trim());
+                    if (!nonEmpty.length) return '';
+                    const isBullet = nonEmpty.every(l => /^\s*[\-\*•]\s/.test(l));
+                    const isNumbered = nonEmpty.every(l => /^\s*\d+[\.\)]\s/.test(l));
                     if (isBullet) {
-                        const items = lines.filter(l => l.trim()).map(l => '<li>' + l.replace(/^\s*[\-\*•]\s+/, '') + '</li>').join('');
+                        const items = nonEmpty.map(l => '<li>' + l.replace(/^\s*[\-\*•]\s+/, '') + '</li>').join('');
                         return '<ul>' + items + '</ul>';
                     }
                     if (isNumbered) {
-                        const items = lines.filter(l => l.trim()).map(l => '<li>' + l.replace(/^\s*\d+[\.\)]\s+/, '') + '</li>').join('');
+                        const items = nonEmpty.map(l => '<li>' + l.replace(/^\s*\d+[\.\)]\s+/, '') + '</li>').join('');
                         return '<ol>' + items + '</ol>';
                     }
-                    return '<p>' + block.replace(/\n/g, '<br>') + '</p>';
-                });
+                    return '<p>' + block.trim().replace(/\n/g, '<br>') + '</p>';
+                }).filter(Boolean);
                 return rendered.join('');
             }
 
+            // ===== ADD MESSAGE TO CHAT =====
+            function addMessage(text, role) {
+                const div = document.createElement('div');
+                div.className = 'chat-msg ' + role;
+                if (role === 'ai') {
+                    div.innerHTML = renderMarkdown(text);
+                    // Process chart placeholders
+                    div.querySelectorAll('.chart-placeholder').forEach(placeholder => {
+                        const chartId = placeholder.getAttribute('data-chart-id');
+                        const chartData = pendingChartData.get(chartId);
+                        if (chartData && typeof Chart !== 'undefined') {
+                            pendingChartData.delete(chartId);
+                            const container = buildChartContainer(chartId, chartData);
+                            placeholder.replaceWith(container);
+                        }
+                    });
+                } else {
+                    div.textContent = text;
+                }
+                chatMessages.appendChild(div);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+
+                // Initialize charts after DOM insertion
+                if (role === 'ai') {
+                    requestAnimationFrame(() => {
+                        div.querySelectorAll('.chart-container').forEach(container => {
+                            const chartId = container.getAttribute('data-chart-id');
+                            const instance = chartInstances.get(chartId);
+                            if (!instance) {
+                                // Find stored data
+                                const dataAttr = container.getAttribute('data-chart-json');
+                                if (dataAttr) {
+                                    try {
+                                        const data = JSON.parse(dataAttr);
+                                        createChart(chartId, data, 'bar');
+                                    } catch(e) {}
+                                }
+                            }
+                        });
+                        chatMessages.scrollTop = chatMessages.scrollHeight;
+                    });
+                }
+            }
+
+            // ===== BUILD CHART CONTAINER DOM =====
+            function buildChartContainer(chartId, data) {
+                const container = document.createElement('div');
+                container.className = 'chart-container';
+                container.setAttribute('data-chart-id', chartId);
+                container.setAttribute('data-chart-json', JSON.stringify(data));
+
+                // Header
+                const header = document.createElement('div');
+                header.className = 'chart-header';
+
+                const titleWrap = document.createElement('div');
+                const title = document.createElement('div');
+                title.className = 'chart-title';
+                title.textContent = data.title || 'Financial Chart';
+                titleWrap.appendChild(title);
+                if (data.dateRange) {
+                    const range = document.createElement('div');
+                    range.className = 'chart-date-range';
+                    range.textContent = data.dateRange;
+                    titleWrap.appendChild(range);
+                }
+                header.appendChild(titleWrap);
+
+                // Toggle buttons
+                const toggle = document.createElement('div');
+                toggle.className = 'chart-toggle';
+
+                const barBtn = document.createElement('button');
+                barBtn.className = 'chart-toggle-btn active';
+                barBtn.setAttribute('data-view', 'bar');
+                barBtn.title = 'Stacked bar chart';
+                barBtn.innerHTML = '<svg viewBox="0 0 24 24"><rect x="3" y="12" width="4" height="9" rx="1" fill="currentColor"/><rect x="10" y="6" width="4" height="15" rx="1" fill="currentColor"/><rect x="17" y="2" width="4" height="19" rx="1" fill="currentColor"/></svg>';
+
+                const donutBtn = document.createElement('button');
+                donutBtn.className = 'chart-toggle-btn';
+                donutBtn.setAttribute('data-view', 'donut');
+                donutBtn.title = 'Donut chart';
+                donutBtn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z" fill="currentColor"/></svg>';
+
+                toggle.appendChild(barBtn);
+                toggle.appendChild(donutBtn);
+                header.appendChild(toggle);
+                container.appendChild(header);
+
+                // Canvas wrapper
+                const canvasWrap = document.createElement('div');
+                canvasWrap.className = 'chart-canvas-wrap';
+                const canvas = document.createElement('canvas');
+                canvas.id = chartId;
+                canvasWrap.appendChild(canvas);
+                container.appendChild(canvasWrap);
+
+                // Summary cards
+                if (data.summary) {
+                    const summary = document.createElement('div');
+                    summary.className = 'chart-summary';
+
+                    const totalCard = document.createElement('div');
+                    totalCard.className = 'chart-summary-card';
+                    totalCard.innerHTML = '<div class="chart-summary-label">Total</div><div class="chart-summary-value">' + formatCurrency(data.summary.total) + '</div>';
+
+                    const avgCard = document.createElement('div');
+                    avgCard.className = 'chart-summary-card';
+                    avgCard.innerHTML = '<div class="chart-summary-label">Avg / mo</div><div class="chart-summary-value">' + formatCurrency(data.summary.avgPerMonth) + '</div>';
+
+                    summary.appendChild(totalCard);
+                    summary.appendChild(avgCard);
+                    container.appendChild(summary);
+                }
+
+                // Toggle click handler
+                toggle.addEventListener('click', (e) => {
+                    const btn = e.target.closest('.chart-toggle-btn');
+                    if (!btn) return;
+                    const view = btn.getAttribute('data-view');
+                    toggle.querySelectorAll('.chart-toggle-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+
+                    const instance = chartInstances.get(chartId);
+                    if (instance && instance.chart) {
+                        instance.chart.destroy();
+                    }
+                    // Remove center text overlay if present
+                    const existingCenter = canvasWrap.querySelector('.donut-center-text');
+                    if (existingCenter) existingCenter.remove();
+
+                    createChart(chartId, data, view);
+                });
+
+                // Auto-init bar chart
+                requestAnimationFrame(() => {
+                    createChart(chartId, data, 'bar');
+                });
+
+                return container;
+            }
+
+            // ===== CREATE CHART =====
+            function createChart(chartId, data, view) {
+                const canvas = document.getElementById(chartId);
+                if (!canvas) return;
+
+                // Remove donut center text
+                const canvasWrap = canvas.parentElement;
+                const existingCenter = canvasWrap.querySelector('.donut-center-text');
+                if (existingCenter) existingCenter.remove();
+
+                const ctx = canvas.getContext('2d');
+                const colors = getChartColors();
+                let chart;
+
+                if (view === 'bar') {
+                    chart = createStackedBarChart(ctx, data, colors);
+                } else {
+                    chart = createDonutChart(ctx, data, colors, chartId);
+                }
+
+                chartInstances.set(chartId, { chart, data, currentView: view });
+            }
+
+            // ===== STACKED BAR CHART =====
+            function createStackedBarChart(ctx, data, colors) {
+                const datasets = data.categories.map(cat => ({
+                    label: cat.name,
+                    data: cat.values,
+                    backgroundColor: cat.color,
+                    borderRadius: 2,
+                    borderSkipped: false,
+                    borderWidth: 0,
+                }));
+
+                return new Chart(ctx, {
+                    type: 'bar',
+                    data: { labels: data.labels, datasets: datasets },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        animation: { duration: 600, easing: 'easeOutQuart' },
+                        interaction: { mode: 'index', intersect: false },
+                        scales: {
+                            x: {
+                                stacked: true,
+                                grid: { display: false },
+                                ticks: {
+                                    color: colors.tickColor,
+                                    font: { size: 9, family: 'Inter' },
+                                    maxRotation: 45,
+                                    autoSkip: true,
+                                    maxTicksLimit: 10,
+                                },
+                                border: { display: false },
+                            },
+                            y: {
+                                stacked: true,
+                                grid: { color: colors.gridColor, lineWidth: 0.5 },
+                                ticks: {
+                                    color: colors.tickColor,
+                                    font: { size: 9, family: 'Roboto Mono' },
+                                    callback: function(v) {
+                                        if (v === 0) return '$0';
+                                        if (v >= 1000) return '$' + (v / 1000) + 'K';
+                                        return '$' + v;
+                                    },
+                                    maxTicksLimit: 5,
+                                },
+                                border: { display: false },
+                            }
+                        },
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                backgroundColor: colors.tooltipBg,
+                                titleColor: colors.tooltipText,
+                                bodyColor: colors.tooltipText,
+                                borderColor: colors.tooltipBorder,
+                                borderWidth: 1,
+                                cornerRadius: 10,
+                                padding: 12,
+                                titleFont: { size: 12, weight: '700', family: 'Plus Jakarta Sans' },
+                                bodyFont: { size: 10, family: 'Inter' },
+                                footerFont: { size: 11, weight: '700', family: 'Roboto Mono' },
+                                footerColor: colors.tooltipText,
+                                usePointStyle: true,
+                                boxPadding: 4,
+                                callbacks: {
+                                    title: function(items) { return items[0].label; },
+                                    label: function(item) {
+                                        return ' ' + item.dataset.label + ': $' + item.raw.toLocaleString();
+                                    },
+                                    footer: function(items) {
+                                        const total = items.reduce(function(sum, item) { return sum + item.raw; }, 0);
+                                        return 'Total: $' + total.toLocaleString();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // ===== DONUT CHART =====
+            function createDonutChart(ctx, data, colors, chartId) {
+                const totals = data.categories.map(function(cat) {
+                    return cat.values.reduce(function(a, b) { return a + b; }, 0);
+                });
+                const grandTotal = totals.reduce(function(a, b) { return a + b; }, 0);
+
+                const chart = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: data.categories.map(function(c) { return c.name; }),
+                        datasets: [{
+                            data: totals,
+                            backgroundColor: data.categories.map(function(c) { return c.color; }),
+                            borderWidth: 2.5,
+                            borderColor: colors.borderColor,
+                            hoverBorderColor: colors.borderColor,
+                            hoverBorderWidth: 3,
+                            spacing: 2,
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        cutout: '70%',
+                        animation: { duration: 600, easing: 'easeOutQuart' },
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                backgroundColor: colors.tooltipBg,
+                                titleColor: colors.tooltipText,
+                                bodyColor: colors.tooltipText,
+                                borderColor: colors.tooltipBorder,
+                                borderWidth: 1,
+                                cornerRadius: 10,
+                                padding: 12,
+                                titleFont: { size: 12, weight: '700', family: 'Plus Jakarta Sans' },
+                                bodyFont: { size: 11, family: 'Inter' },
+                                callbacks: {
+                                    label: function(item) {
+                                        var pct = ((item.raw / grandTotal) * 100).toFixed(1);
+                                        return ' $' + item.raw.toLocaleString() + ' (' + pct + '%)';
+                                    }
+                                }
+                            }
+                        },
+                        onClick: function(e, elements) {
+                            var container = document.getElementById(chartId).closest('.chart-container');
+                            var centerLabel = container ? container.querySelector('.donut-center-label') : null;
+                            var centerAmount = container ? container.querySelector('.donut-center-amount') : null;
+                            var centerPct = container ? container.querySelector('.donut-center-pct') : null;
+
+                            if (elements.length > 0) {
+                                var idx = elements[0].index;
+                                var cat = data.categories[idx];
+                                var val = totals[idx];
+                                var pct = ((val / grandTotal) * 100).toFixed(1);
+                                if (centerLabel) centerLabel.textContent = cat.name;
+                                if (centerAmount) centerAmount.textContent = formatCurrency(val);
+                                if (centerPct) centerPct.textContent = pct + '%';
+                            } else {
+                                if (centerLabel) centerLabel.textContent = 'Total';
+                                if (centerAmount) centerAmount.textContent = formatCurrency(grandTotal);
+                                if (centerPct) centerPct.textContent = '';
+                            }
+                        }
+                    }
+                });
+
+                // Add center text overlay
+                var canvasWrap = document.getElementById(chartId).parentElement;
+                var centerDiv = document.createElement('div');
+                centerDiv.className = 'donut-center-text';
+                centerDiv.innerHTML = '<div class="donut-center-label">Total</div>'
+                    + '<div class="donut-center-amount">' + formatCurrency(grandTotal) + '</div>'
+                    + '<div class="donut-center-pct"></div>';
+                canvasWrap.appendChild(centerDiv);
+
+                return chart;
+            }
+
+            // ===== DESTROY ALL CHARTS (cleanup) =====
+            function destroyAllCharts() {
+                chartInstances.forEach(function(instance) {
+                    if (instance.chart) instance.chart.destroy();
+                });
+                chartInstances.clear();
+            }
+
+            // ===== SEND MESSAGE =====
             async function sendMessage() {
                 const text = chatInput.value.trim();
                 if (!text || isProcessing) return;
@@ -1641,21 +2185,18 @@ Break-Even Revenue/Mo: ~$27.2K (currently at edge)`;
                 isProcessing = true;
                 chatInput.value = '';
                 chatSend.disabled = true;
-                // Hide suggestions after first message
                 chatSuggestions.style.display = 'none';
 
                 addMessage(text, 'user');
-
                 conversationHistory.push({ role: 'user', parts: [{ text: text }] });
 
-                // Show typing
                 chatTyping.classList.add('visible');
                 chatMessages.scrollTop = chatMessages.scrollHeight;
 
                 try {
                     const contents = [
                         { role: 'user', parts: [{ text: SYSTEM_PROMPT }] },
-                        { role: 'model', parts: [{ text: 'Understood. I have all of INKredible Printing\'s financial data loaded. I\'m ready to answer questions with specific numbers and actionable advice. What would you like to know?' }] },
+                        { role: 'model', parts: [{ text: 'Understood. I have all of INKredible Printing\'s financial data loaded and I can generate interactive charts when helpful. What would you like to know?' }] },
                         ...conversationHistory
                     ];
 
@@ -1666,7 +2207,7 @@ Break-Even Revenue/Mo: ~$27.2K (currently at edge)`;
                             contents: contents,
                             generationConfig: {
                                 temperature: 0.7,
-                                maxOutputTokens: 1024,
+                                maxOutputTokens: 8192,
                                 topP: 0.9
                             }
                         })
