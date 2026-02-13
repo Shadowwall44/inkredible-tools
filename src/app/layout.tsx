@@ -15,8 +15,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Second Brain — INKredible Tools",
-  description: "Mobile-first OpenClaw memory browser with global fuzzy search.",
+  title: "INKredible Tools",
+  description: "Aviel's Business Command Center",
 };
 
 export default function RootLayout({
