@@ -1,0 +1,2115 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <title>INKredible Printing — Mission Control</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* ================================================
+           ORIGIN DESIGN SYSTEM — Mission Control
+           INKredible Printing AI Team
+           ================================================ */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg: #F7F8FA;
+            --text: #1A1D23;
+            --text-secondary: rgba(26, 29, 35, 0.65);
+            --text-muted: rgba(26, 29, 35, 0.42);
+            --text-subtle: rgba(26, 29, 35, 0.25);
+
+            --accent-teal: #0097B2;
+            --accent-teal-deep: #007A94;
+            --accent-purple: #6C63FF;
+            --accent-purple-deep: #5951D8;
+            --accent-green: #22c55e;
+            --accent-red: #E04848;
+            --accent-amber: #f59e0b;
+            --accent-rose: #D47EB8;
+            --accent-blue: #3b82f6;
+
+            --glass-strong: rgba(255, 255, 255, 0.75);
+            --glass-medium: rgba(255, 255, 255, 0.72);
+            --glass-faint: rgba(255, 255, 255, 0.85);
+
+            --surface-subtle: rgba(0, 0, 0, 0.04);
+            --panel-bg: var(--glass-medium);
+            --panel-border: rgba(0, 0, 0, 0.06);
+            --card-bg: #FFFFFF;
+            --card-border: rgba(0, 0, 0, 0.06);
+            --border-soft: rgba(0, 0, 0, 0.06);
+            --border-medium: rgba(0, 0, 0, 0.10);
+
+            --mesh-teal: rgba(0, 151, 178, 0.05);
+            --mesh-purple: rgba(108, 99, 255, 0.05);
+            --mesh-rose: rgba(212, 126, 184, 0.04);
+            --mesh-teal-deep: rgba(0, 122, 148, 0.04);
+            --mesh-overlay: linear-gradient(180deg, rgba(255,255,255,0.3) 0%, transparent 36%, rgba(255,255,255,0.12) 100%);
+
+            --scrollbar-track: transparent;
+            --scrollbar-thumb: rgba(0, 0, 0, 0.12);
+            --scrollbar-thumb-hover: rgba(0, 0, 0, 0.22);
+
+            --radius-card: 16px;
+            --radius-panel: 20px;
+            --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.08), 0 12px 32px rgba(0, 0, 0, 0.10);
+            --shadow-panel: 0 2px 8px rgba(0, 0, 0, 0.06), 0 8px 24px rgba(0, 0, 0, 0.08);
+
+            --font-display: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-mono: 'Roboto Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+            --sidebar-width: 220px;
+            --office-floor: #e8e0d4;
+            --office-desk: #c4a882;
+        }
+
+        html[data-theme="dark"] {
+            --bg: rgb(15, 16, 17);
+            --text: rgba(255, 255, 255, 1);
+            --text-secondary: rgba(255, 255, 255, 0.60);
+            --text-muted: rgba(255, 255, 255, 0.38);
+            --text-subtle: rgba(255, 255, 255, 0.22);
+
+            --accent-teal: #13B0C9;
+            --accent-teal-deep: #0E8EA7;
+            --accent-purple: #8E87FF;
+            --accent-purple-deep: #726ADE;
+
+            --glass-strong: rgba(255, 255, 255, 0.08);
+            --glass-medium: rgba(255, 255, 255, 0.08);
+            --glass-faint: rgba(255, 255, 255, 0.08);
+
+            --surface-subtle: rgba(255, 255, 255, 0.08);
+            --panel-bg: rgba(255, 255, 255, 0.08);
+            --panel-border: rgba(255, 255, 255, 0.07);
+            --card-bg: linear-gradient(145deg, rgba(38, 40, 43, 0.92), rgba(26, 28, 30, 0.96));
+            --card-border: rgba(255, 255, 255, 0.07);
+            --border-soft: rgba(255, 255, 255, 0.07);
+            --border-medium: rgba(255, 255, 255, 0.12);
+
+            --mesh-teal: rgba(19, 176, 201, 0.08);
+            --mesh-purple: rgba(142, 135, 255, 0.07);
+            --mesh-rose: rgba(123, 120, 214, 0.04);
+            --mesh-teal-deep: rgba(14, 142, 167, 0.06);
+            --mesh-overlay: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, transparent 40%, rgba(255,255,255,0.01) 100%);
+
+            --scrollbar-track: rgba(255, 255, 255, 0.08);
+            --scrollbar-thumb: rgba(255, 255, 255, 0.34);
+            --scrollbar-thumb-hover: rgba(255, 255, 255, 0.55);
+
+            --shadow-card: 0px 18px 20px rgba(0, 0, 0, 0.2), 0 28px 48px rgba(0, 0, 0, 0.35);
+            --shadow-panel: 0px 18px 20px rgba(0, 0, 0, 0.2);
+
+            --office-floor: #1a1a2e;
+            --office-desk: #2d2d44;
+        }
+
+        /* ===== BASE ===== */
+        body {
+            font-family: var(--font-body);
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            position: relative;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            background:
+                radial-gradient(ellipse 60% 50% at 10% 12%, var(--mesh-teal), transparent 55%),
+                radial-gradient(ellipse 55% 55% at 85% 10%, var(--mesh-purple), transparent 50%),
+                radial-gradient(ellipse 50% 60% at 70% 80%, var(--mesh-rose), transparent 50%),
+                radial-gradient(ellipse 60% 50% at 22% 85%, var(--mesh-teal-deep), transparent 50%);
+            filter: blur(6px);
+            transition: background 0.3s ease;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            background: var(--mesh-overlay);
+            transition: background 0.3s ease;
+        }
+
+        body, .panel, .sidebar, .nav-pill, .agent-card, .kanban-card, .schedule-item, .digest-panel {
+            transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        * { scrollbar-width: thin; scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track); }
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: var(--scrollbar-track); }
+        ::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 999px; }
+
+        /* ===== HEADER ===== */
+        .top-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 24px;
+            background: var(--panel-bg);
+            border-bottom: 1px solid var(--panel-border);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .hamburger {
+            display: none;
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: transparent;
+            color: var(--text);
+            cursor: pointer;
+            border-radius: 8px;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .header-brand h1 {
+            font-family: var(--font-display);
+            font-size: clamp(1rem, 3vw, 1.4rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+            color: var(--text);
+        }
+
+        .header-brand h1 .emoji { margin-right: 6px; }
+        .header-brand h1 .accent { color: var(--accent-teal); }
+
+        .header-brand .mission {
+            font-size: 11px;
+            color: var(--text-muted);
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            margin-top: 2px;
+            font-family: var(--font-mono);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .theme-toggle {
+            width: 48px;
+            height: 28px;
+            border-radius: 999px;
+            border: 1px solid var(--border-medium);
+            background: var(--surface-subtle);
+            position: relative;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .theme-toggle-knob {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #FFFFFF;
+            border: 1px solid rgba(0, 0, 0, 0.10);
+            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        .theme-toggle.active .theme-toggle-knob { transform: translateX(20px); }
+
+        html[data-theme="dark"] .theme-toggle {
+            background: rgba(255, 255, 255, 0.14);
+            border-color: rgba(255, 255, 255, 0.20);
+        }
+        html[data-theme="dark"] .theme-toggle .theme-toggle-knob {
+            background: #2a2a3e;
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        /* ===== LAYOUT ===== */
+        .app-layout {
+            display: flex;
+            flex: 1;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            width: var(--sidebar-width);
+            flex-shrink: 0;
+            padding: 20px 12px;
+            border-right: 1px solid var(--panel-border);
+            background: var(--panel-bg);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            height: calc(100vh - 60px);
+            position: sticky;
+            top: 60px;
+            overflow-y: auto;
+        }
+
+        .sidebar-label {
+            font-size: 9px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            padding: 12px 12px 6px;
+            font-weight: 600;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            border: none;
+            background: transparent;
+            width: 100%;
+            text-align: left;
+            font-family: var(--font-body);
+            transition: all 0.2s ease;
+        }
+
+        .nav-item:hover {
+            background: var(--surface-subtle);
+            color: var(--text);
+        }
+
+        .nav-item.active {
+            background: var(--accent-teal);
+            color: #fff;
+            font-weight: 600;
+        }
+
+        html[data-theme="dark"] .nav-item.active {
+            background: rgba(19, 176, 201, 0.22);
+            color: var(--accent-teal);
+        }
+
+        .nav-item .nav-icon { font-size: 16px; width: 22px; text-align: center; flex-shrink: 0; }
+
+        /* ===== FLOATING NAV PILLS (mobile) ===== */
+        .floating-nav {
+            display: none;
+            position: fixed;
+            top: 68px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 90;
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 28px;
+            padding: 4px 6px;
+            gap: 2px;
+            overflow-x: auto;
+            max-width: calc(100vw - 24px);
+            box-shadow: var(--shadow-panel);
+        }
+
+        .nav-pill {
+            padding: 7px 14px;
+            border-radius: 20px;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            font-size: 12px;
+            font-family: var(--font-body);
+            font-weight: 500;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+        }
+
+        .nav-pill:hover { color: var(--text); }
+
+        .nav-pill.active {
+            background: var(--accent-teal);
+            color: #fff;
+        }
+
+        html[data-theme="dark"] .nav-pill.active {
+            background: rgba(19, 176, 201, 0.25);
+            color: var(--accent-teal);
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .main-content {
+            flex: 1;
+            padding: 24px;
+            overflow-y: auto;
+            min-height: calc(100vh - 60px);
+        }
+
+        .view { display: none; animation: fadeSlideUp 0.4s ease-out both; }
+        .view.active { display: block; }
+
+        @keyframes fadeSlideUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== PANEL ===== */
+        .panel {
+            margin-bottom: 20px;
+            padding: 22px;
+            border-radius: var(--radius-panel);
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            box-shadow: var(--shadow-panel);
+        }
+
+        .panel-title {
+            font-family: var(--font-display);
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            color: var(--text);
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .panel-title .icon {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .view-title {
+            font-family: var(--font-display);
+            font-size: clamp(1.2rem, 3vw, 1.6rem);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: var(--text);
+            margin-bottom: 6px;
+        }
+
+        .view-subtitle {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+            font-family: var(--font-mono);
+            letter-spacing: 0.01em;
+        }
+
+        /* ========================================
+           ORG CHART VIEW
+           ======================================== */
+        .org-chart {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+            padding: 20px 0;
+        }
+
+        .org-level {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            position: relative;
+        }
+
+        /* Connector lines */
+        .org-connector {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 48px;
+            position: relative;
+        }
+
+        .org-connector .vline {
+            width: 2px;
+            height: 48px;
+            background: var(--border-medium);
+        }
+
+        .org-connector-branch {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            position: relative;
+            height: 32px;
+            margin-bottom: -4px;
+        }
+
+        .org-connector-branch .hline {
+            position: absolute;
+            top: 0;
+            height: 2px;
+            background: var(--border-medium);
+        }
+
+        .org-connector-branch .drop {
+            width: 2px;
+            height: 32px;
+            background: var(--border-medium);
+        }
+
+        /* Agent Cards */
+        .agent-card {
+            width: 240px;
+            padding: 20px;
+            border-radius: var(--radius-card);
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            box-shadow: var(--shadow-panel);
+            position: relative;
+            cursor: default;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+
+        .agent-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-card);
+        }
+
+        .agent-card.blue:hover { border-color: rgba(59, 130, 246, 0.4); box-shadow: var(--shadow-card), 0 0 30px rgba(59, 130, 246, 0.12); }
+        .agent-card.green:hover { border-color: rgba(34, 197, 94, 0.4); box-shadow: var(--shadow-card), 0 0 30px rgba(34, 197, 94, 0.12); }
+        .agent-card.teal:hover { border-color: rgba(19, 176, 201, 0.4); box-shadow: var(--shadow-card), 0 0 30px rgba(19, 176, 201, 0.12); }
+        .agent-card.gray:hover { border-color: rgba(148, 163, 184, 0.4); box-shadow: var(--shadow-card), 0 0 30px rgba(148, 163, 184, 0.08); }
+        .agent-card.amber:hover { border-color: rgba(245, 158, 11, 0.4); box-shadow: var(--shadow-card), 0 0 30px rgba(245, 158, 11, 0.12); }
+
+        .agent-card-accent {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            border-radius: var(--radius-card) var(--radius-card) 0 0;
+        }
+
+        .agent-card.blue .agent-card-accent { background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple)); }
+        .agent-card.green .agent-card-accent { background: linear-gradient(90deg, #16a34a, var(--accent-green)); }
+        .agent-card.teal .agent-card-accent { background: linear-gradient(90deg, var(--accent-teal-deep), var(--accent-teal)); }
+        .agent-card.gray .agent-card-accent { background: linear-gradient(90deg, #64748b, #94a3b8); }
+        .agent-card.amber .agent-card-accent { background: linear-gradient(90deg, #d97706, var(--accent-amber)); }
+
+        .agent-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .agent-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            flex-shrink: 0;
+        }
+
+        .agent-card.blue .agent-avatar { background: rgba(59, 130, 246, 0.15); }
+        .agent-card.green .agent-avatar { background: rgba(34, 197, 94, 0.15); }
+        .agent-card.teal .agent-avatar { background: rgba(19, 176, 201, 0.15); }
+        .agent-card.gray .agent-avatar { background: rgba(148, 163, 184, 0.15); }
+        .agent-card.amber .agent-avatar { background: rgba(245, 158, 11, 0.15); }
+
+        .agent-info { flex: 1; min-width: 0; }
+
+        .agent-name {
+            font-family: var(--font-display);
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .status-dot.active { background: var(--accent-green); box-shadow: 0 0 6px rgba(34, 197, 94, 0.5); }
+        .status-dot.idle { background: #94a3b8; }
+        .status-dot.sleeping { background: var(--accent-blue); box-shadow: 0 0 6px rgba(59, 130, 246, 0.4); }
+
+        .agent-role {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 1px;
+        }
+
+        .agent-model {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 10px;
+            font-size: 11px;
+            color: var(--text-secondary);
+            font-family: var(--font-mono);
+        }
+
+        .agent-cost {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 6px;
+            background: var(--surface-subtle);
+            font-size: 10px;
+            font-family: var(--font-mono);
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .agent-skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+
+        .skill-pill {
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: 500;
+            border: 1px solid var(--border-soft);
+            color: var(--text-secondary);
+            background: var(--surface-subtle);
+        }
+
+        .agent-card.blue .skill-pill { border-color: rgba(59, 130, 246, 0.2); color: #60a5fa; }
+        .agent-card.green .skill-pill { border-color: rgba(34, 197, 94, 0.2); color: #4ade80; }
+        .agent-card.teal .skill-pill { border-color: rgba(19, 176, 201, 0.2); color: #22d3ee; }
+        .agent-card.gray .skill-pill { border-color: rgba(148, 163, 184, 0.2); color: #94a3b8; }
+        .agent-card.amber .skill-pill { border-color: rgba(245, 158, 11, 0.2); color: #fbbf24; }
+
+        html:not([data-theme="dark"]) .agent-card.blue .skill-pill { color: #2563eb; }
+        html:not([data-theme="dark"]) .agent-card.green .skill-pill { color: #16a34a; }
+        html:not([data-theme="dark"]) .agent-card.teal .skill-pill { color: #0891b2; }
+        html:not([data-theme="dark"]) .agent-card.gray .skill-pill { color: #64748b; }
+        html:not([data-theme="dark"]) .agent-card.amber .skill-pill { color: #d97706; }
+
+        /* ========================================
+           OFFICE VIEW (Pixel Art)
+           ======================================== */
+        .office-container {
+            border-radius: var(--radius-panel);
+            overflow: hidden;
+            border: 1px solid var(--panel-border);
+            box-shadow: var(--shadow-panel);
+        }
+
+        .office-floor {
+            position: relative;
+            width: 100%;
+            min-height: 480px;
+            background:
+                repeating-conic-gradient(var(--office-floor) 0% 25%, transparent 0% 50%) 0 0 / 40px 40px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+        }
+
+        html[data-theme="dark"] .office-floor {
+            background:
+                repeating-conic-gradient(rgba(255,255,255,0.03) 0% 25%, transparent 0% 50%) 0 0 / 40px 40px,
+                var(--office-floor);
+        }
+
+        html:not([data-theme="dark"]) .office-floor {
+            background:
+                repeating-conic-gradient(rgba(0,0,0,0.04) 0% 25%, transparent 0% 50%) 0 0 / 40px 40px,
+                var(--office-floor);
+        }
+
+        .office-room {
+            position: relative;
+            width: 100%;
+            min-width: 700px;
+            height: 480px;
+            padding: 40px;
+        }
+
+        /* Desks */
+        .desk {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            scroll-snap-align: center;
+        }
+
+        .desk-surface {
+            width: 120px;
+            height: 60px;
+            border-radius: 10px;
+            background: var(--office-desk);
+            border: 2px solid rgba(0,0,0,0.15);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        html[data-theme="dark"] .desk-surface {
+            border-color: rgba(255,255,255,0.08);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .desk-monitor {
+            width: 36px;
+            height: 28px;
+            border-radius: 4px 4px 0 0;
+            background: #1a1a2e;
+            border: 2px solid #333;
+            position: relative;
+        }
+
+        .desk-monitor::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 16px;
+            height: 6px;
+            background: #555;
+            border-radius: 0 0 4px 4px;
+        }
+
+        .desk-monitor.on {
+            background: #0f172a;
+            box-shadow: 0 0 8px rgba(34, 197, 94, 0.3);
+        }
+
+        .desk-monitor.on::before {
+            content: '>';
+            position: absolute;
+            top: 4px;
+            left: 6px;
+            font-size: 10px;
+            font-family: var(--font-mono);
+            color: var(--accent-green);
+            animation: blink 1.2s infinite;
+        }
+
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+        .desk-sprite {
+            font-size: 32px;
+            line-height: 1;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+        }
+
+        .desk-label {
+            font-family: var(--font-display);
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text);
+            text-align: center;
+            background: var(--panel-bg);
+            padding: 3px 10px;
+            border-radius: 8px;
+            border: 1px solid var(--panel-border);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+
+        .desk-status {
+            font-size: 9px;
+            font-family: var(--font-mono);
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 2px 8px;
+            border-radius: 6px;
+        }
+
+        .desk-status.working { background: rgba(34, 197, 94, 0.15); color: var(--accent-green); }
+        .desk-status.idle { background: rgba(148, 163, 184, 0.15); color: #94a3b8; }
+        .desk-status.sleeping { background: rgba(59, 130, 246, 0.15); color: var(--accent-blue); }
+
+        /* Office decorations */
+        .office-plant {
+            position: absolute;
+            font-size: 28px;
+        }
+
+        .office-clock {
+            position: absolute;
+            top: 12px;
+            right: 20px;
+            font-family: var(--font-mono);
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-muted);
+            background: var(--panel-bg);
+            padding: 6px 14px;
+            border-radius: 10px;
+            border: 1px solid var(--panel-border);
+            backdrop-filter: blur(8px);
+        }
+
+        .office-banner {
+            position: absolute;
+            top: 12px;
+            left: 20px;
+            font-family: var(--font-display);
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--accent-teal);
+            background: var(--panel-bg);
+            padding: 6px 14px;
+            border-radius: 10px;
+            border: 1px solid var(--panel-border);
+            backdrop-filter: blur(8px);
+            letter-spacing: 0.04em;
+        }
+
+        .water-cooler {
+            position: absolute;
+            font-size: 24px;
+        }
+
+        /* ========================================
+           KANBAN / TASKS VIEW
+           ======================================== */
+        .kanban-board {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            overflow-x: auto;
+        }
+
+        .kanban-column {
+            min-width: 200px;
+            background: var(--surface-subtle);
+            border-radius: var(--radius-card);
+            padding: 14px;
+            border: 1px solid var(--border-soft);
+        }
+
+        .kanban-col-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-soft);
+        }
+
+        .kanban-col-title {
+            font-family: var(--font-display);
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text);
+            letter-spacing: 0.02em;
+        }
+
+        .kanban-col-count {
+            font-size: 10px;
+            font-family: var(--font-mono);
+            font-weight: 600;
+            color: var(--text-muted);
+            background: var(--surface-subtle);
+            padding: 2px 8px;
+            border-radius: 10px;
+            border: 1px solid var(--border-soft);
+        }
+
+        .kanban-cards { display: flex; flex-direction: column; gap: 10px; }
+
+        .kanban-card {
+            padding: 14px;
+            border-radius: 12px;
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            cursor: default;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .kanban-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-panel);
+        }
+
+        .kanban-card-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+
+        .kanban-card-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .kanban-agent {
+            font-size: 10px;
+            font-family: var(--font-mono);
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .priority-pill {
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        .priority-pill.high { background: rgba(224, 72, 72, 0.12); color: var(--accent-red); }
+        .priority-pill.medium { background: rgba(245, 158, 11, 0.12); color: var(--accent-amber); }
+        .priority-pill.low { background: rgba(34, 197, 94, 0.12); color: var(--accent-green); }
+
+        /* ========================================
+           COSTS VIEW
+           ======================================== */
+        .costs-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .cost-gauge-panel {
+            grid-column: 1 / -1;
+        }
+
+        .gauge-container {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .gauge-ring {
+            width: 140px;
+            height: 140px;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .gauge-ring svg {
+            width: 140px;
+            height: 140px;
+            transform: rotate(-90deg);
+        }
+
+        .gauge-ring circle {
+            fill: none;
+            stroke-width: 10;
+        }
+
+        .gauge-ring .track { stroke: var(--surface-subtle); }
+        .gauge-ring .fill-circle { stroke-linecap: round; transition: stroke-dashoffset 1.5s cubic-bezier(0.22, 1, 0.36, 1); }
+
+        .gauge-text {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gauge-pct {
+            font-family: var(--font-mono);
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--text);
+            letter-spacing: -0.04em;
+            line-height: 1;
+        }
+
+        .gauge-label {
+            font-size: 10px;
+            color: var(--text-muted);
+            margin-top: 4px;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        .gauge-details { flex: 1; min-width: 180px; }
+
+        .gauge-stat {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border-soft);
+            font-size: 13px;
+        }
+
+        .gauge-stat:last-child { border-bottom: none; }
+        .gauge-stat .g-label { color: var(--text-secondary); }
+        .gauge-stat .g-value { font-family: var(--font-mono); font-weight: 600; color: var(--text); }
+
+        /* Model breakdown table */
+        .model-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .model-table th {
+            text-align: left;
+            font-size: 9px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            padding: 8px 10px;
+            border-bottom: 1px solid var(--border-medium);
+            font-weight: 600;
+        }
+
+        .model-table td {
+            padding: 10px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border-soft);
+        }
+
+        .model-table td:first-child { font-weight: 600; color: var(--text); }
+        .model-table td .mono { font-family: var(--font-mono); font-weight: 600; }
+
+        .type-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .type-badge.brain { background: rgba(142, 135, 255, 0.12); color: var(--accent-purple); }
+        .type-badge.muscle { background: rgba(19, 176, 201, 0.12); color: var(--accent-teal); }
+        .type-badge.free { background: rgba(34, 197, 94, 0.12); color: var(--accent-green); }
+
+        /* Brain vs Muscles chart */
+        .ratio-visual {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-top: 16px;
+        }
+
+        .ratio-bar-container {
+            flex: 1;
+            height: 32px;
+            border-radius: 16px;
+            overflow: hidden;
+            display: flex;
+            background: var(--surface-subtle);
+        }
+
+        .ratio-segment {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 700;
+            font-family: var(--font-mono);
+            color: #fff;
+            transition: width 0.8s ease;
+        }
+
+        .ratio-segment.brain { background: linear-gradient(90deg, var(--accent-purple-deep), var(--accent-purple)); }
+        .ratio-segment.muscle { background: linear-gradient(90deg, var(--accent-teal-deep), var(--accent-teal)); }
+
+        .ratio-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+        }
+
+        .ratio-label-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        .ratio-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .ratio-dot.brain { background: var(--accent-purple); }
+        .ratio-dot.muscle { background: var(--accent-teal); }
+
+        /* ========================================
+           SCHEDULE VIEW
+           ======================================== */
+        .schedule-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .schedule-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px 18px;
+            border-radius: var(--radius-card);
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .schedule-item:hover {
+            transform: translateX(4px);
+            box-shadow: var(--shadow-panel);
+        }
+
+        .schedule-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+            background: var(--surface-subtle);
+        }
+
+        .schedule-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .schedule-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 2px;
+        }
+
+        .schedule-time {
+            font-size: 11px;
+            font-family: var(--font-mono);
+            color: var(--text-muted);
+        }
+
+        .schedule-meta {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 4px;
+            flex-shrink: 0;
+        }
+
+        .schedule-model {
+            font-size: 10px;
+            font-family: var(--font-mono);
+            color: var(--text-secondary);
+            background: var(--surface-subtle);
+            padding: 3px 8px;
+            border-radius: 6px;
+        }
+
+        .schedule-status {
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 2px 8px;
+            border-radius: 6px;
+        }
+
+        .schedule-status.ok { background: rgba(34, 197, 94, 0.12); color: var(--accent-green); }
+        .schedule-status.warn { background: rgba(245, 158, 11, 0.12); color: var(--accent-amber); }
+
+        /* ========================================
+           DIGEST VIEW
+           ======================================== */
+        .digest-panel {
+            padding: 28px;
+            border-radius: var(--radius-panel);
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            box-shadow: var(--shadow-panel);
+        }
+
+        .digest-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid var(--border-soft);
+        }
+
+        .digest-title {
+            font-family: var(--font-display);
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--text);
+        }
+
+        .digest-timestamp {
+            font-size: 11px;
+            font-family: var(--font-mono);
+            color: var(--text-muted);
+        }
+
+        .digest-content {
+            font-size: 14px;
+            line-height: 1.7;
+            color: var(--text-secondary);
+        }
+
+        .digest-content h3 {
+            font-family: var(--font-display);
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text);
+            margin: 20px 0 8px;
+        }
+
+        .digest-content h3:first-child { margin-top: 0; }
+
+        .digest-content ul {
+            padding-left: 20px;
+            margin: 8px 0;
+        }
+
+        .digest-content li {
+            margin-bottom: 6px;
+        }
+
+        .digest-content strong { color: var(--text); }
+
+        .digest-content code {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            background: var(--surface-subtle);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .digest-placeholder {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-muted);
+        }
+
+        .digest-placeholder .big-emoji {
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            margin-top: 28px;
+            padding-top: 16px;
+            border-top: 1px solid var(--panel-border);
+            text-align: center;
+            font-size: 10px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-subtle);
+            font-family: var(--font-mono);
+        }
+
+        /* ========================================
+           RESPONSIVE
+           ======================================== */
+        @media (max-width: 900px) {
+            .kanban-board {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .costs-grid {
+                grid-template-columns: 1fr;
+            }
+            .org-level {
+                gap: 14px;
+            }
+            .agent-card {
+                width: 210px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar { display: none; }
+            .hamburger { display: flex; }
+            .floating-nav { display: flex; }
+            .main-content { padding: 16px; padding-top: 60px; }
+
+            .sidebar.mobile-open {
+                display: flex;
+                position: fixed;
+                top: 60px;
+                left: 0;
+                bottom: 0;
+                z-index: 200;
+                width: 260px;
+                box-shadow: 4px 0 24px rgba(0,0,0,0.2);
+            }
+
+            .mobile-overlay {
+                display: none;
+                position: fixed;
+                inset: 0;
+                top: 60px;
+                background: rgba(0,0,0,0.4);
+                z-index: 199;
+            }
+
+            .mobile-overlay.active { display: block; }
+        }
+
+        @media (max-width: 640px) {
+            .kanban-board {
+                grid-template-columns: 1fr;
+            }
+            .agent-card {
+                width: 100%;
+                max-width: 300px;
+            }
+            .org-level {
+                flex-direction: column;
+                align-items: center;
+            }
+            .org-connector-branch { display: none; }
+            .top-header { padding: 12px 16px; }
+            .gauge-container { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <!-- ===== TOP HEADER ===== -->
+    <div class="top-header">
+        <div class="header-left">
+            <button class="hamburger" onclick="toggleSidebar()" aria-label="Toggle sidebar">☰</button>
+            <div class="header-brand">
+                <h1><span class="emoji">🏢</span> INKredible <span class="accent">Mission Control</span></h1>
+                <div class="mission">Automating the print business 24/7</div>
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="theme-toggle active" onclick="toggleTheme()" title="Toggle light/dark mode">
+                <div class="theme-toggle-knob">🌙</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== FLOATING NAV PILLS (mobile) ===== -->
+    <div class="floating-nav" id="floatingNav">
+        <button class="nav-pill active" data-view="orgchart">📊 Org</button>
+        <button class="nav-pill" data-view="office">🏠 Office</button>
+        <button class="nav-pill" data-view="tasks">📋 Tasks</button>
+        <button class="nav-pill" data-view="costs">💰 Costs</button>
+        <button class="nav-pill" data-view="schedule">📅 Sched</button>
+        <button class="nav-pill" data-view="digest">📨 Digest</button>
+    </div>
+
+    <!-- ===== MOBILE OVERLAY ===== -->
+    <div class="mobile-overlay" id="mobileOverlay" onclick="toggleSidebar()"></div>
+
+    <!-- ===== APP LAYOUT ===== -->
+    <div class="app-layout">
+        <!-- SIDEBAR -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-label">Navigation</div>
+            <button class="nav-item" data-view="orgchart"><span class="nav-icon">📊</span> Org Chart</button>
+            <button class="nav-item" data-view="office"><span class="nav-icon">🏠</span> The Office</button>
+            <button class="nav-item" data-view="tasks"><span class="nav-icon">📋</span> Tasks</button>
+            <button class="nav-item" data-view="costs"><span class="nav-icon">💰</span> Costs</button>
+            <button class="nav-item" data-view="schedule"><span class="nav-icon">📅</span> Schedule</button>
+            <button class="nav-item" data-view="digest"><span class="nav-icon">📨</span> Digest</button>
+
+            <div class="sidebar-label" style="margin-top: auto;">INKredible Printing</div>
+            <div style="padding: 6px 14px; font-size: 11px; color: var(--text-muted); line-height: 1.5;">
+                5 agents · 3 active<br>
+                <span style="font-family: var(--font-mono); font-size: 10px;">Last sync: just now</span>
+            </div>
+        </nav>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+
+            <!-- ==================== ORG CHART VIEW ==================== -->
+            <div class="view active" id="view-orgchart">
+                <div class="view-title">📊 Organization Chart</div>
+                <div class="view-subtitle">INKredible Printing AI Team — Chain of Command</div>
+
+                <div class="org-chart">
+                    <!-- Level 1: CEO -->
+                    <div class="org-level">
+                        <div class="agent-card blue">
+                            <div class="agent-card-accent"></div>
+                            <div class="agent-header">
+                                <div class="agent-avatar">👨‍💼</div>
+                                <div class="agent-info">
+                                    <div class="agent-name">Aviel <span class="status-dot active"></span></div>
+                                    <div class="agent-role">CEO — Human</div>
+                                </div>
+                            </div>
+                            <div class="agent-model">
+                                🧠 Human Intelligence
+                                <span class="agent-cost">Priceless</span>
+                            </div>
+                            <div class="agent-skills">
+                                <span class="skill-pill">Vision & Strategy</span>
+                                <span class="skill-pill">Final Decisions</span>
+                                <span class="skill-pill">Biz Dev</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Connector -->
+                    <div class="org-connector">
+                        <div class="vline"></div>
+                    </div>
+
+                    <!-- Level 2: COO -->
+                    <div class="org-level">
+                        <div class="agent-card green">
+                            <div class="agent-card-accent"></div>
+                            <div class="agent-header">
+                                <div class="agent-avatar">🤖</div>
+                                <div class="agent-info">
+                                    <div class="agent-name">Chet <span class="status-dot active"></span></div>
+                                    <div class="agent-role">COO / Chief Strategy Officer</div>
+                                </div>
+                            </div>
+                            <div class="agent-model">
+                                Claude Opus 4.6
+                                <span class="agent-cost">$200/mo</span>
+                            </div>
+                            <div class="agent-skills">
+                                <span class="skill-pill">Strategic Planning</span>
+                                <span class="skill-pill">Orchestration</span>
+                                <span class="skill-pill">Reasoning</span>
+                                <span class="skill-pill">Coaching</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Branch connector -->
+                    <div class="org-connector">
+                        <div class="vline"></div>
+                    </div>
+
+                    <div class="org-connector-branch">
+                        <div style="display: flex; align-items: flex-start; gap: 0; width: 100%; justify-content: center; position: relative;">
+                            <div class="hline" style="left: 25%; right: 25%; position: absolute;"></div>
+                            <div style="display: flex; justify-content: center; gap: 20px; width: 100%; max-width: 760px;">
+                                <div style="flex: 1; display: flex; justify-content: center;"><div class="drop"></div></div>
+                                <div style="flex: 1; display: flex; justify-content: center;"><div class="drop"></div></div>
+                                <div style="flex: 1; display: flex; justify-content: center;"><div class="drop"></div></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Level 3: Team -->
+                    <div class="org-level">
+                        <div class="agent-card teal">
+                            <div class="agent-card-accent"></div>
+                            <div class="agent-header">
+                                <div class="agent-avatar">⚡</div>
+                                <div class="agent-info">
+                                    <div class="agent-name">Codex 5.3 <span class="status-dot active"></span></div>
+                                    <div class="agent-role">Lead Software Engineer</div>
+                                </div>
+                            </div>
+                            <div class="agent-model">
+                                GPT-5.3 Codex
+                                <span class="agent-cost">Pay-per-use</span>
+                            </div>
+                            <div class="agent-skills">
+                                <span class="skill-pill">Full-Stack Dev</span>
+                                <span class="skill-pill">Code Review</span>
+                                <span class="skill-pill">Debugging</span>
+                                <span class="skill-pill">Architecture</span>
+                                <span class="skill-pill">Automation</span>
+                            </div>
+                        </div>
+
+                        <div class="agent-card gray">
+                            <div class="agent-card-accent"></div>
+                            <div class="agent-header">
+                                <div class="agent-avatar">🔧</div>
+                                <div class="agent-info">
+                                    <div class="agent-name">Codex Mini <span class="status-dot idle"></span></div>
+                                    <div class="agent-role">Operations Associate</div>
+                                </div>
+                            </div>
+                            <div class="agent-model">
+                                GPT-5.1 Codex Mini
+                                <span class="agent-cost">Cheapest</span>
+                            </div>
+                            <div class="agent-skills">
+                                <span class="skill-pill">Gauge Sync</span>
+                                <span class="skill-pill">Light Tasks</span>
+                                <span class="skill-pill">Data Updates</span>
+                            </div>
+                        </div>
+
+                        <div class="agent-card amber">
+                            <div class="agent-card-accent"></div>
+                            <div class="agent-header">
+                                <div class="agent-avatar">📊</div>
+                                <div class="agent-info">
+                                    <div class="agent-name">Gemma 3 27B <span class="status-dot idle"></span></div>
+                                    <div class="agent-role">Data Analyst</div>
+                                </div>
+                            </div>
+                            <div class="agent-model">
+                                Google Gemma 3 27B
+                                <span class="agent-cost">Free</span>
+                            </div>
+                            <div class="agent-skills">
+                                <span class="skill-pill">Invoice Extraction</span>
+                                <span class="skill-pill">AI Chat</span>
+                                <span class="skill-pill">Doc Analysis</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer">
+                    INKredible Printing · Mission Control v1 · Built by Chet
+                </div>
+            </div>
+
+            <!-- ==================== OFFICE VIEW ==================== -->
+            <div class="view" id="view-office">
+                <div class="view-title">🏠 The Office</div>
+                <div class="view-subtitle">INKredible Printing HQ — Agent workspace</div>
+
+                <div class="office-container">
+                    <div class="office-floor">
+                        <div class="office-room">
+                            <!-- Banner & Clock -->
+                            <div class="office-banner">🖨️ INKredible Printing</div>
+                            <div class="office-clock" id="officeClock">09:47 AM</div>
+
+                            <!-- Aviel's desk (top center, corner office) -->
+                            <div class="desk" style="top: 60px; left: 50%; transform: translateX(-50%);">
+                                <div class="desk-sprite">👨‍💼</div>
+                                <div class="desk-surface">
+                                    <div class="desk-monitor on"></div>
+                                </div>
+                                <div class="desk-label">Aviel</div>
+                                <div class="desk-status working">Working</div>
+                            </div>
+
+                            <!-- Chet's desk (middle left) -->
+                            <div class="desk" style="top: 220px; left: 80px;">
+                                <div class="desk-sprite">🤖</div>
+                                <div class="desk-surface">
+                                    <div class="desk-monitor on"></div>
+                                </div>
+                                <div class="desk-label">Chet</div>
+                                <div class="desk-status working">Working</div>
+                            </div>
+
+                            <!-- Codex 5.3's desk (middle center) -->
+                            <div class="desk" style="top: 220px; left: 50%; transform: translateX(-50%);">
+                                <div class="desk-sprite">⚡</div>
+                                <div class="desk-surface">
+                                    <div class="desk-monitor on"></div>
+                                </div>
+                                <div class="desk-label">Codex 5.3</div>
+                                <div class="desk-status working">Working</div>
+                            </div>
+
+                            <!-- Codex Mini's desk (middle right) -->
+                            <div class="desk" style="top: 220px; right: 80px;">
+                                <div class="desk-sprite">🔧</div>
+                                <div class="desk-surface">
+                                    <div class="desk-monitor"></div>
+                                </div>
+                                <div class="desk-label">Codex Mini</div>
+                                <div class="desk-status idle">Idle</div>
+                            </div>
+
+                            <!-- Gemma's desk (bottom) -->
+                            <div class="desk" style="top: 370px; left: 50%; transform: translateX(-50%);">
+                                <div class="desk-sprite">📊</div>
+                                <div class="desk-surface">
+                                    <div class="desk-monitor"></div>
+                                </div>
+                                <div class="desk-label">Gemma 3 27B</div>
+                                <div class="desk-status idle">Idle</div>
+                            </div>
+
+                            <!-- Decorations -->
+                            <div class="office-plant" style="bottom: 20px; left: 20px;">🪴</div>
+                            <div class="office-plant" style="bottom: 20px; right: 20px;">🌿</div>
+                            <div class="water-cooler" style="top: 160px; right: 30px;">🚰</div>
+                            <div class="office-plant" style="top: 100px; left: 20px;">🖨️</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer">
+                    INKredible Printing · The Office · Static representation
+                </div>
+            </div>
+
+            <!-- ==================== TASKS VIEW ==================== -->
+            <div class="view" id="view-tasks">
+                <div class="view-title">📋 Task Board</div>
+                <div class="view-subtitle">All active work across the AI team</div>
+
+                <div class="kanban-board">
+                    <!-- Queued -->
+                    <div class="kanban-column">
+                        <div class="kanban-col-header">
+                            <div class="kanban-col-title">📥 Queued</div>
+                            <div class="kanban-col-count">3</div>
+                        </div>
+                        <div class="kanban-cards">
+                            <div class="kanban-card">
+                                <div class="kanban-card-title">QuickBooks API Integration</div>
+                                <div class="kanban-card-meta">
+                                    <div class="kanban-agent">⚡ Codex 5.3</div>
+                                    <div class="priority-pill high">High</div>
+                                </div>
+                            </div>
+                            <div class="kanban-card">
+                                <div class="kanban-card-title">Himalaya Email Setup</div>
+                                <div class="kanban-card-meta">
+                                    <div class="kanban-agent">🤖 Chet</div>
+                                    <div class="priority-pill medium">Med</div>
+                                </div>
+                            </div>
+                            <div class="kanban-card">
+                                <div class="kanban-card-title">Kanban Redesign</div>
+                                <div class="kanban-card-meta">
+                                    <div class="kanban-agent">⚡ Codex 5.3</div>
+                                    <div class="priority-pill low">Low</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- In Progress -->
+                    <div class="kanban-column">
+                        <div class="kanban-col-header">
+                            <div class="kanban-col-title">🔄 In Progress</div>
+                            <div class="kanban-col-count">3</div>
+                        </div>
+                        <div class="kanban-cards">
+                            <div class="kanban-card">
+                                <div class="kanban-card-title">Mission Control Dashboard</div>
+                                <div class="kanban-card-meta">
+                                    <div class="kanban-agent">🤖 Chet</div>
+                                    <div class="priority-pill high">High</div>
+                                </div>
+                            </div>
+                            <div class="kanban-card">
+                                <div class="kanban-card-title">Dashboard AI Chat — Kimi K2.5</div>
+                                <div class="kanban-card-meta">
+                                    <div class="kanban-agent">⚡ Codex 5.3</div>
+                                    <div class="priority-pill medium">Med</div>
+                                </div>
+                            </div>
+                            <div class="kanban-card">
+                                <div class="kanban-card-title">Brain Dump Round 3</div>
+                                <div class="kanban-card-meta">
+                                    <div class="kanban-agent">🤖 Chet</div>
+                                    <div class="priority-pill medium">Med</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Review -->
+                    <div class="kanban-column">
+                        <div class="kanban-col-header">
+                            <div class="kanban-col-title">👀 Review</div>
+                            <div class="kanban-col-count">0</div>
+                        </div>
+                        <div class="kanban-cards">
+                            <div style="text-align: center; padding: 20px; color: var(--text-muted); font-size: 12px;">
+                                No items in review
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Done -->
+                    <div class="kanban-column">
+                        <div class="kanban-col-header">
+                            <div class="kanban-col-title">✅ Done</div>
+                            <div class="kanban-col-count">4</div>
+                        </div>
+                        <div class="kanban-cards">
+                            <div class="kanban-card">
+                                <div class="kanban-card-title">Financial Dashboard</div>
+                                <div class="kanban-card-meta">
+                                    <div class="kanban-agent">⚡ Codex 5.3</div>
+                                    <div class="priority-pill low">Done</div>
+                                </div>
+                            </div>
+                            <div class="kanban-card">
+                                <div class="kanban-card-title">Second Brain UI</div>
+                                <div class="kanban-card-meta">
+                                    <div class="kanban-agent">⚡ Codex 5.3</div>
+                                    <div class="priority-pill low">Done</div>
+                                </div>
+                            </div>
+                            <div class="kanban-card">
+                                <div class="kanban-card-title">Quote Tool v1</div>
+                                <div class="kanban-card-meta">
+                                    <div class="kanban-agent">🤖 Chet</div>
+                                    <div class="priority-pill low">Done</div>
+                                </div>
+                            </div>
+                            <div class="kanban-card">
+                                <div class="kanban-card-title">Personal Kanban Redesign</div>
+                                <div class="kanban-card-meta">
+                                    <div class="kanban-agent">⚡ Codex 5.3</div>
+                                    <div class="priority-pill low">Done</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer">
+                    INKredible Printing · Task Board · 10 total tasks
+                </div>
+            </div>
+
+            <!-- ==================== COSTS VIEW ==================== -->
+            <div class="view" id="view-costs">
+                <div class="view-title">💰 Cost Tracker</div>
+                <div class="view-subtitle">AI operations spend & model utilization</div>
+
+                <!-- Session Usage Gauge -->
+                <div class="panel cost-gauge-panel">
+                    <div class="panel-title">
+                        <span class="icon" style="background: var(--accent-teal);"></span>
+                        Session Usage
+                    </div>
+                    <div class="gauge-container">
+                        <div class="gauge-ring">
+                            <svg viewBox="0 0 140 140">
+                                <circle class="track" cx="70" cy="70" r="56"></circle>
+                                <circle class="fill-circle" cx="70" cy="70" r="56"
+                                    stroke="var(--accent-teal)"
+                                    stroke-dasharray="351.86"
+                                    stroke-dashoffset="246.3"></circle>
+                            </svg>
+                            <div class="gauge-text">
+                                <div class="gauge-pct">30%</div>
+                                <div class="gauge-label">Used</div>
+                            </div>
+                        </div>
+                        <div class="gauge-details">
+                            <div class="gauge-stat">
+                                <span class="g-label">Exchanges Today</span>
+                                <span class="g-value">42</span>
+                            </div>
+                            <div class="gauge-stat">
+                                <span class="g-label">Estimated Daily Cost</span>
+                                <span class="g-value">~$8.50</span>
+                            </div>
+                            <div class="gauge-stat">
+                                <span class="g-label">Weekly Estimate</span>
+                                <span class="g-value">~$42.00</span>
+                            </div>
+                            <div class="gauge-stat">
+                                <span class="g-label">Monthly Budget</span>
+                                <span class="g-value">$250.00</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Model Breakdown -->
+                <div class="panel">
+                    <div class="panel-title">
+                        <span class="icon" style="background: var(--accent-purple);"></span>
+                        Model Breakdown
+                    </div>
+                    <table class="model-table">
+                        <thead>
+                            <tr>
+                                <th>Model</th>
+                                <th>Type</th>
+                                <th>Cost</th>
+                                <th>Tasks</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Claude Opus 4.6</td>
+                                <td><span class="type-badge brain">🧠 Brain</span></td>
+                                <td><span class="mono">$200/mo</span></td>
+                                <td>Strategy, orchestration, coaching</td>
+                            </tr>
+                            <tr>
+                                <td>GPT-5.3 Codex</td>
+                                <td><span class="type-badge muscle">💪 Muscle</span></td>
+                                <td><span class="mono">~$5-15/mo</span></td>
+                                <td>Full-stack dev, code review, automation</td>
+                            </tr>
+                            <tr>
+                                <td>GPT-5.1 Codex Mini</td>
+                                <td><span class="type-badge muscle">💪 Muscle</span></td>
+                                <td><span class="mono">~$1-3/mo</span></td>
+                                <td>Gauge sync, data updates</td>
+                            </tr>
+                            <tr>
+                                <td>Gemma 3 27B</td>
+                                <td><span class="type-badge free">🆓 Free</span></td>
+                                <td><span class="mono">$0</span></td>
+                                <td>Invoice extraction, doc analysis</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Brain vs Muscles -->
+                    <div style="margin-top: 24px;">
+                        <div class="panel-title" style="margin-bottom: 12px;">
+                            <span class="icon" style="background: var(--accent-purple);"></span>
+                            Brain vs. Muscles Ratio
+                        </div>
+                        <div class="ratio-bar-container">
+                            <div class="ratio-segment brain" style="width: 30%;">30%</div>
+                            <div class="ratio-segment muscle" style="width: 70%;">70%</div>
+                        </div>
+                        <div class="ratio-labels">
+                            <div class="ratio-label-item">
+                                <div class="ratio-dot brain"></div>
+                                🧠 Brain (Opus) — thinking & strategy
+                            </div>
+                            <div class="ratio-label-item">
+                                <div class="ratio-dot muscle"></div>
+                                💪 Muscles (Codex, Gemma) — execution
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer">
+                    INKredible Printing · Cost Tracker · Target: under $250/mo
+                </div>
+            </div>
+
+            <!-- ==================== SCHEDULE VIEW ==================== -->
+            <div class="view" id="view-schedule">
+                <div class="view-title">📅 Automation Schedule</div>
+                <div class="view-subtitle">Active cron jobs & recurring automations</div>
+
+                <div class="schedule-list">
+                    <div class="schedule-item">
+                        <div class="schedule-icon">☀️</div>
+                        <div class="schedule-info">
+                            <div class="schedule-name">Morning Brief</div>
+                            <div class="schedule-time">8:00 AM · Mon–Fri</div>
+                        </div>
+                        <div class="schedule-meta">
+                            <div class="schedule-model">Chet (Opus)</div>
+                            <div class="schedule-status ok">✓ Last run OK</div>
+                        </div>
+                    </div>
+
+                    <div class="schedule-item">
+                        <div class="schedule-icon">📊</div>
+                        <div class="schedule-info">
+                            <div class="schedule-name">Gauge Sync</div>
+                            <div class="schedule-time">Every 15 min · 24/7</div>
+                        </div>
+                        <div class="schedule-meta">
+                            <div class="schedule-model">Codex Mini</div>
+                            <div class="schedule-status ok">✓ Last run OK</div>
+                        </div>
+                    </div>
+
+                    <div class="schedule-item">
+                        <div class="schedule-icon">📝</div>
+                        <div class="schedule-info">
+                            <div class="schedule-name">Journaling</div>
+                            <div class="schedule-time">5:00 PM · Mon–Fri</div>
+                        </div>
+                        <div class="schedule-meta">
+                            <div class="schedule-model">Chet (Opus)</div>
+                            <div class="schedule-status ok">✓ Last run OK</div>
+                        </div>
+                    </div>
+
+                    <div class="schedule-item">
+                        <div class="schedule-icon">🧾</div>
+                        <div class="schedule-info">
+                            <div class="schedule-name">Invoice Extraction</div>
+                            <div class="schedule-time">6:00 AM · Daily</div>
+                        </div>
+                        <div class="schedule-meta">
+                            <div class="schedule-model">Gemma 3 27B</div>
+                            <div class="schedule-status warn">⚠ Pending</div>
+                        </div>
+                    </div>
+
+                    <div class="schedule-item">
+                        <div class="schedule-icon">🔬</div>
+                        <div class="schedule-info">
+                            <div class="schedule-name">Afternoon Research</div>
+                            <div class="schedule-time">2:00 PM · Mon–Fri</div>
+                        </div>
+                        <div class="schedule-meta">
+                            <div class="schedule-model">Chet (Opus)</div>
+                            <div class="schedule-status ok">✓ Last run OK</div>
+                        </div>
+                    </div>
+
+                    <div class="schedule-item">
+                        <div class="schedule-icon">🌙</div>
+                        <div class="schedule-info">
+                            <div class="schedule-name">Nightly Work</div>
+                            <div class="schedule-time">1:00 AM · Daily</div>
+                        </div>
+                        <div class="schedule-meta">
+                            <div class="schedule-model">Codex 5.3</div>
+                            <div class="schedule-status ok">✓ Last run OK</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer">
+                    INKredible Printing · 6 active automations
+                </div>
+            </div>
+
+            <!-- ==================== DIGEST VIEW ==================== -->
+            <div class="view" id="view-digest">
+                <div class="view-title">📨 Morning Digest</div>
+                <div class="view-subtitle">Daily briefing from the AI team</div>
+
+                <div class="digest-panel">
+                    <div class="digest-header">
+                        <div class="digest-title">📰 Daily Briefing — Feb 13, 2026</div>
+                        <div class="digest-timestamp">Last updated: 8:00 AM ET</div>
+                    </div>
+
+                    <div class="digest-content">
+                        <h3>🏗️ Work Completed Overnight</h3>
+                        <ul>
+                            <li><strong>Mission Control Dashboard</strong> — v1 build in progress. Org chart, office view, task board, costs, schedule, and digest views all scaffolded. (Chet)</li>
+                            <li><strong>Usage Tracker</strong> — Gauge sync running every 15 min, pushing to GitHub. (Codex Mini)</li>
+                            <li><strong>Brain Dump Round 3</strong> — Transcript analysis complete, action items extracted. (Chet)</li>
+                        </ul>
+
+                        <h3>📋 Today's Priorities</h3>
+                        <ul>
+                            <li>Finalize and deploy Mission Control to GitHub Pages</li>
+                            <li>Continue Dashboard AI Chat integration with Kimi K2.5</li>
+                            <li>Begin QuickBooks API integration research</li>
+                        </ul>
+
+                        <h3>📊 Team Status</h3>
+                        <ul>
+                            <li><strong>Chet</strong> — Active, working on Mission Control build</li>
+                            <li><strong>Codex 5.3</strong> — Active, handling code tasks</li>
+                            <li><strong>Codex Mini</strong> — Idle, gauge sync on autopilot</li>
+                            <li><strong>Gemma 3 27B</strong> — Idle, ready for invoice extraction</li>
+                        </ul>
+
+                        <h3>💡 Notes</h3>
+                        <ul>
+                            <li>Session usage at ~30% — plenty of budget remaining</li>
+                            <li>No red flags or errors in overnight operations</li>
+                            <li>Sabbath starts at sundown — all external comms queued</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="footer">
+                    INKredible Printing · Morning Digest · Auto-generated by Chet
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        /* ================================================
+           MISSION CONTROL — Vanilla JS
+           ================================================ */
+
+        // ===== VIEW SWITCHING =====
+        const views = ['orgchart', 'office', 'tasks', 'costs', 'schedule', 'digest'];
+
+        function switchView(viewId) {
+            // Hide all views
+            views.forEach(v => {
+                const el = document.getElementById('view-' + v);
+                if (el) el.classList.remove('active');
+            });
+
+            // Show selected
+            const target = document.getElementById('view-' + viewId);
+            if (target) {
+                target.classList.remove('active');
+                // Force reflow for animation
+                void target.offsetWidth;
+                target.classList.add('active');
+            }
+
+            // Update sidebar nav
+            document.querySelectorAll('.nav-item').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.view === viewId);
+            });
+
+            // Update floating nav pills
+            document.querySelectorAll('.nav-pill').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.view === viewId);
+            });
+
+            // Close mobile sidebar if open
+            document.getElementById('sidebar').classList.remove('mobile-open');
+            document.getElementById('mobileOverlay').classList.remove('active');
+        }
+
+        // Attach listeners to sidebar nav items
+        document.querySelectorAll('.nav-item[data-view]').forEach(btn => {
+            btn.addEventListener('click', () => switchView(btn.dataset.view));
+        });
+
+        // Attach listeners to floating nav pills
+        document.querySelectorAll('.nav-pill[data-view]').forEach(btn => {
+            btn.addEventListener('click', () => switchView(btn.dataset.view));
+        });
+
+        // ===== THEME TOGGLE =====
+        function toggleTheme() {
+            const html = document.documentElement;
+            const toggle = document.querySelector('.theme-toggle');
+            const knob = toggle.querySelector('.theme-toggle-knob');
+
+            if (html.getAttribute('data-theme') === 'dark') {
+                html.setAttribute('data-theme', 'light');
+                toggle.classList.remove('active');
+                knob.textContent = '☀️';
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                toggle.classList.add('active');
+                knob.textContent = '🌙';
+            }
+
+            localStorage.setItem('mc-theme', html.getAttribute('data-theme'));
+        }
+
+        // Restore theme from localStorage
+        (function() {
+            const saved = localStorage.getItem('mc-theme');
+            if (saved) {
+                document.documentElement.setAttribute('data-theme', saved);
+                const toggle = document.querySelector('.theme-toggle');
+                const knob = toggle.querySelector('.theme-toggle-knob');
+                if (saved === 'dark') {
+                    toggle.classList.add('active');
+                    knob.textContent = '🌙';
+                } else {
+                    toggle.classList.remove('active');
+                    knob.textContent = '☀️';
+                }
+            }
+        })();
+
+        // ===== MOBILE SIDEBAR =====
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('mobileOverlay');
+            sidebar.classList.toggle('mobile-open');
+            overlay.classList.toggle('active');
+        }
+
+        // ===== OFFICE CLOCK =====
+        function updateOfficeClock() {
+            const now = new Date();
+            const h = now.getHours();
+            const m = now.getMinutes().toString().padStart(2, '0');
+            const ampm = h >= 12 ? 'PM' : 'AM';
+            const h12 = h % 12 || 12;
+            const el = document.getElementById('officeClock');
+            if (el) el.textContent = h12 + ':' + m + ' ' + ampm;
+        }
+
+        updateOfficeClock();
+        setInterval(updateOfficeClock, 30000);
+
+        // ===== URL HASH ROUTING =====
+        function handleHash() {
+            const hash = window.location.hash.replace('#', '');
+            if (views.includes(hash)) {
+                switchView(hash);
+            }
+        }
+
+        window.addEventListener('hashchange', handleHash);
+        if (window.location.hash) handleHash();
+    </script>
+</body>
+</html>
