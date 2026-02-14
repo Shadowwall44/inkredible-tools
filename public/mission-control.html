@@ -1449,7 +1449,7 @@
             <!-- ==================== ORG CHART VIEW ==================== -->
             <div class="view active" id="view-orgchart">
                 <div class="view-title">📊 Organization Chart</div>
-                <div class="view-subtitle">INKredible Printing AI Team — Chain of Command</div>
+                <div class="view-subtitle">Role-Based Command Chain — model is assigned per role, not the other way around</div>
 
                 <div class="org-chart">
                     <!-- Level 1: CEO -->
@@ -1527,20 +1527,19 @@
                             <div class="agent-header">
                                 <div class="agent-avatar">⚡</div>
                                 <div class="agent-info">
-                                    <div class="agent-name">Codex 5.3 <span class="status-dot active"></span></div>
-                                    <div class="agent-role">Lead Software Engineer</div>
+                                    <div class="agent-name">Quote Calculator <span class="status-dot active"></span></div>
+                                    <div class="agent-role">Pricing & Estimation Specialist</div>
                                 </div>
                             </div>
                             <div class="agent-model">
                                 GPT-5.3 Codex
-                                <span class="agent-cost">Pay-per-use</span>
+                                <span class="agent-cost">OpenAI OAuth</span>
                             </div>
                             <div class="agent-skills">
-                                <span class="skill-pill">Full-Stack Dev</span>
-                                <span class="skill-pill">Code Review</span>
-                                <span class="skill-pill">Debugging</span>
-                                <span class="skill-pill">Architecture</span>
-                                <span class="skill-pill">Automation</span>
+                                <span class="skill-pill">Quote Drafting</span>
+                                <span class="skill-pill">Margin Guardrails</span>
+                                <span class="skill-pill">NDF Benchmarking</span>
+                                <span class="skill-pill">Floor Pricing</span>
                             </div>
                         </div>
 
@@ -1549,18 +1548,19 @@
                             <div class="agent-header">
                                 <div class="agent-avatar">🔧</div>
                                 <div class="agent-info">
-                                    <div class="agent-name">Codex Mini <span class="status-dot idle"></span></div>
-                                    <div class="agent-role">Operations Associate</div>
+                                    <div class="agent-name">Workflow Operator <span class="status-dot idle"></span></div>
+                                    <div class="agent-role">Ops Automation & System Hygiene</div>
                                 </div>
                             </div>
                             <div class="agent-model">
                                 GPT-5.1 Codex Mini
-                                <span class="agent-cost">Cheapest</span>
+                                <span class="agent-cost">OpenAI OAuth</span>
                             </div>
                             <div class="agent-skills">
                                 <span class="skill-pill">Gauge Sync</span>
-                                <span class="skill-pill">Light Tasks</span>
-                                <span class="skill-pill">Data Updates</span>
+                                <span class="skill-pill">Kanban Sync</span>
+                                <span class="skill-pill">Status JSON</span>
+                                <span class="skill-pill">Reminders</span>
                             </div>
                         </div>
 
@@ -1569,17 +1569,18 @@
                             <div class="agent-header">
                                 <div class="agent-avatar">📊</div>
                                 <div class="agent-info">
-                                    <div class="agent-name">Gemma 3 27B <span class="status-dot idle"></span></div>
-                                    <div class="agent-role">Data Analyst</div>
+                                    <div class="agent-name">Invoice Processor <span class="status-dot idle"></span></div>
+                                    <div class="agent-role">Financial Data Extraction & QA</div>
                                 </div>
                             </div>
                             <div class="agent-model">
-                                Google Gemma 3 27B
-                                <span class="agent-cost">Free</span>
+                                Gemma 3 27B
+                                <span class="agent-cost">Free tier</span>
                             </div>
                             <div class="agent-skills">
-                                <span class="skill-pill">Invoice Extraction</span>
-                                <span class="skill-pill">AI Chat</span>
+                                <span class="skill-pill">Invoice Parsing</span>
+                                <span class="skill-pill">Line-Item QA</span>
+                                <span class="skill-pill">P&L Structuring</span>
                                 <span class="skill-pill">Doc Analysis</span>
                             </div>
                         </div>
@@ -1587,7 +1588,7 @@
                 </div>
 
                 <div class="footer">
-                    INKredible Printing · Mission Control v1 · Built by Chet
+                    INKredible Printing · Mission Control v1.1 (Role-Based Org) · Built by Chet
                 </div>
             </div>
 
@@ -1629,7 +1630,7 @@
                                 <div class="desk-surface">
                                     <div class="desk-monitor on"></div>
                                 </div>
-                                <div class="desk-label">Codex 5.3</div>
+                                <div class="desk-label">Quote Calculator</div>
                                 <div class="desk-status working">Working</div>
                             </div>
 
@@ -1639,7 +1640,7 @@
                                 <div class="desk-surface">
                                     <div class="desk-monitor"></div>
                                 </div>
-                                <div class="desk-label">Codex Mini</div>
+                                <div class="desk-label">Workflow Operator</div>
                                 <div class="desk-status idle">Idle</div>
                             </div>
 
@@ -1649,7 +1650,7 @@
                                 <div class="desk-surface">
                                     <div class="desk-monitor"></div>
                                 </div>
-                                <div class="desk-label">Gemma 3 27B</div>
+                                <div class="desk-label">Invoice Processor</div>
                                 <div class="desk-status idle">Idle</div>
                             </div>
 
@@ -2175,13 +2176,13 @@
             const lastSyncedEl = document.getElementById('lastSynced');
 
             const agentEmoji = {
-                'aviel': '👨‍💼', 'chet': '🤖', 'codex': '⚡',
-                'codex-mini': '🔧', 'gemma': '📊'
+                'aviel': '👨‍💼', 'chet': '🤖', 'codex': '🧮',
+                'codex-mini': '🧭', 'gemma': '🧾'
             };
 
             const agentNames = {
-                'aviel': 'Aviel', 'chet': 'Chet', 'codex': 'Codex 5.3',
-                'codex-mini': 'Codex Mini', 'gemma': 'Gemma 3 27B'
+                'aviel': 'Aviel', 'chet': 'Chet', 'codex': 'Quote Calculator',
+                'codex-mini': 'Workflow Operator', 'gemma': 'Invoice Processor'
             };
 
             function statusToDotClass(s) {
@@ -2211,9 +2212,9 @@
                     const t = label.textContent.trim();
                     if (t === 'Aviel') map['aviel'] = desk;
                     else if (t === 'Chet') map['chet'] = desk;
-                    else if (t === 'Codex 5.3') map['codex'] = desk;
-                    else if (t === 'Codex Mini') map['codex-mini'] = desk;
-                    else if (t === 'Gemma 3 27B') map['gemma'] = desk;
+                    else if (t === 'Quote Calculator') map['codex'] = desk;
+                    else if (t === 'Workflow Operator') map['codex-mini'] = desk;
+                    else if (t === 'Invoice Processor') map['gemma'] = desk;
                 });
                 return map;
             }

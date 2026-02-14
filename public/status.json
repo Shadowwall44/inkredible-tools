@@ -1,114 +1,290 @@
 {
-  "lastUpdated": "2026-02-13T11:26:00-05:00",
-  "mission": "Automating the print business 24/7",
+  "lastUpdated": "2026-02-14T03:26:00-05:00",
+  "mission": "Role-first AI organization for INKredible \u2014 strategy by Chet, execution by specialist agents",
   "agents": [
     {
       "id": "aviel",
       "name": "Aviel",
       "role": "CEO",
-      "status": "active",
-      "currentTask": "Heading to computer for Chrome relay setup",
+      "status": "offline",
+      "currentTask": "Shabbat rest (returns Saturday evening)",
       "model": "Human",
       "cost": "Boss",
-      "skills": ["Vision & Strategy", "Final Decisions", "Business Development"]
+      "skills": [
+        "Vision & Strategy",
+        "Final Decisions",
+        "Business Development"
+      ]
     },
     {
       "id": "chet",
       "name": "Chet",
       "role": "COO / Chief Strategy Officer",
       "status": "working",
-      "currentTask": "Orchestrating team, standing by for Chrome relay",
+      "currentTask": "Running Goal Engine \u2014 orchestrating Q1-Q10 autonomous build queue",
       "model": "Claude Opus 4.6",
       "cost": "$200/mo flat",
-      "skills": ["Strategic Planning", "Task Orchestration", "Complex Reasoning", "Coaching"]
+      "skills": [
+        "Strategic Planning",
+        "Task Orchestration",
+        "Complex Reasoning",
+        "Coaching"
+      ]
     },
     {
       "id": "codex",
-      "name": "Codex 5.3",
-      "role": "Lead Software Engineer",
+      "name": "Quote Calculator",
+      "role": "Pricing & Estimation Specialist",
       "status": "working",
-      "currentTask": "Android keyboard research",
+      "currentTask": "Role-based org chart refresh + quote workflow support",
       "model": "GPT-5.3 Codex",
-      "cost": "API pay-per-use",
-      "skills": ["Full-Stack Dev", "Code Review", "Debugging", "Architecture"]
+      "cost": "OpenAI subscription (OAuth)",
+      "skills": [
+        "Quote Drafting",
+        "Margin Guardrails",
+        "NDF Benchmarking",
+        "Floor Pricing"
+      ]
     },
     {
       "id": "codex-mini",
-      "name": "Codex Mini",
-      "role": "Operations Associate",
-      "status": "idle",
-      "currentTask": "Last: gauge sync",
+      "name": "Workflow Operator",
+      "role": "Ops Automation & System Hygiene",
+      "status": "active",
+      "currentTask": "Mission status sync + routine automation health",
       "model": "GPT-5.1 Codex Mini",
-      "cost": "API (cheapest)",
-      "skills": ["Gauge Sync", "Lightweight Tasks", "Data Updates"]
+      "cost": "OpenAI subscription (OAuth)",
+      "skills": [
+        "Gauge Sync",
+        "Kanban Sync",
+        "Status JSON",
+        "Reminders"
+      ]
     },
     {
       "id": "gemma",
-      "name": "Gemma 3 27B",
-      "role": "Data Analyst",
+      "name": "Invoice Processor",
+      "role": "Financial Data Extraction & QA",
       "status": "idle",
-      "currentTask": "Standby for invoice extraction",
-      "model": "Google Gemma 3 27B",
+      "currentTask": "Standby for invoice parsing and financial QA",
+      "model": "Gemma 3 27B",
       "cost": "Free tier",
-      "skills": ["Invoice Extraction", "Dashboard AI Chat", "Document Analysis"]
+      "skills": [
+        "Invoice Parsing",
+        "Line-Item QA",
+        "P&L Structuring",
+        "Doc Analysis"
+      ]
     }
   ],
   "tasks": {
     "queued": [
-      {"title": "QuickBooks API Integration", "agent": "chet", "priority": "critical"},
-      {"title": "Org Chart Revision (Role-Based)", "agent": "chet", "priority": "medium"},
-      {"title": "Skills Research & Activation", "agent": "chet", "priority": "medium"},
-      {"title": "Dashboard Chatbot Testing", "agent": "codex", "priority": "medium"},
-      {"title": "Himalaya Email Setup", "agent": "codex", "priority": "medium"}
+      {
+        "title": "Q4: Top-50 High-Value Account Builder",
+        "agent": "codex",
+        "priority": "high"
+      },
+      {
+        "title": "Q5: Brandon Content OS (90 Days)",
+        "agent": "codex",
+        "priority": "high"
+      },
+      {
+        "title": "Q6: DM-to-Quote Conversion Workflow",
+        "agent": "codex",
+        "priority": "medium"
+      },
+      {
+        "title": "Q7: MIS v1 Scope Lock + Build Plan",
+        "agent": "codex",
+        "priority": "high"
+      },
+      {
+        "title": "Q8: MIS Floor Job Calendar Spec",
+        "agent": "codex",
+        "priority": "medium"
+      },
+      {
+        "title": "Q9: Wispr Desktop Release-Readiness Audit",
+        "agent": "codex",
+        "priority": "medium"
+      },
+      {
+        "title": "Q10: ADHD Execution System",
+        "agent": "codex",
+        "priority": "medium"
+      },
+      {
+        "title": "Kanban auto-sync cron",
+        "agent": "codex",
+        "priority": "high"
+      },
+      {
+        "title": "QuickBooks API Production (awaiting Intuit)",
+        "agent": "chet",
+        "priority": "critical"
+      }
     ],
     "inProgress": [
-      {"title": "Chrome Browser Relay Setup", "agent": "chet", "priority": "high"},
-      {"title": "Android Keyboard Research", "agent": "codex", "priority": "medium"},
-      {"title": "Brain Dump Round 3", "agent": "aviel", "priority": "high"}
+      {
+        "title": "Q3: Floor Graphics Pipeline Tracker",
+        "agent": "codex",
+        "priority": "high"
+      }
     ],
     "done": [
-      {"title": "Kanban Board Full Sync", "agent": "codex", "completedAt": "2026-02-13T11:26:00"},
-      {"title": "Dashboard Time Filters", "agent": "codex", "completedAt": "2026-02-13T11:24:00"},
-      {"title": "Mission Control Live Update", "agent": "codex", "completedAt": "2026-02-13T11:06:00"},
-      {"title": "Idea Queue Created", "agent": "codex", "completedAt": "2026-02-13T11:01:00"},
-      {"title": "Hub Landing Page", "agent": "codex", "completedAt": "2026-02-13T10:47:00"},
-      {"title": "Mission Control v1", "agent": "codex", "completedAt": "2026-02-13T09:54:00"},
-      {"title": "Dashboard AI Chat (Kimi K2.5)", "agent": "codex", "completedAt": "2026-02-13T09:49:00"},
-      {"title": "Alex Finn Analysis", "agent": "codex", "completedAt": "2026-02-13T09:44:00"},
-      {"title": "Personal Kanban Redesign", "agent": "codex", "completedAt": "2026-02-13T09:24:00"},
-      {"title": "Financial Dashboard", "agent": "codex", "completedAt": "2026-02-13T07:56:00"},
-      {"title": "Second Brain UI", "agent": "codex", "completedAt": "2026-02-13T02:35:00"}
+      {
+        "title": "All workspace MD files audited & updated",
+        "agent": "chet",
+        "completedAt": "2026-02-14T00:00:00-05:00"
+      },
+      {
+        "title": "Q2: Weekly Finance Scoreboard Template",
+        "agent": "codex",
+        "completedAt": "2026-02-13T23:48:00-05:00"
+      },
+      {
+        "title": "Q1: Financial Command Center v1",
+        "agent": "codex",
+        "completedAt": "2026-02-13T23:46:00-05:00"
+      },
+      {
+        "title": "Goal-Driven Roadmap (8 goals, 10-item build queue)",
+        "agent": "codex",
+        "completedAt": "2026-02-13T23:43:00-05:00"
+      },
+      {
+        "title": "MEMORY.md created (8.8KB permanent brain)",
+        "agent": "chet",
+        "completedAt": "2026-02-13T23:39:00-05:00"
+      },
+      {
+        "title": "Session memory search enabled",
+        "agent": "chet",
+        "completedAt": "2026-02-13T23:40:00-05:00"
+      },
+      {
+        "title": "OpenClaw updated to 2026.2.13",
+        "agent": "aviel",
+        "completedAt": "2026-02-13T23:51:00-05:00"
+      },
+      {
+        "title": "Ollama local LLM installed (phi3:mini + gemma2:2b)",
+        "agent": "codex",
+        "completedAt": "2026-02-13T23:27:00-05:00"
+      },
+      {
+        "title": "MIS database schema designed",
+        "agent": "codex",
+        "completedAt": "2026-02-13T23:15:00-05:00"
+      },
+      {
+        "title": "Debt paydown model built",
+        "agent": "codex",
+        "completedAt": "2026-02-13T23:10:00-05:00"
+      }
     ]
   },
   "activity": [
-    {"time": "11:26", "text": "Kanban board fully synced ✅ — 9 new items moved to Done, 5 In Progress, 7 Backlog"},
-    {"time": "11:24", "text": "Dashboard time filters deployed ✅ — Daily/Weekly/Monthly/Yearly toggle live"},
-    {"time": "11:23", "text": "Kanban board sync dispatched"},
-    {"time": "11:07", "text": "Status.json pushed — Mission Control live-polling active"},
-    {"time": "11:06", "text": "Mission Control live update deployed ✅"},
-    {"time": "11:01", "text": "Idea queue created — 14 items captured and prioritized"},
-    {"time": "10:59", "text": "Spawned android-keyboard-research sub-agent"},
-    {"time": "10:53", "text": "Usage recalibrated: 7% session, 7% weekly"},
-    {"time": "10:47", "text": "Hub landing page deployed ✅"},
-    {"time": "09:54", "text": "Mission Control v1 deployed ✅"},
-    {"time": "09:49", "text": "Dashboard AI chat migrated to Kimi K2.5 ✅"},
-    {"time": "09:44", "text": "Alex Finn transcript analysis complete"},
-    {"time": "09:24", "text": "Personal Kanban redesigned ✅"}
+    {
+      "time": "03:26",
+      "text": "\u2705 Mission Control org chart switched to role-based structure (Quote Calculator / Workflow Operator / Invoice Processor)"
+    },
+    {
+      "time": "00:02",
+      "text": "\ud83d\udd04 Mission Control status.json refreshed \u2014 full Goal Engine state"
+    },
+    {
+      "time": "00:00",
+      "text": "\u2705 All workspace MD files audited & rewritten (IDENTITY, USER, AGENTS, TOOLS, SOUL)"
+    },
+    {
+      "time": "23:54",
+      "text": "\u2705 OpenClaw 2026.2.13 confirmed running \u2014 session memory search active"
+    },
+    {
+      "time": "23:48",
+      "text": "\u2705 Q2 Weekly Finance Scoreboard \u2014 red/yellow/green KPI thresholds, Telegram format"
+    },
+    {
+      "time": "23:46",
+      "text": "\u2705 Q1 Financial Command Center \u2014 cash+debt+margin dashboard, debt waterfall model"
+    },
+    {
+      "time": "23:43",
+      "text": "\u2705 Goal Engine built \u2014 8 goals mapped, 10-item autonomous build queue"
+    },
+    {
+      "time": "23:39",
+      "text": "\u2705 MEMORY.md created \u2014 8.8KB permanent brain, survives all compactions"
+    },
+    {
+      "time": "23:40",
+      "text": "\u2705 Session memory search enabled \u2014 120 past sessions now searchable"
+    },
+    {
+      "time": "23:27",
+      "text": "\u2705 Ollama installed \u2014 phi3:mini (7.2 tok/s) + gemma2:2b (4.4 tok/s)"
+    },
+    {
+      "time": "23:15",
+      "text": "\u2705 MIS database schema designed"
+    },
+    {
+      "time": "23:10",
+      "text": "\u2705 Debt paydown model built"
+    }
   ],
   "usage": {
-    "sessionPct": 10,
-    "weeklyPct": 7,
-    "sessionResetsAt": "2:59 PM",
-    "weeklyResetsAt": "Fri 12:00 AM",
-    "model": "Opus 4.6",
-    "exchangeCount": 43
+    "sessionPct": 31,
+    "weeklyPct": 0,
+    "sessionResetsAt": "~4:06 AM ET",
+    "weeklyResetsAt": "Fri 12:00 AM (just reset)",
+    "model": "Opus 4.6 (PERMANENT DEFAULT)",
+    "exchangeCount": 132
   },
   "schedule": [
-    {"name": "Morning Brief", "schedule": "8 AM Mon-Fri", "model": "Codex 5.3", "lastRun": "Today 8:00 AM", "status": "ok"},
-    {"name": "Gauge Sync", "schedule": "Every 15 min", "model": "Codex Mini", "lastRun": "11:15 AM", "status": "ok"},
-    {"name": "Journaling", "schedule": "5 PM Mon-Fri", "model": "Codex 5.3", "lastRun": "Yesterday", "status": "ok"},
-    {"name": "Invoice Extraction", "schedule": "6 AM daily", "model": "Codex 5.3", "lastRun": "Today 6:00 AM", "status": "timeout"},
-    {"name": "Afternoon Research", "schedule": "2 PM Mon-Fri", "model": "Codex 5.3", "lastRun": "Yesterday", "status": "ok"},
-    {"name": "Nightly Work", "schedule": "1 AM daily", "model": "Codex 5.3", "lastRun": "Today 1:00 AM", "status": "ok"}
+    {
+      "name": "Morning Brief",
+      "schedule": "8 AM Mon-Fri",
+      "model": "Codex 5.3",
+      "lastRun": "Today 8:00 AM",
+      "status": "ok"
+    },
+    {
+      "name": "Gauge Sync",
+      "schedule": "Every 15 min",
+      "model": "Codex Mini",
+      "lastRun": "11:45 PM",
+      "status": "ok"
+    },
+    {
+      "name": "Journaling",
+      "schedule": "5 PM Mon-Fri",
+      "model": "Codex 5.3",
+      "lastRun": "Today 5:00 PM",
+      "status": "ok"
+    },
+    {
+      "name": "Nightly Work",
+      "schedule": "1 AM daily",
+      "model": "Codex 5.3",
+      "lastRun": "Today 1:00 AM",
+      "status": "ok"
+    },
+    {
+      "name": "Post-Shabbat Autonomous",
+      "schedule": "Sat 6:31 PM ET",
+      "model": "Codex 5.3",
+      "lastRun": "Pending",
+      "status": "ok"
+    },
+    {
+      "name": "Post-Shabbat Rules Session",
+      "schedule": "Sat 8:11 PM ET",
+      "model": "Codex 5.3",
+      "lastRun": "Pending",
+      "status": "ok"
+    }
   ]
 }
