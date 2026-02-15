@@ -1,19 +1,20 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-02-15T04:14:07.075Z",
-  "snapshotsCount": 1,
+  "generatedAt": "2026-02-15T13:17:12.248Z",
+  "snapshotsCount": 4,
   "range": {
     "firstGeneratedAt": "2026-02-15T04:14:07.073Z",
-    "lastGeneratedAt": "2026-02-15T04:14:07.073Z"
+    "lastGeneratedAt": "2026-02-15T13:17:12.244Z"
   },
   "source": {
     "env": "sandbox",
     "realmId": "9341456363972482",
-    "companyName": "Sandbox Company_US_1"
+    "companyName": "Sandbox Company_US_1",
+    "monthlySeriesSource": "quickbooks-pnl-by-month"
   },
   "latest": {
-    "generatedAt": "2026-02-15T04:14:07.073Z",
-    "asOf": "2026-02-14",
+    "generatedAt": "2026-02-15T13:17:12.244Z",
+    "asOf": "2026-02-15",
     "metrics": {
       "income": 6915.88,
       "grossProfit": 6510.88,
@@ -31,10 +32,10 @@
     "daily": [
       {
         "bucket": "2026-02-15",
-        "generatedAt": "2026-02-15T04:14:07.073Z",
-        "asOf": "2026-02-14",
+        "generatedAt": "2026-02-15T13:17:12.244Z",
+        "asOf": "2026-02-15",
         "pnlStart": "2026-01-01",
-        "pnlEnd": "2026-02-14",
+        "pnlEnd": "2026-02-15",
         "metrics": {
           "income": 6915.88,
           "grossProfit": 6510.88,
@@ -52,10 +53,10 @@
     "weekly": [
       {
         "bucket": "2026-W07",
-        "generatedAt": "2026-02-15T04:14:07.073Z",
-        "asOf": "2026-02-14",
+        "generatedAt": "2026-02-15T13:17:12.244Z",
+        "asOf": "2026-02-15",
         "pnlStart": "2026-01-01",
-        "pnlEnd": "2026-02-14",
+        "pnlEnd": "2026-02-15",
         "metrics": {
           "income": 6915.88,
           "grossProfit": 6510.88,
@@ -72,32 +73,53 @@
     ],
     "monthly": [
       {
-        "bucket": "2026-02",
-        "generatedAt": "2026-02-15T04:14:07.073Z",
-        "asOf": "2026-02-14",
+        "bucket": "2026-01",
+        "generatedAt": "2026-01-31T23:59:59.000Z",
+        "asOf": "2026-01-31",
         "pnlStart": "2026-01-01",
-        "pnlEnd": "2026-02-14",
+        "pnlEnd": "2026-01-31",
+        "source": "pnl-monthly-report",
         "metrics": {
           "income": 6915.88,
+          "cogs": 405,
           "grossProfit": 6510.88,
-          "expenses": 2929.1,
-          "netIncome": 915.78,
+          "expenses": 2895.1,
+          "operatingIncome": 3615.78,
+          "otherIncomeExpenseNet": -2666,
+          "netIncome": 949.78
+        }
+      },
+      {
+        "bucket": "2026-02",
+        "generatedAt": "2026-02-15T23:59:59.000Z",
+        "asOf": "2026-02-15",
+        "pnlStart": "2026-02-01",
+        "pnlEnd": "2026-02-15",
+        "metrics": {
+          "income": 0,
+          "grossProfit": 0,
+          "expenses": 34,
+          "netIncome": -34,
           "openInvoicesBalance": 5281.52,
           "overdueInvoicesBalance": 4127.67,
           "currentRatio": 1.62,
           "totalAssets": 23436.29,
           "totalLiabilities": 31131.33,
-          "totalEquity": -7695.04
-        }
+          "totalEquity": -7695.04,
+          "cogs": 0,
+          "operatingIncome": -34,
+          "otherIncomeExpenseNet": 0
+        },
+        "source": "pnl-monthly-report"
       }
     ],
     "yearly": [
       {
         "bucket": "2026",
-        "generatedAt": "2026-02-15T04:14:07.073Z",
-        "asOf": "2026-02-14",
+        "generatedAt": "2026-02-15T13:17:12.244Z",
+        "asOf": "2026-02-15",
         "pnlStart": "2026-01-01",
-        "pnlEnd": "2026-02-14",
+        "pnlEnd": "2026-02-15",
         "metrics": {
           "income": 6915.88,
           "grossProfit": 6510.88,

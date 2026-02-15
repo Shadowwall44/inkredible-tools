@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-02-15T04:14:07.073Z",
+  "generatedAt": "2026-02-15T13:17:12.244Z",
   "env": "sandbox",
   "realmId": "9341456363972482",
   "company": {
@@ -12,10 +12,10 @@
   "periods": {
     "pnl": {
       "start": "2026-01-01",
-      "end": "2026-02-14"
+      "end": "2026-02-15"
     },
     "balanceSheet": {
-      "asOf": "2026-02-14"
+      "asOf": "2026-02-15"
     }
   },
   "metrics": {
