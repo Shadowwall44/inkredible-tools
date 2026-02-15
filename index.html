@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>INKredible Tools — Command Center</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* ================================================
+           ORIGIN DESIGN SYSTEM — Hub / Landing Page
+           INKredible Tools — Aviel's Command Center
+           ================================================ */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg: #F7F8FA;
+            --text: #1A1D23;
+            --text-secondary: rgba(26, 29, 35, 0.65);
+            --text-muted: rgba(26, 29, 35, 0.42);
+
+            --accent-teal: #0097B2;
+            --accent-purple: #6C63FF;
+
+            --glass-bg: rgba(255, 255, 255, 0.72);
+            --glass-border: rgba(0, 0, 0, 0.06);
+            --glass-shadow: 0 4px 12px rgba(0, 0, 0, 0.06), 0 12px 32px rgba(0, 0, 0, 0.08);
+            --glass-hover-shadow: 0 8px 24px rgba(0, 151, 178, 0.12), 0 16px 48px rgba(108, 99, 255, 0.10);
+
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --card-border: rgba(0, 0, 0, 0.06);
+            --card-hover-border: rgba(0, 151, 178, 0.25);
+
+            --font-display: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
+            --radius-card: 20px;
+            --radius-panel: 24px;
+        }
+
+        html[data-theme="dark"] {
+            --bg: rgb(15, 16, 17);
+            --text: rgba(255, 255, 255, 1);
+            --text-secondary: rgba(255, 255, 255, 0.60);
+            --text-muted: rgba(255, 255, 255, 0.38);
+
+            --accent-teal: #13B0C9;
+            --accent-purple: #8E87FF;
+
+            --glass-bg: rgba(255, 255, 255, 0.04);
+            --glass-border: rgba(255, 255, 255, 0.06);
+            --glass-shadow: 0 4px 12px rgba(0, 0, 0, 0.25), 0 12px 32px rgba(0, 0, 0, 0.35);
+            --glass-hover-shadow: 0 8px 24px rgba(19, 176, 201, 0.15), 0 16px 48px rgba(142, 135, 255, 0.12);
+
+            --card-bg: rgba(255, 255, 255, 0.04);
+            --card-border: rgba(255, 255, 255, 0.06);
+            --card-hover-border: rgba(19, 176, 201, 0.30);
+        }
+
+        html, body {
+            height: 100%;
+            font-family: var(--font-body);
+            background: var(--bg);
+            color: var(--text);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            min-height: 100dvh;
+        }
+
+        /* Mesh gradient background */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            background:
+                radial-gradient(ellipse 60% 50% at 20% 10%, rgba(0, 151, 178, 0.07) 0%, transparent 70%),
+                radial-gradient(ellipse 50% 60% at 80% 80%, rgba(108, 99, 255, 0.06) 0%, transparent 70%),
+                radial-gradient(ellipse 40% 40% at 60% 30%, rgba(212, 126, 184, 0.04) 0%, transparent 70%);
+        }
+        html[data-theme="dark"] body::before {
+            background:
+                radial-gradient(ellipse 60% 50% at 20% 10%, rgba(19, 176, 201, 0.08) 0%, transparent 70%),
+                radial-gradient(ellipse 50% 60% at 80% 80%, rgba(142, 135, 255, 0.07) 0%, transparent 70%),
+                radial-gradient(ellipse 40% 40% at 60% 30%, rgba(212, 126, 184, 0.05) 0%, transparent 70%);
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            position: fixed;
+            top: 16px;
+            right: 16px;
+            z-index: 100;
+            width: 48px;
+            height: 28px;
+            border-radius: 14px;
+            background: rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            -webkit-tap-highlight-color: transparent;
+        }
+        html[data-theme="dark"] .theme-toggle {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.08);
+        }
+        .theme-toggle-knob {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            transition: transform 0.3s ease;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+        }
+        .theme-toggle.active .theme-toggle-knob {
+            transform: translateX(20px);
+        }
+        html[data-theme="dark"] .theme-toggle-knob {
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Main Content */
+        .hub-container {
+            position: relative;
+            z-index: 1;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 48px 20px 24px;
+            max-width: 900px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* Header */
+        .hub-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .hub-header .icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+            display: block;
+            filter: drop-shadow(0 4px 12px rgba(0, 151, 178, 0.2));
+        }
+        .hub-header h1 {
+            font-family: var(--font-display);
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: var(--text);
+            line-height: 1.2;
+        }
+        .hub-header .subtitle {
+            font-size: 15px;
+            color: var(--text-secondary);
+            margin-top: 6px;
+            font-weight: 500;
+        }
+
+        /* Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 16px;
+            width: 100%;
+        }
+
+        /* Card */
+        .app-card {
+            display: flex;
+            flex-direction: column;
+            padding: 28px 24px;
+            background: var(--card-bg);
+            backdrop-filter: blur(20px) saturate(1.4);
+            -webkit-backdrop-filter: blur(20px) saturate(1.4);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-card);
+            box-shadow: var(--glass-shadow);
+            text-decoration: none;
+            color: var(--text);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        .app-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: var(--radius-card);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+        .app-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--card-hover-border);
+            box-shadow: var(--glass-hover-shadow);
+        }
+        .app-card:hover::before {
+            opacity: 1;
+        }
+        .app-card:active {
+            transform: translateY(-2px);
+        }
+
+        /* Card glow colors */
+        .app-card[data-glow="teal"]::before {
+            background: radial-gradient(ellipse at 30% 20%, rgba(0, 151, 178, 0.06), transparent 70%);
+        }
+        .app-card[data-glow="purple"]::before {
+            background: radial-gradient(ellipse at 30% 20%, rgba(108, 99, 255, 0.06), transparent 70%);
+        }
+        .app-card[data-glow="green"]::before {
+            background: radial-gradient(ellipse at 30% 20%, rgba(34, 197, 94, 0.06), transparent 70%);
+        }
+        .app-card[data-glow="amber"]::before {
+            background: radial-gradient(ellipse at 30% 20%, rgba(245, 158, 11, 0.06), transparent 70%);
+        }
+        .app-card[data-glow="rose"]::before {
+            background: radial-gradient(ellipse at 30% 20%, rgba(212, 126, 184, 0.06), transparent 70%);
+        }
+        html[data-theme="dark"] .app-card[data-glow="teal"]::before {
+            background: radial-gradient(ellipse at 30% 20%, rgba(19, 176, 201, 0.10), transparent 70%);
+        }
+        html[data-theme="dark"] .app-card[data-glow="purple"]::before {
+            background: radial-gradient(ellipse at 30% 20%, rgba(142, 135, 255, 0.10), transparent 70%);
+        }
+        html[data-theme="dark"] .app-card[data-glow="green"]::before {
+            background: radial-gradient(ellipse at 30% 20%, rgba(34, 197, 94, 0.10), transparent 70%);
+        }
+        html[data-theme="dark"] .app-card[data-glow="amber"]::before {
+            background: radial-gradient(ellipse at 30% 20%, rgba(245, 158, 11, 0.10), transparent 70%);
+        }
+        html[data-theme="dark"] .app-card[data-glow="rose"]::before {
+            background: radial-gradient(ellipse at 30% 20%, rgba(212, 126, 184, 0.10), transparent 70%);
+        }
+
+        .app-card .card-icon {
+            font-size: 36px;
+            margin-bottom: 14px;
+            line-height: 1;
+        }
+        .app-card .card-title {
+            font-family: var(--font-display);
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            margin-bottom: 6px;
+            color: var(--text);
+        }
+        .app-card .card-desc {
+            font-size: 13px;
+            line-height: 1.5;
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+        .app-card .card-arrow {
+            margin-top: 16px;
+            font-size: 13px;
+            color: var(--text-muted);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .app-card:hover .card-arrow {
+            color: var(--accent-teal);
+            transform: translateX(4px);
+        }
+
+        /* External badge */
+        .external-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            margin-top: 10px;
+        }
+        .external-badge svg {
+            width: 10px;
+            height: 10px;
+            opacity: 0.6;
+        }
+
+        /* Footer */
+        .hub-footer {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 24px 20px 32px;
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .hub-container {
+                padding: 40px 16px 20px;
+            }
+            .hub-header {
+                margin-bottom: 28px;
+            }
+            .hub-header .icon {
+                font-size: 40px;
+            }
+            .hub-header h1 {
+                font-size: 26px;
+            }
+            .hub-header .subtitle {
+                font-size: 14px;
+            }
+            .cards-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            .app-card {
+                padding: 22px 20px;
+            }
+            .app-card .card-icon {
+                font-size: 30px;
+                margin-bottom: 10px;
+            }
+            .app-card .card-title {
+                font-size: 16px;
+            }
+        }
+
+        @media (min-width: 601px) and (max-width: 900px) {
+            .cards-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 901px) {
+            .cards-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        /* Fade-in animation */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .app-card {
+            animation: fadeInUp 0.5s ease both;
+        }
+        .app-card:nth-child(1) { animation-delay: 0.05s; }
+        .app-card:nth-child(2) { animation-delay: 0.10s; }
+        .app-card:nth-child(3) { animation-delay: 0.15s; }
+        .app-card:nth-child(4) { animation-delay: 0.20s; }
+        .app-card:nth-child(5) { animation-delay: 0.25s; }
+        .app-card:nth-child(6) { animation-delay: 0.30s; }
+        .app-card:nth-child(7) { animation-delay: 0.35s; }
+        .app-card:nth-child(8) { animation-delay: 0.40s; }
+        .app-card:nth-child(9) { animation-delay: 0.45s; }
+
+        /* Featured card — MIS */
+        .app-card.featured {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, rgba(19, 176, 201, 0.08), rgba(142, 135, 255, 0.08));
+            border-color: rgba(19, 176, 201, 0.20);
+        }
+        html[data-theme="light"] .app-card.featured {
+            background: linear-gradient(135deg, rgba(0, 151, 178, 0.06), rgba(108, 99, 255, 0.06));
+            border-color: rgba(0, 151, 178, 0.15);
+        }
+        .app-card.featured .card-title {
+            font-size: 20px;
+        }
+        .app-card.featured .card-icon {
+            font-size: 42px;
+        }
+        .new-badge {
+            display: inline-flex;
+            align-items: center;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--accent-teal);
+            background: rgba(19, 176, 201, 0.12);
+            padding: 2px 8px;
+            border-radius: 6px;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+        html[data-theme="light"] .new-badge {
+            color: var(--accent-teal);
+            background: rgba(0, 151, 178, 0.10);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Theme Toggle -->
+    <div class="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark mode">
+        <div class="theme-toggle-knob"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></div>
+    </div>
+
+    <div class="hub-container">
+        <!-- Header -->
+        <header class="hub-header">
+            <span class="icon"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/></svg></span>
+            <h1>INKredible Tools</h1>
+            <p class="subtitle">Aviel's Business Command Center</p>
+        </header>
+
+        <!-- App Cards -->
+        <div class="cards-grid">
+
+            <a class="app-card featured" href="command-center.html" data-glow="teal">
+                <span class="card-icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span>
+                <span class="card-title">Command Center <span class="new-badge">Start Here</span></span>
+                <span class="card-desc">Your ONE page — focus task, review queue, quick capture, wins &amp; parked ideas</span>
+                <span class="card-arrow">Open →</span>
+            </a>
+
+            <a class="app-card" href="mis.html" data-glow="teal">
+                <span class="card-icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8l-7 5V8l-7 5V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M17 18h1"/><path d="M12 18h1"/><path d="M7 18h1"/></svg></span>
+                <span class="card-title">MIS — Management Information System</span>
+                <span class="card-desc">Job tracker, customer CRM, quotes, calendar, and finance dashboard</span>
+                <span class="card-arrow">Open →</span>
+            </a>
+
+            <a class="app-card" href="aviel-dashboard.html" data-glow="rose">
+                <span class="card-icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
+                <span class="card-title">Aviel Dashboard</span>
+                <span class="card-desc">Daily momentum tracker, confidence score, ADHD push planner</span>
+                <span class="card-arrow">Open →</span>
+            </a>
+
+            <a class="app-card" href="mission-control.html" data-glow="teal">
+                <span class="card-icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/></svg></span>
+                <span class="card-title">Mission Control</span>
+                <span class="card-desc">AI team dashboard — agents, tasks, costs, schedule</span>
+                <span class="card-arrow">Open →</span>
+            </a>
+
+            <a class="app-card" href="dashboard.html" data-glow="purple">
+                <span class="card-icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span>
+                <span class="card-title">Financial Dashboard</span>
+                <span class="card-desc">P&amp;L, expenses, AI advisor chat</span>
+                <span class="card-arrow">Open →</span>
+            </a>
+
+            <a class="app-card" href="second-brain.html" data-glow="purple">
+                <span class="card-icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z"/></svg></span>
+                <span class="card-title">Second Brain</span>
+                <span class="card-desc">Search daily notes, brain dumps, conversations &amp; extracted docs</span>
+                <span class="card-arrow">Open →</span>
+            </a>
+
+            <a class="app-card" href="vectorflow.html" data-glow="green">
+                <span class="card-icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/><circle cx="7.5" cy="10.5" r="1.5"/><circle cx="12" cy="7.5" r="1.5"/><circle cx="16.5" cy="10.5" r="1.5"/></svg></span>
+                <span class="card-title">VectorFlow</span>
+                <span class="card-desc">AI image regeneration — upload low-res, get print-ready vectors</span>
+                <span class="card-arrow">Open →</span>
+            </a>
+
+            <a class="app-card" href="https://shadowwall44.github.io/kanban/work.html" data-glow="amber" target="_blank" rel="noopener">
+                <span class="card-icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></span>
+                <span class="card-title">Work Kanban</span>
+                <span class="card-desc">Business task board</span>
+                <span class="card-arrow">Open →</span>
+                <span class="external-badge">
+                    <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4.5 1.5H2a.5.5 0 00-.5.5v8a.5.5 0 00.5.5h8a.5.5 0 00.5-.5V7.5M7.5 1.5H10.5V4.5M10.5 1.5L5.5 6.5"/></svg>
+                    External
+                </span>
+            </a>
+
+            <a class="app-card" href="https://shadowwall44.github.io/kanban/personal.html" data-glow="rose" target="_blank" rel="noopener">
+                <span class="card-icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>
+                <span class="card-title">Personal Kanban</span>
+                <span class="card-desc">Personal task board</span>
+                <span class="card-arrow">Open →</span>
+                <span class="external-badge">
+                    <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4.5 1.5H2a.5.5 0 00-.5.5v8a.5.5 0 00.5.5h8a.5.5 0 00.5-.5V7.5M7.5 1.5H10.5V4.5M10.5 1.5L5.5 6.5"/></svg>
+                    External
+                </span>
+            </a>
+
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="hub-footer">
+        Built by ChetGPT for INKredible Printing
+    </footer>
+
+    <script>
+        function toggleTheme() {
+            var html = document.documentElement;
+            var toggle = document.querySelector('.theme-toggle');
+            var knob = toggle.querySelector('.theme-toggle-knob');
+
+            if (html.getAttribute('data-theme') === 'dark') {
+                html.setAttribute('data-theme', 'light');
+                toggle.classList.remove('active');
+                knob.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>';
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                toggle.classList.add('active');
+                knob.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+            }
+            localStorage.setItem('hub-theme', html.getAttribute('data-theme'));
+        }
+
+        // Restore theme from localStorage
+        (function() {
+            var saved = localStorage.getItem('hub-theme');
+            if (saved) {
+                document.documentElement.setAttribute('data-theme', saved);
+                var toggle = document.querySelector('.theme-toggle');
+                var knob = toggle.querySelector('.theme-toggle-knob');
+                if (saved === 'dark') {
+                    toggle.classList.add('active');
+                    knob.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+                } else {
+                    toggle.classList.remove('active');
+                    knob.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>';
+                }
+            }
+        })();
+    </script>
+</body>
+</html>

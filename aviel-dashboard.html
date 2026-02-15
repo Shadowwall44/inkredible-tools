@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>Aviel Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ── Reset ── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+/* ── Theme Variables ── */
+:root,[data-theme="light"]{
+  --bg:#F7F8FA;
+  --card:#ffffff;
+  --card-border:rgba(0,0,0,0.06);
+  --card-shadow:0 1px 3px rgba(0,0,0,0.04),0 4px 12px rgba(0,0,0,0.03);
+  --text:#1A1D23;
+  --text-secondary:#64748b;
+  --text-muted:#94a3b8;
+  --mint:#10b981;
+  --mint-bg:rgba(16,185,129,0.1);
+  --amber:#f59e0b;
+  --amber-bg:rgba(245,158,11,0.1);
+  --red:#ef4444;
+  --red-bg:rgba(239,68,68,0.08);
+  --banner-ok-bg:#10b981;
+  --banner-ok-text:#ffffff;
+  --banner-err-bg:#ef4444;
+  --banner-err-text:#ffffff;
+  --banner-warn-bg:#f59e0b;
+  --banner-warn-text:#1A1D23;
+  --separator:rgba(0,0,0,0.06);
+  --glass-bg:rgba(255,255,255,0.72);
+  --glass-border:rgba(255,255,255,0.5);
+  --dot-ring:rgba(0,0,0,0.08);
+  --tooltip-bg:#1A1D23;
+  --tooltip-text:#ffffff;
+}
+[data-theme="dark"]{
+  --bg:#0f1011;
+  --card:rgba(255,255,255,0.08);
+  --card-border:rgba(255,255,255,0.08);
+  --card-shadow:0 1px 3px rgba(0,0,0,0.2),0 4px 12px rgba(0,0,0,0.15);
+  --text:#ffffff;
+  --text-secondary:#94a3b8;
+  --text-muted:#64748b;
+  --mint:#10b981;
+  --mint-bg:rgba(16,185,129,0.15);
+  --amber:#f59e0b;
+  --amber-bg:rgba(245,158,11,0.15);
+  --red:#ef4444;
+  --red-bg:rgba(239,68,68,0.15);
+  --banner-ok-bg:rgba(16,185,129,0.9);
+  --banner-ok-text:#ffffff;
+  --banner-err-bg:rgba(239,68,68,0.9);
+  --banner-err-text:#ffffff;
+  --banner-warn-bg:rgba(245,158,11,0.9);
+  --banner-warn-text:#1A1D23;
+  --separator:rgba(255,255,255,0.06);
+  --glass-bg:rgba(255,255,255,0.05);
+  --glass-border:rgba(255,255,255,0.1);
+  --dot-ring:rgba(255,255,255,0.12);
+  --tooltip-bg:#ffffff;
+  --tooltip-text:#1A1D23;
+}
+
+/* ── Transitions ── */
+html{transition:background-color 0.3s ease}
+body,
+.status-banner,
+.card,
+.section-title,
+.activity-item,
+.health-dot,
+.footer-text,
+.theme-toggle{
+  transition:background-color 0.3s ease,color 0.3s ease,border-color 0.3s ease,box-shadow 0.3s ease;
+}
+
+/* ── Base ── */
+html{
+  font-family:'Plus Jakarta Sans',system-ui,-apple-system,sans-serif;
+  font-size:16px;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+body{
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  min-height:100dvh;
+  padding-bottom:env(safe-area-inset-bottom,0);
+}
+
+/* ── Status Banner (sticky) ── */
+.status-banner{
+  position:sticky;
+  top:0;
+  z-index:100;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:12px 16px;
+  min-height:48px;
+  background:var(--banner-ok-bg);
+  color:var(--banner-ok-text);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+}
+.status-banner.error{
+  background:var(--banner-err-bg);
+  color:var(--banner-err-text);
+}
+.status-banner.offline{
+  background:var(--banner-warn-bg);
+  color:var(--banner-warn-text);
+}
+.banner-left{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-weight:600;
+  font-size:0.875rem;
+  line-height:1.3;
+}
+.banner-left svg{
+  flex-shrink:0;
+  width:18px;
+  height:18px;
+}
+.banner-right{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.banner-time{
+  font-size:0.75rem;
+  opacity:0.85;
+  white-space:nowrap;
+}
+
+/* ── Theme Toggle ── */
+.theme-toggle{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:44px;
+  height:44px;
+  background:rgba(255,255,255,0.2);
+  border:none;
+  border-radius:12px;
+  cursor:pointer;
+  color:inherit;
+  -webkit-tap-highlight-color:transparent;
+  touch-action:manipulation;
+}
+.theme-toggle:active{
+  transform:scale(0.92);
+}
+.theme-toggle svg{
+  width:20px;
+  height:20px;
+}
+[data-theme="dark"] .theme-icon-sun{display:block}
+[data-theme="dark"] .theme-icon-moon{display:none}
+[data-theme="light"] .theme-icon-sun{display:none}
+[data-theme="light"] .theme-icon-moon{display:block}
+
+/* ── Content ── */
+.content{
+  padding:16px;
+  max-width:720px;
+  margin:0 auto;
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
+
+/* ── Card ── */
+.card{
+  background:var(--glass-bg);
+  border:1px solid var(--glass-border);
+  border-radius:16px;
+  padding:20px;
+  box-shadow:var(--card-shadow);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+}
+
+/* ── Section Title ── */
+.section-title{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:0.8125rem;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:0.05em;
+  color:var(--text-secondary);
+  margin-bottom:14px;
+}
+.section-title svg{
+  width:16px;
+  height:16px;
+  opacity:0.7;
+}
+
+/* ── Hero: Today's Move ── */
+.hero-card{
+  background:var(--glass-bg);
+  border:1px solid var(--mint);
+  border-left:4px solid var(--mint);
+  border-radius:16px;
+  padding:24px 20px;
+  box-shadow:var(--card-shadow);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+}
+.hero-label{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:0.8125rem;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:0.05em;
+  color:var(--mint);
+  margin-bottom:12px;
+}
+.hero-label svg{
+  width:18px;
+  height:18px;
+}
+.hero-task{
+  font-size:1.25rem;
+  font-weight:800;
+  line-height:1.3;
+  color:var(--text);
+  margin-bottom:8px;
+}
+.hero-criteria{
+  font-size:0.875rem;
+  font-weight:500;
+  color:var(--text-secondary);
+  line-height:1.4;
+}
+
+/* ── Activity Feed ── */
+.activity-list{
+  display:flex;
+  flex-direction:column;
+}
+.activity-item{
+  display:flex;
+  gap:10px;
+  padding:10px 0;
+  border-bottom:1px solid var(--separator);
+  align-items:baseline;
+  font-size:0.875rem;
+  line-height:1.4;
+}
+.activity-item:last-child{
+  border-bottom:none;
+}
+.activity-time{
+  font-weight:700;
+  color:var(--text);
+  white-space:nowrap;
+  flex-shrink:0;
+  min-width:48px;
+}
+.activity-text{
+  color:var(--text-secondary);
+  font-weight:400;
+}
+.activity-footer{
+  margin-top:10px;
+  font-size:0.75rem;
+  color:var(--text-muted);
+  font-weight:500;
+}
+
+/* ── Needs You ── */
+.needs-card{
+  background:var(--glass-bg);
+  border:1px solid var(--amber);
+  border-left:4px solid var(--red);
+  border-radius:16px;
+  padding:20px;
+  box-shadow:var(--card-shadow);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+}
+.needs-card .section-title{
+  color:var(--red);
+}
+.needs-item{
+  padding:8px 0;
+  border-bottom:1px solid var(--separator);
+  font-size:0.875rem;
+  line-height:1.4;
+}
+.needs-item:last-child{
+  border-bottom:none;
+}
+.needs-item-title{
+  font-weight:700;
+  color:var(--text);
+}
+.needs-item-detail{
+  color:var(--text-secondary);
+  font-weight:400;
+  margin-top:2px;
+}
+
+/* ── System Health ── */
+.health-dots{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-bottom:10px;
+}
+.health-dot{
+  position:relative;
+  width:20px;
+  height:20px;
+  border-radius:50%;
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+  touch-action:manipulation;
+  /* 44px touch target via padding */
+  padding:12px;
+  margin:-12px;
+  background:transparent;
+  border:none;
+}
+.health-dot::before{
+  content:'';
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  width:16px;
+  height:16px;
+  border-radius:50%;
+  box-shadow:0 0 0 2px var(--dot-ring);
+}
+.health-dot.ok::before{background:var(--mint)}
+.health-dot.yellow::before{background:var(--amber)}
+.health-dot.error::before{background:var(--red)}
+
+/* Fix overlapping tap targets in the row */
+.health-dots{
+  gap:28px;
+  padding:12px;
+}
+
+.health-summary{
+  font-size:0.8125rem;
+  font-weight:600;
+  color:var(--text-secondary);
+}
+
+/* ── Tooltip ── */
+.health-tooltip{
+  display:none;
+  position:absolute;
+  bottom:calc(100% + 8px);
+  left:50%;
+  transform:translateX(-50%);
+  background:var(--tooltip-bg);
+  color:var(--tooltip-text);
+  font-size:0.75rem;
+  font-weight:500;
+  padding:8px 12px;
+  border-radius:8px;
+  white-space:nowrap;
+  z-index:50;
+  box-shadow:0 4px 12px rgba(0,0,0,0.15);
+  pointer-events:none;
+}
+.health-tooltip::after{
+  content:'';
+  position:absolute;
+  top:100%;
+  left:50%;
+  transform:translateX(-50%);
+  border:5px solid transparent;
+  border-top-color:var(--tooltip-bg);
+}
+.health-dot.active .health-tooltip{
+  display:block;
+}
+
+/* ── Footer ── */
+.footer-text{
+  text-align:center;
+  font-size:0.6875rem;
+  color:var(--text-muted);
+  font-weight:500;
+  padding:8px 0 24px;
+}
+
+/* ── Responsive ── */
+@media(min-width:720px){
+  .content{padding:24px}
+  .card,.hero-card,.needs-card{padding:24px}
+  .hero-task{font-size:1.5rem}
+}
+@media(min-width:1024px){
+  .content{padding:32px}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ Status Banner ═══ -->
+<div class="status-banner" id="statusBanner">
+  <div class="banner-left">
+    <svg id="bannerIconOk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+    <svg id="bannerIconErr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:none"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    <svg id="bannerIconWarn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+    <span id="bannerText">Loading...</span>
+  </div>
+  <div class="banner-right">
+    <span class="banner-time" id="bannerTime"></span>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+      <svg class="theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      <svg class="theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    </button>
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- ═══ Today's Move ═══ -->
+  <div class="hero-card" id="heroCard">
+    <div class="hero-label">
+      <!-- Target / crosshair icon -->
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/></svg>
+      Today's Move
+    </div>
+    <div class="hero-task" id="heroTask">Loading...</div>
+    <div class="hero-criteria" id="heroCriteria"></div>
+  </div>
+
+  <!-- ═══ Activity Feed ═══ -->
+  <div class="card">
+    <div class="section-title">
+      <!-- Pulse / signal icon -->
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      Activity
+    </div>
+    <div class="activity-list" id="activityList"></div>
+    <div class="activity-footer" id="activityFooter"></div>
+  </div>
+
+  <!-- ═══ Needs You (conditional) ═══ -->
+  <div class="needs-card" id="needsCard" style="display:none">
+    <div class="section-title">
+      <!-- Alert circle icon -->
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      Needs Your Input
+    </div>
+    <div id="needsList"></div>
+  </div>
+
+  <!-- ═══ System Health ═══ -->
+  <div class="card">
+    <div class="section-title">
+      <!-- Heart pulse icon -->
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19.5 12.572l-7.5 7.428-7.5-7.428A5 5 0 0112 5.006a5 5 0 017.5 7.566z"/><polyline points="9 13 11 11 13 15 15 13"/></svg>
+      System Health
+    </div>
+    <div class="health-dots" id="healthDots"></div>
+    <div class="health-summary" id="healthSummary"></div>
+  </div>
+
+  <!-- ═══ Footer ═══ -->
+  <div class="footer-text">Aviel Dashboard v4 &middot; Built by ChetGPT</div>
+
+</div>
+
+<script>
+console.log('Aviel Dashboard v4 \u2014 The Glance \u2014 Built by ChetGPT');
+
+/* ── Theme ── */
+(function initTheme(){
+  var saved=localStorage.getItem('aviel-dash-theme');
+  if(saved==='dark'||saved==='light'){document.documentElement.setAttribute('data-theme',saved)}
+})();
+document.getElementById('themeToggle').addEventListener('click',function(){
+  var current=document.documentElement.getAttribute('data-theme');
+  var next=current==='dark'?'light':'dark';
+  document.documentElement.setAttribute('data-theme',next);
+  localStorage.setItem('aviel-dash-theme',next);
+});
+
+/* ── Helpers ── */
+function minutesAgo(isoStr){
+  if(!isoStr)return null;
+  var d=new Date(isoStr);
+  if(isNaN(d))return null;
+  return Math.round((Date.now()-d.getTime())/60000);
+}
+function escHtml(s){
+  var d=document.createElement('div');
+  d.textContent=s;
+  return d.innerHTML;
+}
+
+/* ── Render ── */
+function render(data){
+  var banner=document.getElementById('statusBanner');
+  var bannerText=document.getElementById('bannerText');
+  var bannerTime=document.getElementById('bannerTime');
+  var iconOk=document.getElementById('bannerIconOk');
+  var iconErr=document.getElementById('bannerIconErr');
+  var iconWarn=document.getElementById('bannerIconWarn');
+
+  /* Count issues in schedule */
+  var schedule=data.schedule||[];
+  var issues=0;
+  schedule.forEach(function(s){
+    if(s.status&&(s.status.toLowerCase().indexOf('error')!==-1||s.status.toLowerCase().indexOf('red')!==-1))issues++;
+  });
+
+  /* Check staleness (>30 min) */
+  var mins=minutesAgo(data.lastUpdated);
+  var stale=mins===null||mins>30;
+
+  /* Status banner */
+  banner.classList.remove('error','offline');
+  iconOk.style.display='none';
+  iconErr.style.display='none';
+  iconWarn.style.display='none';
+
+  if(issues>0){
+    banner.classList.add('error');
+    iconErr.style.display='';
+    bannerText.textContent=issues+' issue'+(issues>1?'s':'')+' need'+(issues===1?'s':'')+' attention';
+  }else if(stale){
+    banner.classList.add('offline');
+    iconWarn.style.display='';
+    bannerText.textContent='Data may be stale';
+  }else{
+    iconOk.style.display='';
+    bannerText.textContent='All systems running';
+  }
+
+  if(mins!==null){
+    bannerTime.textContent='Updated '+mins+' min ago';
+  }else{
+    bannerTime.textContent='';
+  }
+
+  /* Today's Move */
+  var task=(data.tasks&&data.tasks.inProgress&&data.tasks.inProgress[0])||null;
+  var heroTask=document.getElementById('heroTask');
+  var heroCriteria=document.getElementById('heroCriteria');
+  if(task){
+    heroTask.textContent=task.title;
+    heroCriteria.textContent=task.priority?'Priority: '+task.priority:'';
+  }else{
+    heroTask.textContent='No active task';
+    heroCriteria.textContent='Check Telegram for your daily push';
+  }
+
+  /* Activity */
+  var list=document.getElementById('activityList');
+  var actItems=(data.activity||[]).slice(0,8);
+  list.innerHTML='';
+  actItems.forEach(function(a){
+    var row=document.createElement('div');
+    row.className='activity-item';
+    row.innerHTML='<span class="activity-time">'+escHtml(a.time||'')+'</span><span class="activity-text">'+escHtml(a.text||'')+'</span>';
+    list.appendChild(row);
+  });
+  var actFooter=document.getElementById('activityFooter');
+  if(mins!==null){
+    actFooter.textContent='Updated '+mins+' min ago';
+  }else{
+    actFooter.textContent='';
+  }
+
+  /* Needs You */
+  var needsCard=document.getElementById('needsCard');
+  var needsList=document.getElementById('needsList');
+  var blocked=[];
+  if(data.tasks&&data.tasks.queued){
+    data.tasks.queued.forEach(function(t){
+      if((t.priority&&t.priority.toLowerCase()==='critical')||(t.agent&&t.agent.toLowerCase()==='blocked')){
+        blocked.push(t);
+      }
+    });
+  }
+  if(data.tasks&&data.tasks.inProgress){
+    data.tasks.inProgress.forEach(function(t){
+      if(t.agent&&t.agent.toLowerCase()==='blocked'){
+        blocked.push(t);
+      }
+    });
+  }
+  if(blocked.length>0){
+    needsCard.style.display='';
+    needsList.innerHTML='';
+    blocked.forEach(function(b){
+      var item=document.createElement('div');
+      item.className='needs-item';
+      item.innerHTML='<div class="needs-item-title">'+escHtml(b.title||'')+'</div>'
+        +(b.agent?'<div class="needs-item-detail">Assigned: '+escHtml(b.agent)+'</div>':'')
+        +(b.priority?'<div class="needs-item-detail">Priority: '+escHtml(b.priority)+'</div>':'');
+      needsList.appendChild(item);
+    });
+  }else{
+    needsCard.style.display='none';
+  }
+
+  /* System Health */
+  var dotsContainer=document.getElementById('healthDots');
+  var summaryEl=document.getElementById('healthSummary');
+  dotsContainer.innerHTML='';
+  var healthy=0;
+  schedule.forEach(function(s,i){
+    var statusLower=(s.status||'').toLowerCase();
+    var cls='ok';
+    if(statusLower.indexOf('error')!==-1||statusLower.indexOf('red')!==-1){cls='error'}
+    else if(statusLower.indexOf('yellow')!==-1||statusLower.indexOf('warn')!==-1){cls='yellow'}
+    else{healthy++}
+
+    var btn=document.createElement('button');
+    btn.className='health-dot '+cls;
+    btn.setAttribute('aria-label',s.name+': '+s.status);
+
+    var tip=document.createElement('div');
+    tip.className='health-tooltip';
+    tip.textContent=(s.name||'Cron')+' \u2014 '+s.status;
+    btn.appendChild(tip);
+
+    btn.addEventListener('click',function(e){
+      e.stopPropagation();
+      /* Close others */
+      dotsContainer.querySelectorAll('.health-dot.active').forEach(function(d){
+        if(d!==btn)d.classList.remove('active');
+      });
+      btn.classList.toggle('active');
+    });
+
+    dotsContainer.appendChild(btn);
+  });
+  summaryEl.textContent=healthy+'/'+schedule.length+' healthy';
+
+  /* Close tooltips on outside click */
+  document.addEventListener('click',function(){
+    dotsContainer.querySelectorAll('.health-dot.active').forEach(function(d){
+      d.classList.remove('active');
+    });
+  });
+}
+
+/* ── Fetch Data ── */
+var lastData=null;
+function fetchData(){
+  fetch('status.json?_='+Date.now())
+    .then(function(r){
+      if(!r.ok)throw new Error('HTTP '+r.status);
+      return r.json();
+    })
+    .then(function(data){
+      lastData=data;
+      render(data);
+    })
+    .catch(function(){
+      /* Offline state */
+      var banner=document.getElementById('statusBanner');
+      var bannerText=document.getElementById('bannerText');
+      var iconOk=document.getElementById('bannerIconOk');
+      var iconErr=document.getElementById('bannerIconErr');
+      var iconWarn=document.getElementById('bannerIconWarn');
+      banner.classList.remove('error');
+      banner.classList.add('offline');
+      iconOk.style.display='none';
+      iconErr.style.display='none';
+      iconWarn.style.display='';
+      bannerText.textContent='Offline \u2014 showing cached data';
+      if(lastData)render(lastData);
+    });
+}
+
+fetchData();
+setInterval(fetchData,60000);
+</script>
+
+</body>
+</html>

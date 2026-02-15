@@ -1,0 +1,252 @@
+{
+  "lastUpdated": "2026-02-15T21:15:00-05:00",
+  "mission": "COO MODE — 30-day sprint: Get checking positive, 5 floor graphic leads, $35K March revenue.",
+  "agents": [
+    {
+      "id": "aviel",
+      "name": "Aviel",
+      "role": "CEO",
+      "status": "active",
+      "currentTask": "Floor graphics outreach — pick 5 from Top-50 list with Brandon",
+      "model": "Human",
+      "cost": "Boss",
+      "skills": ["Vision & Strategy", "Sales", "Client Relationships"]
+    },
+    {
+      "id": "brain",
+      "name": "ChetGPT",
+      "role": "COO",
+      "status": "working",
+      "currentTask": "Financial analysis + week prep + system fixes",
+      "model": "Claude Opus 4.6",
+      "cost": "$200/mo flat",
+      "skills": ["Strategy", "Financial Analysis", "ADHD Coaching", "Operations"]
+    },
+    {
+      "id": "engineer",
+      "name": "Engineer",
+      "role": "Builder",
+      "status": "standby",
+      "currentTask": "Bug fixes only — build freeze active",
+      "model": "GPT-5.3 Codex",
+      "cost": "Subscription",
+      "skills": ["Full-Stack", "Deployment", "Scripting"]
+    }
+  ],
+  "tasks": {
+    "queued": [
+      {
+        "title": "Share Origin Financial + Chase bank details with Chet",
+        "agent": "aviel",
+        "priority": "high"
+      },
+      {
+        "title": "Linux migration (Tuesday Feb 17)",
+        "agent": "aviel + chet",
+        "priority": "high"
+      },
+      {
+        "title": "Pick 5 accounts from Top-50 list with Brandon",
+        "agent": "aviel + brandon",
+        "priority": "high"
+      },
+      {
+        "title": "Enable Gemini paid billing ($5/mo)",
+        "agent": "aviel",
+        "priority": "medium"
+      },
+      {
+        "title": "QuickBooks production (awaiting Intuit review)",
+        "agent": "blocked",
+        "priority": "critical"
+      }
+    ],
+    "inProgress": [
+      {
+        "title": "30-Day Financial Sprint — checking to $0",
+        "agent": "chet",
+        "priority": "critical"
+      },
+      {
+        "title": "Floor Graphics Revenue Pipeline",
+        "agent": "aviel + chet",
+        "priority": "high"
+      }
+    ],
+    "done": [
+      {
+        "title": "COO Mode activated — 50 rules replaced with 5 principles",
+        "agent": "chet",
+        "completedAt": "2026-02-15T21:00:00-05:00"
+      },
+      {
+        "title": "Mission Control emoji → SVG (108 icons, zero emoji)",
+        "agent": "engineer",
+        "completedAt": "2026-02-15T17:00:00-05:00"
+      },
+      {
+        "title": "Corrections tracking system built",
+        "agent": "chet",
+        "completedAt": "2026-02-15T16:45:00-05:00"
+      },
+      {
+        "title": "Aviel Dashboard v4 deployed",
+        "agent": "engineer",
+        "completedAt": "2026-02-15T15:25:00-05:00"
+      },
+      {
+        "title": "Voice transcription FIXED (Groq key)",
+        "agent": "chet",
+        "completedAt": "2026-02-15T14:00:00-05:00"
+      },
+      {
+        "title": "Goal-driven daily push system",
+        "agent": "chet",
+        "completedAt": "2026-02-15T15:15:00-05:00"
+      },
+      {
+        "title": "Invoice extraction disabled (3 errors — fix Tuesday)",
+        "agent": "chet",
+        "completedAt": "2026-02-15T17:30:00-05:00"
+      },
+      {
+        "title": "Autonomous work loop → COO mode",
+        "agent": "chet",
+        "completedAt": "2026-02-15T21:00:00-05:00"
+      }
+    ]
+  },
+  "activity": [
+    {
+      "time": "9:15 PM",
+      "text": "COO Mode activated — AGENTS.md rebuilt with 5 principles, old rules archived"
+    },
+    {
+      "time": "9:00 PM",
+      "text": "Autonomous work loop + nightly session rewritten for COO thinking"
+    },
+    {
+      "time": "8:45 PM",
+      "text": "30-day financial sprint defined: checking to $0, 5 floor leads, $35K March"
+    },
+    {
+      "time": "5:30 PM",
+      "text": "Mission Control emoji→SVG verified: 108 SVGs, zero emoji, timestamps on Done cards"
+    },
+    {
+      "time": "5:00 PM",
+      "text": "Corrections tracking system + pre-send verification protocol built"
+    },
+    {
+      "time": "4:45 PM",
+      "text": "Invoice Extraction cron disabled — 3 consecutive timeouts, fix after Linux migration"
+    },
+    {
+      "time": "3:25 PM",
+      "text": "Aviel Dashboard v4 deployed — The Glance design, light mode default"
+    },
+    {
+      "time": "3:15 PM",
+      "text": "Goal-driven daily push + weekly goal review crons created"
+    }
+  ],
+  "usage": {
+    "sessionPct": 0,
+    "weeklyPct": 0,
+    "model": "Opus 4.6",
+    "note": "COO Mode — judgment-based operation"
+  },
+  "schedule": [
+    {
+      "name": "Morning Brief",
+      "schedule": "8 AM Mon-Fri",
+      "model": "Codex 5.3",
+      "desc": "AI news, printing trends, your ONE priority for today.",
+      "status": "ok"
+    },
+    {
+      "name": "Daily Push",
+      "schedule": "9 AM daily",
+      "model": "Codex 5.3",
+      "desc": "ONE task from your goals — exact steps, clear done criteria.",
+      "status": "ok"
+    },
+    {
+      "name": "Afternoon Research",
+      "schedule": "2 PM Mon-Fri",
+      "model": "Codex 5.3",
+      "desc": "Printing industry news and trends.",
+      "status": "ok"
+    },
+    {
+      "name": "Daily Journaling",
+      "schedule": "5 PM Mon-Fri",
+      "model": "Codex 5.3",
+      "desc": "Gentle end-of-day check-in.",
+      "status": "ok"
+    },
+    {
+      "name": "Daily Standup",
+      "schedule": "8:15 PM daily",
+      "model": "Codex 5.3",
+      "desc": "Your daily meeting with ChetGPT — what happened, decisions needed, tomorrow's priority.",
+      "status": "ok"
+    },
+    {
+      "name": "Nightly COO Session",
+      "schedule": "1 AM daily",
+      "model": "Codex 5.3",
+      "desc": "Deep work — revenue analysis, financial modeling, system fixes.",
+      "status": "ok"
+    },
+    {
+      "name": "Invoice Extraction",
+      "schedule": "6 AM daily",
+      "model": "Codex 5.3",
+      "desc": "DISABLED — 3 consecutive errors. Re-enable after Tuesday Linux migration.",
+      "status": "error — disabled"
+    },
+    {
+      "name": "Autonomous COO Loop",
+      "schedule": "Every 60 min",
+      "model": "Codex 5.3",
+      "desc": "Proactive business work — fixes broken systems, analyzes data, prepares for priorities.",
+      "status": "ok"
+    },
+    {
+      "name": "Weekly Memory Distill",
+      "schedule": "Sun 3 AM",
+      "model": "Codex 5.3",
+      "desc": "Compresses old daily notes, keeps memory lean.",
+      "status": "ok"
+    },
+    {
+      "name": "Weekly Optimization",
+      "schedule": "Sun 10 AM",
+      "model": "Codex 5.3",
+      "desc": "Research latest optimization techniques.",
+      "status": "ok"
+    },
+    {
+      "name": "Weekly Blind Spot Audit",
+      "schedule": "Sun 7 PM",
+      "model": "Codex 5.3",
+      "desc": "What should we be doing that we're not?",
+      "status": "ok"
+    },
+    {
+      "name": "Weekly Goal Review",
+      "schedule": "Sun 9 PM",
+      "model": "Codex 5.3",
+      "desc": "Assess all 8 goals, adjust priorities for next week.",
+      "status": "ok"
+    }
+  ],
+  "mode": "COO_MODE",
+  "buildFreeze": {
+    "active": true,
+    "startDate": "2026-02-15",
+    "endDate": "2026-02-22",
+    "reason": "Verify and use everything built — no new apps/tools"
+  }
+}

@@ -1,0 +1,2558 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>INKredible Printing — Mission Control</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* ================================================
+           ORIGIN DESIGN SYSTEM — Mission Control
+           INKredible Printing AI Team
+           ================================================ */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg: #F7F8FA;
+            --text: #1A1D23;
+            --text-secondary: rgba(26, 29, 35, 0.65);
+            --text-muted: rgba(26, 29, 35, 0.42);
+            --text-subtle: rgba(26, 29, 35, 0.25);
+
+            --accent-teal: #0097B2;
+            --accent-teal-deep: #007A94;
+            --accent-purple: #6C63FF;
+            --accent-purple-deep: #5951D8;
+            --accent-green: #22c55e;
+            --accent-red: #E04848;
+            --accent-amber: #f59e0b;
+            --accent-rose: #D47EB8;
+            --accent-blue: #3b82f6;
+
+            --glass-strong: rgba(255, 255, 255, 0.75);
+            --glass-medium: rgba(255, 255, 255, 0.72);
+            --glass-faint: rgba(255, 255, 255, 0.85);
+
+            --surface-subtle: rgba(0, 0, 0, 0.04);
+            --panel-bg: var(--glass-medium);
+            --panel-border: rgba(0, 0, 0, 0.06);
+            --card-bg: #FFFFFF;
+            --card-border: rgba(0, 0, 0, 0.06);
+            --border-soft: rgba(0, 0, 0, 0.06);
+            --border-medium: rgba(0, 0, 0, 0.10);
+
+            --mesh-teal: rgba(0, 151, 178, 0.05);
+            --mesh-purple: rgba(108, 99, 255, 0.05);
+            --mesh-rose: rgba(212, 126, 184, 0.04);
+            --mesh-teal-deep: rgba(0, 122, 148, 0.04);
+            --mesh-overlay: linear-gradient(180deg, rgba(255,255,255,0.3) 0%, transparent 36%, rgba(255,255,255,0.12) 100%);
+
+            --scrollbar-track: transparent;
+            --scrollbar-thumb: rgba(0, 0, 0, 0.12);
+            --scrollbar-thumb-hover: rgba(0, 0, 0, 0.22);
+
+            --radius-card: 16px;
+            --radius-panel: 20px;
+            --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.08), 0 12px 32px rgba(0, 0, 0, 0.10);
+            --shadow-panel: 0 2px 8px rgba(0, 0, 0, 0.06), 0 8px 24px rgba(0, 0, 0, 0.08);
+
+            --font-display: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-mono: 'Roboto Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+            --sidebar-width: 220px;
+            --office-floor: #e8e0d4;
+            --office-desk: #c4a882;
+        }
+
+        html[data-theme="dark"] {
+            --bg: rgb(15, 16, 17);
+            --text: rgba(255, 255, 255, 1);
+            --text-secondary: rgba(255, 255, 255, 0.60);
+            --text-muted: rgba(255, 255, 255, 0.38);
+            --text-subtle: rgba(255, 255, 255, 0.22);
+
+            --accent-teal: #13B0C9;
+            --accent-teal-deep: #0E8EA7;
+            --accent-purple: #8E87FF;
+            --accent-purple-deep: #726ADE;
+
+            --glass-strong: rgba(255, 255, 255, 0.08);
+            --glass-medium: rgba(255, 255, 255, 0.08);
+            --glass-faint: rgba(255, 255, 255, 0.08);
+
+            --surface-subtle: rgba(255, 255, 255, 0.08);
+            --panel-bg: rgba(255, 255, 255, 0.08);
+            --panel-border: rgba(255, 255, 255, 0.07);
+            --card-bg: linear-gradient(145deg, rgba(38, 40, 43, 0.92), rgba(26, 28, 30, 0.96));
+            --card-border: rgba(255, 255, 255, 0.07);
+            --border-soft: rgba(255, 255, 255, 0.07);
+            --border-medium: rgba(255, 255, 255, 0.12);
+
+            --mesh-teal: rgba(19, 176, 201, 0.08);
+            --mesh-purple: rgba(142, 135, 255, 0.07);
+            --mesh-rose: rgba(123, 120, 214, 0.04);
+            --mesh-teal-deep: rgba(14, 142, 167, 0.06);
+            --mesh-overlay: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, transparent 40%, rgba(255,255,255,0.01) 100%);
+
+            --scrollbar-track: rgba(255, 255, 255, 0.08);
+            --scrollbar-thumb: rgba(255, 255, 255, 0.34);
+            --scrollbar-thumb-hover: rgba(255, 255, 255, 0.55);
+
+            --shadow-card: 0px 18px 20px rgba(0, 0, 0, 0.2), 0 28px 48px rgba(0, 0, 0, 0.35);
+            --shadow-panel: 0px 18px 20px rgba(0, 0, 0, 0.2);
+
+            --office-floor: #1a1a2e;
+            --office-desk: #2d2d44;
+        }
+
+        /* ===== BASE ===== */
+        body {
+            font-family: var(--font-body);
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            position: relative;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            background:
+                radial-gradient(ellipse 60% 50% at 10% 12%, var(--mesh-teal), transparent 55%),
+                radial-gradient(ellipse 55% 55% at 85% 10%, var(--mesh-purple), transparent 50%),
+                radial-gradient(ellipse 50% 60% at 70% 80%, var(--mesh-rose), transparent 50%),
+                radial-gradient(ellipse 60% 50% at 22% 85%, var(--mesh-teal-deep), transparent 50%);
+            filter: blur(6px);
+            transition: background 0.3s ease;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            background: var(--mesh-overlay);
+            transition: background 0.3s ease;
+        }
+
+        body, .panel, .sidebar, .nav-pill, .agent-card, .kanban-card, .schedule-item, .digest-panel {
+            transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        * { scrollbar-width: thin; scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track); }
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: var(--scrollbar-track); }
+        ::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 999px; }
+
+        /* ===== SVG ICON HELPERS ===== */
+        .icon-inline { display: inline-flex; align-items: center; vertical-align: -3px; flex-shrink: 0; }
+        .icon-inline svg { display: block; }
+        .nav-icon { display: inline-flex !important; align-items: center; justify-content: center; }
+        .nav-icon svg { display: block; }
+        .nav-pill svg { display: inline-block; vertical-align: -3px; margin-right: 2px; }
+        .schedule-icon svg { display: block; }
+        .agent-avatar svg { display: block; }
+        .desk-sprite { display: flex; align-items: center; justify-content: center; }
+        .desk-sprite svg { display: block; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); }
+
+        /* ===== HEADER ===== */
+        .top-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 24px;
+            background: var(--panel-bg);
+            border-bottom: 1px solid var(--panel-border);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .hamburger {
+            display: none;
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: transparent;
+            color: var(--text);
+            cursor: pointer;
+            border-radius: 8px;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .header-brand h1 {
+            font-family: var(--font-display);
+            font-size: clamp(1rem, 3vw, 1.4rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .header-brand h1 .emoji { margin-right: 2px; display: inline-flex; align-items: center; }
+        .header-brand h1 .accent { color: var(--accent-teal); }
+
+        .header-brand .mission {
+            font-size: 11px;
+            color: var(--text-muted);
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            margin-top: 2px;
+            font-family: var(--font-mono);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .theme-toggle {
+            width: 48px;
+            height: 28px;
+            border-radius: 999px;
+            border: 1px solid var(--border-medium);
+            background: var(--surface-subtle);
+            position: relative;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .theme-toggle-knob {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #FFFFFF;
+            border: 1px solid rgba(0, 0, 0, 0.10);
+            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .theme-toggle.active .theme-toggle-knob { transform: translateX(20px); }
+
+        html[data-theme="dark"] .theme-toggle {
+            background: rgba(255, 255, 255, 0.14);
+            border-color: rgba(255, 255, 255, 0.20);
+        }
+        html[data-theme="dark"] .theme-toggle .theme-toggle-knob {
+            background: #2a2a3e;
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        /* ===== LAYOUT ===== */
+        .app-layout {
+            display: flex;
+            flex: 1;
+            position: relative;
+        }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            width: var(--sidebar-width);
+            flex-shrink: 0;
+            padding: 20px 12px;
+            border-right: 1px solid var(--panel-border);
+            background: var(--panel-bg);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            height: calc(100vh - 60px);
+            position: sticky;
+            top: 60px;
+            overflow-y: auto;
+        }
+
+        .sidebar-label {
+            font-size: 9px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            padding: 12px 12px 6px;
+            font-weight: 600;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            border: none;
+            background: transparent;
+            width: 100%;
+            text-align: left;
+            font-family: var(--font-body);
+            transition: all 0.2s ease;
+        }
+
+        .nav-item:hover {
+            background: var(--surface-subtle);
+            color: var(--text);
+        }
+
+        .nav-item.active {
+            background: var(--accent-teal);
+            color: #fff;
+            font-weight: 600;
+        }
+
+        html[data-theme="dark"] .nav-item.active {
+            background: rgba(19, 176, 201, 0.22);
+            color: var(--accent-teal);
+        }
+
+        .nav-item .nav-icon { font-size: 16px; width: 22px; text-align: center; flex-shrink: 0; }
+
+        /* ===== FLOATING NAV PILLS (mobile) ===== */
+        .floating-nav {
+            display: none;
+            position: fixed;
+            top: 68px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 90;
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 28px;
+            padding: 4px 6px;
+            gap: 2px;
+            overflow-x: auto;
+            max-width: calc(100vw - 24px);
+            box-shadow: var(--shadow-panel);
+        }
+
+        .nav-pill {
+            padding: 7px 14px;
+            border-radius: 20px;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            font-size: 12px;
+            font-family: var(--font-body);
+            font-weight: 500;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .nav-pill:hover { color: var(--text); }
+
+        .nav-pill.active {
+            background: var(--accent-teal);
+            color: #fff;
+        }
+
+        html[data-theme="dark"] .nav-pill.active {
+            background: rgba(19, 176, 201, 0.25);
+            color: var(--accent-teal);
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .main-content {
+            flex: 1;
+            padding: 24px;
+            overflow-y: auto;
+            min-height: calc(100vh - 60px);
+        }
+
+        .view { display: none; animation: fadeSlideUp 0.4s ease-out both; }
+        .view.active { display: block; }
+
+        @keyframes fadeSlideUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== PANEL ===== */
+        .panel {
+            margin-bottom: 20px;
+            padding: 22px;
+            border-radius: var(--radius-panel);
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            box-shadow: var(--shadow-panel);
+        }
+
+        .panel-title {
+            font-family: var(--font-display);
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            color: var(--text);
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .panel-title .icon {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .view-title {
+            font-family: var(--font-display);
+            font-size: clamp(1.2rem, 3vw, 1.6rem);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: var(--text);
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .view-subtitle {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+            font-family: var(--font-mono);
+            letter-spacing: 0.01em;
+        }
+
+        /* ========================================
+           ORG CHART VIEW
+           ======================================== */
+        .org-chart {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+            padding: 20px 0;
+        }
+
+        .org-level {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            position: relative;
+        }
+
+        .org-connector {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 48px;
+            position: relative;
+        }
+
+        .org-connector .vline {
+            width: 2px;
+            height: 48px;
+            background: var(--border-medium);
+        }
+
+        .org-connector-branch {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            position: relative;
+            height: 32px;
+            margin-bottom: -4px;
+        }
+
+        .org-connector-branch .hline {
+            position: absolute;
+            top: 0;
+            height: 2px;
+            background: var(--border-medium);
+        }
+
+        .org-connector-branch .drop {
+            width: 2px;
+            height: 32px;
+            background: var(--border-medium);
+        }
+
+        /* Agent Cards */
+        .agent-card {
+            width: 240px;
+            padding: 20px;
+            border-radius: var(--radius-card);
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            box-shadow: var(--shadow-panel);
+            position: relative;
+            cursor: default;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+
+        .agent-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-card);
+        }
+
+        .agent-card.blue:hover { border-color: rgba(59, 130, 246, 0.4); box-shadow: var(--shadow-card), 0 0 30px rgba(59, 130, 246, 0.12); }
+        .agent-card.green:hover { border-color: rgba(34, 197, 94, 0.4); box-shadow: var(--shadow-card), 0 0 30px rgba(34, 197, 94, 0.12); }
+        .agent-card.teal:hover { border-color: rgba(19, 176, 201, 0.4); box-shadow: var(--shadow-card), 0 0 30px rgba(19, 176, 201, 0.12); }
+        .agent-card.gray:hover { border-color: rgba(148, 163, 184, 0.4); box-shadow: var(--shadow-card), 0 0 30px rgba(148, 163, 184, 0.08); }
+        .agent-card.amber:hover { border-color: rgba(245, 158, 11, 0.4); box-shadow: var(--shadow-card), 0 0 30px rgba(245, 158, 11, 0.12); }
+
+        .agent-card-accent {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            border-radius: var(--radius-card) var(--radius-card) 0 0;
+        }
+
+        .agent-card.blue .agent-card-accent { background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple)); }
+        .agent-card.green .agent-card-accent { background: linear-gradient(90deg, #16a34a, var(--accent-green)); }
+        .agent-card.teal .agent-card-accent { background: linear-gradient(90deg, var(--accent-teal-deep), var(--accent-teal)); }
+        .agent-card.gray .agent-card-accent { background: linear-gradient(90deg, #64748b, #94a3b8); }
+        .agent-card.amber .agent-card-accent { background: linear-gradient(90deg, #d97706, var(--accent-amber)); }
+
+        .agent-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .agent-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            flex-shrink: 0;
+        }
+
+        .agent-card.blue .agent-avatar { background: rgba(59, 130, 246, 0.15); }
+        .agent-card.green .agent-avatar { background: rgba(34, 197, 94, 0.15); }
+        .agent-card.teal .agent-avatar { background: rgba(19, 176, 201, 0.15); }
+        .agent-card.gray .agent-avatar { background: rgba(148, 163, 184, 0.15); }
+        .agent-card.amber .agent-avatar { background: rgba(245, 158, 11, 0.15); }
+
+        .agent-info { flex: 1; min-width: 0; }
+
+        .agent-name {
+            font-family: var(--font-display);
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .status-dot.active { background: var(--accent-green); box-shadow: 0 0 6px rgba(34, 197, 94, 0.5); }
+        .status-dot.idle { background: #94a3b8; }
+        .status-dot.sleeping { background: var(--accent-blue); box-shadow: 0 0 6px rgba(59, 130, 246, 0.4); }
+
+        .agent-role {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 1px;
+        }
+
+        .agent-model {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 10px;
+            font-size: 11px;
+            color: var(--text-secondary);
+            font-family: var(--font-mono);
+        }
+
+        .agent-cost {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 6px;
+            background: var(--surface-subtle);
+            font-size: 10px;
+            font-family: var(--font-mono);
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .agent-skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+
+        .skill-pill {
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: 500;
+            border: 1px solid var(--border-soft);
+            color: var(--text-secondary);
+            background: var(--surface-subtle);
+        }
+
+        .agent-card.blue .skill-pill { border-color: rgba(59, 130, 246, 0.2); color: #60a5fa; }
+        .agent-card.green .skill-pill { border-color: rgba(34, 197, 94, 0.2); color: #4ade80; }
+        .agent-card.teal .skill-pill { border-color: rgba(19, 176, 201, 0.2); color: #22d3ee; }
+        .agent-card.gray .skill-pill { border-color: rgba(148, 163, 184, 0.2); color: #94a3b8; }
+        .agent-card.amber .skill-pill { border-color: rgba(245, 158, 11, 0.2); color: #fbbf24; }
+
+        html:not([data-theme="dark"]) .agent-card.blue .skill-pill { color: #2563eb; }
+        html:not([data-theme="dark"]) .agent-card.green .skill-pill { color: #16a34a; }
+        html:not([data-theme="dark"]) .agent-card.teal .skill-pill { color: #0891b2; }
+        html:not([data-theme="dark"]) .agent-card.gray .skill-pill { color: #64748b; }
+        html:not([data-theme="dark"]) .agent-card.amber .skill-pill { color: #d97706; }
+
+        /* ========================================
+           OFFICE VIEW (Pixel Art)
+           ======================================== */
+        .office-container {
+            border-radius: var(--radius-panel);
+            overflow: hidden;
+            border: 1px solid var(--panel-border);
+            box-shadow: var(--shadow-panel);
+        }
+
+        .office-floor {
+            position: relative;
+            width: 100%;
+            min-height: 480px;
+            background:
+                repeating-conic-gradient(var(--office-floor) 0% 25%, transparent 0% 50%) 0 0 / 40px 40px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+        }
+
+        html[data-theme="dark"] .office-floor {
+            background:
+                repeating-conic-gradient(rgba(255,255,255,0.03) 0% 25%, transparent 0% 50%) 0 0 / 40px 40px,
+                var(--office-floor);
+        }
+
+        html:not([data-theme="dark"]) .office-floor {
+            background:
+                repeating-conic-gradient(rgba(0,0,0,0.04) 0% 25%, transparent 0% 50%) 0 0 / 40px 40px,
+                var(--office-floor);
+        }
+
+        .office-room {
+            position: relative;
+            width: 100%;
+            min-width: 700px;
+            height: 480px;
+            padding: 40px;
+        }
+
+        .desk {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            scroll-snap-align: center;
+        }
+
+        .desk-surface {
+            width: 120px;
+            height: 60px;
+            border-radius: 10px;
+            background: var(--office-desk);
+            border: 2px solid rgba(0,0,0,0.15);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        html[data-theme="dark"] .desk-surface {
+            border-color: rgba(255,255,255,0.08);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .desk-monitor {
+            width: 36px;
+            height: 28px;
+            border-radius: 4px 4px 0 0;
+            background: #1a1a2e;
+            border: 2px solid #333;
+            position: relative;
+        }
+
+        .desk-monitor::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 16px;
+            height: 6px;
+            background: #555;
+            border-radius: 0 0 4px 4px;
+        }
+
+        .desk-monitor.on {
+            background: #0f172a;
+            box-shadow: 0 0 8px rgba(34, 197, 94, 0.3);
+        }
+
+        .desk-monitor.on::before {
+            content: '>';
+            position: absolute;
+            top: 4px;
+            left: 6px;
+            font-size: 10px;
+            font-family: var(--font-mono);
+            color: var(--accent-green);
+            animation: blink 1.2s infinite;
+        }
+
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+        .desk-sprite {
+            font-size: 32px;
+            line-height: 1;
+            color: var(--text);
+        }
+
+        .desk-label {
+            font-family: var(--font-display);
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text);
+            text-align: center;
+            background: var(--panel-bg);
+            padding: 3px 10px;
+            border-radius: 8px;
+            border: 1px solid var(--panel-border);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+
+        .desk-status {
+            font-size: 9px;
+            font-family: var(--font-mono);
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 2px 8px;
+            border-radius: 6px;
+        }
+
+        .desk-status.working { background: rgba(34, 197, 94, 0.15); color: var(--accent-green); }
+        .desk-status.idle { background: rgba(148, 163, 184, 0.15); color: #94a3b8; }
+        .desk-status.sleeping { background: rgba(59, 130, 246, 0.15); color: var(--accent-blue); }
+
+        .office-plant {
+            position: absolute;
+            color: var(--accent-green);
+        }
+
+        .office-clock {
+            position: absolute;
+            top: 12px;
+            right: 20px;
+            font-family: var(--font-mono);
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-muted);
+            background: var(--panel-bg);
+            padding: 6px 14px;
+            border-radius: 10px;
+            border: 1px solid var(--panel-border);
+            backdrop-filter: blur(8px);
+        }
+
+        .office-banner {
+            position: absolute;
+            top: 12px;
+            left: 20px;
+            font-family: var(--font-display);
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--accent-teal);
+            background: var(--panel-bg);
+            padding: 6px 14px;
+            border-radius: 10px;
+            border: 1px solid var(--panel-border);
+            backdrop-filter: blur(8px);
+            letter-spacing: 0.04em;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .water-cooler {
+            position: absolute;
+            color: var(--text-muted);
+        }
+
+        /* ========================================
+           KANBAN / TASKS VIEW
+           ======================================== */
+        .kanban-board {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            overflow-x: auto;
+        }
+
+        .kanban-column {
+            min-width: 200px;
+            background: var(--surface-subtle);
+            border-radius: var(--radius-card);
+            padding: 14px;
+            border: 1px solid var(--border-soft);
+        }
+
+        .kanban-col-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-soft);
+        }
+
+        .kanban-col-title {
+            font-family: var(--font-display);
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text);
+            letter-spacing: 0.02em;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .kanban-col-count {
+            font-size: 10px;
+            font-family: var(--font-mono);
+            font-weight: 600;
+            color: var(--text-muted);
+            background: var(--surface-subtle);
+            padding: 2px 8px;
+            border-radius: 10px;
+            border: 1px solid var(--border-soft);
+        }
+
+        .kanban-cards { display: flex; flex-direction: column; gap: 10px; }
+
+        .kanban-card {
+            padding: 14px;
+            border-radius: 12px;
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            cursor: default;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .kanban-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-panel);
+        }
+
+        .kanban-card-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+
+        .kanban-card-time {
+            font-size: 10px;
+            font-family: var(--font-mono);
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .kanban-card-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .kanban-agent {
+            font-size: 10px;
+            font-family: var(--font-mono);
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .priority-pill {
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        .priority-pill.high { background: rgba(224, 72, 72, 0.12); color: var(--accent-red); }
+        .priority-pill.medium { background: rgba(245, 158, 11, 0.12); color: var(--accent-amber); }
+        .priority-pill.low { background: rgba(34, 197, 94, 0.12); color: var(--accent-green); }
+
+        /* ========================================
+           COSTS VIEW
+           ======================================== */
+        .costs-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .cost-gauge-panel {
+            grid-column: 1 / -1;
+        }
+
+        .gauge-container {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .gauge-ring {
+            width: 140px;
+            height: 140px;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .gauge-ring svg {
+            width: 140px;
+            height: 140px;
+            transform: rotate(-90deg);
+        }
+
+        .gauge-ring circle {
+            fill: none;
+            stroke-width: 10;
+        }
+
+        .gauge-ring .track { stroke: var(--surface-subtle); }
+        .gauge-ring .fill-circle { stroke-linecap: round; transition: stroke-dashoffset 1.5s cubic-bezier(0.22, 1, 0.36, 1); }
+
+        .gauge-text {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gauge-pct {
+            font-family: var(--font-mono);
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--text);
+            letter-spacing: -0.04em;
+            line-height: 1;
+        }
+
+        .gauge-label {
+            font-size: 10px;
+            color: var(--text-muted);
+            margin-top: 4px;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        .gauge-details { flex: 1; min-width: 180px; }
+
+        .gauge-stat {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border-soft);
+            font-size: 13px;
+        }
+
+        .gauge-stat:last-child { border-bottom: none; }
+        .gauge-stat .g-label { color: var(--text-secondary); }
+        .gauge-stat .g-value { font-family: var(--font-mono); font-weight: 600; color: var(--text); }
+
+        .model-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .model-table th {
+            text-align: left;
+            font-size: 9px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            padding: 8px 10px;
+            border-bottom: 1px solid var(--border-medium);
+            font-weight: 600;
+        }
+
+        .model-table td {
+            padding: 10px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border-soft);
+        }
+
+        .model-table td:first-child { font-weight: 600; color: var(--text); }
+        .model-table td .mono { font-family: var(--font-mono); font-weight: 600; }
+
+        .type-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .type-badge.brain { background: rgba(142, 135, 255, 0.12); color: var(--accent-purple); }
+        .type-badge.muscle { background: rgba(19, 176, 201, 0.12); color: var(--accent-teal); }
+        .type-badge.free { background: rgba(34, 197, 94, 0.12); color: var(--accent-green); }
+
+        .ratio-visual {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-top: 16px;
+        }
+
+        .ratio-bar-container {
+            flex: 1;
+            height: 32px;
+            border-radius: 16px;
+            overflow: hidden;
+            display: flex;
+            background: var(--surface-subtle);
+        }
+
+        .ratio-segment {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 700;
+            font-family: var(--font-mono);
+            color: #fff;
+            transition: width 0.8s ease;
+        }
+
+        .ratio-segment.brain { background: linear-gradient(90deg, var(--accent-purple-deep), var(--accent-purple)); }
+        .ratio-segment.muscle { background: linear-gradient(90deg, var(--accent-teal-deep), var(--accent-teal)); }
+
+        .ratio-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+        }
+
+        .ratio-label-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        .ratio-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .ratio-dot.brain { background: var(--accent-purple); }
+        .ratio-dot.muscle { background: var(--accent-teal); }
+
+        /* ========================================
+           SCHEDULE VIEW
+           ======================================== */
+        .schedule-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .schedule-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px 18px;
+            border-radius: var(--radius-card);
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .schedule-item:hover {
+            transform: translateX(4px);
+            box-shadow: var(--shadow-panel);
+        }
+
+        .schedule-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+            background: var(--surface-subtle);
+        }
+
+        .schedule-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .schedule-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 2px;
+        }
+
+        .schedule-time {
+            font-size: 11px;
+            font-family: var(--font-mono);
+            color: var(--text-muted);
+        }
+
+        .schedule-desc {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+            line-height: 1.4;
+        }
+
+        .schedule-meta {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 4px;
+            flex-shrink: 0;
+        }
+
+        .schedule-model {
+            font-size: 10px;
+            font-family: var(--font-mono);
+            color: var(--text-secondary);
+            background: var(--surface-subtle);
+            padding: 3px 8px;
+            border-radius: 6px;
+        }
+
+        .schedule-status {
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 2px 8px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .schedule-status.ok { background: rgba(34, 197, 94, 0.12); color: var(--accent-green); }
+        .schedule-status.warn { background: rgba(245, 158, 11, 0.12); color: var(--accent-amber); }
+
+        /* ========================================
+           DIGEST VIEW
+           ======================================== */
+        .digest-panel {
+            padding: 28px;
+            border-radius: var(--radius-panel);
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            box-shadow: var(--shadow-panel);
+        }
+
+        .digest-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid var(--border-soft);
+        }
+
+        .digest-title {
+            font-family: var(--font-display);
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .digest-timestamp {
+            font-size: 11px;
+            font-family: var(--font-mono);
+            color: var(--text-muted);
+        }
+
+        .digest-content {
+            font-size: 14px;
+            line-height: 1.7;
+            color: var(--text-secondary);
+        }
+
+        .digest-content h3 {
+            font-family: var(--font-display);
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text);
+            margin: 20px 0 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .digest-content h3:first-child { margin-top: 0; }
+
+        .digest-content ul {
+            padding-left: 20px;
+            margin: 8px 0;
+        }
+
+        .digest-content li {
+            margin-bottom: 6px;
+        }
+
+        .digest-content strong { color: var(--text); }
+
+        .digest-content code {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            background: var(--surface-subtle);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .digest-placeholder {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-muted);
+        }
+
+        .digest-placeholder .big-icon {
+            margin-bottom: 12px;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            margin-top: 28px;
+            padding-top: 16px;
+            border-top: 1px solid var(--panel-border);
+            text-align: center;
+            font-size: 10px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-subtle);
+            font-family: var(--font-mono);
+        }
+
+        /* ========================================
+           RESPONSIVE
+           ======================================== */
+        @media (max-width: 900px) {
+            .kanban-board {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .costs-grid {
+                grid-template-columns: 1fr;
+            }
+            .org-level {
+                gap: 14px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .agent-card {
+                width: 280px;
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar { display: none; }
+            .hamburger { display: flex; }
+            .floating-nav { display: flex; }
+            .main-content { padding: 16px; padding-top: 16px; }
+
+            .sidebar.mobile-open {
+                display: flex;
+                position: fixed;
+                top: 60px;
+                left: 0;
+                bottom: 0;
+                z-index: 300;
+                width: 260px;
+                box-shadow: 4px 0 24px rgba(0,0,0,0.2);
+            }
+
+            .sidebar.mobile-open .nav-item {
+                min-height: 44px;
+                position: relative;
+                z-index: 301;
+            }
+
+            .mobile-overlay {
+                display: none;
+                position: fixed;
+                inset: 0;
+                top: 60px;
+                background: rgba(0,0,0,0.4);
+                z-index: 250;
+            }
+
+            .mobile-overlay.active { display: block; }
+
+            .sidebar.mobile-open ~ .main-content { pointer-events: none; }
+
+            .agent-card { width: 100%; max-width: 320px; }
+            .org-level { gap: 16px; flex-wrap: wrap; justify-content: center; }
+        }
+
+        @media (max-width: 640px) {
+            .kanban-board {
+                grid-template-columns: 1fr;
+            }
+            .agent-card {
+                width: 100%;
+                max-width: 300px;
+            }
+            .org-level {
+                flex-direction: column;
+                align-items: center;
+            }
+            .org-connector-branch { display: none; }
+            .top-header { padding: 12px 16px; }
+            .gauge-container { flex-direction: column; }
+            .live-status #lastSynced { display: none; }
+            .floating-nav {
+                position: sticky;
+                top: 0;
+                left: 0;
+                transform: none;
+                border-radius: 0;
+                max-width: 100%;
+                z-index: 99;
+                justify-content: flex-start;
+                padding: 6px 12px;
+            }
+        }
+
+        /* ===== LIVE STATUS INDICATORS ===== */
+        @keyframes headerPulse {
+            0% { border-bottom-color: var(--accent-teal); box-shadow: inset 0 -2px 8px rgba(19, 176, 201, 0.15); }
+            100% { border-bottom-color: var(--panel-border); box-shadow: none; }
+        }
+
+        .top-header.pulse {
+            animation: headerPulse 0.8s ease-out;
+        }
+
+        .live-status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            font-family: var(--font-mono);
+            color: var(--text-muted);
+            padding: 4px 12px;
+            border-radius: 20px;
+            background: var(--surface-subtle);
+            border: 1px solid var(--border-soft);
+        }
+
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent-green);
+            box-shadow: 0 0 6px rgba(34, 197, 94, 0.5);
+            flex-shrink: 0;
+            transition: background 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .live-status.disconnected .live-dot {
+            background: var(--accent-red);
+            box-shadow: 0 0 6px rgba(224, 72, 72, 0.5);
+        }
+
+        @keyframes livePulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .live-dot { animation: livePulse 2s ease-in-out infinite; }
+    </style>
+</head>
+<body>
+    <!-- ===== TOP HEADER ===== -->
+    <div class="top-header">
+        <div class="header-left">
+            <button class="hamburger" onclick="toggleSidebar()" aria-label="Toggle sidebar"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg></button>
+            <div class="header-brand">
+                <h1><span class="emoji"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/></svg></span> INKredible <span class="accent">Mission Control</span></h1>
+                <div class="mission">Automating the print business 24/7</div>
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="live-status" id="liveStatus">
+                <span class="live-dot"></span>
+                <span id="liveLabel">Connecting...</span>
+                <span id="lastSynced"></span>
+            </div>
+            <div class="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark mode">
+                <div class="theme-toggle-knob" id="themeKnob"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== FLOATING NAV PILLS (mobile) ===== -->
+    <div class="floating-nav" id="floatingNav">
+        <button class="nav-pill active" data-view="orgchart"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> Org</button>
+        <button class="nav-pill" data-view="office"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Office</button>
+        <button class="nav-pill" data-view="tasks"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg> Tasks</button>
+        <button class="nav-pill" data-view="costs"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> Costs</button>
+        <button class="nav-pill" data-view="schedule"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Sched</button>
+        <button class="nav-pill" data-view="digest"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg> Digest</button>
+    </div>
+
+    <!-- ===== MOBILE OVERLAY ===== -->
+    <div class="mobile-overlay" id="mobileOverlay" onclick="toggleSidebar()"></div>
+
+    <!-- ===== APP LAYOUT ===== -->
+    <div class="app-layout">
+        <!-- SIDEBAR -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-label">Navigation</div>
+            <button class="nav-item" data-view="orgchart"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span> Org Chart</button>
+            <button class="nav-item" data-view="office"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span> The Office</button>
+            <button class="nav-item" data-view="tasks"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg></span> Tasks</button>
+            <button class="nav-item" data-view="costs"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span> Costs</button>
+            <button class="nav-item" data-view="schedule"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span> Schedule</button>
+            <button class="nav-item" data-view="digest"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></span> Digest</button>
+
+            <div class="sidebar-label" style="margin-top: auto;">INKredible Printing</div>
+            <div style="padding: 6px 14px; font-size: 11px; color: var(--text-muted); line-height: 1.5;">
+                5 agents &middot; 3 active<br>
+                <span style="font-family: var(--font-mono); font-size: 10px;">Last sync: just now</span>
+            </div>
+        </nav>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+
+            <!-- ==================== ORG CHART VIEW ==================== -->
+            <div class="view active" id="view-orgchart">
+                <div class="view-title"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> Organization Chart</div>
+                <div class="view-subtitle">Role-Based Command Chain -- model is assigned per role, not the other way around</div>
+
+                <div class="org-chart">
+                    <!-- Level 1: CEO -->
+                    <div class="org-level">
+                        <div class="agent-card blue">
+                            <div class="agent-card-accent"></div>
+                            <div class="agent-header">
+                                <div class="agent-avatar"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+                                <div class="agent-info">
+                                    <div class="agent-name">Aviel <span class="status-dot active"></span></div>
+                                    <div class="agent-role">CEO -- Human</div>
+                                </div>
+                            </div>
+                            <div class="agent-model">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z"/></svg> Human Intelligence
+                                <span class="agent-cost">Priceless</span>
+                            </div>
+                            <div class="agent-skills">
+                                <span class="skill-pill">Vision &amp; Strategy</span>
+                                <span class="skill-pill">Final Decisions</span>
+                                <span class="skill-pill">Biz Dev</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Connector -->
+                    <div class="org-connector">
+                        <div class="vline"></div>
+                    </div>
+
+                    <!-- Level 2: COO -->
+                    <div class="org-level">
+                        <div class="agent-card green">
+                            <div class="agent-card-accent"></div>
+                            <div class="agent-header">
+                                <div class="agent-avatar"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg></div>
+                                <div class="agent-info">
+                                    <div class="agent-name">Chet <span class="status-dot active"></span></div>
+                                    <div class="agent-role">COO / Chief Strategy Officer</div>
+                                </div>
+                            </div>
+                            <div class="agent-model">
+                                Claude Opus 4.6
+                                <span class="agent-cost">$200/mo</span>
+                            </div>
+                            <div class="agent-skills">
+                                <span class="skill-pill">Strategic Planning</span>
+                                <span class="skill-pill">Orchestration</span>
+                                <span class="skill-pill">Reasoning</span>
+                                <span class="skill-pill">Coaching</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Branch connector -->
+                    <div class="org-connector">
+                        <div class="vline"></div>
+                    </div>
+
+                    <div class="org-connector-branch">
+                        <div style="display: flex; align-items: flex-start; gap: 0; width: 100%; justify-content: center; position: relative;">
+                            <div class="hline" style="left: 25%; right: 25%; position: absolute;"></div>
+                            <div style="display: flex; justify-content: center; gap: 20px; width: 100%; max-width: 760px;">
+                                <div style="flex: 1; display: flex; justify-content: center;"><div class="drop"></div></div>
+                                <div style="flex: 1; display: flex; justify-content: center;"><div class="drop"></div></div>
+                                <div style="flex: 1; display: flex; justify-content: center;"><div class="drop"></div></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Level 3: Team -->
+                    <div class="org-level">
+                        <div class="agent-card teal">
+                            <div class="agent-card-accent"></div>
+                            <div class="agent-header">
+                                <div class="agent-avatar"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+                                <div class="agent-info">
+                                    <div class="agent-name">Quote Calculator <span class="status-dot active"></span></div>
+                                    <div class="agent-role">Pricing &amp; Estimation Specialist</div>
+                                </div>
+                            </div>
+                            <div class="agent-model">
+                                GPT-5.3 Codex
+                                <span class="agent-cost">OpenAI OAuth</span>
+                            </div>
+                            <div class="agent-skills">
+                                <span class="skill-pill">Quote Drafting</span>
+                                <span class="skill-pill">Margin Guardrails</span>
+                                <span class="skill-pill">NDF Benchmarking</span>
+                                <span class="skill-pill">Floor Pricing</span>
+                            </div>
+                        </div>
+
+                        <div class="agent-card gray">
+                            <div class="agent-card-accent"></div>
+                            <div class="agent-header">
+                                <div class="agent-avatar"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76Z"/></svg></div>
+                                <div class="agent-info">
+                                    <div class="agent-name">Workflow Operator <span class="status-dot idle"></span></div>
+                                    <div class="agent-role">Ops Automation &amp; System Hygiene</div>
+                                </div>
+                            </div>
+                            <div class="agent-model">
+                                GPT-5.1 Codex Mini
+                                <span class="agent-cost">OpenAI OAuth</span>
+                            </div>
+                            <div class="agent-skills">
+                                <span class="skill-pill">Gauge Sync</span>
+                                <span class="skill-pill">Kanban Sync</span>
+                                <span class="skill-pill">Status JSON</span>
+                                <span class="skill-pill">Reminders</span>
+                            </div>
+                        </div>
+
+                        <div class="agent-card amber">
+                            <div class="agent-card-accent"></div>
+                            <div class="agent-header">
+                                <div class="agent-avatar"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg></div>
+                                <div class="agent-info">
+                                    <div class="agent-name">Invoice Processor <span class="status-dot idle"></span></div>
+                                    <div class="agent-role">Financial Data Extraction &amp; QA</div>
+                                </div>
+                            </div>
+                            <div class="agent-model">
+                                Gemma 3 27B
+                                <span class="agent-cost">Free tier</span>
+                            </div>
+                            <div class="agent-skills">
+                                <span class="skill-pill">Invoice Parsing</span>
+                                <span class="skill-pill">Line-Item QA</span>
+                                <span class="skill-pill">P&amp;L Structuring</span>
+                                <span class="skill-pill">Doc Analysis</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer">
+                    INKredible Printing &middot; Mission Control v1.1 (Role-Based Org) &middot; Built by Chet
+                </div>
+            </div>
+
+            <!-- ==================== OFFICE VIEW ==================== -->
+            <div class="view" id="view-office">
+                <div class="view-title"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> The Office</div>
+                <div class="view-subtitle">INKredible Printing HQ -- Agent workspace</div>
+
+                <div class="office-container">
+                    <div class="office-floor">
+                        <div class="office-room">
+                            <!-- Banner & Clock -->
+                            <div class="office-banner"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg> INKredible Printing</div>
+                            <div class="office-clock" id="officeClock">09:47 AM</div>
+
+                            <!-- Aviel's desk -->
+                            <div class="desk" style="top: 60px; left: 50%; transform: translateX(-50%);">
+                                <div class="desk-sprite"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+                                <div class="desk-surface">
+                                    <div class="desk-monitor on"></div>
+                                </div>
+                                <div class="desk-label">Aviel</div>
+                                <div class="desk-status working">Working</div>
+                            </div>
+
+                            <!-- Chet's desk -->
+                            <div class="desk" style="top: 220px; left: 80px;">
+                                <div class="desk-sprite"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg></div>
+                                <div class="desk-surface">
+                                    <div class="desk-monitor on"></div>
+                                </div>
+                                <div class="desk-label">Chet</div>
+                                <div class="desk-status working">Working</div>
+                            </div>
+
+                            <!-- Quote Calculator's desk -->
+                            <div class="desk" style="top: 220px; left: 50%; transform: translateX(-50%);">
+                                <div class="desk-sprite"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+                                <div class="desk-surface">
+                                    <div class="desk-monitor on"></div>
+                                </div>
+                                <div class="desk-label">Quote Calculator</div>
+                                <div class="desk-status working">Working</div>
+                            </div>
+
+                            <!-- Workflow Operator's desk -->
+                            <div class="desk" style="top: 220px; right: 80px;">
+                                <div class="desk-sprite"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76Z"/></svg></div>
+                                <div class="desk-surface">
+                                    <div class="desk-monitor"></div>
+                                </div>
+                                <div class="desk-label">Workflow Operator</div>
+                                <div class="desk-status idle">Idle</div>
+                            </div>
+
+                            <!-- Invoice Processor's desk -->
+                            <div class="desk" style="top: 370px; left: 50%; transform: translateX(-50%);">
+                                <div class="desk-sprite"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg></div>
+                                <div class="desk-surface">
+                                    <div class="desk-monitor"></div>
+                                </div>
+                                <div class="desk-label">Invoice Processor</div>
+                                <div class="desk-status idle">Idle</div>
+                            </div>
+
+                            <!-- Decorations -->
+                            <div class="office-plant" style="bottom: 20px; left: 20px;"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 20h10"/><path d="M10 20c5.5-2.5.8-6.4 3-10"/><path d="M9.5 9.4c1.1.8 1.8 2.2 2.3 3.7-2 .4-3.5.4-4.8-.3-1.2-.6-2.3-1.9-3-4.2 2.8-.5 4.4 0 5.5.8Z"/><path d="M14.1 6a7 7 0 0 0-1.1 4c1.9-.1 3.3-.6 4.3-1.4 1-1 1.6-2.3 1.7-4.6-2.7.1-4 1-4.9 2Z"/></svg></div>
+                            <div class="office-plant" style="bottom: 20px; right: 20px;"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v12"/><path d="M18 9a3 3 0 0 0-3-3h-1.5a3 3 0 0 0-3 3"/><path d="M6 15a6 6 0 0 0 12 0c0-3.3-2.7-6-6-6"/><path d="M12 9v12"/></svg></div>
+                            <div class="water-cooler" style="top: 160px; right: 30px;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" y1="2" x2="6" y2="4"/><line x1="10" y1="2" x2="10" y2="4"/><line x1="14" y1="2" x2="14" y2="4"/></svg></div>
+                            <div class="office-plant" style="top: 100px; left: 20px;"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer">
+                    INKredible Printing &middot; The Office &middot; Static representation
+                </div>
+            </div>
+
+            <!-- ==================== TASKS VIEW ==================== -->
+            <div class="view" id="view-tasks">
+                <div class="view-title"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg> Task Board</div>
+                <div class="view-subtitle">All active work across the AI team</div>
+
+                <div class="kanban-board">
+                    <!-- Queued -->
+                    <div class="kanban-column">
+                        <div class="kanban-col-header">
+                            <div class="kanban-col-title"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg> Queued</div>
+                            <div class="kanban-col-count">3</div>
+                        </div>
+                        <div class="kanban-cards">
+                            <div class="kanban-card">
+                                <div class="kanban-card-title">QuickBooks API Integration</div>
+                                <div class="kanban-card-meta">
+                                    <div class="kanban-agent"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Codex 5.3</div>
+                                    <div class="priority-pill high">High</div>
+                                </div>
+                            </div>
+                            <div class="kanban-card">
+                                <div class="kanban-card-title">Himalaya Email Setup</div>
+                                <div class="kanban-card-meta">
+                                    <div class="kanban-agent"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg> Chet</div>
+                                    <div class="priority-pill medium">Med</div>
+                                </div>
+                            </div>
+                            <div class="kanban-card">
+                                <div class="kanban-card-title">Kanban Redesign</div>
+                                <div class="kanban-card-meta">
+                                    <div class="kanban-agent"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Codex 5.3</div>
+                                    <div class="priority-pill low">Low</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- In Progress -->
+                    <div class="kanban-column">
+                        <div class="kanban-col-header">
+                            <div class="kanban-col-title"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg> In Progress</div>
+                            <div class="kanban-col-count">3</div>
+                        </div>
+                        <div class="kanban-cards">
+                            <div class="kanban-card">
+                                <div class="kanban-card-title">Mission Control Dashboard</div>
+                                <div class="kanban-card-meta">
+                                    <div class="kanban-agent"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg> Chet</div>
+                                    <div class="priority-pill high">High</div>
+                                </div>
+                            </div>
+                            <div class="kanban-card">
+                                <div class="kanban-card-title">Dashboard AI Chat -- Kimi K2.5</div>
+                                <div class="kanban-card-meta">
+                                    <div class="kanban-agent"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Codex 5.3</div>
+                                    <div class="priority-pill medium">Med</div>
+                                </div>
+                            </div>
+                            <div class="kanban-card">
+                                <div class="kanban-card-title">Brain Dump Round 3</div>
+                                <div class="kanban-card-meta">
+                                    <div class="kanban-agent"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg> Chet</div>
+                                    <div class="priority-pill medium">Med</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Review -->
+                    <div class="kanban-column">
+                        <div class="kanban-col-header">
+                            <div class="kanban-col-title"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg> Review</div>
+                            <div class="kanban-col-count">0</div>
+                        </div>
+                        <div class="kanban-cards">
+                            <div style="text-align: center; padding: 20px; color: var(--text-muted); font-size: 12px;">
+                                No items in review
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Done -->
+                    <div class="kanban-column">
+                        <div class="kanban-col-header">
+                            <div class="kanban-col-title"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Done</div>
+                            <div class="kanban-col-count">4</div>
+                        </div>
+                        <div class="kanban-cards">
+                            <div class="kanban-card">
+                                <div class="kanban-card-title">Financial Dashboard</div>
+                                <div class="kanban-card-meta">
+                                    <div class="kanban-agent"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Codex 5.3</div>
+                                    <div class="priority-pill low">Done</div>
+                                </div>
+                            </div>
+                            <div class="kanban-card">
+                                <div class="kanban-card-title">Second Brain UI</div>
+                                <div class="kanban-card-meta">
+                                    <div class="kanban-agent"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Codex 5.3</div>
+                                    <div class="priority-pill low">Done</div>
+                                </div>
+                            </div>
+                            <div class="kanban-card">
+                                <div class="kanban-card-title">Quote Tool v1</div>
+                                <div class="kanban-card-meta">
+                                    <div class="kanban-agent"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg> Chet</div>
+                                    <div class="priority-pill low">Done</div>
+                                </div>
+                            </div>
+                            <div class="kanban-card">
+                                <div class="kanban-card-title">Personal Kanban Redesign</div>
+                                <div class="kanban-card-meta">
+                                    <div class="kanban-agent"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Codex 5.3</div>
+                                    <div class="priority-pill low">Done</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer">
+                    INKredible Printing &middot; Task Board &middot; 10 total tasks
+                </div>
+            </div>
+
+            <!-- ==================== COSTS VIEW ==================== -->
+            <div class="view" id="view-costs">
+                <div class="view-title"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> Cost Tracker</div>
+                <div class="view-subtitle">AI operations spend &amp; model utilization</div>
+
+                <!-- Session Usage Gauge -->
+                <div class="panel cost-gauge-panel">
+                    <div class="panel-title">
+                        <span class="icon" style="background: var(--accent-teal);"></span>
+                        Session Usage
+                    </div>
+                    <div class="gauge-container">
+                        <div class="gauge-ring">
+                            <svg viewBox="0 0 140 140">
+                                <circle class="track" cx="70" cy="70" r="56"></circle>
+                                <circle class="fill-circle" cx="70" cy="70" r="56"
+                                    stroke="var(--accent-teal)"
+                                    stroke-dasharray="351.86"
+                                    stroke-dashoffset="246.3"></circle>
+                            </svg>
+                            <div class="gauge-text">
+                                <div class="gauge-pct">30%</div>
+                                <div class="gauge-label">Used</div>
+                            </div>
+                        </div>
+                        <div class="gauge-details">
+                            <div class="gauge-stat">
+                                <span class="g-label">Exchanges Today</span>
+                                <span class="g-value">42</span>
+                            </div>
+                            <div class="gauge-stat">
+                                <span class="g-label">Estimated Daily Cost</span>
+                                <span class="g-value">~$8.50</span>
+                            </div>
+                            <div class="gauge-stat">
+                                <span class="g-label">Weekly Estimate</span>
+                                <span class="g-value">~$42.00</span>
+                            </div>
+                            <div class="gauge-stat">
+                                <span class="g-label">Monthly Budget</span>
+                                <span class="g-value">$250.00</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Model Breakdown -->
+                <div class="panel">
+                    <div class="panel-title">
+                        <span class="icon" style="background: var(--accent-purple);"></span>
+                        Model Breakdown
+                    </div>
+                    <table class="model-table">
+                        <thead>
+                            <tr>
+                                <th>Model</th>
+                                <th>Type</th>
+                                <th>Cost</th>
+                                <th>Tasks</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Claude Opus 4.6</td>
+                                <td><span class="type-badge brain"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z"/></svg> Brain</span></td>
+                                <td><span class="mono">$200/mo</span></td>
+                                <td>Strategy, orchestration, coaching</td>
+                            </tr>
+                            <tr>
+                                <td>GPT-5.3 Codex</td>
+                                <td><span class="type-badge muscle"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M15 2v2"/><path d="M15 20v2"/><path d="M2 15h2"/><path d="M2 9h2"/><path d="M20 15h2"/><path d="M20 9h2"/><path d="M9 2v2"/><path d="M9 20v2"/></svg> Muscle</span></td>
+                                <td><span class="mono">~$5-15/mo</span></td>
+                                <td>Full-stack dev, code review, automation</td>
+                            </tr>
+                            <tr>
+                                <td>GPT-5.1 Codex Mini</td>
+                                <td><span class="type-badge muscle"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M15 2v2"/><path d="M15 20v2"/><path d="M2 15h2"/><path d="M2 9h2"/><path d="M20 15h2"/><path d="M20 9h2"/><path d="M9 2v2"/><path d="M9 20v2"/></svg> Muscle</span></td>
+                                <td><span class="mono">~$1-3/mo</span></td>
+                                <td>Gauge sync, data updates</td>
+                            </tr>
+                            <tr>
+                                <td>Gemma 3 27B</td>
+                                <td><span class="type-badge free"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg> Free</span></td>
+                                <td><span class="mono">$0</span></td>
+                                <td>Invoice extraction, doc analysis</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Brain vs Muscles -->
+                    <div style="margin-top: 24px;">
+                        <div class="panel-title" style="margin-bottom: 12px;">
+                            <span class="icon" style="background: var(--accent-purple);"></span>
+                            Brain vs. Muscles Ratio
+                        </div>
+                        <div class="ratio-bar-container">
+                            <div class="ratio-segment brain" style="width: 30%;">30%</div>
+                            <div class="ratio-segment muscle" style="width: 70%;">70%</div>
+                        </div>
+                        <div class="ratio-labels">
+                            <div class="ratio-label-item">
+                                <div class="ratio-dot brain"></div>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z"/></svg> Brain (Opus) -- thinking &amp; strategy
+                            </div>
+                            <div class="ratio-label-item">
+                                <div class="ratio-dot muscle"></div>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M15 2v2"/><path d="M15 20v2"/><path d="M2 15h2"/><path d="M2 9h2"/><path d="M20 15h2"/><path d="M20 9h2"/><path d="M9 2v2"/><path d="M9 20v2"/></svg> Muscles (Codex, Gemma) -- execution
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer">
+                    INKredible Printing &middot; Cost Tracker &middot; Target: under $250/mo
+                </div>
+            </div>
+
+            <!-- ==================== SCHEDULE VIEW ==================== -->
+            <div class="view" id="view-schedule">
+                <div class="view-title"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Automation Schedule</div>
+                <div class="view-subtitle">Active cron jobs &amp; recurring automations</div>
+
+                <div class="schedule-list">
+                    <div class="schedule-item">
+                        <div class="schedule-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg></div>
+                        <div class="schedule-info">
+                            <div class="schedule-name">Morning Brief</div>
+                            <div class="schedule-time">8:00 AM &middot; Mon-Fri</div>
+                        </div>
+                        <div class="schedule-meta">
+                            <div class="schedule-model">Chet (Opus)</div>
+                            <div class="schedule-status ok"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Last run OK</div>
+                        </div>
+                    </div>
+
+                    <div class="schedule-item">
+                        <div class="schedule-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg></div>
+                        <div class="schedule-info">
+                            <div class="schedule-name">Gauge Sync</div>
+                            <div class="schedule-time">Every 15 min &middot; 24/7</div>
+                        </div>
+                        <div class="schedule-meta">
+                            <div class="schedule-model">Codex Mini</div>
+                            <div class="schedule-status ok"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Last run OK</div>
+                        </div>
+                    </div>
+
+                    <div class="schedule-item">
+                        <div class="schedule-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg></div>
+                        <div class="schedule-info">
+                            <div class="schedule-name">Journaling</div>
+                            <div class="schedule-time">5:00 PM &middot; Mon-Fri</div>
+                        </div>
+                        <div class="schedule-meta">
+                            <div class="schedule-model">Chet (Opus)</div>
+                            <div class="schedule-status ok"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Last run OK</div>
+                        </div>
+                    </div>
+
+                    <div class="schedule-item">
+                        <div class="schedule-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg></div>
+                        <div class="schedule-info">
+                            <div class="schedule-name">Invoice Extraction</div>
+                            <div class="schedule-time">6:00 AM &middot; Daily</div>
+                        </div>
+                        <div class="schedule-meta">
+                            <div class="schedule-model">Gemma 3 27B</div>
+                            <div class="schedule-status warn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Pending</div>
+                        </div>
+                    </div>
+
+                    <div class="schedule-item">
+                        <div class="schedule-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></div>
+                        <div class="schedule-info">
+                            <div class="schedule-name">Afternoon Research</div>
+                            <div class="schedule-time">2:00 PM &middot; Mon-Fri</div>
+                        </div>
+                        <div class="schedule-meta">
+                            <div class="schedule-model">Chet (Opus)</div>
+                            <div class="schedule-status ok"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Last run OK</div>
+                        </div>
+                    </div>
+
+                    <div class="schedule-item">
+                        <div class="schedule-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></div>
+                        <div class="schedule-info">
+                            <div class="schedule-name">Nightly Work</div>
+                            <div class="schedule-time">1:00 AM &middot; Daily</div>
+                        </div>
+                        <div class="schedule-meta">
+                            <div class="schedule-model">Codex 5.3</div>
+                            <div class="schedule-status ok"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Last run OK</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer">
+                    INKredible Printing &middot; 6 active automations
+                </div>
+            </div>
+
+            <!-- ==================== DIGEST VIEW ==================== -->
+            <div class="view" id="view-digest">
+                <div class="view-title"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg> Morning Digest</div>
+                <div class="view-subtitle">Daily briefing from the AI team</div>
+
+                <div class="digest-panel">
+                    <div class="digest-header">
+                        <div class="digest-title"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6Z"/></svg> Daily Briefing -- Feb 13, 2026</div>
+                        <div class="digest-timestamp">Last updated: 8:00 AM ET</div>
+                    </div>
+
+                    <div class="digest-content">
+                        <h3><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg> Work Completed Overnight</h3>
+                        <ul>
+                            <li><strong>Mission Control Dashboard</strong> -- v1 build in progress. Org chart, office view, task board, costs, schedule, and digest views all scaffolded. (Chet)</li>
+                            <li><strong>Usage Tracker</strong> -- Gauge sync running every 15 min, pushing to GitHub. (Codex Mini)</li>
+                            <li><strong>Brain Dump Round 3</strong> -- Transcript analysis complete, action items extracted. (Chet)</li>
+                        </ul>
+
+                        <h3><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg> Today's Priorities</h3>
+                        <ul>
+                            <li>Finalize and deploy Mission Control to GitHub Pages</li>
+                            <li>Continue Dashboard AI Chat integration with Kimi K2.5</li>
+                            <li>Begin QuickBooks API integration research</li>
+                        </ul>
+
+                        <h3><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg> Team Status</h3>
+                        <ul>
+                            <li><strong>Chet</strong> -- Active, working on Mission Control build</li>
+                            <li><strong>Codex 5.3</strong> -- Active, handling code tasks</li>
+                            <li><strong>Codex Mini</strong> -- Idle, gauge sync on autopilot</li>
+                            <li><strong>Gemma 3 27B</strong> -- Idle, ready for invoice extraction</li>
+                        </ul>
+
+                        <h3><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg> Notes</h3>
+                        <ul>
+                            <li>Session usage at ~30% -- plenty of budget remaining</li>
+                            <li>No red flags or errors in overnight operations</li>
+                            <li>Sabbath starts at sundown -- all external comms queued</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="footer">
+                    INKredible Printing &middot; Morning Digest &middot; Auto-generated by Chet
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        /* ================================================
+           MISSION CONTROL — Vanilla JS (Zero Emoji Edition)
+           All icons are inline SVGs.
+           ================================================ */
+
+        // ===== SVG ICON LIBRARY =====
+        var I = {
+            // Navigation & views
+            users: '<svg width="WW" height="WW" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="SS" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
+            home: '<svg width="WW" height="WW" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="SS" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>',
+            clipboard: '<svg width="WW" height="WW" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="SS" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>',
+            dollar: '<svg width="WW" height="WW" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="SS" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>',
+            calendar: '<svg width="WW" height="WW" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="SS" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>',
+            mail: '<svg width="WW" height="WW" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="SS" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>',
+            // Agent icons
+            user: '<svg width="WW" height="WW" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="SS" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>',
+            bot: '<svg width="WW" height="WW" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="SS" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>',
+            zap: '<svg width="WW" height="WW" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="SS" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>',
+            wrench: '<svg width="WW" height="WW" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="SS" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76Z"/></svg>',
+            barChart: '<svg width="WW" height="WW" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="SS" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>',
+            brain: '<svg width="WW" height="WW" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="SS" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z"/></svg>',
+            // Schedule icons
+            sun: '<svg width="WW" height="WW" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="SS" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>',
+            moon: '<svg width="WW" height="WW" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="SS" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>',
+            pen: '<svg width="WW" height="WW" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="SS" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>',
+            fileText: '<svg width="WW" height="WW" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="SS" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg>',
+            search: '<svg width="WW" height="WW" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="SS" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>',
+            // Kanban columns
+            inbox: '<svg width="WW" height="WW" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="SS" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>',
+            refresh: '<svg width="WW" height="WW" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="SS" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg>',
+            eye: '<svg width="WW" height="WW" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="SS" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>',
+            checkCircle: '<svg width="WW" height="WW" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="SS" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>',
+            alertTri: '<svg width="WW" height="WW" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="SS" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',
+            clock: '<svg width="WW" height="WW" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="SS" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>',
+            // Digest
+            newspaper: '<svg width="WW" height="WW" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="SS" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6Z"/></svg>',
+            signal: '<svg width="WW" height="WW" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="SS" stroke-linecap="round" stroke-linejoin="round"><path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"/><path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.4"/><circle cx="12" cy="12" r="2"/><path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.4"/><path d="M19.1 4.9C23 8.8 23 15.1 19.1 19"/></svg>',
+            compass: '<svg width="WW" height="WW" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="SS" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>',
+            // Extra schedule icons
+            target: '<svg width="WW" height="WW" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="SS" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>',
+            usersRound: '<svg width="WW" height="WW" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="SS" stroke-linecap="round" stroke-linejoin="round"><path d="M18 21a8 8 0 0 0-16 0"/><circle cx="10" cy="8" r="5"/><path d="M22 20c0-3.37-2-6.5-4-8a5 5 0 0 0-.45-8.3"/></svg>',
+            rotateCw: '<svg width="WW" height="WW" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="SS" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg>',
+            database: '<svg width="WW" height="WW" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="SS" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></svg>',
+            gauge: '<svg width="WW" height="WW" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="SS" stroke-linecap="round" stroke-linejoin="round"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></svg>',
+            lightbulb: '<svg width="WW" height="WW" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="SS" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>',
+            pkg: '<svg width="WW" height="WW" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="SS" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>'
+        };
+
+        // Render icon at given size / stroke
+        function icon(name, size, sw) {
+            var s = I[name] || '';
+            return s.replace(/WW/g, size || 16).replace(/SS/g, sw || '1.5');
+        }
+
+        // ===== AGENT ICON MAP (replaces agentEmoji) =====
+        var agentIconMap = {
+            'aviel': 'user', 'chet': 'bot', 'brain': 'bot',
+            'codex': 'zap', 'engineer': 'zap',
+            'codex-mini': 'compass', 'researcher': 'search',
+            'gemma': 'fileText', 'coach': 'target'
+        };
+        var agentNames = {
+            'aviel': 'Aviel', 'chet': 'Chet', 'brain': 'Brain (ChetGPT)',
+            'codex': 'Quote Calculator', 'engineer': 'Engineer',
+            'codex-mini': 'Workflow Operator', 'researcher': 'Researcher',
+            'gemma': 'Invoice Processor', 'coach': 'Coach'
+        };
+
+        function agentIcon(id) { return icon(agentIconMap[id] || 'bot', 12, '2'); }
+        function agentTag(id) { return agentIcon(id) + ' ' + (agentNames[id] || id); }
+
+        // ===== SCHEDULE ICON MAP =====
+        var scheduleIconMap = {
+            'Morning Brief': 'sun', 'Gauge Sync': 'barChart', 'Journaling': 'pen',
+            'Invoice Extraction': 'fileText', 'Afternoon Research': 'search',
+            'Nightly Work': 'moon', 'Daily Push': 'target', 'Standup Meeting': 'usersRound',
+            'Autonomous Work': 'rotateCw', 'Memory Distill': 'database',
+            'Optimization Scan': 'zap', 'Unknown Unknowns': 'eye', 'Goal Review': 'barChart',
+            'Research': 'search'
+        };
+
+        // ===== VIEW SWITCHING =====
+        var views = ['orgchart', 'office', 'tasks', 'costs', 'schedule', 'digest'];
+
+        function switchView(viewId) {
+            views.forEach(function(v) {
+                var el = document.getElementById('view-' + v);
+                if (el) el.classList.remove('active');
+            });
+            var target = document.getElementById('view-' + viewId);
+            if (target) {
+                target.classList.remove('active');
+                void target.offsetWidth;
+                target.classList.add('active');
+            }
+            document.querySelectorAll('.nav-item').forEach(function(btn) {
+                btn.classList.toggle('active', btn.dataset.view === viewId);
+            });
+            document.querySelectorAll('.nav-pill').forEach(function(btn) {
+                btn.classList.toggle('active', btn.dataset.view === viewId);
+            });
+            document.getElementById('sidebar').classList.remove('mobile-open');
+            document.getElementById('mobileOverlay').classList.remove('active');
+        }
+
+        document.querySelectorAll('.nav-item[data-view]').forEach(function(btn) {
+            btn.addEventListener('click', function() { switchView(btn.dataset.view); });
+        });
+        document.querySelectorAll('.nav-pill[data-view]').forEach(function(btn) {
+            btn.addEventListener('click', function() { switchView(btn.dataset.view); });
+        });
+
+        // ===== THEME TOGGLE =====
+        function toggleTheme() {
+            var html = document.documentElement;
+            var toggle = document.querySelector('.theme-toggle');
+            var knob = document.getElementById('themeKnob');
+            if (html.getAttribute('data-theme') === 'dark') {
+                html.setAttribute('data-theme', 'light');
+                toggle.classList.remove('active');
+                knob.innerHTML = icon('sun', 14, '2');
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                toggle.classList.add('active');
+                knob.innerHTML = icon('moon', 14, '2');
+            }
+            localStorage.setItem('mc-theme', html.getAttribute('data-theme'));
+        }
+
+        (function() {
+            var saved = localStorage.getItem('mc-theme');
+            if (saved) {
+                document.documentElement.setAttribute('data-theme', saved);
+                var toggle = document.querySelector('.theme-toggle');
+                var knob = document.getElementById('themeKnob');
+                if (saved === 'dark') {
+                    toggle.classList.add('active');
+                    knob.innerHTML = icon('moon', 14, '2');
+                } else {
+                    toggle.classList.remove('active');
+                    knob.innerHTML = icon('sun', 14, '2');
+                }
+            }
+        })();
+
+        // ===== MOBILE SIDEBAR =====
+        function toggleSidebar() {
+            var sidebar = document.getElementById('sidebar');
+            var overlay = document.getElementById('mobileOverlay');
+            var floatingNav = document.getElementById('floatingNav');
+            sidebar.classList.toggle('mobile-open');
+            overlay.classList.toggle('active');
+            if (sidebar.classList.contains('mobile-open')) {
+                floatingNav.style.display = 'none';
+            } else {
+                floatingNav.style.display = '';
+            }
+        }
+
+        // ===== OFFICE CLOCK =====
+        function updateOfficeClock() {
+            var now = new Date();
+            var h = now.getHours();
+            var m = now.getMinutes().toString().padStart(2, '0');
+            var ampm = h >= 12 ? 'PM' : 'AM';
+            var h12 = h % 12 || 12;
+            var el = document.getElementById('officeClock');
+            if (el) el.textContent = h12 + ':' + m + ' ' + ampm;
+        }
+        updateOfficeClock();
+        setInterval(updateOfficeClock, 30000);
+
+        // ===== URL HASH ROUTING =====
+        function handleHash() {
+            var hash = window.location.hash.replace('#', '');
+            if (views.indexOf(hash) !== -1) switchView(hash);
+        }
+        window.addEventListener('hashchange', handleHash);
+        if (window.location.hash) handleHash();
+
+        // =============================================
+        // LIVE AUTO-UPDATING -- status.json polling
+        // =============================================
+        (function() {
+            var POLL_INTERVAL = 15000;
+            var lastFetchTime = null;
+            var isConnected = false;
+
+            var liveStatusEl = document.getElementById('liveStatus');
+            var liveLabelEl = document.getElementById('liveLabel');
+            var lastSyncedEl = document.getElementById('lastSynced');
+
+            function statusToDotClass(s) {
+                return (s === 'active' || s === 'working') ? 'active' : (s === 'moving' ? 'sleeping' : 'idle');
+            }
+            function statusToOfficeClass(s) {
+                return (s === 'active' || s === 'working') ? 'working' : (s === 'moving' ? 'sleeping' : 'idle');
+            }
+            function statusToOfficeLabel(s) {
+                return (s === 'active' || s === 'working') ? 'Working' : (s === 'moving' ? 'Moving' : 'Idle');
+            }
+
+            function buildAgentCardMap() {
+                var map = {};
+                var cards = document.querySelectorAll('#view-orgchart .agent-card');
+                var order = ['aviel', 'chet', 'codex', 'codex-mini', 'gemma'];
+                cards.forEach(function(card, i) { if (order[i]) map[order[i]] = card; });
+                return map;
+            }
+
+            function buildDeskMap() {
+                var map = {};
+                document.querySelectorAll('.desk').forEach(function(desk) {
+                    var label = desk.querySelector('.desk-label');
+                    if (!label) return;
+                    var t = label.textContent.trim();
+                    if (t === 'Aviel') map['aviel'] = desk;
+                    else if (t === 'Chet') map['chet'] = desk;
+                    else if (t === 'Quote Calculator') map['codex'] = desk;
+                    else if (t === 'Workflow Operator') map['codex-mini'] = desk;
+                    else if (t === 'Invoice Processor') map['gemma'] = desk;
+                });
+                return map;
+            }
+
+            function updateOrgChart(agents) {
+                var cardMap = buildAgentCardMap();
+                agents.forEach(function(agent) {
+                    var card = cardMap[agent.id];
+                    if (!card) return;
+                    var dot = card.querySelector('.status-dot');
+                    if (dot) dot.className = 'status-dot ' + statusToDotClass(agent.status);
+                    var roleEl = card.querySelector('.agent-role');
+                    if (roleEl) roleEl.textContent = agent.role + (agent.id === 'aviel' ? ' -- Human' : '');
+                });
+            }
+
+            function updateOffice(agents) {
+                var deskMap = buildDeskMap();
+                agents.forEach(function(agent) {
+                    var desk = deskMap[agent.id];
+                    if (!desk) return;
+                    var monitor = desk.querySelector('.desk-monitor');
+                    if (monitor) {
+                        monitor.classList.toggle('on', agent.status === 'active' || agent.status === 'working');
+                    }
+                    var statusEl = desk.querySelector('.desk-status');
+                    if (statusEl) {
+                        statusEl.className = 'desk-status ' + statusToOfficeClass(agent.status);
+                        statusEl.textContent = statusToOfficeLabel(agent.status);
+                    }
+                });
+            }
+
+            function updateTasks(tasks) {
+                var board = document.querySelector('#view-tasks .kanban-board');
+                if (!board) return;
+
+                function priClass(p) { return (p === 'critical' || p === 'high') ? 'high' : (p === 'medium' ? 'medium' : 'low'); }
+                function priLabel(p) { return p === 'critical' ? 'Crit' : p === 'high' ? 'High' : p === 'medium' ? 'Med' : 'Low'; }
+
+                function fmtTime(iso) {
+                    if (!iso) return '';
+                    var dt = new Date(iso);
+                    var now = new Date();
+                    var sameDay = dt.toDateString() === now.toDateString();
+                    var time = dt.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+                    if (sameDay) return time;
+                    return dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) + ' ' + time;
+                }
+
+                function buildCard(item, isDone) {
+                    var d = document.createElement('div');
+                    d.className = 'kanban-card';
+                    var timeHtml = '';
+                    if (isDone && item.completedAt) {
+                        timeHtml = '<div class="kanban-card-time">' + icon('clock', 10, '2') + ' ' + fmtTime(item.completedAt) + '</div>';
+                    }
+                    d.innerHTML = '<div class="kanban-card-title">' + item.title + '</div>'
+                        + timeHtml
+                        + '<div class="kanban-card-meta">'
+                        + '<div class="kanban-agent">' + agentTag(item.agent) + '</div>'
+                        + '<div class="priority-pill ' + (isDone ? 'low' : priClass(item.priority)) + '">' + (isDone ? 'Done' : priLabel(item.priority)) + '</div>'
+                        + '</div>';
+                    return d;
+                }
+
+                function buildCol(iconName, title, items, isDone) {
+                    var col = document.createElement('div');
+                    col.className = 'kanban-column';
+                    var header = '<div class="kanban-col-header"><div class="kanban-col-title">' + icon(iconName, 14, '2') + ' ' + title + '</div>'
+                        + '<div class="kanban-col-count">' + items.length + '</div></div>';
+                    col.innerHTML = header;
+                    var cards = document.createElement('div');
+                    cards.className = 'kanban-cards';
+                    if (items.length === 0) {
+                        cards.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text-muted);font-size:12px;">No items</div>';
+                    } else {
+                        items.forEach(function(t) { cards.appendChild(buildCard(t, isDone)); });
+                    }
+                    col.appendChild(cards);
+                    return col;
+                }
+
+                board.innerHTML = '';
+                board.appendChild(buildCol('inbox', 'Queued', tasks.queued || [], false));
+                board.appendChild(buildCol('refresh', 'In Progress', tasks.inProgress || [], false));
+                board.appendChild(buildCol('eye', 'Review', tasks.review || [], false));
+                board.appendChild(buildCol('checkCircle', 'Done', tasks.done || [], true));
+            }
+
+            function updateCosts(usage) {
+                var gaugePct = document.querySelector('.gauge-pct');
+                if (gaugePct) gaugePct.textContent = usage.sessionPct + '%';
+
+                var fillCircle = document.querySelector('.fill-circle');
+                if (fillCircle) {
+                    var circumference = 2 * Math.PI * 56;
+                    fillCircle.style.strokeDashoffset = circumference * (1 - usage.sessionPct / 100);
+                }
+
+                var stats = document.querySelectorAll('.gauge-stat .g-value');
+                if (stats.length >= 1) stats[0].textContent = usage.exchangeCount;
+
+                var blocks = document.querySelectorAll('#sidebar > div[style]');
+                blocks.forEach(function(block) {
+                    if (block.textContent.indexOf('agents') !== -1) {
+                        block.innerHTML = '5 agents &middot; <span id="activeAgentCount">3</span> active<br>'
+                            + '<span style="font-family:var(--font-mono);font-size:10px;">Session: ' + usage.sessionPct + '% &middot; Weekly: ' + usage.weeklyPct + '%</span>';
+                    }
+                });
+            }
+
+            function updateSchedule(schedule) {
+                var list = document.querySelector('#view-schedule .schedule-list');
+                if (!list) return;
+                list.innerHTML = '';
+                schedule.forEach(function(item) {
+                    var iconName = scheduleIconMap[item.name] || 'clock';
+                    var sClass = item.status === 'ok' ? 'ok' : 'warn';
+                    var sIcon = item.status === 'ok' ? icon('checkCircle', 12, '2') : icon('alertTri', 12, '2');
+                    var sText = item.status === 'ok' ? (sIcon + ' ' + item.lastRun) : (sIcon + ' ' + (item.status === 'timeout' ? 'Timeout' : item.status));
+                    var el = document.createElement('div');
+                    el.className = 'schedule-item';
+                    el.innerHTML = '<div class="schedule-icon">' + icon(iconName, 20, '1.5') + '</div>'
+                        + '<div class="schedule-info"><div class="schedule-name">' + item.name + '</div>'
+                        + '<div class="schedule-time">' + item.schedule + '</div>'
+                        + (item.desc ? '<div class="schedule-desc">' + item.desc + '</div>' : '')
+                        + '</div>'
+                        + '<div class="schedule-meta"><div class="schedule-model">' + item.model + '</div>'
+                        + '<div class="schedule-status ' + sClass + '">' + sText + '</div></div>';
+                    list.appendChild(el);
+                });
+            }
+
+            function updateDigest(activity, tasks) {
+                var content = document.querySelector('#view-digest .digest-content');
+                if (!content) return;
+                var html = '<h3>' + icon('signal', 16, '2') + ' Live Activity Feed</h3><ul>';
+                activity.forEach(function(item) { html += '<li><strong>' + item.time + '</strong> -- ' + item.text + '</li>'; });
+                html += '</ul>';
+                if (tasks && tasks.done && tasks.done.length > 0) {
+                    html += '<h3>' + icon('checkCircle', 16, '2') + ' Completed Today</h3><ul>';
+                    tasks.done.forEach(function(t) {
+                        var time = t.completedAt ? new Date(t.completedAt).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }) : '';
+                        html += '<li><strong>' + t.title + '</strong>' + (time ? ' -- ' + time : '') + '</li>';
+                    });
+                    html += '</ul>';
+                }
+                if (tasks && tasks.inProgress && tasks.inProgress.length > 0) {
+                    html += '<h3>' + icon('refresh', 16, '2') + ' In Progress Now</h3><ul>';
+                    tasks.inProgress.forEach(function(t) {
+                        html += '<li><strong>' + t.title + '</strong> -- ' + agentTag(t.agent) + '</li>';
+                    });
+                    html += '</ul>';
+                }
+                content.innerHTML = html;
+                var ts = document.querySelector('#view-digest .digest-timestamp');
+                if (ts) ts.textContent = 'Auto-updating -- ' + new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+                var dt = document.querySelector('#view-digest .digest-title');
+                if (dt) dt.innerHTML = icon('newspaper', 18, '1.5') + ' Live Feed -- ' + new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            }
+
+            function updateSyncTimer() {
+                if (!lastFetchTime || !lastSyncedEl) return;
+                var s = Math.floor((Date.now() - lastFetchTime) / 1000);
+                lastSyncedEl.textContent = s < 5 ? '-- just now' : s < 60 ? ('-- ' + s + 's ago') : ('-- ' + Math.floor(s / 60) + 'm ago');
+            }
+
+            function pulseHeader() {
+                var h = document.querySelector('.top-header');
+                if (h) { h.classList.remove('pulse'); void h.offsetWidth; h.classList.add('pulse'); }
+            }
+
+            function setConnected(ok) {
+                isConnected = ok;
+                if (liveStatusEl) liveStatusEl.classList.toggle('disconnected', !ok);
+                if (liveLabelEl) liveLabelEl.textContent = ok ? 'Live' : 'Disconnected';
+            }
+
+            async function fetchAndUpdate() {
+                try {
+                    var resp = await fetch('status.json?t=' + Date.now());
+                    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+                    var data = await resp.json();
+                    lastFetchTime = Date.now();
+                    setConnected(true);
+                    pulseHeader();
+                    if (data.agents) { updateOrgChart(data.agents); updateOffice(data.agents); }
+                    if (data.tasks) updateTasks(data.tasks);
+                    if (data.usage) updateCosts(data.usage);
+                    if (data.schedule) updateSchedule(data.schedule);
+                    if (data.activity) updateDigest(data.activity, data.tasks);
+                    if (data.mission) {
+                        var m = document.querySelector('.header-brand .mission');
+                        if (m) m.textContent = data.mission;
+                    }
+                    if (data.agents) {
+                        var activeCount = data.agents.filter(function(a) { return a.status === 'active' || a.status === 'working'; }).length;
+                        var el = document.getElementById('activeAgentCount');
+                        if (el) el.textContent = activeCount;
+                    }
+                } catch (err) {
+                    console.warn('[Mission Control] Status fetch failed:', err);
+                    setConnected(false);
+                }
+            }
+
+            fetchAndUpdate();
+            setInterval(fetchAndUpdate, POLL_INTERVAL);
+            setInterval(updateSyncTimer, 1000);
+        })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,2251 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <title>INKredible MIS - Phase 1</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg-primary: #0a0a0f;
+      --bg-panel: rgba(255, 255, 255, 0.06);
+      --bg-panel-hover: rgba(255, 255, 255, 0.1);
+      --border-subtle: rgba(255, 255, 255, 0.12);
+      --border-hover: rgba(255, 255, 255, 0.24);
+      --text-primary: #ffffff;
+      --text-secondary: rgba(255, 255, 255, 0.72);
+      --text-muted: rgba(255, 255, 255, 0.5);
+      --accent: #00ffff;
+      --accent-soft: rgba(0, 255, 255, 0.16);
+      --accent-green: #22c55e;
+      --accent-amber: #f59e0b;
+      --accent-red: #ef4444;
+      --accent-purple: #8b5cf6;
+      --shadow: 0 14px 35px rgba(0, 0, 0, 0.3);
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --radius-sm: 8px;
+      --font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+
+    html[data-theme="light"] {
+      --bg-primary: #f4f7fb;
+      --bg-panel: rgba(255, 255, 255, 0.84);
+      --bg-panel-hover: rgba(255, 255, 255, 0.98);
+      --border-subtle: rgba(15, 23, 42, 0.12);
+      --border-hover: rgba(15, 23, 42, 0.25);
+      --text-primary: #0f172a;
+      --text-secondary: rgba(15, 23, 42, 0.75);
+      --text-muted: rgba(15, 23, 42, 0.52);
+      --accent-soft: rgba(0, 154, 178, 0.14);
+      --shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
+    }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      line-height: 1.4;
+      -webkit-font-smoothing: antialiased;
+      padding-bottom: 24px;
+      background-image:
+        radial-gradient(at 16% 18%, rgba(0, 255, 255, 0.12) 0%, transparent 52%),
+        radial-gradient(at 88% 9%, rgba(139, 92, 246, 0.14) 0%, transparent 45%),
+        radial-gradient(at 68% 83%, rgba(34, 197, 94, 0.08) 0%, transparent 50%);
+    }
+
+    .app {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 12px;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 10px;
+      z-index: 30;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px;
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-panel);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      margin-bottom: 12px;
+    }
+
+    .brand h1 {
+      font-size: clamp(1.02rem, 3vw, 1.45rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .brand .sub {
+      display: block;
+      font-size: 0.74rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+      color: inherit;
+    }
+
+    .btn {
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-panel);
+      color: var(--text-primary);
+      padding: 8px 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.2s ease;
+      font-size: 0.86rem;
+    }
+
+    .btn:hover {
+      border-color: var(--border-hover);
+      background: var(--bg-panel-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn.primary {
+      border-color: rgba(0,255,255,0.45);
+      background: linear-gradient(135deg, rgba(0,255,255,0.22), rgba(0,255,255,0.08));
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .btn.warn { color: #ffd29a; border-color: rgba(245, 158, 11, 0.4); }
+    .btn.danger { color: #ffb0b0; border-color: rgba(239, 68, 68, 0.45); }
+
+    .theme-toggle {
+      width: 46px;
+      height: 26px;
+      border-radius: 999px;
+      position: relative;
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-panel);
+      cursor: pointer;
+    }
+
+    .theme-toggle::after {
+      content: "";
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      background: var(--accent);
+      transition: transform 0.24s ease;
+    }
+
+    html[data-theme="light"] .theme-toggle::after { transform: translateX(20px); }
+
+    .tabs {
+      position: sticky;
+      top: 90px;
+      z-index: 20;
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 10px;
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-panel);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 14px;
+      margin-bottom: 12px;
+    }
+
+    .tab-btn {
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--text-secondary);
+      padding: 8px 14px;
+      border-radius: 999px;
+      white-space: nowrap;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.88rem;
+      transition: 0.2s ease;
+    }
+
+    .tab-btn:hover { color: var(--text-primary); background: var(--bg-panel-hover); }
+    .tab-btn.active {
+      color: var(--accent);
+      border-color: rgba(0,255,255,0.42);
+      background: rgba(0,255,255,0.12);
+    }
+
+    .tab-panel { display: none; animation: fade .25s ease; }
+    .tab-panel.active { display: block; }
+    @keyframes fade { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0);} }
+
+    .grid {
+      display: grid;
+      gap: 12px;
+    }
+
+    .grid.cards { grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); }
+
+    .panel {
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-panel);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      padding: 14px;
+      margin-bottom: 12px;
+    }
+
+    .panel h2 {
+      font-size: 1rem;
+      margin-bottom: 10px;
+      letter-spacing: -0.01em;
+    }
+
+    .panel h3 {
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+      color: var(--text-secondary);
+      font-weight: 600;
+    }
+
+    .metric {
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      background: rgba(255,255,255,0.04);
+      padding: 12px;
+    }
+
+    html[data-theme="light"] .metric { background: rgba(255,255,255,0.62); }
+
+    .metric .label {
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 5px;
+    }
+
+    .metric .value {
+      font-size: clamp(1rem, 4vw, 1.35rem);
+      font-family: var(--mono);
+      font-weight: 700;
+    }
+
+    .stage-chip-wrap {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+
+    .stage-chip {
+      border: 1px solid var(--border-subtle);
+      background: rgba(255,255,255,0.04);
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+    }
+
+    .list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .list-item {
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 10px;
+      background: rgba(255,255,255,0.03);
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .muted { color: var(--text-muted); }
+    .small { font-size: 0.78rem; }
+    .tiny { font-size: 0.72rem; }
+    .mono { font-family: var(--mono); }
+
+    .jobs-toolbar {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0,1fr));
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .jobs-toolbar select,
+    .jobs-toolbar input,
+    .field,
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      border: 1px solid var(--border-subtle);
+      background: rgba(255,255,255,0.04);
+      border-radius: 10px;
+      color: var(--text-primary);
+      padding: 9px 10px;
+      font-size: 0.86rem;
+    }
+
+    html[data-theme="light"] .jobs-toolbar select,
+    html[data-theme="light"] .jobs-toolbar input,
+    html[data-theme="light"] .field input,
+    html[data-theme="light"] .field select,
+    html[data-theme="light"] .field textarea {
+      background: rgba(255,255,255,0.85);
+    }
+
+    .field textarea { min-height: 84px; resize: vertical; }
+
+    .kanban {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(240px, 1fr));
+      gap: 10px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+    }
+
+    .column {
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 10px;
+      background: rgba(255,255,255,0.04);
+      min-height: 220px;
+    }
+
+    .column.drag-over {
+      border-color: rgba(0,255,255,0.55);
+      box-shadow: inset 0 0 0 1px rgba(0,255,255,0.36);
+    }
+
+    .column-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .column-head strong { font-size: 0.86rem; }
+
+    .count-badge {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      border-radius: 999px;
+      border: 1px solid var(--border-subtle);
+      padding: 2px 8px;
+      color: var(--text-muted);
+    }
+
+    .job-card {
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      background: rgba(255,255,255,0.05);
+      padding: 10px;
+      margin-bottom: 8px;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .job-card:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-1px);
+    }
+
+    .job-title {
+      font-size: 0.86rem;
+      font-weight: 600;
+      margin-bottom: 3px;
+      line-height: 1.3;
+    }
+
+    .job-meta {
+      color: var(--text-muted);
+      font-size: 0.73rem;
+      margin-bottom: 7px;
+    }
+
+    .priority {
+      display: inline-block;
+      font-size: 0.68rem;
+      border-radius: 999px;
+      padding: 2px 7px;
+      border: 1px solid;
+      margin-right: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .p-rush { color: #ffd4a1; border-color: rgba(245, 158, 11, 0.4); }
+    .p-normal { color: #bbffe8; border-color: rgba(34, 197, 94, 0.4); }
+
+    .job-actions {
+      display: flex;
+      gap: 6px;
+    }
+
+    .job-actions .mini {
+      flex: 1;
+      border: 1px solid var(--border-subtle);
+      background: transparent;
+      border-radius: 8px;
+      font-size: 0.7rem;
+      padding: 5px;
+      cursor: pointer;
+      color: var(--text-secondary);
+    }
+
+    .job-actions .mini:hover { color: var(--accent); border-color: rgba(0,255,255,0.4); }
+
+    .empty {
+      border: 1px dashed var(--border-subtle);
+      border-radius: 8px;
+      padding: 10px;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-align: center;
+      margin-top: 4px;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .customers-wrap {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 12px;
+    }
+
+    .customer-row {
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 9px;
+      cursor: pointer;
+      transition: .2s;
+      background: rgba(255,255,255,0.03);
+    }
+
+    .customer-row.active {
+      border-color: rgba(0,255,255,0.55);
+      background: rgba(0,255,255,0.12);
+    }
+
+    .customer-row:hover { border-color: var(--border-hover); }
+
+    .customer-name { font-weight: 600; font-size: 0.86rem; }
+    .badge {
+      display: inline-block;
+      font-size: 0.68rem;
+      padding: 2px 7px;
+      border-radius: 999px;
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+      margin-right: 4px;
+      margin-top: 5px;
+    }
+
+    .repeat { color: #bbffe8; border-color: rgba(34, 197, 94, 0.5); }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 8px;
+    }
+
+    .span-2 { grid-column: span 2; }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.8rem;
+    }
+
+    .table th,
+    .table td {
+      border-bottom: 1px solid var(--border-subtle);
+      text-align: left;
+      padding: 7px 6px;
+    }
+
+    .table th { color: var(--text-muted); font-size: 0.7rem; text-transform: uppercase; letter-spacing: .08em; }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 80;
+      background: rgba(5,8,12,0.7);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+    }
+
+    .modal.open { display: flex; }
+
+    .modal-card {
+      width: min(900px, 100%);
+      max-height: 92vh;
+      overflow: auto;
+      border-radius: 16px;
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-primary);
+      box-shadow: var(--shadow);
+      padding: 14px;
+    }
+
+    .history-item {
+      border-left: 2px solid rgba(0,255,255,0.45);
+      padding-left: 8px;
+      margin-bottom: 7px;
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+    }
+
+    .pill {
+      display: inline-block;
+      border-radius: 999px;
+      padding: 2px 8px;
+      font-size: 0.68rem;
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+    }
+
+    .timeline {
+      display: grid;
+      gap: 8px;
+    }
+
+    .timeline .row {
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 9px;
+      background: rgba(255,255,255,0.03);
+    }
+
+    .finance-bars .bar-wrap {
+      margin-bottom: 8px;
+    }
+
+    .finance-bars .bar-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      margin-bottom: 4px;
+    }
+
+    .finance-bars .track {
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      overflow: hidden;
+    }
+
+    .finance-bars .fill {
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #00ffff, #8b5cf6);
+    }
+
+    .toast {
+      position: fixed;
+      right: 12px;
+      bottom: 12px;
+      z-index: 100;
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-panel);
+      backdrop-filter: blur(20px);
+      border-radius: 12px;
+      padding: 10px 12px;
+      color: var(--text-primary);
+      font-size: 0.82rem;
+      display: none;
+    }
+
+    .toast.show { display: block; }
+
+    @media (max-width: 1020px) {
+      .customers-wrap { grid-template-columns: 1fr; }
+      .jobs-toolbar { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .form-grid { grid-template-columns: 1fr; }
+      .span-2 { grid-column: auto; }
+    }
+
+    @media (max-width: 680px) {
+      .topbar { top: 6px; padding: 12px; }
+      .tabs { top: 84px; }
+      .jobs-toolbar { grid-template-columns: 1fr; }
+      .app { padding: 8px; }
+      .btn { padding: 8px 10px; font-size: 0.8rem; }
+      .panel { padding: 12px; }
+      .table { font-size: 0.76rem; }
+      .top-actions { width: 100%; justify-content: flex-start; }
+      .topbar { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <h1>INKredible MIS <span style="color:var(--accent)">Phase 1</span></h1>
+        <span class="sub">Core App • Job Tracker • Customer CRM</span>
+      </div>
+      <div class="top-actions">
+        <button class="btn" id="btnExport">Export JSON</button>
+        <button class="btn" id="btnImport">Import JSON</button>
+        <input type="file" id="importInput" accept="application/json" style="display:none" />
+        <button class="btn" id="btnSeedReset" title="Rebuild demo data">Reset Seed</button>
+        <button class="theme-toggle" id="themeToggle" title="Toggle theme"></button>
+      </div>
+    </header>
+
+    <nav class="tabs" id="tabs">
+      <button class="tab-btn active" data-tab="home">Home</button>
+      <button class="tab-btn" data-tab="jobs">Jobs</button>
+      <button class="tab-btn" data-tab="customers">Customers</button>
+      <button class="tab-btn" data-tab="quotes">Quotes</button>
+      <button class="tab-btn" data-tab="calendar">Calendar</button>
+      <button class="tab-btn" data-tab="finance">Finance</button>
+    </nav>
+
+    <section class="tab-panel active" id="tab-home">
+      <div class="panel">
+        <h2>Dashboard Home</h2>
+        <div class="grid cards" id="homeMetrics"></div>
+        <div class="stage-chip-wrap" id="stageSummary"></div>
+      </div>
+
+      <div class="two-col">
+        <div class="panel">
+          <h3>Upcoming Deadlines (Next 7 Days)</h3>
+          <div class="list" id="upcomingList"></div>
+        </div>
+        <div class="panel">
+          <h3>Recent Activity Feed</h3>
+          <div class="list" id="activityFeed"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="tab-panel" id="tab-jobs">
+      <div class="panel">
+        <h2>Add New Job</h2>
+        <form id="jobForm" class="form-grid">
+          <div class="field">
+            <label class="tiny muted">Customer</label>
+            <select id="jobCustomerId"></select>
+          </div>
+          <div class="field">
+            <label class="tiny muted">Title</label>
+            <input id="jobTitle" required placeholder="e.g. Dance floor wrap" />
+          </div>
+          <div class="field">
+            <label class="tiny muted">Job Type</label>
+            <select id="jobType"></select>
+          </div>
+          <div class="field">
+            <label class="tiny muted">Estimated Value ($)</label>
+            <input id="jobValue" type="number" min="0" step="0.01" required />
+          </div>
+          <div class="field">
+            <label class="tiny muted">Event Date</label>
+            <input id="jobEventDate" type="date" required />
+          </div>
+          <div class="field">
+            <label class="tiny muted">Due Date</label>
+            <input id="jobDueDate" type="date" required />
+          </div>
+          <div class="field">
+            <label class="tiny muted">Priority</label>
+            <select id="jobPriority">
+              <option value="normal">Normal</option>
+              <option value="rush">Rush</option>
+            </select>
+          </div>
+          <div class="field">
+            <label class="tiny muted">Size / Specs</label>
+            <input id="jobSize" placeholder="e.g. 25ft x 88ft" />
+          </div>
+          <div class="field span-2">
+            <label class="tiny muted">Notes</label>
+            <textarea id="jobNotes" placeholder="Production notes, materials, installation context..."></textarea>
+          </div>
+
+          <div class="field span-2" style="display:flex; align-items:center; gap:8px;">
+            <input id="newCustomerToggle" type="checkbox" style="width:auto" />
+            <label for="newCustomerToggle" class="small">Quick-add new customer inline</label>
+          </div>
+
+          <div class="field" id="newCustomerFields" style="display:none; grid-column: span 2;">
+            <div class="form-grid">
+              <div class="field"><label class="tiny muted">Name</label><input id="newCustName" placeholder="Customer name" /></div>
+              <div class="field"><label class="tiny muted">Company</label><input id="newCustCompany" placeholder="Company" /></div>
+              <div class="field"><label class="tiny muted">Phone</label><input id="newCustPhone" placeholder="Phone" /></div>
+              <div class="field"><label class="tiny muted">Email</label><input id="newCustEmail" placeholder="Email" /></div>
+              <div class="field"><label class="tiny muted">Source</label><select id="newCustSource"></select></div>
+              <div class="field"><label class="tiny muted">Segment</label><select id="newCustSegment"></select></div>
+            </div>
+          </div>
+
+          <div class="span-2" style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button class="btn primary" type="submit">Create Job</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="panel">
+        <h2>Job Pipeline</h2>
+        <div class="jobs-toolbar">
+          <select id="filterJobType"></select>
+          <select id="filterPriority"></select>
+          <select id="filterCustomer"></select>
+          <input id="filterSearch" placeholder="Search job title..." />
+        </div>
+        <div class="kanban" id="kanbanBoard"></div>
+      </div>
+
+      <div class="panel">
+        <h3>Lost Jobs</h3>
+        <div id="lostJobs"></div>
+      </div>
+    </section>
+
+    <section class="tab-panel" id="tab-customers">
+      <div class="customers-wrap">
+        <div class="panel">
+          <h2>Customer CRM</h2>
+          <input id="customerSearch" placeholder="Search customers..." class="field" style="margin-bottom:8px;" />
+          <div style="display:flex; gap:8px; margin-bottom:8px;">
+            <button class="btn" id="btnNewCustomer">+ New Customer</button>
+          </div>
+          <div class="list" id="customerList"></div>
+        </div>
+        <div class="panel" id="customerDetail"></div>
+      </div>
+    </section>
+
+    <section class="tab-panel" id="tab-quotes">
+      <div class="panel">
+        <h2>Quotes</h2>
+        <p class="small muted" style="margin-bottom:10px;">Fast quote tiering from current quote-stage jobs (Opening +25%, Target +10%, Floor base).</p>
+        <div class="list" id="quoteQueue"></div>
+      </div>
+    </section>
+
+    <section class="tab-panel" id="tab-calendar">
+      <div class="panel">
+        <h2>Calendar</h2>
+        <p class="small muted" style="margin-bottom:10px;">Upcoming production + event schedule, optimized for mobile use.</p>
+        <div class="timeline" id="calendarTimeline"></div>
+      </div>
+    </section>
+
+    <section class="tab-panel" id="tab-finance">
+      <div class="panel">
+        <h2>Finance Snapshot</h2>
+        <div class="grid cards" id="financeMetrics"></div>
+      </div>
+      <div class="panel">
+        <h3>Revenue by Job Type (Paid Jobs)</h3>
+        <div class="finance-bars" id="financeBars"></div>
+      </div>
+      <div class="panel">
+        <h3>Top Customers by Lifetime Value</h3>
+        <div class="list" id="topCustomers"></div>
+      </div>
+    </section>
+  </div>
+
+  <div class="modal" id="jobModal">
+    <div class="modal-card">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; gap:8px;">
+        <h2 style="margin:0">Job Details</h2>
+        <button class="btn" id="closeJobModal">Close</button>
+      </div>
+      <form id="jobDetailForm" class="form-grid"></form>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const STORAGE = {
+      jobs: 'mis_jobs',
+      customers: 'mis_customers',
+      communications: 'mis_communications',
+      seedFlag: 'mis_seeded_v1',
+      theme: 'mis_theme'
+    };
+
+    const JOB_TYPES = [
+      'floor_graphics',
+      'banner',
+      'signage',
+      'business_cards',
+      'postcards',
+      'fabric',
+      'vehicle_wrap',
+      'other'
+    ];
+
+    const STAGES = ['lead', 'quote', 'booked', 'production', 'delivered', 'paid'];
+    const STAGE_LABELS = {
+      lead: 'Lead',
+      quote: 'Quote',
+      booked: 'Booked',
+      production: 'Production',
+      delivered: 'Delivered',
+      paid: 'Paid',
+      lost: 'Lost'
+    };
+
+    const SOURCES = ['IG', 'referral', 'walk-in', 'website', 'phone'];
+    const SEGMENTS = ['event_planner', 'rental_company', 'corporate', 'retail'];
+
+    const state = {
+      jobs: [],
+      customers: [],
+      communications: [],
+      ui: {
+        tab: 'home',
+        selectedJobId: null,
+        selectedCustomerId: null,
+        customerSearch: '',
+        filters: {
+          jobType: 'all',
+          priority: 'all',
+          customer: 'all',
+          search: ''
+        }
+      }
+    };
+
+    const $ = (sel) => document.querySelector(sel);
+    const $$ = (sel) => Array.from(document.querySelectorAll(sel));
+
+    function nowIso() { return new Date().toISOString(); }
+    function genId(prefix = 'id') { return `${prefix}_${Date.now()}_${Math.floor(Math.random() * 9999)}`; }
+    function shortDate(v) { if (!v) return '—'; return new Date(v + (v.length <= 10 ? 'T00:00:00' : '')).toLocaleDateString(); }
+    function longDate(v) { if (!v) return '—'; return new Date(v).toLocaleString(); }
+    function money(n) { return `$${Number(n || 0).toLocaleString(undefined, { maximumFractionDigits: 0 })}`; }
+    function clampPct(n) { return Math.max(2, Math.min(100, n)); }
+    function daysFromNow(days) {
+      const d = new Date();
+      d.setDate(d.getDate() + days);
+      return d.toISOString().slice(0, 10);
+    }
+
+    function showToast(message) {
+      const toast = $('#toast');
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2300);
+    }
+
+    function setTheme(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem(STORAGE.theme, theme);
+    }
+
+    function loadTheme() {
+      const saved = localStorage.getItem(STORAGE.theme) || 'light';
+      setTheme(saved);
+    }
+
+    function toggleTheme() {
+      const current = document.documentElement.getAttribute('data-theme') || 'dark';
+      setTheme(current === 'dark' ? 'light' : 'dark');
+    }
+
+    function readJson(key, fallback = []) {
+      try {
+        const raw = localStorage.getItem(key);
+        if (!raw) return fallback;
+        return JSON.parse(raw);
+      } catch {
+        return fallback;
+      }
+    }
+
+    function saveAll() {
+      localStorage.setItem(STORAGE.jobs, JSON.stringify(state.jobs));
+      localStorage.setItem(STORAGE.customers, JSON.stringify(state.customers));
+      localStorage.setItem(STORAGE.communications, JSON.stringify(state.communications));
+    }
+
+    function migrateRecords() {
+      state.jobs = state.jobs.map(j => ({
+        id: j.id || genId('job'),
+        job_number: j.job_number || `JOB-${new Date().getFullYear().toString().slice(-2)}-${String(Math.floor(Math.random() * 900) + 100)}`,
+        customer_id: j.customer_id || '',
+        title: j.title || 'Untitled Job',
+        job_type: j.job_type || 'other',
+        stage: j.stage || 'lead',
+        priority: j.priority || 'normal',
+        event_date: j.event_date || daysFromNow(7),
+        due_at: j.due_at || daysFromNow(6),
+        owner_user: j.owner_user || 'Aviel',
+        estimated_value: Number(j.estimated_value || 0),
+        actual_revenue: Number(j.actual_revenue || 0),
+        size: j.size || '',
+        notes: j.notes || '',
+        lost_reason: j.lost_reason || '',
+        stage_history: Array.isArray(j.stage_history) ? j.stage_history : [],
+        created_at: j.created_at || nowIso(),
+        updated_at: j.updated_at || nowIso()
+      }));
+
+      state.customers = state.customers.map(c => ({
+        id: c.id || genId('cust'),
+        name: c.name || 'Unnamed',
+        company_name: c.company_name || '',
+        phone: c.phone || '',
+        email: c.email || '',
+        source_channel: c.source_channel || 'referral',
+        segment: c.segment || 'retail',
+        language_pref: c.language_pref || 'English',
+        tags: Array.isArray(c.tags) ? c.tags : [],
+        notes: c.notes || '',
+        created_at: c.created_at || nowIso(),
+        updated_at: c.updated_at || nowIso()
+      }));
+
+      state.communications = state.communications.map(m => ({
+        id: m.id || genId('comm'),
+        customer_id: m.customer_id || '',
+        job_id: m.job_id || null,
+        date: m.date || nowIso(),
+        channel: m.channel || 'dm',
+        summary: m.summary || '',
+        next_follow_up_at: m.next_follow_up_at || '',
+        owner_user: m.owner_user || 'Aviel',
+        created_at: m.created_at || nowIso(),
+        updated_at: m.updated_at || nowIso()
+      }));
+    }
+
+    function makeStageEvent(fromStage, toStage, note, changedAt) {
+      return {
+        id: genId('evt'),
+        from_stage: fromStage,
+        to_stage: toStage,
+        note: note || '',
+        changed_at: changedAt || nowIso()
+      };
+    }
+
+    function createSeedData() {
+      const created = nowIso();
+
+      const customers = [
+        {
+          id: genId('cust'),
+          name: 'Ari Levin',
+          company_name: 'Lux Events',
+          phone: '(718) 555-0133',
+          email: 'ari@luxeventsny.com',
+          source_channel: 'IG',
+          segment: 'event_planner',
+          language_pref: 'English',
+          tags: ['vip', 'floor-graphics', 'repeat'],
+          notes: 'High-value event installs. Fast turnaround expectations.',
+          created_at: created,
+          updated_at: created
+        },
+        {
+          id: genId('cust'),
+          name: 'Rachel Messi',
+          company_name: 'Messi Law',
+          phone: '(646) 555-0987',
+          email: 'ops@messilaw.com',
+          source_channel: 'referral',
+          segment: 'corporate',
+          language_pref: 'English',
+          tags: ['office-signage'],
+          notes: 'Legal office branding refreshes.',
+          created_at: created,
+          updated_at: created
+        },
+        {
+          id: genId('cust'),
+          name: 'Devin Clark',
+          company_name: 'Apex Corporate Solutions',
+          phone: '(212) 555-1001',
+          email: 'events@apexcorp.com',
+          source_channel: 'website',
+          segment: 'corporate',
+          language_pref: 'English',
+          tags: ['corporate', 'bulk-orders'],
+          notes: 'Quarterly event collateral and booth graphics.',
+          created_at: created,
+          updated_at: created
+        },
+        {
+          id: genId('cust'),
+          name: 'Sofia Martinez',
+          company_name: 'Walk-In Retail',
+          phone: '(917) 555-4412',
+          email: 'sofia.walkin@gmail.com',
+          source_channel: 'walk-in',
+          segment: 'retail',
+          language_pref: 'Spanish / English',
+          tags: ['walk-in'],
+          notes: 'Quick-turn card and flyer jobs.',
+          created_at: created,
+          updated_at: created
+        },
+        {
+          id: genId('cust'),
+          name: 'David Kim',
+          company_name: 'Referrals NYC',
+          phone: '(347) 555-2277',
+          email: 'david@referralsnyc.com',
+          source_channel: 'referral',
+          segment: 'rental_company',
+          language_pref: 'English',
+          tags: ['referral-partner', 'vehicle-wraps'],
+          notes: 'Sends recurring fleet branding opportunities.',
+          created_at: created,
+          updated_at: created
+        }
+      ];
+
+      const [lux, messi, apex, walkin, referral] = customers;
+
+      const jobs = [
+        {
+          id: genId('job'),
+          job_number: 'JOB-26-001',
+          customer_id: lux.id,
+          title: '25ft x 88ft dance floor wrap',
+          job_type: 'floor_graphics',
+          stage: 'production',
+          priority: 'rush',
+          event_date: daysFromNow(5),
+          due_at: daysFromNow(3),
+          owner_user: 'Aviel',
+          estimated_value: 10000,
+          actual_revenue: 0,
+          size: '25ft x 88ft',
+          notes: 'Luxury gala install. Matte anti-slip laminate required.',
+          lost_reason: '',
+          stage_history: [
+            makeStageEvent(null, 'lead', 'Inbound from IG DM', new Date(Date.now() - 1000*60*60*24*6).toISOString()),
+            makeStageEvent('lead', 'quote', 'Scope finalized', new Date(Date.now() - 1000*60*60*24*5).toISOString()),
+            makeStageEvent('quote', 'booked', 'Deposit received', new Date(Date.now() - 1000*60*60*24*4).toISOString()),
+            makeStageEvent('booked', 'production', 'File approved + print started', new Date(Date.now() - 1000*60*60*24*2).toISOString())
+          ],
+          created_at: new Date(Date.now() - 1000*60*60*24*6).toISOString(),
+          updated_at: nowIso()
+        },
+        {
+          id: genId('job'),
+          job_number: 'JOB-26-002',
+          customer_id: messi.id,
+          title: 'Lobby acrylic signage refresh',
+          job_type: 'signage',
+          stage: 'quote',
+          priority: 'normal',
+          event_date: daysFromNow(14),
+          due_at: daysFromNow(12),
+          owner_user: 'Aviel',
+          estimated_value: 2800,
+          actual_revenue: 0,
+          size: '3 panels, 36x48 each',
+          notes: 'Need brushed-metal stand-offs.',
+          lost_reason: '',
+          stage_history: [
+            makeStageEvent(null, 'lead', 'Referred by existing client', new Date(Date.now() - 1000*60*60*24*4).toISOString()),
+            makeStageEvent('lead', 'quote', 'Sent tiered pricing', new Date(Date.now() - 1000*60*60*24*2).toISOString())
+          ],
+          created_at: new Date(Date.now() - 1000*60*60*24*4).toISOString(),
+          updated_at: nowIso()
+        },
+        {
+          id: genId('job'),
+          job_number: 'JOB-26-003',
+          customer_id: apex.id,
+          title: 'Trade show banner set (12 units)',
+          job_type: 'banner',
+          stage: 'booked',
+          priority: 'normal',
+          event_date: daysFromNow(18),
+          due_at: daysFromNow(15),
+          owner_user: 'Aviel',
+          estimated_value: 4600,
+          actual_revenue: 0,
+          size: '33x80 retractables',
+          notes: 'Awaiting final logos.',
+          lost_reason: '',
+          stage_history: [
+            makeStageEvent(null, 'lead', 'Website inquiry', new Date(Date.now() - 1000*60*60*24*8).toISOString()),
+            makeStageEvent('lead', 'quote', 'Quote approved verbally', new Date(Date.now() - 1000*60*60*24*6).toISOString()),
+            makeStageEvent('quote', 'booked', 'PO issued', new Date(Date.now() - 1000*60*60*24*5).toISOString())
+          ],
+          created_at: new Date(Date.now() - 1000*60*60*24*8).toISOString(),
+          updated_at: nowIso()
+        },
+        {
+          id: genId('job'),
+          job_number: 'JOB-26-004',
+          customer_id: walkin.id,
+          title: 'Premium business cards (2,500)',
+          job_type: 'business_cards',
+          stage: 'paid',
+          priority: 'normal',
+          event_date: daysFromNow(-10),
+          due_at: daysFromNow(-12),
+          owner_user: 'Aviel',
+          estimated_value: 420,
+          actual_revenue: 420,
+          size: '16pt silk laminated',
+          notes: 'Rush pickup completed.',
+          lost_reason: '',
+          stage_history: [
+            makeStageEvent(null, 'lead', 'Walk-in request', new Date(Date.now() - 1000*60*60*24*16).toISOString()),
+            makeStageEvent('lead', 'quote', 'Price accepted in store', new Date(Date.now() - 1000*60*60*24*16).toISOString()),
+            makeStageEvent('quote', 'booked', 'Paid 50% upfront', new Date(Date.now() - 1000*60*60*24*15).toISOString()),
+            makeStageEvent('booked', 'production', 'Print complete', new Date(Date.now() - 1000*60*60*24*14).toISOString()),
+            makeStageEvent('production', 'delivered', 'Customer pickup', new Date(Date.now() - 1000*60*60*24*13).toISOString()),
+            makeStageEvent('delivered', 'paid', 'Final balance settled', new Date(Date.now() - 1000*60*60*24*12).toISOString())
+          ],
+          created_at: new Date(Date.now() - 1000*60*60*24*16).toISOString(),
+          updated_at: nowIso()
+        },
+        {
+          id: genId('job'),
+          job_number: 'JOB-26-005',
+          customer_id: referral.id,
+          title: 'Fleet partial vehicle wrap (Sprinter)',
+          job_type: 'vehicle_wrap',
+          stage: 'lead',
+          priority: 'normal',
+          event_date: daysFromNow(21),
+          due_at: daysFromNow(19),
+          owner_user: 'Aviel',
+          estimated_value: 6200,
+          actual_revenue: 0,
+          size: 'Mercedes Sprinter partial wrap',
+          notes: 'Waiting on branding deck from agency.',
+          lost_reason: '',
+          stage_history: [
+            makeStageEvent(null, 'lead', 'Referral intro call', new Date(Date.now() - 1000*60*60*24*1).toISOString())
+          ],
+          created_at: new Date(Date.now() - 1000*60*60*24*1).toISOString(),
+          updated_at: nowIso()
+        },
+        {
+          id: genId('job'),
+          job_number: 'JOB-26-006',
+          customer_id: lux.id,
+          title: 'Step-and-repeat backdrop wall',
+          job_type: 'fabric',
+          stage: 'delivered',
+          priority: 'normal',
+          event_date: daysFromNow(2),
+          due_at: daysFromNow(1),
+          owner_user: 'Aviel',
+          estimated_value: 1800,
+          actual_revenue: 0,
+          size: '10x8 tension fabric',
+          notes: 'Installed, waiting final payment.',
+          lost_reason: '',
+          stage_history: [
+            makeStageEvent(null, 'lead', 'Repeat client request', new Date(Date.now() - 1000*60*60*24*7).toISOString()),
+            makeStageEvent('lead', 'quote', 'Approved same day', new Date(Date.now() - 1000*60*60*24*6).toISOString()),
+            makeStageEvent('quote', 'booked', 'Deposit received', new Date(Date.now() - 1000*60*60*24*6).toISOString()),
+            makeStageEvent('booked', 'production', 'Fabric print complete', new Date(Date.now() - 1000*60*60*24*4).toISOString()),
+            makeStageEvent('production', 'delivered', 'Installed onsite', new Date(Date.now() - 1000*60*60*24*1).toISOString())
+          ],
+          created_at: new Date(Date.now() - 1000*60*60*24*7).toISOString(),
+          updated_at: nowIso()
+        },
+        {
+          id: genId('job'),
+          job_number: 'JOB-26-007',
+          customer_id: apex.id,
+          title: 'Postcard campaign (15k)',
+          job_type: 'postcards',
+          stage: 'paid',
+          priority: 'normal',
+          event_date: daysFromNow(-8),
+          due_at: daysFromNow(-11),
+          owner_user: 'Aviel',
+          estimated_value: 950,
+          actual_revenue: 950,
+          size: '6x11 UV gloss',
+          notes: 'Shipped in 3 cartons.',
+          lost_reason: '',
+          stage_history: [
+            makeStageEvent(null, 'lead', 'Inbound email', new Date(Date.now() - 1000*60*60*24*18).toISOString()),
+            makeStageEvent('lead', 'quote', 'Quoted with freight', new Date(Date.now() - 1000*60*60*24*17).toISOString()),
+            makeStageEvent('quote', 'booked', 'ACH prepayment', new Date(Date.now() - 1000*60*60*24*16).toISOString()),
+            makeStageEvent('booked', 'production', 'Run completed', new Date(Date.now() - 1000*60*60*24*14).toISOString()),
+            makeStageEvent('production', 'delivered', 'Delivered to HQ', new Date(Date.now() - 1000*60*60*24*12).toISOString()),
+            makeStageEvent('delivered', 'paid', 'Closed and paid', new Date(Date.now() - 1000*60*60*24*11).toISOString())
+          ],
+          created_at: new Date(Date.now() - 1000*60*60*24*18).toISOString(),
+          updated_at: nowIso()
+        },
+        {
+          id: genId('job'),
+          job_number: 'JOB-26-008',
+          customer_id: messi.id,
+          title: 'Window vinyl privacy bands',
+          job_type: 'signage',
+          stage: 'lost',
+          priority: 'normal',
+          event_date: daysFromNow(30),
+          due_at: daysFromNow(25),
+          owner_user: 'Aviel',
+          estimated_value: 1600,
+          actual_revenue: 0,
+          size: 'Frosted vinyl strips',
+          notes: 'Put on hold by client.',
+          lost_reason: 'Budget frozen until next quarter.',
+          stage_history: [
+            makeStageEvent(null, 'lead', 'Office manager inquiry', new Date(Date.now() - 1000*60*60*24*9).toISOString()),
+            makeStageEvent('lead', 'quote', 'Quoted 2 options', new Date(Date.now() - 1000*60*60*24*8).toISOString()),
+            makeStageEvent('quote', 'lost', 'Budget pause', new Date(Date.now() - 1000*60*60*24*7).toISOString())
+          ],
+          created_at: new Date(Date.now() - 1000*60*60*24*9).toISOString(),
+          updated_at: nowIso()
+        }
+      ];
+
+      const communications = [
+        {
+          id: genId('comm'),
+          customer_id: lux.id,
+          job_id: jobs[0].id,
+          date: new Date(Date.now() - 1000*60*60*30).toISOString(),
+          channel: 'phone',
+          summary: 'Confirmed overnight print window for dance floor wrap.',
+          next_follow_up_at: daysFromNow(1),
+          owner_user: 'Aviel',
+          created_at: created,
+          updated_at: created
+        },
+        {
+          id: genId('comm'),
+          customer_id: messi.id,
+          job_id: jobs[1].id,
+          date: new Date(Date.now() - 1000*60*60*45).toISOString(),
+          channel: 'email',
+          summary: 'Sent revised quote with acrylic + brushed hardware.',
+          next_follow_up_at: daysFromNow(2),
+          owner_user: 'Aviel',
+          created_at: created,
+          updated_at: created
+        },
+        {
+          id: genId('comm'),
+          customer_id: referral.id,
+          job_id: jobs[4].id,
+          date: new Date(Date.now() - 1000*60*60*12).toISOString(),
+          channel: 'dm',
+          summary: 'Requested fleet photos + panel dimensions.',
+          next_follow_up_at: daysFromNow(3),
+          owner_user: 'Aviel',
+          created_at: created,
+          updated_at: created
+        },
+        {
+          id: genId('comm'),
+          customer_id: walkin.id,
+          job_id: jobs[3].id,
+          date: new Date(Date.now() - 1000*60*60*24*11).toISOString(),
+          channel: 'walk-in',
+          summary: 'Customer picked up cards and left positive feedback.',
+          next_follow_up_at: '',
+          owner_user: 'Aviel',
+          created_at: created,
+          updated_at: created
+        }
+      ];
+
+      return { customers, jobs, communications };
+    }
+
+    function loadData() {
+      const seeded = localStorage.getItem(STORAGE.seedFlag);
+      state.jobs = readJson(STORAGE.jobs, []);
+      state.customers = readJson(STORAGE.customers, []);
+      state.communications = readJson(STORAGE.communications, []);
+
+      if (!seeded || !state.jobs.length || !state.customers.length) {
+        const seed = createSeedData();
+        state.jobs = seed.jobs;
+        state.customers = seed.customers;
+        state.communications = seed.communications;
+        localStorage.setItem(STORAGE.seedFlag, '1');
+        saveAll();
+      }
+
+      migrateRecords();
+      saveAll();
+
+      if (!state.ui.selectedCustomerId && state.customers[0]) {
+        state.ui.selectedCustomerId = state.customers[0].id;
+      }
+    }
+
+    function getCustomer(id) {
+      return state.customers.find(c => c.id === id) || null;
+    }
+
+    function paidJobs() {
+      return state.jobs.filter(j => j.stage === 'paid');
+    }
+
+    function activeJobs() {
+      return state.jobs.filter(j => j.stage !== 'paid' && j.stage !== 'lost');
+    }
+
+    function customerLTV(customerId) {
+      return paidJobs()
+        .filter(j => j.customer_id === customerId)
+        .reduce((sum, j) => sum + Number(j.actual_revenue || j.estimated_value || 0), 0);
+    }
+
+    function completedCountForCustomer(customerId) {
+      return paidJobs().filter(j => j.customer_id === customerId).length;
+    }
+
+    function monthRevenue() {
+      const now = new Date();
+      return paidJobs().reduce((sum, j) => {
+        const d = new Date(j.updated_at || j.created_at);
+        if (d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear()) {
+          return sum + Number(j.actual_revenue || j.estimated_value || 0);
+        }
+        return sum;
+      }, 0);
+    }
+
+    function floorRevenuePct() {
+      const paid = paidJobs();
+      const total = paid.reduce((s, j) => s + Number(j.actual_revenue || j.estimated_value || 0), 0);
+      if (!total) return 0;
+      const floor = paid
+        .filter(j => j.job_type === 'floor_graphics')
+        .reduce((s, j) => s + Number(j.actual_revenue || j.estimated_value || 0), 0);
+      return Math.round((floor / total) * 100);
+    }
+
+    function nextJobNumber() {
+      const year = String(new Date().getFullYear()).slice(-2);
+      const nums = state.jobs
+        .map(j => Number((j.job_number || '').split('-').pop()))
+        .filter(n => Number.isFinite(n));
+      const next = nums.length ? Math.max(...nums) + 1 : 1;
+      return `JOB-${year}-${String(next).padStart(3, '0')}`;
+    }
+
+    function getStageIndex(stage) {
+      return STAGES.indexOf(stage);
+    }
+
+    function moveJobStage(jobId, nextStage, note = '', lostReason = '') {
+      const job = state.jobs.find(j => j.id === jobId);
+      if (!job || job.stage === nextStage) return;
+
+      const from = job.stage;
+      job.stage = nextStage;
+      if (nextStage === 'lost') {
+        job.lost_reason = lostReason || job.lost_reason || 'Not specified';
+      } else if (from === 'lost') {
+        job.lost_reason = '';
+      }
+      if (nextStage === 'paid' && !job.actual_revenue) {
+        job.actual_revenue = Number(job.estimated_value || 0);
+      }
+      job.updated_at = nowIso();
+      job.stage_history.push(makeStageEvent(from, nextStage, note || 'Stage moved'));
+
+      saveAll();
+      renderAll();
+      showToast(`Moved to ${STAGE_LABELS[nextStage]}`);
+    }
+
+    function renderTabs() {
+      $$('.tab-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.tab === state.ui.tab);
+      });
+      $$('.tab-panel').forEach(panel => {
+        panel.classList.toggle('active', panel.id === `tab-${state.ui.tab}`);
+      });
+    }
+
+    function renderHome() {
+      const active = activeJobs();
+      const stageCounts = STAGES.reduce((acc, stage) => {
+        acc[stage] = state.jobs.filter(j => j.stage === stage).length;
+        return acc;
+      }, {});
+
+      const metrics = [
+        { label: 'Active Jobs', value: active.length },
+        { label: 'Revenue This Month', value: money(monthRevenue()) },
+        { label: 'Floor Graphics %', value: `${floorRevenuePct()}%` },
+        { label: 'Customers', value: state.customers.length }
+      ];
+
+      $('#homeMetrics').innerHTML = metrics.map(m => `
+        <div class="metric">
+          <div class="label">${m.label}</div>
+          <div class="value">${m.value}</div>
+        </div>
+      `).join('');
+
+      $('#stageSummary').innerHTML = STAGES.map(s => `
+        <div class="stage-chip">${STAGE_LABELS[s]}: <strong>${stageCounts[s]}</strong></div>
+      `).join('');
+
+      const upcoming = state.jobs
+        .filter(j => j.stage !== 'paid' && j.stage !== 'lost' && j.due_at)
+        .filter(j => {
+          const due = new Date(j.due_at + 'T00:00:00');
+          const now = new Date();
+          const in7 = new Date();
+          in7.setDate(now.getDate() + 7);
+          return due >= new Date(now.toDateString()) && due <= in7;
+        })
+        .sort((a,b) => new Date(a.due_at) - new Date(b.due_at));
+
+      $('#upcomingList').innerHTML = upcoming.length ? upcoming.map(j => {
+        const c = getCustomer(j.customer_id);
+        return `
+          <div class="list-item">
+            <div>
+              <div><strong>${j.title}</strong></div>
+              <div class="small muted">${c ? c.company_name : 'Unknown customer'} • ${STAGE_LABELS[j.stage]}</div>
+            </div>
+            <div class="small mono">Due ${shortDate(j.due_at)}</div>
+          </div>
+        `;
+      }).join('') : `<div class="empty">No deadlines in next 7 days.</div>`;
+
+      const events = [];
+      state.jobs.forEach(j => {
+        events.push({
+          ts: j.created_at,
+          text: `Job created: ${j.title}`,
+          sub: `${j.job_number} • ${STAGE_LABELS[j.stage]}`
+        });
+        (j.stage_history || []).forEach(h => {
+          events.push({
+            ts: h.changed_at,
+            text: `${j.job_number} moved ${STAGE_LABELS[h.from_stage] || 'Start'} → ${STAGE_LABELS[h.to_stage]}`,
+            sub: h.note || j.title
+          });
+        });
+      });
+
+      state.communications.forEach(c => {
+        const customer = getCustomer(c.customer_id);
+        events.push({
+          ts: c.date || c.created_at,
+          text: `Comms (${c.channel}) with ${customer ? customer.company_name : 'Customer'}`,
+          sub: c.summary
+        });
+      });
+
+      events.sort((a, b) => new Date(b.ts) - new Date(a.ts));
+      $('#activityFeed').innerHTML = events.slice(0, 10).map(e => `
+        <div class="list-item">
+          <div>
+            <div class="small"><strong>${e.text}</strong></div>
+            <div class="tiny muted">${e.sub || ''}</div>
+          </div>
+          <div class="tiny mono muted">${longDate(e.ts)}</div>
+        </div>
+      `).join('');
+    }
+
+    function renderJobFormOptions() {
+      $('#jobType').innerHTML = JOB_TYPES.map(t => `<option value="${t}">${t}</option>`).join('');
+      const customerOpts = state.customers.map(c => `<option value="${c.id}">${c.company_name} (${c.name})</option>`).join('');
+      $('#jobCustomerId').innerHTML = customerOpts;
+
+      $('#newCustSource').innerHTML = SOURCES.map(s => `<option value="${s}">${s}</option>`).join('');
+      $('#newCustSegment').innerHTML = SEGMENTS.map(s => `<option value="${s}">${s}</option>`).join('');
+
+      $('#filterJobType').innerHTML = `<option value="all">All Job Types</option>` + JOB_TYPES.map(t => `<option value="${t}">${t}</option>`).join('');
+      $('#filterPriority').innerHTML = `<option value="all">All Priorities</option><option value="normal">Normal</option><option value="rush">Rush</option>`;
+      $('#filterCustomer').innerHTML = `<option value="all">All Customers</option>` + state.customers.map(c => `<option value="${c.id}">${c.company_name}</option>`).join('');
+
+      $('#filterJobType').value = state.ui.filters.jobType;
+      $('#filterPriority').value = state.ui.filters.priority;
+      $('#filterCustomer').value = state.ui.filters.customer;
+      $('#filterSearch').value = state.ui.filters.search;
+    }
+
+    function getFilteredJobs() {
+      return state.jobs.filter(j => {
+        if (j.stage === 'lost') return false;
+        if (state.ui.filters.jobType !== 'all' && j.job_type !== state.ui.filters.jobType) return false;
+        if (state.ui.filters.priority !== 'all' && j.priority !== state.ui.filters.priority) return false;
+        if (state.ui.filters.customer !== 'all' && j.customer_id !== state.ui.filters.customer) return false;
+        if (state.ui.filters.search) {
+          const q = state.ui.filters.search.toLowerCase();
+          if (!j.title.toLowerCase().includes(q) && !(j.job_number || '').toLowerCase().includes(q)) return false;
+        }
+        return true;
+      });
+    }
+
+    function renderJobsBoard() {
+      const filtered = getFilteredJobs();
+      $('#kanbanBoard').innerHTML = STAGES.map(stage => {
+        const jobs = filtered.filter(j => j.stage === stage);
+        return `
+          <div class="column" data-stage="${stage}">
+            <div class="column-head">
+              <strong>${STAGE_LABELS[stage]}</strong>
+              <span class="count-badge">${jobs.length}</span>
+            </div>
+            <div>
+              ${jobs.map(j => {
+                const customer = getCustomer(j.customer_id);
+                const stageIdx = getStageIndex(j.stage);
+                return `
+                  <article class="job-card" draggable="true" data-job-id="${j.id}">
+                    <div class="job-title">${j.title}</div>
+                    <div class="job-meta">${j.job_number} • ${customer ? customer.company_name : 'Unknown'}</div>
+                    <div class="job-meta">
+                      <span class="priority ${j.priority === 'rush' ? 'p-rush' : 'p-normal'}">${j.priority}</span>
+                      <span class="mono">${money(j.estimated_value)}</span>
+                    </div>
+                    <div class="job-meta">Due: ${shortDate(j.due_at)}</div>
+                    <div class="job-actions">
+                      <button class="mini" data-action="prev" data-id="${j.id}" ${stageIdx <= 0 ? 'disabled' : ''}>Prev</button>
+                      <button class="mini" data-action="next" data-id="${j.id}" ${stageIdx >= STAGES.length - 1 ? 'disabled' : ''}>Next</button>
+                    </div>
+                  </article>
+                `;
+              }).join('') || '<div class="empty">No jobs here</div>'}
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      $('#lostJobs').innerHTML = state.jobs.filter(j => j.stage === 'lost').map(j => {
+        const customer = getCustomer(j.customer_id);
+        return `
+          <div class="list-item">
+            <div>
+              <div><strong>${j.job_number}</strong> — ${j.title}</div>
+              <div class="small muted">${customer ? customer.company_name : 'Unknown'} • ${j.job_type}</div>
+              <div class="tiny" style="color:#ffb0b0;">Reason: ${j.lost_reason || 'No reason captured'}</div>
+            </div>
+            <button class="btn" data-restore-lost="${j.id}">Restore to Lead</button>
+          </div>
+        `;
+      }).join('') || `<div class="empty">No lost jobs logged.</div>`;
+
+      bindJobBoardEvents();
+    }
+
+    function bindJobBoardEvents() {
+      $$('.job-card').forEach(card => {
+        const id = card.dataset.jobId;
+        card.addEventListener('click', (e) => {
+          if (e.target.closest('button')) return;
+          openJobModal(id);
+        });
+
+        card.addEventListener('dragstart', (e) => {
+          e.dataTransfer.setData('text/plain', id);
+        });
+      });
+
+      $$('.column').forEach(col => {
+        col.addEventListener('dragover', (e) => {
+          e.preventDefault();
+          col.classList.add('drag-over');
+        });
+        col.addEventListener('dragleave', () => col.classList.remove('drag-over'));
+        col.addEventListener('drop', (e) => {
+          e.preventDefault();
+          col.classList.remove('drag-over');
+          const id = e.dataTransfer.getData('text/plain');
+          const stage = col.dataset.stage;
+          moveJobStage(id, stage, 'Moved via drag & drop');
+        });
+      });
+
+      $$('.mini[data-action="prev"]').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const id = btn.dataset.id;
+          const job = state.jobs.find(j => j.id === id);
+          if (!job) return;
+          const idx = getStageIndex(job.stage);
+          if (idx > 0) moveJobStage(id, STAGES[idx - 1], 'Moved back one stage');
+        });
+      });
+
+      $$('.mini[data-action="next"]').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const id = btn.dataset.id;
+          const job = state.jobs.find(j => j.id === id);
+          if (!job) return;
+          const idx = getStageIndex(job.stage);
+          if (idx < STAGES.length - 1) moveJobStage(id, STAGES[idx + 1], 'Advanced one stage');
+        });
+      });
+
+      $$('[data-restore-lost]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          moveJobStage(btn.dataset.restoreLost, 'lead', 'Restored from lost');
+        });
+      });
+    }
+
+    function openJobModal(jobId) {
+      state.ui.selectedJobId = jobId;
+      const job = state.jobs.find(j => j.id === jobId);
+      if (!job) return;
+
+      const customerOptions = state.customers
+        .map(c => `<option value="${c.id}" ${c.id === job.customer_id ? 'selected' : ''}>${c.company_name} (${c.name})</option>`)
+        .join('');
+
+      $('#jobDetailForm').innerHTML = `
+        <div class="field"><label class="tiny muted">Job Number</label><input value="${job.job_number}" disabled /></div>
+        <div class="field"><label class="tiny muted">Stage</label><select id="d_stage">${[...STAGES, 'lost'].map(s => `<option value="${s}" ${s === job.stage ? 'selected':''}>${STAGE_LABELS[s]}</option>`).join('')}</select></div>
+        <div class="field"><label class="tiny muted">Title</label><input id="d_title" value="${escapeHtml(job.title)}" required /></div>
+        <div class="field"><label class="tiny muted">Customer</label><select id="d_customer">${customerOptions}</select></div>
+        <div class="field"><label class="tiny muted">Job Type</label><select id="d_type">${JOB_TYPES.map(t => `<option value="${t}" ${t===job.job_type?'selected':''}>${t}</option>`).join('')}</select></div>
+        <div class="field"><label class="tiny muted">Priority</label><select id="d_priority"><option value="normal" ${job.priority==='normal'?'selected':''}>Normal</option><option value="rush" ${job.priority==='rush'?'selected':''}>Rush</option></select></div>
+        <div class="field"><label class="tiny muted">Estimated Value</label><input id="d_est" type="number" value="${Number(job.estimated_value || 0)}" /></div>
+        <div class="field"><label class="tiny muted">Actual Revenue</label><input id="d_actual" type="number" value="${Number(job.actual_revenue || 0)}" /></div>
+        <div class="field"><label class="tiny muted">Event Date</label><input id="d_event" type="date" value="${job.event_date || ''}" /></div>
+        <div class="field"><label class="tiny muted">Due Date</label><input id="d_due" type="date" value="${job.due_at || ''}" /></div>
+        <div class="field span-2"><label class="tiny muted">Size / Specs</label><input id="d_size" value="${escapeHtml(job.size || '')}" /></div>
+        <div class="field span-2"><label class="tiny muted">Notes</label><textarea id="d_notes">${escapeHtml(job.notes || '')}</textarea></div>
+        <div class="field span-2" id="lostReasonWrap" style="display:${job.stage === 'lost' ? 'block' : 'none'}">
+          <label class="tiny muted">Lost Reason</label>
+          <input id="d_lost_reason" value="${escapeHtml(job.lost_reason || '')}" placeholder="Why was this job lost?" />
+        </div>
+
+        <div class="span-2" style="display:flex; gap:8px; flex-wrap:wrap;">
+          <button class="btn primary" type="submit">Save Changes</button>
+          <button class="btn" type="button" id="d_prev">Prev Stage</button>
+          <button class="btn" type="button" id="d_next">Next Stage ▶</button>
+          <button class="btn danger" type="button" id="d_mark_lost">Mark Lost</button>
+        </div>
+
+        <div class="span-2 panel" style="margin:6px 0 0; padding:10px;">
+          <h3>Stage History</h3>
+          ${(job.stage_history || []).slice().reverse().map(h => `
+            <div class="history-item">
+              <div><strong>${STAGE_LABELS[h.from_stage] || 'Start'} → ${STAGE_LABELS[h.to_stage]}</strong></div>
+              <div class="tiny muted">${longDate(h.changed_at)}${h.note ? ` • ${escapeHtml(h.note)}` : ''}</div>
+            </div>
+          `).join('') || '<div class="empty">No history yet.</div>'}
+        </div>
+      `;
+
+      $('#jobModal').classList.add('open');
+
+      $('#d_stage').addEventListener('change', (e) => {
+        $('#lostReasonWrap').style.display = e.target.value === 'lost' ? 'block' : 'none';
+      });
+
+      $('#jobDetailForm').onsubmit = (e) => {
+        e.preventDefault();
+        const current = state.jobs.find(j => j.id === jobId);
+        if (!current) return;
+
+        const selectedStage = $('#d_stage').value;
+        const oldStage = current.stage;
+
+        current.title = $('#d_title').value.trim();
+        current.customer_id = $('#d_customer').value;
+        current.job_type = $('#d_type').value;
+        current.priority = $('#d_priority').value;
+        current.estimated_value = Number($('#d_est').value || 0);
+        current.actual_revenue = Number($('#d_actual').value || 0);
+        current.event_date = $('#d_event').value;
+        current.due_at = $('#d_due').value;
+        current.size = $('#d_size').value.trim();
+        current.notes = $('#d_notes').value.trim();
+        current.updated_at = nowIso();
+
+        if (selectedStage === 'lost') {
+          current.lost_reason = $('#d_lost_reason') ? $('#d_lost_reason').value.trim() : current.lost_reason;
+        } else {
+          current.lost_reason = '';
+        }
+
+        if (selectedStage !== oldStage) {
+          current.stage = selectedStage;
+          current.stage_history.push(makeStageEvent(oldStage, selectedStage, 'Updated in detail panel'));
+          if (selectedStage === 'paid' && !current.actual_revenue) {
+            current.actual_revenue = Number(current.estimated_value || 0);
+          }
+        }
+
+        saveAll();
+        renderAll();
+        openJobModal(jobId);
+        showToast('Job updated');
+      };
+
+      $('#d_prev').onclick = () => {
+        const cur = state.jobs.find(j => j.id === jobId);
+        if (!cur) return;
+        if (cur.stage === 'lost') {
+          moveJobStage(jobId, 'lead', 'Restored from lost');
+          openJobModal(jobId);
+          return;
+        }
+        const idx = getStageIndex(cur.stage);
+        if (idx > 0) {
+          moveJobStage(jobId, STAGES[idx - 1], 'Moved back in detail view');
+          openJobModal(jobId);
+        }
+      };
+
+      $('#d_next').onclick = () => {
+        const cur = state.jobs.find(j => j.id === jobId);
+        if (!cur) return;
+        const idx = getStageIndex(cur.stage);
+        if (idx >= 0 && idx < STAGES.length - 1) {
+          moveJobStage(jobId, STAGES[idx + 1], 'Moved forward in detail view');
+          openJobModal(jobId);
+        }
+      };
+
+      $('#d_mark_lost').onclick = () => {
+        const reason = prompt('Why was this job lost?', job.lost_reason || '');
+        if (reason === null) return;
+        moveJobStage(jobId, 'lost', 'Marked lost from detail', reason.trim());
+        openJobModal(jobId);
+      };
+    }
+
+    function closeJobModal() {
+      $('#jobModal').classList.remove('open');
+      state.ui.selectedJobId = null;
+    }
+
+    function renderCustomers() {
+      const q = state.ui.customerSearch.trim().toLowerCase();
+      const list = state.customers.filter(c => {
+        if (!q) return true;
+        const hay = `${c.name} ${c.company_name} ${c.email} ${c.phone} ${(c.tags || []).join(' ')}`.toLowerCase();
+        return hay.includes(q);
+      });
+
+      $('#customerList').innerHTML = list.map(c => {
+        const ltv = customerLTV(c.id);
+        const repeat = completedCountForCustomer(c.id) >= 2;
+        return `
+          <div class="customer-row ${state.ui.selectedCustomerId === c.id ? 'active' : ''}" data-customer-row="${c.id}">
+            <div class="customer-name">${c.company_name}</div>
+            <div class="small muted">${c.name}</div>
+            <div class="small mono">LTV ${money(ltv)}</div>
+            ${repeat ? '<span class="badge repeat">Repeat Customer</span>' : ''}
+          </div>
+        `;
+      }).join('') || '<div class="empty">No customers found.</div>';
+
+      $$('[data-customer-row]').forEach(row => {
+        row.onclick = () => {
+          state.ui.selectedCustomerId = row.dataset.customerRow;
+          renderCustomers();
+        };
+      });
+
+      let customer = state.customers.find(c => c.id === state.ui.selectedCustomerId);
+      if (!customer && state.customers.length) {
+        customer = state.customers[0];
+        state.ui.selectedCustomerId = customer.id;
+      }
+
+      if (!customer) {
+        $('#customerDetail').innerHTML = '<div class="empty">No customer selected.</div>';
+        return;
+      }
+
+      const jobs = state.jobs.filter(j => j.customer_id === customer.id).sort((a,b) => new Date(b.updated_at) - new Date(a.updated_at));
+      const comms = state.communications.filter(c => c.customer_id === customer.id).sort((a,b) => new Date(b.date) - new Date(a.date));
+      const ltv = customerLTV(customer.id);
+      const repeatFlag = completedCountForCustomer(customer.id) >= 2;
+
+      $('#customerDetail').innerHTML = `
+        <h2>${customer.company_name}</h2>
+        <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:8px;">
+          <span class="badge">${customer.segment}</span>
+          <span class="badge">${customer.source_channel}</span>
+          <span class="badge">${customer.language_pref}</span>
+          ${repeatFlag ? '<span class="badge repeat">Repeat</span>' : ''}
+          ${(customer.tags || []).map(t => `<span class="badge">${t}</span>`).join('')}
+        </div>
+
+        <div class="grid cards" style="margin-bottom:10px;">
+          <div class="metric"><div class="label">Lifetime Value</div><div class="value">${money(ltv)}</div></div>
+          <div class="metric"><div class="label">Jobs</div><div class="value">${jobs.length}</div></div>
+          <div class="metric"><div class="label">Paid Jobs</div><div class="value">${completedCountForCustomer(customer.id)}</div></div>
+        </div>
+
+        <form id="customerForm" class="form-grid">
+          <div class="field"><label class="tiny muted">Contact Name</label><input id="c_name" value="${escapeHtml(customer.name)}" required /></div>
+          <div class="field"><label class="tiny muted">Company</label><input id="c_company" value="${escapeHtml(customer.company_name)}" required /></div>
+          <div class="field"><label class="tiny muted">Phone</label><input id="c_phone" value="${escapeHtml(customer.phone)}" /></div>
+          <div class="field"><label class="tiny muted">Email</label><input id="c_email" value="${escapeHtml(customer.email)}" /></div>
+          <div class="field"><label class="tiny muted">Source Channel</label><select id="c_source">${SOURCES.map(s => `<option value="${s}" ${s===customer.source_channel?'selected':''}>${s}</option>`).join('')}</select></div>
+          <div class="field"><label class="tiny muted">Segment</label><select id="c_segment">${SEGMENTS.map(s => `<option value="${s}" ${s===customer.segment?'selected':''}>${s}</option>`).join('')}</select></div>
+          <div class="field"><label class="tiny muted">Language Preference</label><input id="c_lang" value="${escapeHtml(customer.language_pref)}" /></div>
+          <div class="field"><label class="tiny muted">Tags (comma separated)</label><input id="c_tags" value="${escapeHtml((customer.tags || []).join(', '))}" /></div>
+          <div class="field span-2"><label class="tiny muted">Notes</label><textarea id="c_notes">${escapeHtml(customer.notes || '')}</textarea></div>
+          <div class="span-2" style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button class="btn primary" type="submit">Save Customer</button>
+          </div>
+        </form>
+
+        <div class="panel" style="padding:10px; margin-top:10px;">
+          <h3>Job History</h3>
+          <table class="table">
+            <thead><tr><th>Job</th><th>Stage</th><th>Value</th><th>Event</th></tr></thead>
+            <tbody>
+              ${jobs.map(j => `
+                <tr>
+                  <td>${j.job_number}<br><span class="tiny muted">${escapeHtml(j.title)}</span></td>
+                  <td>${STAGE_LABELS[j.stage]}</td>
+                  <td class="mono">${money(j.actual_revenue || j.estimated_value)}</td>
+                  <td>${shortDate(j.event_date)}</td>
+                </tr>
+              `).join('') || '<tr><td colspan="4" class="muted">No jobs yet.</td></tr>'}
+            </tbody>
+          </table>
+        </div>
+
+        <div class="panel" style="padding:10px; margin-top:10px;">
+          <h3>Communication Log</h3>
+          <div class="list" style="margin-bottom:8px;">
+            ${comms.map(m => `
+              <div class="list-item">
+                <div>
+                  <div class="small"><strong>${(m.channel || '').toUpperCase()}</strong> — ${escapeHtml(m.summary)}</div>
+                  <div class="tiny muted">${longDate(m.date)} • Next follow-up: ${m.next_follow_up_at ? shortDate(m.next_follow_up_at) : 'None'}</div>
+                </div>
+              </div>
+            `).join('') || '<div class="empty">No communication logs yet.</div>'}
+          </div>
+
+          <form id="commForm" class="form-grid">
+            <div class="field"><label class="tiny muted">Date</label><input id="m_date" type="datetime-local" required /></div>
+            <div class="field"><label class="tiny muted">Channel</label><select id="m_channel"><option>phone</option><option>email</option><option>dm</option><option>walk-in</option></select></div>
+            <div class="field span-2"><label class="tiny muted">Summary</label><textarea id="m_summary" required></textarea></div>
+            <div class="field"><label class="tiny muted">Next Follow-up</label><input id="m_follow" type="date" /></div>
+            <div class="field" style="display:flex; align-items:flex-end;"><button class="btn" type="submit">Add Communication</button></div>
+          </form>
+        </div>
+      `;
+
+      $('#customerForm').onsubmit = (e) => {
+        e.preventDefault();
+        customer.name = $('#c_name').value.trim();
+        customer.company_name = $('#c_company').value.trim();
+        customer.phone = $('#c_phone').value.trim();
+        customer.email = $('#c_email').value.trim();
+        customer.source_channel = $('#c_source').value;
+        customer.segment = $('#c_segment').value;
+        customer.language_pref = $('#c_lang').value.trim();
+        customer.tags = $('#c_tags').value.split(',').map(t => t.trim()).filter(Boolean);
+        customer.notes = $('#c_notes').value.trim();
+        customer.updated_at = nowIso();
+        saveAll();
+        renderAll();
+        showToast('Customer saved');
+      };
+
+      $('#commForm').onsubmit = (e) => {
+        e.preventDefault();
+        state.communications.unshift({
+          id: genId('comm'),
+          customer_id: customer.id,
+          job_id: null,
+          date: new Date($('#m_date').value).toISOString(),
+          channel: $('#m_channel').value,
+          summary: $('#m_summary').value.trim(),
+          next_follow_up_at: $('#m_follow').value,
+          owner_user: 'Aviel',
+          created_at: nowIso(),
+          updated_at: nowIso()
+        });
+        saveAll();
+        renderAll();
+        showToast('Communication logged');
+      };
+
+      const dtInput = $('#m_date');
+      if (dtInput) dtInput.value = new Date().toISOString().slice(0,16);
+    }
+
+    function renderQuotes() {
+      const quotes = state.jobs.filter(j => j.stage === 'quote');
+      $('#quoteQueue').innerHTML = quotes.length ? quotes.map(j => {
+        const base = Number(j.estimated_value || 0);
+        const opening = Math.round(base * 1.25);
+        const target = Math.round(base * 1.10);
+        const floor = Math.round(base);
+        const customer = getCustomer(j.customer_id);
+        return `
+          <div class="list-item">
+            <div>
+              <div><strong>${j.job_number}</strong> — ${j.title}</div>
+              <div class="small muted">${customer ? customer.company_name : 'Unknown'} • ${j.job_type}</div>
+              <div class="small" style="margin-top:4px; display:flex; gap:8px; flex-wrap:wrap;">
+                <span class="pill">Opening ${money(opening)}</span>
+                <span class="pill">Target ${money(target)}</span>
+                <span class="pill">Floor ${money(floor)}</span>
+              </div>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:6px;">
+              <button class="btn" data-quote-book='${j.id}|${opening}'>Book Opening</button>
+              <button class="btn" data-quote-book='${j.id}|${target}'>Book Target</button>
+              <button class="btn" data-quote-book='${j.id}|${floor}'>Book Floor</button>
+            </div>
+          </div>
+        `;
+      }).join('') : '<div class="empty">No jobs currently in Quote stage.</div>';
+
+      $$('[data-quote-book]').forEach(btn => {
+        btn.onclick = () => {
+          const [id, val] = btn.dataset.quoteBook.split('|');
+          const job = state.jobs.find(j => j.id === id);
+          if (!job) return;
+          job.estimated_value = Number(val);
+          moveJobStage(id, 'booked', `Booked from quote tier ${money(val)}`);
+        };
+      });
+    }
+
+    function renderCalendar() {
+      const upcoming = state.jobs
+        .filter(j => j.event_date)
+        .sort((a,b) => new Date(a.event_date) - new Date(b.event_date));
+
+      $('#calendarTimeline').innerHTML = upcoming.map(j => {
+        const customer = getCustomer(j.customer_id);
+        const dueSoon = j.due_at && (new Date(j.due_at) - new Date()) < 1000*60*60*24*5 && (new Date(j.due_at) - new Date()) > 0;
+        return `
+          <div class="row">
+            <div style="display:flex; justify-content:space-between; gap:8px; align-items:flex-start;">
+              <div>
+                <div><strong>${shortDate(j.event_date)}</strong> — ${j.title}</div>
+                <div class="small muted">${customer ? customer.company_name : 'Unknown'} • ${STAGE_LABELS[j.stage]} • ${j.job_type}</div>
+                <div class="tiny muted">Due: ${shortDate(j.due_at)} ${dueSoon ? '-- due soon' : ''}</div>
+              </div>
+              <span class="pill">${money(j.estimated_value)}</span>
+            </div>
+          </div>
+        `;
+      }).join('') || '<div class="empty">No calendar entries yet.</div>';
+    }
+
+    function renderFinance() {
+      const paid = paidJobs();
+      const totalPaid = paid.reduce((s,j) => s + Number(j.actual_revenue || j.estimated_value || 0), 0);
+      const pipeline = state.jobs
+        .filter(j => j.stage !== 'paid' && j.stage !== 'lost')
+        .reduce((s,j) => s + Number(j.estimated_value || 0), 0);
+      const floorPaid = paid.filter(j => j.job_type === 'floor_graphics').reduce((s,j)=>s + Number(j.actual_revenue || j.estimated_value || 0), 0);
+      const floorPct = totalPaid ? Math.round((floorPaid / totalPaid) * 100) : 0;
+
+      $('#financeMetrics').innerHTML = [
+        { label: 'Paid Revenue (All Time)', value: money(totalPaid) },
+        { label: 'Open Pipeline Value', value: money(pipeline) },
+        { label: 'Floor Graphics Share', value: `${floorPct}%` },
+        { label: 'Paid Jobs', value: paid.length }
+      ].map(m => `
+        <div class="metric">
+          <div class="label">${m.label}</div>
+          <div class="value">${m.value}</div>
+        </div>
+      `).join('');
+
+      const byType = {};
+      paid.forEach(j => {
+        byType[j.job_type] = (byType[j.job_type] || 0) + Number(j.actual_revenue || j.estimated_value || 0);
+      });
+      const maxType = Math.max(1, ...Object.values(byType));
+
+      $('#financeBars').innerHTML = Object.entries(byType).sort((a,b) => b[1]-a[1]).map(([type,val]) => `
+        <div class="bar-wrap">
+          <div class="bar-label"><span>${type}</span><span class="mono">${money(val)}</span></div>
+          <div class="track"><div class="fill" style="width:${clampPct((val / maxType) * 100)}%"></div></div>
+        </div>
+      `).join('') || '<div class="empty">No paid revenue yet.</div>';
+
+      const ranked = state.customers
+        .map(c => ({ ...c, ltv: customerLTV(c.id) }))
+        .sort((a,b) => b.ltv - a.ltv)
+        .slice(0, 6);
+
+      $('#topCustomers').innerHTML = ranked.map((c, idx) => `
+        <div class="list-item">
+          <div>
+            <div><strong>#${idx + 1} ${c.company_name}</strong></div>
+            <div class="small muted">${c.name} • ${c.segment}</div>
+          </div>
+          <div class="mono">${money(c.ltv)}</div>
+        </div>
+      `).join('') || '<div class="empty">No customer revenue yet.</div>';
+    }
+
+    function renderJobs() {
+      renderJobFormOptions();
+      renderJobsBoard();
+    }
+
+    function renderAll() {
+      renderTabs();
+      renderHome();
+      renderJobs();
+      renderCustomers();
+      renderQuotes();
+      renderCalendar();
+      renderFinance();
+    }
+
+    function escapeHtml(value) {
+      return String(value || '')
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#39;');
+    }
+
+    function bindEvents() {
+      $$('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          state.ui.tab = btn.dataset.tab;
+          renderTabs();
+        });
+      });
+
+      $('#themeToggle').addEventListener('click', toggleTheme);
+
+      $('#btnExport').addEventListener('click', () => {
+        const payload = {
+          version: 'mis-v1',
+          exported_at: nowIso(),
+          mis_jobs: state.jobs,
+          mis_customers: state.customers,
+          mis_communications: state.communications
+        };
+        const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `inkredible-mis-backup-${new Date().toISOString().slice(0,10)}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+        showToast('Backup exported');
+      });
+
+      $('#btnImport').addEventListener('click', () => $('#importInput').click());
+
+      $('#importInput').addEventListener('change', async (e) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+        try {
+          const text = await file.text();
+          const parsed = JSON.parse(text);
+          if (!Array.isArray(parsed.mis_jobs) || !Array.isArray(parsed.mis_customers) || !Array.isArray(parsed.mis_communications)) {
+            throw new Error('Invalid backup structure');
+          }
+          state.jobs = parsed.mis_jobs;
+          state.customers = parsed.mis_customers;
+          state.communications = parsed.mis_communications;
+          migrateRecords();
+          saveAll();
+          renderAll();
+          showToast('Backup imported');
+        } catch (err) {
+          showToast(`Import failed: ${err.message}`);
+        }
+        e.target.value = '';
+      });
+
+      $('#btnSeedReset').addEventListener('click', () => {
+        if (!confirm('Reset MIS to seeded demo data? This replaces current local data.')) return;
+        const seed = createSeedData();
+        state.jobs = seed.jobs;
+        state.customers = seed.customers;
+        state.communications = seed.communications;
+        saveAll();
+        renderAll();
+        showToast('Seed data reset complete');
+      });
+
+      $('#closeJobModal').addEventListener('click', closeJobModal);
+      $('#jobModal').addEventListener('click', (e) => {
+        if (e.target.id === 'jobModal') closeJobModal();
+      });
+
+      $('#newCustomerToggle').addEventListener('change', (e) => {
+        $('#newCustomerFields').style.display = e.target.checked ? 'block' : 'none';
+      });
+
+      $('#jobForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        let customerId = $('#jobCustomerId').value;
+        if ($('#newCustomerToggle').checked) {
+          const name = $('#newCustName').value.trim();
+          const company = $('#newCustCompany').value.trim();
+          if (!name || !company) {
+            showToast('New customer name + company are required.');
+            return;
+          }
+          const newCustomer = {
+            id: genId('cust'),
+            name,
+            company_name: company,
+            phone: $('#newCustPhone').value.trim(),
+            email: $('#newCustEmail').value.trim(),
+            source_channel: $('#newCustSource').value,
+            segment: $('#newCustSegment').value,
+            language_pref: 'English',
+            tags: [],
+            notes: 'Quick-added from job form.',
+            created_at: nowIso(),
+            updated_at: nowIso()
+          };
+          state.customers.unshift(newCustomer);
+          customerId = newCustomer.id;
+          state.ui.selectedCustomerId = newCustomer.id;
+        }
+
+        const newJob = {
+          id: genId('job'),
+          job_number: nextJobNumber(),
+          customer_id: customerId,
+          title: $('#jobTitle').value.trim(),
+          job_type: $('#jobType').value,
+          stage: 'lead',
+          priority: $('#jobPriority').value,
+          event_date: $('#jobEventDate').value,
+          due_at: $('#jobDueDate').value,
+          owner_user: 'Aviel',
+          estimated_value: Number($('#jobValue').value || 0),
+          actual_revenue: 0,
+          size: $('#jobSize').value.trim(),
+          notes: $('#jobNotes').value.trim(),
+          lost_reason: '',
+          stage_history: [makeStageEvent(null, 'lead', 'Job created')],
+          created_at: nowIso(),
+          updated_at: nowIso()
+        };
+
+        state.jobs.unshift(newJob);
+        saveAll();
+        e.target.reset();
+        $('#newCustomerFields').style.display = 'none';
+        renderAll();
+        showToast('Job created');
+      });
+
+      $('#filterJobType').addEventListener('change', (e) => {
+        state.ui.filters.jobType = e.target.value;
+        renderJobs();
+      });
+      $('#filterPriority').addEventListener('change', (e) => {
+        state.ui.filters.priority = e.target.value;
+        renderJobs();
+      });
+      $('#filterCustomer').addEventListener('change', (e) => {
+        state.ui.filters.customer = e.target.value;
+        renderJobs();
+      });
+      $('#filterSearch').addEventListener('input', (e) => {
+        state.ui.filters.search = e.target.value;
+        renderJobs();
+      });
+
+      $('#customerSearch').addEventListener('input', (e) => {
+        state.ui.customerSearch = e.target.value;
+        renderCustomers();
+      });
+
+      $('#btnNewCustomer').addEventListener('click', () => {
+        const fresh = {
+          id: genId('cust'),
+          name: 'New Contact',
+          company_name: 'New Company',
+          phone: '',
+          email: '',
+          source_channel: 'referral',
+          segment: 'retail',
+          language_pref: 'English',
+          tags: [],
+          notes: '',
+          created_at: nowIso(),
+          updated_at: nowIso()
+        };
+        state.customers.unshift(fresh);
+        state.ui.selectedCustomerId = fresh.id;
+        saveAll();
+        renderAll();
+        showToast('New customer created');
+      });
+    }
+
+    function init() {
+      loadTheme();
+      loadData();
+      bindEvents();
+      renderAll();
+    }
+
+    init();
+  </script>
+</body>
+</html>

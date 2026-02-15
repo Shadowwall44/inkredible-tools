@@ -1,0 +1,3946 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>INKredible Printing — Financial Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+    <style>
+        /* ================================================
+           ORIGIN DESIGN SYSTEM — Financial Dashboard
+           INKredible Printing | Jan 2024 – Feb 2026
+           ================================================ */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg: #F7F8FA;
+            --text: #1A1D23;
+            --text-secondary: rgba(26, 29, 35, 0.65);
+            --text-muted: rgba(26, 29, 35, 0.42);
+            --text-subtle: rgba(26, 29, 35, 0.25);
+
+            --accent-teal: #0097B2;
+            --accent-teal-deep: #007A94;
+            --accent-purple: #6C63FF;
+            --accent-purple-deep: #5951D8;
+            --accent-green: #22A85F;
+            --accent-red: #E04848;
+            --accent-amber: #C4962E;
+            --accent-rose: #D47EB8;
+
+            --glass-strong: rgba(255, 255, 255, 0.75);
+            --glass-medium: rgba(255, 255, 255, 0.72);
+            --glass-faint: rgba(255, 255, 255, 0.85);
+
+            --surface-subtle: rgba(0, 0, 0, 0.04);
+            --panel-bg: var(--glass-medium);
+            --panel-border: rgba(0, 0, 0, 0.06);
+            --card-bg: #FFFFFF;
+            --card-border: rgba(0, 0, 0, 0.06);
+            --border-soft: rgba(0, 0, 0, 0.06);
+            --border-medium: rgba(0, 0, 0, 0.10);
+            --btn-sync-bg: rgba(0, 0, 0, 0.04);
+            --btn-sync-border: rgba(0, 0, 0, 0.10);
+
+            --mesh-teal: rgba(0, 151, 178, 0.05);
+            --mesh-purple: rgba(108, 99, 255, 0.05);
+            --mesh-rose: rgba(212, 126, 184, 0.04);
+            --mesh-teal-deep: rgba(0, 122, 148, 0.04);
+            --mesh-overlay: linear-gradient(180deg, rgba(255,255,255,0.3) 0%, transparent 36%, rgba(255,255,255,0.12) 100%);
+
+            --scrollbar-track: transparent;
+            --scrollbar-thumb: rgba(0, 0, 0, 0.12);
+            --scrollbar-thumb-hover: rgba(0, 0, 0, 0.22);
+
+            --radius-card: 16px;
+            --radius-panel: 20px;
+            --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.08), 0 12px 32px rgba(0, 0, 0, 0.10);
+            --shadow-panel: 0 2px 8px rgba(0, 0, 0, 0.06), 0 8px 24px rgba(0, 0, 0, 0.08);
+
+            --font-display: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-mono: 'Roboto Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+            /* Dashboard-specific */
+            --bar-green: linear-gradient(90deg, #1B9E55, #22A85F);
+            --bar-teal: linear-gradient(90deg, var(--accent-teal-deep), var(--accent-teal));
+            --bar-red: linear-gradient(90deg, #C33, var(--accent-red));
+            --bar-amber: linear-gradient(90deg, #A67D1F, var(--accent-amber));
+            --bar-purple: linear-gradient(90deg, var(--accent-purple-deep), var(--accent-purple));
+            --bar-rose: linear-gradient(90deg, #B56A9D, var(--accent-rose));
+            --waterfall-positive: var(--accent-teal);
+            --waterfall-negative: var(--accent-red);
+            --waterfall-subtotal: var(--accent-purple);
+            --alert-bg: rgba(224, 72, 72, 0.06);
+            --alert-border: rgba(224, 72, 72, 0.18);
+            --alert-text: #C33;
+        }
+
+        html[data-theme="dark"] {
+            --bg: rgb(15, 16, 17);
+            --text: rgba(255, 255, 255, 1);
+            --text-secondary: rgba(255, 255, 255, 0.60);
+            --text-muted: rgba(255, 255, 255, 0.38);
+            --text-subtle: rgba(255, 255, 255, 0.22);
+
+            --accent-teal: #13B0C9;
+            --accent-teal-deep: #0E8EA7;
+            --accent-purple: #8E87FF;
+            --accent-purple-deep: #726ADE;
+
+            --glass-strong: rgba(255, 255, 255, 0.08);
+            --glass-medium: rgba(255, 255, 255, 0.08);
+            --glass-faint: rgba(255, 255, 255, 0.08);
+
+            --surface-subtle: rgba(255, 255, 255, 0.08);
+            --panel-bg: rgba(255, 255, 255, 0.08);
+            --panel-border: rgba(255, 255, 255, 0.07);
+            --card-bg: linear-gradient(145deg, rgba(38, 40, 43, 0.92), rgba(26, 28, 30, 0.96));
+            --card-border: rgba(255, 255, 255, 0.07);
+            --border-soft: rgba(255, 255, 255, 0.07);
+            --border-medium: rgba(255, 255, 255, 0.12);
+            --btn-sync-bg: rgba(255, 255, 255, 0.08);
+            --btn-sync-border: rgba(255, 255, 255, 0.12);
+
+            --mesh-teal: rgba(19, 176, 201, 0.08);
+            --mesh-purple: rgba(142, 135, 255, 0.07);
+            --mesh-rose: rgba(123, 120, 214, 0.04);
+            --mesh-teal-deep: rgba(14, 142, 167, 0.06);
+            --mesh-overlay: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, transparent 40%, rgba(255,255,255,0.01) 100%);
+
+            --scrollbar-track: rgba(255, 255, 255, 0.08);
+            --scrollbar-thumb: rgba(255, 255, 255, 0.34);
+            --scrollbar-thumb-hover: rgba(255, 255, 255, 0.55);
+
+            --shadow-card: 0px 18px 20px rgba(0, 0, 0, 0.2), 0 28px 48px rgba(0, 0, 0, 0.35);
+            --shadow-panel: 0px 18px 20px rgba(0, 0, 0, 0.2);
+
+            --alert-bg: rgba(224, 72, 72, 0.10);
+            --alert-border: rgba(224, 72, 72, 0.28);
+            --alert-text: #F06B6B;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 24px;
+            padding-bottom: 80px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            background:
+                radial-gradient(ellipse 60% 50% at 10% 12%, var(--mesh-teal), transparent 55%),
+                radial-gradient(ellipse 55% 55% at 85% 10%, var(--mesh-purple), transparent 50%),
+                radial-gradient(ellipse 50% 60% at 70% 80%, var(--mesh-rose), transparent 50%),
+                radial-gradient(ellipse 60% 50% at 22% 85%, var(--mesh-teal-deep), transparent 50%);
+            filter: blur(6px);
+            transition: background 0.3s ease;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            background: var(--mesh-overlay);
+            transition: background 0.3s ease;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ===== TRANSITIONS ===== */
+        body, .panel, .card, .stat-card, .alert-card, .waterfall-bar, .bar-row {
+            transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* ===== HEADER ===== */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+            padding-bottom: 18px;
+            border-bottom: 1px solid var(--panel-border);
+        }
+
+        h1 {
+            font-family: var(--font-display);
+            font-size: clamp(1.3rem, 4vw, 1.8rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.12;
+            color: var(--text);
+        }
+
+        h1 em { color: var(--accent-teal); font-style: normal; }
+        h1 .sub { display: block; font-size: 0.52em; font-weight: 500; color: var(--text-muted); letter-spacing: 0.06em; text-transform: uppercase; margin-top: 4px; }
+
+        /* ===== FLOATING ACTION BAR ===== */
+        .floating-action-bar {
+            position: fixed;
+            bottom: 22px;
+            right: 22px;
+            z-index: 9500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 10px;
+            border-radius: 34px;
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            backdrop-filter: blur(16px);
+        }
+
+        html[data-theme="dark"] .floating-action-bar {
+            background: rgba(255, 255, 255, 0.10);
+            border-color: rgba(255, 255, 255, 0.12);
+        }
+
+        .fab-btn {
+            width: 36px;
+            height: 36px;
+            border: none;
+            border-radius: 50%;
+            background: transparent;
+            color: var(--text-secondary);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.25s ease, color 0.25s ease;
+        }
+
+        .fab-btn:hover { color: var(--text); transform: translateY(-1px); }
+        .fab-btn svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+        .theme-toggle {
+            width: 48px;
+            height: 28px;
+            border-radius: 999px;
+            border: 1px solid var(--btn-sync-border);
+            background: var(--btn-sync-bg);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .theme-toggle-track { position: relative; width: 100%; height: 100%; pointer-events: none; }
+
+        .theme-toggle-knob {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #FFFFFF;
+            border: 1px solid rgba(0, 0, 0, 0.10);
+            transition: transform 0.3s ease;
+        }
+
+        .theme-toggle.active .theme-toggle-knob { transform: translateX(20px); }
+
+        html[data-theme="dark"] .theme-toggle {
+            background: rgba(255, 255, 255, 0.14);
+            border-color: rgba(255, 255, 255, 0.20);
+        }
+
+        html[data-theme="dark"] .theme-toggle .theme-toggle-knob {
+            background: #E6ECFF;
+            border-color: rgba(0, 0, 0, 0.08);
+        }
+
+        /* ===== STAT CARDS ROW ===== */
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            padding: 16px 18px;
+            border-radius: var(--radius-card);
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            backdrop-filter: blur(24px);
+            box-shadow: var(--shadow-panel);
+        }
+
+        .stat-card .label {
+            font-size: 9px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+
+        .stat-card .value {
+            font-family: var(--font-mono);
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: -0.04em;
+            color: var(--text);
+            line-height: 1.1;
+        }
+
+        .stat-card .value.negative { color: var(--accent-red); }
+        .stat-card .value.positive { color: var(--accent-green); }
+        .stat-card .value.warn { color: var(--accent-amber); }
+
+        .stat-card .detail {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 4px;
+            font-family: var(--font-mono);
+            letter-spacing: -0.01em;
+        }
+
+        /* ===== SECTION PANELS ===== */
+        .panel {
+            margin-bottom: 20px;
+            padding: 22px;
+            border-radius: var(--radius-panel);
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            backdrop-filter: blur(24px);
+            box-shadow: var(--shadow-panel);
+        }
+
+        .panel-title {
+            font-family: var(--font-display);
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            color: var(--text);
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .panel-title .icon {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .panel-subtitle {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: -12px;
+            margin-bottom: 16px;
+            font-family: var(--font-mono);
+            letter-spacing: 0.02em;
+        }
+
+        /* ===== WATERFALL ===== */
+        .waterfall {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .waterfall-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .waterfall-label {
+            width: 100px;
+            flex-shrink: 0;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            text-align: right;
+        }
+
+        .waterfall-bar-wrap {
+            flex: 1;
+            height: 28px;
+            border-radius: 6px;
+            background: var(--surface-subtle);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .waterfall-bar {
+            height: 100%;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 10px;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 600;
+            color: #fff;
+            transition: width 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+            min-width: fit-content;
+        }
+
+        .waterfall-bar.revenue { background: var(--bar-teal); }
+        .waterfall-bar.cogs { background: var(--bar-red); }
+        .waterfall-bar.gross { background: var(--bar-green); }
+        .waterfall-bar.expenses { background: var(--bar-amber); }
+        .waterfall-bar.net-pos { background: var(--bar-green); }
+        .waterfall-bar.net-neg { background: var(--bar-red); }
+        .waterfall-bar.subtotal { background: var(--bar-purple); }
+
+        .waterfall-connector {
+            width: 100px;
+            flex-shrink: 0;
+        }
+
+        .waterfall-amount {
+            width: 80px;
+            flex-shrink: 0;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            font-weight: 600;
+            text-align: right;
+            color: var(--text);
+        }
+
+        .waterfall-amount.negative { color: var(--accent-red); }
+
+        /* ===== BREAKDOWN BARS ===== */
+        .breakdown-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .bar-row {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .bar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+        }
+
+        .bar-name {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .bar-values {
+            display: flex;
+            gap: 8px;
+            align-items: baseline;
+        }
+
+        .bar-amount {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .bar-pct {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            color: var(--text-muted);
+        }
+
+        .bar-track {
+            height: 6px;
+            border-radius: 999px;
+            background: var(--surface-subtle);
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            border-radius: 999px;
+            transition: width 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .bar-fill.teal { background: var(--bar-teal); }
+        .bar-fill.purple { background: var(--bar-purple); }
+        .bar-fill.amber { background: var(--bar-amber); }
+        .bar-fill.red { background: var(--bar-red); }
+        .bar-fill.green { background: var(--bar-green); }
+        .bar-fill.rose { background: var(--bar-rose); }
+
+        /* ===== RED FLAGS ===== */
+        .alert-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .alert-card {
+            padding: 14px 16px;
+            border-radius: 12px;
+            background: var(--alert-bg);
+            border: 1px solid var(--alert-border);
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .alert-icon {
+            flex-shrink: 0;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: rgba(224, 72, 72, 0.12);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            line-height: 1;
+        }
+
+        .alert-content { flex: 1; min-width: 0; }
+
+        .alert-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--alert-text);
+            margin-bottom: 3px;
+        }
+
+        .alert-detail {
+            font-size: 12px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .alert-detail strong { color: var(--text); font-weight: 600; }
+
+        /* ===== BALANCE SHEET ===== */
+        .bs-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-bottom: 16px;
+        }
+
+        .bs-col {
+            padding: 16px;
+            border-radius: 12px;
+            background: var(--surface-subtle);
+        }
+
+        .bs-col-title {
+            font-size: 10px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .bs-line {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            padding: 4px 0;
+            font-size: 12px;
+        }
+
+        .bs-line .name { color: var(--text-secondary); }
+        .bs-line .val { font-family: var(--font-mono); font-weight: 600; color: var(--text); font-size: 12px; }
+        .bs-line .val.neg { color: var(--accent-red); }
+        .bs-line .val.pos { color: var(--accent-green); }
+
+        .bs-total {
+            border-top: 1px solid var(--border-medium);
+            margin-top: 6px;
+            padding-top: 8px;
+            font-weight: 600;
+        }
+
+        .bs-total .name { color: var(--text); font-size: 12px; }
+
+        .equity-banner {
+            padding: 14px 16px;
+            border-radius: 12px;
+            background: var(--alert-bg);
+            border: 1px solid var(--alert-border);
+            text-align: center;
+        }
+
+        .equity-banner .eq-label {
+            font-size: 10px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--accent-red);
+            font-weight: 600;
+        }
+
+        .equity-banner .eq-value {
+            font-family: var(--font-mono);
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--accent-red);
+            letter-spacing: -0.04em;
+            margin-top: 2px;
+        }
+
+        .equity-banner .eq-detail {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* ===== DEBT BREAKDOWN ===== */
+        .debt-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 14px;
+        }
+
+        .debt-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 14px;
+            border-radius: 10px;
+            background: var(--surface-subtle);
+            font-size: 12px;
+        }
+
+        .debt-row .name { color: var(--text-secondary); font-weight: 500; }
+        .debt-row .val { font-family: var(--font-mono); font-weight: 600; color: var(--text); }
+        .debt-row .val.danger { color: var(--accent-red); }
+
+        /* ===== KEY RATIOS ===== */
+        .ratio-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .ratio-card {
+            padding: 16px;
+            border-radius: 12px;
+            background: var(--surface-subtle);
+            text-align: center;
+        }
+
+        .ratio-card .r-label {
+            font-size: 9px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            font-weight: 500;
+            margin-bottom: 6px;
+        }
+
+        .ratio-card .r-value {
+            font-family: var(--font-mono);
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            color: var(--text);
+            line-height: 1;
+        }
+
+        .ratio-card .r-value.good { color: var(--accent-green); }
+        .ratio-card .r-value.warn { color: var(--accent-amber); }
+        .ratio-card .r-value.bad { color: var(--accent-red); }
+
+        .ratio-card .r-detail {
+            font-size: 10px;
+            color: var(--text-muted);
+            margin-top: 4px;
+            font-family: var(--font-mono);
+        }
+
+        /* ===== METER (circular-style) ===== */
+        .meter-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 14px;
+        }
+
+        .meter-ring {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .meter-ring svg {
+            width: 56px;
+            height: 56px;
+            transform: rotate(-90deg);
+        }
+
+        .meter-ring circle {
+            fill: none;
+            stroke-width: 5;
+        }
+
+        .meter-ring .track { stroke: var(--surface-subtle); }
+        .meter-ring .fill-circle { stroke-linecap: round; transition: stroke-dashoffset 1s ease; }
+
+        .meter-text {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .meter-info { flex: 1; }
+        .meter-info .m-label { font-size: 13px; font-weight: 600; color: var(--text); }
+        .meter-info .m-detail { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            margin-top: 28px;
+            padding-top: 16px;
+            border-top: 1px solid var(--panel-border);
+            text-align: center;
+            font-size: 10px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-subtle);
+            font-family: var(--font-mono);
+        }
+
+        /* ===== SCROLLBAR ===== */
+        * { scrollbar-width: thin; scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track); }
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: var(--scrollbar-track); }
+        ::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 999px; }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 600px) {
+            body { padding: 16px; padding-bottom: 80px; }
+            .stat-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+            .stat-card .value { font-size: 18px; }
+            .panel { padding: 18px 16px; }
+            .waterfall-label { width: 72px; font-size: 11px; }
+            .waterfall-amount { width: 68px; font-size: 11px; }
+            .bs-grid { grid-template-columns: 1fr; }
+            .ratio-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+            .ratio-card .r-value { font-size: 22px; }
+            .equity-banner .eq-value { font-size: 24px; }
+            header { flex-direction: column; align-items: flex-start; gap: 8px; }
+        }
+
+        @media (max-width: 380px) {
+            .stat-grid { grid-template-columns: 1fr 1fr; }
+            .ratio-grid { grid-template-columns: 1fr; }
+        }
+
+        /* ===== FOLD COVER/INNER ===== */
+        @media (min-width: 600px) and (max-width: 900px) {
+            .container { max-width: 680px; }
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeSlideUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-in {
+            animation: fadeSlideUp 0.5s ease-out both;
+        }
+
+        .animate-in:nth-child(2) { animation-delay: 0.05s; }
+        .animate-in:nth-child(3) { animation-delay: 0.1s; }
+        .animate-in:nth-child(4) { animation-delay: 0.15s; }
+        .animate-in:nth-child(5) { animation-delay: 0.2s; }
+        .animate-in:nth-child(6) { animation-delay: 0.25s; }
+        .animate-in:nth-child(7) { animation-delay: 0.3s; }
+        .animate-in:nth-child(8) { animation-delay: 0.35s; }
+        .animate-in:nth-child(9) { animation-delay: 0.4s; }
+
+        /* ===== AI CHAT PANEL ===== */
+        .chat-fab {
+            position: fixed;
+            bottom: 28px;
+            right: 80px;
+            z-index: 9600;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            background: linear-gradient(135deg, var(--accent-teal), var(--accent-purple));
+            color: #fff;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 16px rgba(0, 151, 178, 0.35), 0 8px 32px rgba(108, 99, 255, 0.2);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease, opacity 0.3s ease;
+        }
+        .chat-fab:hover { transform: scale(1.08) translateY(-2px); box-shadow: 0 6px 20px rgba(0, 151, 178, 0.45), 0 12px 40px rgba(108, 99, 255, 0.3); }
+        .chat-fab:active { transform: scale(0.95); }
+        .chat-fab.hidden { opacity: 0; pointer-events: none; transform: scale(0.5); }
+
+        .chat-panel {
+            position: fixed;
+            bottom: 28px;
+            right: 22px;
+            z-index: 9700;
+            width: 400px;
+            height: 520px;
+            border-radius: var(--radius-panel);
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            backdrop-filter: blur(32px);
+            -webkit-backdrop-filter: blur(32px);
+            box-shadow: 0 8px 40px rgba(0,0,0,0.18), 0 24px 60px rgba(0,0,0,0.12);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transform: translateY(20px) scale(0.95);
+            opacity: 0;
+            pointer-events: none;
+            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.25s ease;
+        }
+        .chat-panel.open { transform: translateY(0) scale(1); opacity: 1; pointer-events: all; }
+
+        html[data-theme="dark"] .chat-panel {
+            box-shadow: 0 8px 40px rgba(0,0,0,0.5), 0 24px 60px rgba(0,0,0,0.4);
+        }
+
+        .chat-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 18px;
+            border-bottom: 1px solid var(--border-soft);
+            flex-shrink: 0;
+        }
+        .chat-header-left { display: flex; align-items: center; gap: 10px; }
+        .chat-header-icon {
+            width: 32px; height: 32px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-teal), var(--accent-purple));
+            display: flex; align-items: center; justify-content: center;
+            font-size: 16px; color: #fff; flex-shrink: 0;
+        }
+        .chat-header-info .chat-title { font-family: var(--font-display); font-size: 14px; font-weight: 700; color: var(--text); }
+        .chat-header-info .chat-subtitle { font-size: 10px; color: var(--text-muted); letter-spacing: 0.04em; }
+        .chat-close-btn {
+            width: 28px; height: 28px; border-radius: 50%;
+            border: none; background: var(--surface-subtle);
+            color: var(--text-muted); cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 16px; transition: background 0.2s, color 0.2s;
+        }
+        .chat-close-btn:hover { background: var(--border-medium); color: var(--text); }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .chat-msg {
+            max-width: 85%;
+            padding: 10px 14px;
+            border-radius: 14px;
+            font-size: 13px;
+            line-height: 1.55;
+            word-wrap: break-word;
+        }
+        .chat-msg.user {
+            align-self: flex-end;
+            background: linear-gradient(135deg, var(--accent-teal), var(--accent-teal-deep));
+            color: #fff;
+            border-bottom-right-radius: 4px;
+        }
+        .chat-msg.ai {
+            align-self: flex-start;
+            background: var(--surface-subtle);
+            color: var(--text);
+            border-bottom-left-radius: 4px;
+        }
+        .chat-msg.ai strong { color: var(--text); font-weight: 600; }
+        .chat-msg.ai ul, .chat-msg.ai ol { margin: 6px 0; padding-left: 18px; }
+        .chat-msg.ai li { margin-bottom: 3px; }
+        .chat-msg.ai p { margin-bottom: 8px; }
+        .chat-msg.ai p:last-child { margin-bottom: 0; }
+        .chat-msg.ai code {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            background: var(--border-soft);
+            padding: 1px 5px;
+            border-radius: 4px;
+        }
+
+        .chat-msg.system {
+            align-self: center;
+            background: transparent;
+            color: var(--text-muted);
+            font-size: 11px;
+            text-align: center;
+            padding: 4px 8px;
+        }
+
+        .chat-typing {
+            align-self: flex-start;
+            display: none;
+            align-items: center;
+            gap: 4px;
+            padding: 10px 16px;
+            border-radius: 14px;
+            background: var(--surface-subtle);
+            border-bottom-left-radius: 4px;
+        }
+        .chat-typing.visible { display: flex; }
+        .chat-typing-dot {
+            width: 7px; height: 7px; border-radius: 50%;
+            background: var(--text-muted);
+            animation: typingBounce 1.4s infinite ease-in-out;
+        }
+        .chat-typing-dot:nth-child(2) { animation-delay: 0.16s; }
+        .chat-typing-dot:nth-child(3) { animation-delay: 0.32s; }
+
+        @keyframes typingBounce {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+            30% { transform: translateY(-6px); opacity: 1; }
+        }
+
+        .chat-input-area {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 14px;
+            border-top: 1px solid var(--border-soft);
+            flex-shrink: 0;
+        }
+        .chat-input {
+            flex: 1;
+            padding: 10px 14px;
+            border-radius: 12px;
+            border: 1px solid var(--border-medium);
+            background: var(--surface-subtle);
+            color: var(--text);
+            font-family: var(--font-body);
+            font-size: 13px;
+            outline: none;
+            transition: border-color 0.2s;
+            resize: none;
+        }
+        .chat-input::placeholder { color: var(--text-muted); }
+        .chat-input:focus { border-color: var(--accent-teal); }
+
+        .chat-send-btn {
+            width: 38px; height: 38px;
+            border-radius: 50%; border: none;
+            background: linear-gradient(135deg, var(--accent-teal), var(--accent-purple));
+            color: #fff;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+            transition: transform 0.2s, opacity 0.2s;
+        }
+        .chat-send-btn:hover { transform: scale(1.06); }
+        .chat-send-btn:active { transform: scale(0.94); }
+        .chat-send-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+        .chat-send-btn svg { width: 18px; height: 18px; fill: currentColor; }
+
+        .chat-suggestions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            padding: 0 16px 12px;
+        }
+        .chat-suggestion {
+            padding: 6px 12px;
+            border-radius: 20px;
+            border: 1px solid var(--border-medium);
+            background: transparent;
+            color: var(--text-secondary);
+            font-size: 11px;
+            font-family: var(--font-body);
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s, border-color 0.2s;
+        }
+        .chat-suggestion:hover {
+            background: var(--accent-teal);
+            color: #fff;
+            border-color: var(--accent-teal);
+        }
+
+        @media (max-width: 600px) {
+            .chat-panel {
+                width: calc(100vw - 16px);
+                height: calc(100vh - 80px);
+                bottom: 8px;
+                right: 8px;
+                border-radius: 16px;
+            }
+            .chat-fab { right: 16px; bottom: 80px; }
+        }
+
+        /* ===== CHART STYLES IN CHAT ===== */
+        .chat-msg.ai:has(.chart-container) {
+            max-width: 95%;
+        }
+
+        .chart-container {
+            margin: 10px -6px 6px;
+            padding: 14px;
+            border-radius: 12px;
+            background: var(--surface-subtle);
+            border: 1px solid var(--border-soft);
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+            gap: 8px;
+        }
+
+        .chart-title {
+            font-family: var(--font-display);
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text);
+            line-height: 1.3;
+        }
+
+        .chart-date-range {
+            font-size: 10px;
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+            margin-top: 2px;
+        }
+
+        .chart-toggle {
+            display: flex;
+            gap: 4px;
+            flex-shrink: 0;
+        }
+
+        .chart-toggle-btn {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            border: 1px solid var(--border-medium);
+            background: transparent;
+            color: var(--text-muted);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            transition: all 0.2s ease;
+        }
+
+        .chart-toggle-btn:hover {
+            background: var(--surface-subtle);
+            color: var(--text);
+        }
+
+        .chart-toggle-btn.active {
+            background: var(--accent-teal);
+            color: #fff;
+            border-color: var(--accent-teal);
+        }
+
+        .chart-toggle-btn svg {
+            width: 14px;
+            height: 14px;
+            fill: currentColor;
+            stroke: none;
+        }
+
+        .chart-canvas-wrap {
+            position: relative;
+            width: 100%;
+            height: 230px;
+            margin-bottom: 10px;
+        }
+
+        @media (min-width: 600px) {
+            .chart-canvas-wrap { height: 260px; }
+        }
+
+        .donut-center-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .donut-center-label {
+            font-size: 10px;
+            color: var(--text-muted);
+            font-family: var(--font-body);
+            max-width: 110px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            margin: 0 auto;
+        }
+
+        .donut-center-amount {
+            font-family: var(--font-mono);
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--text);
+            letter-spacing: -0.03em;
+            line-height: 1.2;
+        }
+
+        .donut-center-pct {
+            font-size: 10px;
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+        }
+
+        .chart-summary {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .chart-summary-card {
+            padding: 10px 12px;
+            border-radius: 8px;
+            background: var(--glass-faint);
+            border: 1px solid var(--border-soft);
+            text-align: center;
+        }
+
+        .chart-summary-label {
+            font-size: 9px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 2px;
+        }
+
+        .chart-summary-value {
+            font-family: var(--font-mono);
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text);
+            letter-spacing: -0.03em;
+        }
+
+        /* ===== FILTER PILL BAR ===== */
+        .filter-bar {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 5px;
+            margin-bottom: 20px;
+            border-radius: 999px;
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            backdrop-filter: blur(24px);
+            box-shadow: var(--shadow-panel);
+        }
+
+        .filter-pill {
+            padding: 8px 20px;
+            border-radius: 999px;
+            border: 1px solid transparent;
+            background: transparent;
+            color: var(--text-secondary);
+            font-family: var(--font-body);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            white-space: nowrap;
+        }
+
+        .filter-pill:hover {
+            background: var(--surface-subtle);
+            color: var(--text);
+        }
+
+        .filter-pill.active {
+            background: linear-gradient(135deg, var(--accent-teal), var(--accent-teal-deep));
+            color: #fff;
+            border-color: transparent;
+            box-shadow: 0 2px 8px rgba(0, 151, 178, 0.3);
+        }
+
+        /* ===== PERIOD VIEWS ===== */
+        .period-view { display: none; }
+        .period-view.active { display: block; }
+
+        /* ===== CONNECT CTA ===== */
+        .connect-cta {
+            padding: 48px 24px;
+            border-radius: var(--radius-panel);
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            backdrop-filter: blur(24px);
+            box-shadow: var(--shadow-panel);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .connect-cta-icon { font-size: 48px; margin-bottom: 16px; }
+
+        .connect-cta-title {
+            font-family: var(--font-display);
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 8px;
+        }
+
+        .connect-cta-detail {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+            line-height: 1.6;
+            max-width: 420px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .connect-cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 28px;
+            border-radius: 999px;
+            border: 1px solid var(--accent-teal);
+            background: transparent;
+            color: var(--accent-teal);
+            font-family: var(--font-body);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .connect-cta-btn:hover {
+            background: var(--accent-teal);
+            color: #fff;
+        }
+
+        /* ===== MONTHLY CHART ===== */
+        .monthly-chart-wrap {
+            position: relative;
+            width: 100%;
+            height: 260px;
+            margin-bottom: 16px;
+        }
+
+        /* ===== BIGGEST EXPENSES HIGHLIGHT ===== */
+        .biggest-expenses {
+            margin-bottom: 18px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border-soft);
+        }
+
+        .biggest-expenses-title {
+            font-family: var(--font-display);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+
+        .biggest-expense-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            border-radius: 10px;
+            margin-bottom: 2px;
+            transition: background 0.2s;
+        }
+
+        .biggest-expense-item:hover { background: var(--surface-subtle); }
+
+        .biggest-expense-rank {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--surface-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-muted);
+            flex-shrink: 0;
+        }
+
+        .biggest-expense-name {
+            flex: 1;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text);
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .biggest-expense-amount {
+            font-family: var(--font-mono);
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text);
+            flex-shrink: 0;
+        }
+
+        .biggest-expense-pct {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--text-muted);
+            width: 60px;
+            text-align: right;
+            flex-shrink: 0;
+        }
+
+        .biggest-expense-flag {
+            font-size: 12px;
+            width: 20px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        /* ===== EXPENSE TREND INDICATORS ===== */
+        .bar-rev-pct {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            color: var(--text-muted);
+        }
+
+        /* ===== MOM INDICATORS ===== */
+        .mom-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 2px;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .mom-indicator.up { color: var(--accent-green); }
+        .mom-indicator.down { color: var(--accent-red); }
+
+        /* ===== MONTHLY EXPENSE LIST ===== */
+        .monthly-expense-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .monthly-expense-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 14px;
+            border-radius: 10px;
+            background: var(--surface-subtle);
+            font-size: 12px;
+        }
+
+        .monthly-expense-row .name {
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .monthly-expense-row .val {
+            font-family: var(--font-mono);
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .monthly-expense-row .val.flagged { color: var(--accent-red); }
+
+        @media (max-width: 600px) {
+            .monthly-chart-wrap { height: 220px; }
+            .filter-bar { width: 100%; justify-content: center; }
+            .filter-pill { padding: 7px 14px; font-size: 12px; }
+            .biggest-expense-item { gap: 6px; padding: 6px 8px; }
+            .biggest-expense-name { font-size: 12px; }
+            .biggest-expense-amount { font-size: 12px; }
+        }
+
+        /* ===== YEAR FILTER BAR ===== */
+        .filter-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .filter-row .filter-bar,
+        .filter-row .year-filter-bar {
+            margin-bottom: 0;
+        }
+
+        .filter-separator {
+            width: 1px;
+            height: 28px;
+            background: var(--border-medium);
+            flex-shrink: 0;
+        }
+
+        .year-filter-bar {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 5px;
+            border-radius: 999px;
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            backdrop-filter: blur(24px);
+            box-shadow: var(--shadow-panel);
+        }
+
+        .year-pill {
+            padding: 8px 20px;
+            border-radius: 999px;
+            border: 1px solid transparent;
+            background: transparent;
+            color: var(--text-secondary);
+            font-family: var(--font-body);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            white-space: nowrap;
+        }
+
+        .year-pill:hover {
+            background: var(--surface-subtle);
+            color: var(--text);
+        }
+
+        .year-pill.active {
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-purple-deep));
+            color: #fff;
+            border-color: transparent;
+            box-shadow: 0 2px 8px rgba(108, 99, 255, 0.3);
+        }
+
+        /* ===== YEAR SUBTOTALS ===== */
+        .year-subtotals {
+            display: flex;
+            gap: 10px;
+            margin-top: 8px;
+            flex-wrap: wrap;
+        }
+
+        .year-subtotal-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 8px;
+            background: var(--surface-subtle);
+            font-size: 11px;
+            font-family: var(--font-mono);
+            color: var(--text-secondary);
+        }
+
+        .year-subtotal-chip .yr-label {
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        /* ===== MONTH BREAKDOWN TABLE ===== */
+        .month-breakdown-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            font-size: 12px;
+        }
+
+        .month-breakdown-table thead th {
+            font-family: var(--font-display);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            padding: 10px 12px;
+            text-align: right;
+            border-bottom: 2px solid var(--border-medium);
+        }
+
+        .month-breakdown-table thead th:first-child {
+            text-align: left;
+        }
+
+        .month-breakdown-table tbody td {
+            padding: 10px 12px;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text);
+            text-align: right;
+            border-bottom: 1px solid var(--border-soft);
+        }
+
+        .month-breakdown-table tbody td:first-child {
+            font-family: var(--font-body);
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-align: left;
+        }
+
+        .month-breakdown-table tbody tr:hover {
+            background: var(--surface-subtle);
+        }
+
+        .month-breakdown-table tbody tr.profitable td:last-child {
+            color: var(--accent-green);
+            font-weight: 700;
+        }
+
+        .month-breakdown-table tbody tr.loss td:last-child {
+            color: var(--accent-red);
+            font-weight: 700;
+        }
+
+        .month-breakdown-table tfoot td {
+            padding: 12px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text);
+            text-align: right;
+            border-top: 2px solid var(--border-medium);
+        }
+
+        .month-breakdown-table tfoot td:first-child {
+            font-family: var(--font-display);
+            text-align: left;
+        }
+
+        .month-breakdown-table tfoot td.tfoot-neg {
+            color: var(--accent-red);
+        }
+
+        .month-breakdown-table tfoot td.tfoot-pos {
+            color: var(--accent-green);
+        }
+
+        .estimation-disclaimer {
+            margin-top: 14px;
+            padding: 12px 16px;
+            border-radius: 10px;
+            background: rgba(196, 150, 46, 0.08);
+            border: 1px solid rgba(196, 150, 46, 0.2);
+            font-size: 11px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .estimation-disclaimer strong {
+            color: var(--accent-amber);
+        }
+
+        @media (max-width: 600px) {
+            .filter-row { flex-direction: column; align-items: flex-start; }
+            .filter-separator { display: none; }
+            .year-pill { padding: 7px 14px; font-size: 12px; }
+            .month-breakdown-table { font-size: 11px; }
+            .month-breakdown-table thead th { padding: 8px 6px; font-size: 9px; }
+            .month-breakdown-table tbody td { padding: 8px 6px; font-size: 11px; }
+            .month-breakdown-table tfoot td { padding: 10px 6px; font-size: 12px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- HEADER -->
+        <header class="animate-in">
+            <div>
+                <h1>INKredible <em>Financial</em> Dashboard
+                    <span class="sub" id="headerPeriodSub">Jan 2024 – Feb 2026 · 25 Months · Cash Basis</span>
+                </h1>
+            </div>
+        </header>
+
+        <!-- ===== PERIOD FILTER BAR ===== -->
+        <div class="filter-row animate-in">
+            <div class="filter-bar" id="periodFilter">
+                <button class="filter-pill" data-period="daily" type="button">Daily</button>
+                <button class="filter-pill" data-period="weekly" type="button">Weekly</button>
+                <button class="filter-pill" data-period="monthly" type="button">Monthly</button>
+                <button class="filter-pill active" data-period="yearly" type="button">Yearly</button>
+            </div>
+            <div class="filter-separator"></div>
+            <div class="year-filter-bar" id="yearFilter">
+                <button class="year-pill" data-year="2024" type="button">2024</button>
+                <button class="year-pill" data-year="2025" type="button">2025</button>
+                <button class="year-pill active" data-year="all" type="button">All Time</button>
+            </div>
+        </div>
+
+        <!-- DAILY/WEEKLY PLACEHOLDER VIEW -->
+        <div class="period-view" id="dailyWeeklyView">
+            <div class="connect-cta animate-in">
+                <div class="connect-cta-icon"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+                <div class="connect-cta-title">Connect QuickBooks API for <span id="ctaPeriodLabel">daily</span> data</div>
+                <div class="connect-cta-detail">
+                    Real-time financial data at this granularity requires a live connection to your QuickBooks account.
+                    Once connected, you'll see granular revenue, expense, and cash flow data updated automatically.
+                </div>
+                <button class="connect-cta-btn" type="button">Connect QuickBooks API →</button>
+            </div>
+        </div>
+
+        <!-- MONTHLY VIEW -->
+        <div class="period-view" id="monthlyView">
+            <div class="stat-grid animate-in" id="monthlyStatGrid"></div>
+
+            <div class="panel animate-in">
+                <div class="panel-title">
+                    <span class="icon" style="background: var(--accent-teal);"></span>
+                    Monthly Revenue Trend
+                </div>
+                <div class="panel-subtitle" id="monthlyRevenueSubtitle">Estimated monthly breakdown · $686,179 over 25 months</div>
+                <div class="monthly-chart-wrap">
+                    <canvas id="monthlyRevenueChart"></canvas>
+                </div>
+            </div>
+
+            <div class="panel animate-in">
+                <div class="panel-title">
+                    <span class="icon" style="background: var(--accent-amber);"></span>
+                    Monthly Expense Breakdown
+                </div>
+                <div class="panel-subtitle" id="monthlyExpenseSubtitle">Average monthly operating expenses · ~$14,676/mo</div>
+                <div class="monthly-expense-list" id="monthlyExpenseList"></div>
+            </div>
+
+            <!-- Month-by-Month P&L Breakdown Table -->
+            <div class="panel animate-in" id="monthBreakdownPanel" style="display:none;">
+                <div class="panel-title">
+                    <span class="icon" style="background: var(--accent-green);"></span>
+                    <span id="monthBreakdownTitle">Month-by-Month P&L Breakdown</span>
+                </div>
+                <div class="panel-subtitle" id="monthBreakdownSubtitle">Estimated monthly breakdown</div>
+                <div id="monthBreakdownContent"></div>
+                <div class="estimation-disclaimer" id="monthlyEstimateDisclaimer">
+                    <strong>Estimated data:</strong> Monthly breakdown based on 25-month P&L averages distributed proportionally. Connect QuickBooks API for actual monthly data.
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== 1. REVENUE OVERVIEW ===== -->
+        <div class="stat-grid animate-in" id="mainStatGrid">
+            <div class="stat-card">
+                <div class="label">Total Revenue</div>
+                <div class="value">$686K</div>
+                <div class="detail">$686,179</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Monthly Avg</div>
+                <div class="value">$27K</div>
+                <div class="detail">$26,909/mo</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Gross Profit</div>
+                <div class="value positive">$374K</div>
+                <div class="detail">54.5% margin</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Net Income</div>
+                <div class="value negative">-$10.7K</div>
+                <div class="detail">-1.6% margin</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Operating Income</div>
+                <div class="value warn">$7.2K</div>
+                <div class="detail">1.1% margin</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Annualized Rev</div>
+                <div class="value">$323K</div>
+                <div class="detail">Current run-rate</div>
+            </div>
+        </div>
+
+        <!-- ===== 2. P&L WATERFALL ===== -->
+        <div class="panel animate-in" id="waterfallPanel">
+            <div class="panel-title">
+                <span class="icon" style="background: var(--accent-teal);"></span>
+                Profit &amp; Loss Waterfall
+            </div>
+            <div class="panel-subtitle" id="waterfallSubtitle">Revenue → COGS → Gross Profit → Expenses → Net Income</div>
+
+            <div class="waterfall" id="waterfallBars">
+                <div class="waterfall-item">
+                    <div class="waterfall-label">Revenue</div>
+                    <div class="waterfall-bar-wrap">
+                        <div class="waterfall-bar revenue" style="width: 100%;">$686,179</div>
+                    </div>
+                </div>
+                <div class="waterfall-item">
+                    <div class="waterfall-label">− COGS</div>
+                    <div class="waterfall-bar-wrap">
+                        <div class="waterfall-bar cogs" style="width: 45.5%;">−$312,050</div>
+                    </div>
+                </div>
+                <div class="waterfall-item">
+                    <div class="waterfall-label">Gross Profit</div>
+                    <div class="waterfall-bar-wrap">
+                        <div class="waterfall-bar gross" style="width: 54.5%;">$374,129</div>
+                    </div>
+                </div>
+                <div class="waterfall-item">
+                    <div class="waterfall-label">− Expenses</div>
+                    <div class="waterfall-bar-wrap">
+                        <div class="waterfall-bar expenses" style="width: 53.5%;">−$366,892</div>
+                    </div>
+                </div>
+                <div class="waterfall-item">
+                    <div class="waterfall-label">Op. Income</div>
+                    <div class="waterfall-bar-wrap">
+                        <div class="waterfall-bar subtotal" style="width: max(8%, 60px);">$7,237</div>
+                    </div>
+                </div>
+                <div class="waterfall-item">
+                    <div class="waterfall-label">Net Income</div>
+                    <div class="waterfall-bar-wrap">
+                        <div class="waterfall-bar net-neg" style="width: max(6%, 60px);">−$10,746</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== 3. COGS BREAKDOWN ===== -->
+        <div class="panel animate-in" id="cogsPanel">
+            <div class="panel-title">
+                <span class="icon" style="background: var(--accent-red);"></span>
+                COGS Breakdown
+            </div>
+            <div class="panel-subtitle" id="cogsSubtitle">$312,050 total · 45.5% of revenue</div>
+
+            <div class="breakdown-list" id="cogsBreakdown"></div>
+        </div>
+
+        <!-- ===== 4. EXPENSE BREAKDOWN ===== -->
+        <div class="panel animate-in" id="expensePanel">
+            <div class="panel-title">
+                <span class="icon" style="background: var(--accent-amber);"></span>
+                Operating Expenses
+            </div>
+            <div class="panel-subtitle" id="expenseSubtitle">$366,892 total · 53.5% of revenue</div>
+
+            <div class="breakdown-list" id="expenseBreakdown"></div>
+        </div>
+
+        <!-- ===== 5. RED FLAG ALERTS ===== -->
+        <div class="panel animate-in" style="background: transparent; border: none; box-shadow: none; padding: 0;">
+            <div class="panel-title" style="padding-left: 4px;">
+                <span class="icon" style="background: var(--accent-red);"></span>
+                Red Flag Alerts
+            </div>
+
+            <div class="alert-list" id="alertList">
+                <div class="alert-card">
+                    <div class="alert-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="22" x2="21" y2="22"/><line x1="6" y1="18" x2="6" y2="11"/><line x1="10" y1="18" x2="10" y2="11"/><line x1="14" y1="18" x2="14" y2="11"/><line x1="18" y1="18" x2="18" y2="11"/><polygon points="12 2 20 7 4 7"/></svg></div>
+                    <div class="alert-content">
+                        <div class="alert-title">Line of Credit: ~17-18% APR</div>
+                        <div class="alert-detail">
+                            <strong>$18.6K in interest</strong> on a $43K LOC over 25 months. Refinancing to 8-10% could save <strong>$4-5K/year</strong>. This is eating profit.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="alert-card">
+                    <div class="alert-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+                    <div class="alert-content">
+                        <div class="alert-title">Meals &amp; Entertainment: $20.8K (mostly personal)</div>
+                        <div class="alert-detail">
+                            IRS audit risk. At <strong>$832/mo</strong>, this is 3% of revenue classified as business expense. Must separate personal vs. business immediately.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="alert-card">
+                    <div class="alert-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+                    <div class="alert-content">
+                        <div class="alert-title">Donations: $13.5K while net negative</div>
+                        <div class="alert-detail">
+                            Maaser (tithing) is based on <strong>net profit</strong>, not gross. Company is <strong>-$10.7K net</strong>. Worth recalibrating obligation with rabbi.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="alert-card">
+                    <div class="alert-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div>
+                    <div class="alert-content">
+                        <div class="alert-title">Checking Account: OVERDRAWN -$14K</div>
+                        <div class="alert-detail">
+                            Operating from a negative balance means overdraft fees and cash flow stress. Every dollar of revenue is immediately spoken for.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== 6. BALANCE SHEET ===== -->
+        <div class="panel animate-in">
+            <div class="panel-title">
+                <span class="icon" style="background: var(--accent-purple);"></span>
+                Balance Sheet Summary
+            </div>
+
+            <div class="bs-grid">
+                <div class="bs-col">
+                    <div class="bs-col-title">Assets</div>
+                    <div class="bs-line"><span class="name">Checking</span><span class="val neg">-$14,000</span></div>
+                    <div class="bs-line"><span class="name">Accounts Receivable</span><span class="val">$18,000</span></div>
+                    <div class="bs-line"><span class="name">Equipment/Other</span><span class="val">$36,000</span></div>
+                    <div class="bs-line bs-total"><span class="name">Total Assets</span><span class="val">~$40,000</span></div>
+                </div>
+                <div class="bs-col">
+                    <div class="bs-col-title">Liabilities</div>
+                    <div class="bs-line"><span class="name">Line of Credit</span><span class="val neg">$43,000</span></div>
+                    <div class="bs-line"><span class="name">Loans/Notes</span><span class="val neg">$39,000</span></div>
+                    <div class="bs-line"><span class="name">Other Liabilities</span><span class="val neg">$92,000</span></div>
+                    <div class="bs-line bs-total"><span class="name">Total Liabilities</span><span class="val neg">~$82,000</span></div>
+                </div>
+            </div>
+
+            <div class="equity-banner">
+                <div class="eq-label">Owner's Equity</div>
+                <div class="eq-value">-$42,000</div>
+                <div class="eq-detail">Liabilities exceed assets · Total debt ~$174K</div>
+            </div>
+
+            <div class="debt-list">
+                <div class="debt-row"><span class="name">Total Debt Exposure</span><span class="val danger">~$174,000</span></div>
+                <div class="debt-row"><span class="name">Debt-to-Revenue</span><span class="val danger">25.4%</span></div>
+                <div class="debt-row"><span class="name">Checking Position</span><span class="val danger">OVERDRAWN</span></div>
+            </div>
+        </div>
+
+        <!-- ===== 7. KEY RATIOS ===== -->
+        <div class="panel animate-in">
+            <div class="panel-title">
+                <span class="icon" style="background: var(--accent-green);"></span>
+                Key Ratios &amp; Metrics
+            </div>
+
+            <div class="ratio-grid">
+                <div class="ratio-card">
+                    <div class="r-label">Gross Margin</div>
+                    <div class="r-value good">54.5%</div>
+                    <div class="r-detail">Decent for printing</div>
+                </div>
+                <div class="ratio-card">
+                    <div class="r-label">Expense Ratio</div>
+                    <div class="r-value bad">53.5%</div>
+                    <div class="r-detail">$366.9K / $686.2K</div>
+                </div>
+                <div class="ratio-card">
+                    <div class="r-label">Revenue/Month</div>
+                    <div class="r-value">$27K</div>
+                    <div class="r-detail">$26,909 avg</div>
+                </div>
+                <div class="ratio-card">
+                    <div class="r-label">Net Margin</div>
+                    <div class="r-value bad">-1.6%</div>
+                    <div class="r-detail">Losing money</div>
+                </div>
+                <div class="ratio-card">
+                    <div class="r-label">COGS Ratio</div>
+                    <div class="r-value warn">45.5%</div>
+                    <div class="r-detail">$312K of $686K</div>
+                </div>
+                <div class="ratio-card">
+                    <div class="r-label">Break-Even/Mo</div>
+                    <div class="r-value warn">$27.2K</div>
+                    <div class="r-detail">Currently at edge</div>
+                </div>
+            </div>
+
+            <!-- Break-even analysis meter -->
+            <div style="margin-top: 18px;">
+                <div class="meter-row">
+                    <div class="meter-ring">
+                        <svg viewBox="0 0 56 56">
+                            <circle class="track" cx="28" cy="28" r="23"></circle>
+                            <circle class="fill-circle" cx="28" cy="28" r="23"
+                                stroke="var(--accent-amber)"
+                                stroke-dasharray="144.51"
+                                stroke-dashoffset="2.89"></circle>
+                        </svg>
+                        <div class="meter-text">98%</div>
+                    </div>
+                    <div class="meter-info">
+                        <div class="m-label">Break-Even Utilization</div>
+                        <div class="m-detail">Revenue covers 98% of all costs — essentially break-even, no profit buffer</div>
+                    </div>
+                </div>
+
+                <div class="meter-row">
+                    <div class="meter-ring">
+                        <svg viewBox="0 0 56 56">
+                            <circle class="track" cx="28" cy="28" r="23"></circle>
+                            <circle class="fill-circle" cx="28" cy="28" r="23"
+                                stroke="var(--accent-red)"
+                                stroke-dasharray="144.51"
+                                stroke-dashoffset="72.26"></circle>
+                        </svg>
+                        <div class="meter-text">2.1×</div>
+                    </div>
+                    <div class="meter-info">
+                        <div class="m-label">Liability-to-Assets</div>
+                        <div class="m-detail">Owes 2.1× what it owns — technically insolvent, needs equity injection or debt paydown</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="footer animate-in" id="footerGenerated">
+            INKredible Printing · Financial Dashboard · Generated Feb 2026 · ChetGPT
+        </div>
+    </div>
+
+    <!-- FLOATING ACTION BAR -->
+    <div class="floating-action-bar">
+        <button class="fab-btn theme-toggle" id="themeToggle" type="button" title="Toggle theme">
+            <span class="theme-toggle-track"><span class="theme-toggle-knob"></span></span>
+        </button>
+        <button class="fab-btn" id="scrollTopBtn" type="button" title="Scroll to top">
+            <svg viewBox="0 0 24 24"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg>
+        </button>
+    </div>
+
+    <!-- AI FINANCIAL CHAT -->
+    <button class="chat-fab" id="chatFab" type="button" title="Ask the AI Financial Advisor"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button>
+    <div class="chat-panel" id="chatPanel">
+        <div class="chat-header">
+            <div class="chat-header-left">
+                <div class="chat-header-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg></div>
+                <div class="chat-header-info">
+                    <div class="chat-title">Financial Advisor AI</div>
+                    <div class="chat-subtitle">INKredible Printing · Gemma 3</div>
+                </div>
+            </div>
+            <button class="chat-close-btn" id="chatClose" type="button" title="Close">x</button>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+        </div>
+        <div class="chat-suggestions" id="chatSuggestions">
+            <button class="chat-suggestion" data-q="What are my biggest expense problems?">Top expenses?</button>
+            <button class="chat-suggestion" data-q="How can I improve my net income and stop losing money?">Improve profit</button>
+            <button class="chat-suggestion" data-q="Should I refinance my line of credit? Break down the interest savings.">Refinance LOC?</button>
+            <button class="chat-suggestion" data-q="What's my break-even revenue per month and how far am I from a healthy profit?">Break-even</button>
+        </div>
+        <div class="chat-typing" id="chatTyping">
+            <div class="chat-typing-dot"></div>
+            <div class="chat-typing-dot"></div>
+            <div class="chat-typing-dot"></div>
+        </div>
+        <div class="chat-input-area">
+            <input class="chat-input" id="chatInput" type="text" placeholder="Ask about your finances…" autocomplete="off">
+            <button class="chat-send-btn" id="chatSend" type="button" title="Send">
+                <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // ===== THEME TOGGLE =====
+        const THEME_KEY = 'inkredible_dash_theme';
+        const toggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+
+        function setTheme(dark) {
+            html.setAttribute('data-theme', dark ? 'dark' : 'light');
+            toggle.classList.toggle('active', dark);
+            try { localStorage.setItem(THEME_KEY, dark ? 'dark' : 'light'); } catch(e) {}
+        }
+
+        // Init theme
+        (function() {
+            let saved;
+            try { saved = localStorage.getItem(THEME_KEY); } catch(e) {}
+            if (saved === 'dark') setTheme(true);
+            else if (saved === 'light') setTheme(false);
+            else if (window.matchMedia('(prefers-color-scheme: dark)').matches) setTheme(true);
+        })();
+
+        toggle.addEventListener('click', () => {
+            setTheme(html.getAttribute('data-theme') !== 'dark');
+        });
+
+        // ===== SCROLL TO TOP =====
+        document.getElementById('scrollTopBtn').addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // ===== FINANCIAL DATA MODEL =====
+        let BASE_REVENUE = 686179;
+        let BASE_COGS = 312050;
+        let BASE_GROSS = 374129;
+        let BASE_EXPENSES = 366892;
+        let BASE_OP_INCOME = 7237;
+        let BASE_NET_INCOME = -10746;
+        let TOTAL_MONTHS = 25;
+
+        let yearConfig = {
+            all:  { months: 25, scale: 1,      label: 'Jan 2024 – Jan 2026 · 25 Months', shortLabel: 'All Time' },
+            2024: { months: 12, scale: 12/25,  label: 'Jan – Dec 2024 · 12 Months (Est.)', shortLabel: '2024' },
+            2025: { months: 12, scale: 12/25,  label: 'Jan – Dec 2025 · 12 Months (Est.)', shortLabel: '2025' },
+        };
+
+        function getYearData(year) {
+            const cfg = yearConfig[year] || yearConfig.all;
+            const s = cfg.scale;
+            return {
+                months: cfg.months,
+                revenue: Math.round(BASE_REVENUE * s),
+                cogs: Math.round(BASE_COGS * s),
+                grossProfit: Math.round(BASE_GROSS * s),
+                expenses: Math.round(BASE_EXPENSES * s),
+                opIncome: Math.round(BASE_OP_INCOME * s),
+                netIncome: Math.round(BASE_NET_INCOME * s),
+                label: cfg.label,
+                shortLabel: cfg.shortLabel,
+                scale: s,
+            };
+        }
+
+        let currentYear = 'all';
+
+        const LIVE_DATA_URL = 'data/quickbooks-live.json';
+        const LIVE_HISTORY_URL = 'data/quickbooks-live-history.json';
+        const BREAKDOWN_COLORS = ['teal', 'purple', 'amber', 'rose', 'green', 'red'];
+
+        let quickBooksLiveHistory = null;
+        let liveHistoryEnabled = false;
+
+        function toNumber(value, fallback = 0) {
+            const n = Number(value);
+            return Number.isFinite(n) ? n : fallback;
+        }
+
+        function formatMoney(value) {
+            const n = toNumber(value, 0);
+            return `${n < 0 ? '-' : ''}$${Math.abs(Math.round(n)).toLocaleString()}`;
+        }
+
+        function monthDiffInclusive(startDate, endDate) {
+            if (!startDate || !endDate) return 1;
+            const start = new Date(startDate + 'T00:00:00');
+            const end = new Date(endDate + 'T00:00:00');
+            if (Number.isNaN(start.getTime()) || Number.isNaN(end.getTime())) return 1;
+            const months = (end.getFullYear() - start.getFullYear()) * 12 + (end.getMonth() - start.getMonth()) + 1;
+            return Math.max(1, months);
+        }
+
+        function mapBreakdownToBars(items) {
+            return (items || [])
+                .map(function(item, idx) {
+                    const amount = Math.round(toNumber(item.value, 0));
+                    return {
+                        name: item.label || 'Unknown',
+                        amount,
+                        color: BREAKDOWN_COLORS[idx % BREAKDOWN_COLORS.length],
+                    };
+                })
+                .filter(function(item) { return item.amount > 0; })
+                .slice(0, 10);
+        }
+
+        function getHistorySeries(period) {
+            const rows = quickBooksLiveHistory?.series?.[period];
+            if (!Array.isArray(rows)) return [];
+            return rows
+                .filter(function(row) { return row && row.metrics; })
+                .sort(function(a, b) { return String(a.bucket || '').localeCompare(String(b.bucket || '')); });
+        }
+
+        function enableAllPeriodPills() {
+            document.querySelectorAll('#periodFilter .filter-pill').forEach(function(btn) {
+                btn.disabled = false;
+                btn.style.opacity = '';
+                btn.title = '';
+            });
+        }
+
+        function formatHistoryBucketLabel(period, bucket) {
+            if (!bucket) return '—';
+            if (period === 'daily') {
+                const d = new Date(bucket + 'T00:00:00');
+                if (!Number.isNaN(d.getTime())) {
+                    return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+                }
+            }
+            if (period === 'monthly') {
+                const d = new Date(`${bucket}-01T00:00:00`);
+                if (!Number.isNaN(d.getTime())) {
+                    return d.toLocaleDateString(undefined, { month: 'short', year: '2-digit' });
+                }
+            }
+            if (period === 'weekly') {
+                return String(bucket).replace('-W', ' W');
+            }
+            return String(bucket);
+        }
+
+        function renderLiveAlerts(liveData) {
+            const alertList = document.getElementById('alertList');
+            if (!alertList) return;
+
+            const metrics = liveData?.metrics || {};
+            const alerts = liveData?.alerts || {};
+
+            const cards = [];
+
+            cards.push({
+                icon: '',
+                title: `QuickBooks ${String(liveData?.env || '').toUpperCase()} data connected`,
+                detail: `Live snapshot loaded from ${LIVE_DATA_URL}. Generated ${new Date(liveData.generatedAt).toLocaleString()}.`
+            });
+
+            if (alerts.negativeNetIncome) {
+                cards.push({
+                    icon: '',
+                    title: 'Net income is negative',
+                    detail: `Current net income is <strong>${formatMoney(metrics.netIncome || 0)}</strong> for the selected live period.`
+                });
+            }
+
+            if (alerts.negativeEquity) {
+                cards.push({
+                    icon: '',
+                    title: 'Negative equity detected',
+                    detail: `Total equity is <strong>${formatMoney(metrics.totalEquity || 0)}</strong>. Liabilities are higher than assets.`
+                });
+            }
+
+            if (toNumber(metrics.overdueInvoicesCount, 0) > 0) {
+                cards.push({
+                    icon: '',
+                    title: `${metrics.overdueInvoicesCount} overdue invoices`,
+                    detail: `Overdue receivables total <strong>${formatMoney(metrics.overdueInvoicesBalance || 0)}</strong> out of <strong>${formatMoney(metrics.openInvoicesBalance || 0)}</strong> open invoices.`
+                });
+            }
+
+            if (alerts.currentRatioRisk) {
+                cards.push({
+                    icon: '',
+                    title: 'Current ratio risk',
+                    detail: `Current ratio is <strong>${toNumber(metrics.currentRatio, 0).toFixed(2)}</strong>, which can signal short-term cash pressure.`
+                });
+            }
+
+            alertList.innerHTML = cards.slice(0, 4).map(function(card) {
+                return `
+                    <div class="alert-card">
+                        <div class="alert-icon">${card.icon}</div>
+                        <div class="alert-content">
+                            <div class="alert-title">${card.title}</div>
+                            <div class="alert-detail">${card.detail}</div>
+                        </div>
+                    </div>`;
+            }).join('');
+        }
+
+        function renderLiveBalanceAndRatios(liveData) {
+            const metrics = liveData?.metrics || {};
+
+            const assets = toNumber(metrics.totalAssets, 0);
+            const liabilities = toNumber(metrics.totalLiabilities, 0);
+            const equity = toNumber(metrics.totalEquity, 0);
+            const currentAssets = toNumber(metrics.currentAssets, 0);
+            const currentLiabilities = toNumber(metrics.currentLiabilities, 0);
+            const currentRatio = toNumber(metrics.currentRatio, 0);
+            const grossMargin = toNumber(metrics.grossMarginPct, 0);
+            const netMargin = toNumber(metrics.netMarginPct, 0);
+            const cogsRatio = BASE_REVENUE ? (BASE_COGS / BASE_REVENUE) * 100 : 0;
+            const expenseRatio = BASE_REVENUE ? (BASE_EXPENSES / BASE_REVENUE) * 100 : 0;
+            const liabilityAssetRatio = assets ? (liabilities / assets) : 0;
+
+            const panels = Array.from(document.querySelectorAll('.panel'));
+            const balancePanel = panels.find(function(panel) {
+                return panel.textContent.includes('Balance Sheet Summary');
+            });
+            const ratioPanel = panels.find(function(panel) {
+                return panel.textContent.includes('Key Ratios & Metrics');
+            });
+
+            if (balancePanel) {
+                balancePanel.innerHTML = `
+                    <div class="panel-title">
+                        <span class="icon" style="background: var(--accent-purple);"></span>
+                        Balance Sheet Summary (Live QuickBooks)
+                    </div>
+
+                    <div class="bs-grid">
+                        <div class="bs-col">
+                            <div class="bs-col-title">Assets</div>
+                            <div class="bs-line"><span class="name">Current Assets</span><span class="val">${formatMoney(currentAssets)}</span></div>
+                            <div class="bs-line"><span class="name">Open Invoices</span><span class="val">${formatMoney(metrics.openInvoicesBalance || 0)}</span></div>
+                            <div class="bs-line"><span class="name">Total Assets</span><span class="val">${formatMoney(assets)}</span></div>
+                        </div>
+                        <div class="bs-col">
+                            <div class="bs-col-title">Liabilities</div>
+                            <div class="bs-line"><span class="name">Current Liabilities</span><span class="val neg">${formatMoney(currentLiabilities)}</span></div>
+                            <div class="bs-line"><span class="name">Total Liabilities</span><span class="val neg">${formatMoney(liabilities)}</span></div>
+                            <div class="bs-line"><span class="name">Current Ratio</span><span class="val ${currentRatio >= 1 ? 'pos' : 'neg'}">${currentRatio ? currentRatio.toFixed(2) : 'N/A'}</span></div>
+                        </div>
+                    </div>
+
+                    <div class="equity-banner">
+                        <div class="eq-label">Owner's Equity</div>
+                        <div class="eq-value">${formatMoney(equity)}</div>
+                        <div class="eq-detail">Liabilities / Assets: ${liabilityAssetRatio.toFixed(2)}×</div>
+                    </div>
+
+                    <div class="debt-list">
+                        <div class="debt-row"><span class="name">Open Invoices</span><span class="val">${toNumber(metrics.openInvoicesCount, 0)} (${formatMoney(metrics.openInvoicesBalance || 0)})</span></div>
+                        <div class="debt-row"><span class="name">Overdue Invoices</span><span class="val danger">${toNumber(metrics.overdueInvoicesCount, 0)} (${formatMoney(metrics.overdueInvoicesBalance || 0)})</span></div>
+                        <div class="debt-row"><span class="name">Data Source</span><span class="val">${String(liveData?.env || '').toUpperCase()} QuickBooks</span></div>
+                    </div>
+                `;
+            }
+
+            if (ratioPanel) {
+                const expenseRatioClass = expenseRatio > 50 ? 'bad' : expenseRatio > 35 ? 'warn' : 'good';
+                const currentRatioClass = currentRatio >= 1.5 ? 'good' : currentRatio >= 1 ? 'warn' : 'bad';
+                const netClass = netMargin >= 0 ? 'good' : 'bad';
+
+                ratioPanel.innerHTML = `
+                    <div class="panel-title">
+                        <span class="icon" style="background: var(--accent-green);"></span>
+                        Key Ratios &amp; Metrics (Live QuickBooks)
+                    </div>
+
+                    <div class="ratio-grid">
+                        <div class="ratio-card">
+                            <div class="r-label">Gross Margin</div>
+                            <div class="r-value ${grossMargin >= 45 ? 'good' : 'warn'}">${grossMargin.toFixed(1)}%</div>
+                            <div class="r-detail">Gross Profit / Revenue</div>
+                        </div>
+                        <div class="ratio-card">
+                            <div class="r-label">Expense Ratio</div>
+                            <div class="r-value ${expenseRatioClass}">${expenseRatio.toFixed(1)}%</div>
+                            <div class="r-detail">Expenses / Revenue</div>
+                        </div>
+                        <div class="ratio-card">
+                            <div class="r-label">Net Margin</div>
+                            <div class="r-value ${netClass}">${netMargin.toFixed(1)}%</div>
+                            <div class="r-detail">Net Income / Revenue</div>
+                        </div>
+                        <div class="ratio-card">
+                            <div class="r-label">Current Ratio</div>
+                            <div class="r-value ${currentRatioClass}">${currentRatio ? currentRatio.toFixed(2) : 'N/A'}</div>
+                            <div class="r-detail">Current Assets / Liabilities</div>
+                        </div>
+                        <div class="ratio-card">
+                            <div class="r-label">COGS Ratio</div>
+                            <div class="r-value ${cogsRatio <= 50 ? 'good' : 'warn'}">${cogsRatio.toFixed(1)}%</div>
+                            <div class="r-detail">COGS / Revenue</div>
+                        </div>
+                        <div class="ratio-card">
+                            <div class="r-label">Open Invoices</div>
+                            <div class="r-value warn">${toNumber(metrics.openInvoicesCount, 0)}</div>
+                            <div class="r-detail">${formatMoney(metrics.openInvoicesBalance || 0)}</div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function applyQuickBooksLiveData(liveData) {
+            const metrics = liveData?.metrics || {};
+
+            BASE_REVENUE = Math.round(toNumber(metrics.income, BASE_REVENUE));
+            BASE_COGS = Math.round(toNumber(metrics.cogs, BASE_COGS));
+            BASE_GROSS = Math.round(toNumber(metrics.grossProfit, BASE_GROSS));
+            BASE_EXPENSES = Math.round(toNumber(metrics.expenses, BASE_EXPENSES));
+            BASE_NET_INCOME = Math.round(toNumber(metrics.netIncome, BASE_NET_INCOME));
+            BASE_OP_INCOME = Math.round(BASE_GROSS - BASE_EXPENSES);
+
+            const start = liveData?.periods?.pnl?.start;
+            const end = liveData?.periods?.pnl?.end;
+            TOTAL_MONTHS = monthDiffInclusive(start, end);
+
+            const periodLabel = start && end
+                ? `${start} → ${end}`
+                : 'Current Fiscal Year';
+
+            yearConfig = {
+                all: {
+                    months: TOTAL_MONTHS,
+                    scale: 1,
+                    label: `${periodLabel} · Live QuickBooks`,
+                    shortLabel: 'Live'
+                }
+            };
+
+            const incomeRows = mapBreakdownToBars(liveData?.breakdowns?.incomeTop || []);
+            if (incomeRows.length) {
+                cogsData = incomeRows;
+                const cogsTitle = document.querySelector('#cogsPanel .panel-title');
+                if (cogsTitle) {
+                    cogsTitle.innerHTML = '<span class="icon" style="background: var(--accent-teal);"></span>Income Breakdown (Live QuickBooks)';
+                }
+            }
+
+            const expenseRows = mapBreakdownToBars(liveData?.breakdowns?.expensesTop || []);
+            if (expenseRows.length) {
+                expData = expenseRows;
+                const expTitle = document.querySelector('#expensePanel .panel-title');
+                if (expTitle) {
+                    expTitle.innerHTML = '<span class="icon" style="background: var(--accent-amber);"></span>Expense Breakdown (Live QuickBooks)';
+                }
+            }
+
+            const headerSub = document.getElementById('headerPeriodSub');
+            if (headerSub) {
+                const env = String(liveData?.env || '').toUpperCase();
+                headerSub.textContent = `${periodLabel} · ${TOTAL_MONTHS} month(s) · ${env} QuickBooks`;
+            }
+
+            const footer = document.getElementById('footerGenerated');
+            if (footer) {
+                footer.textContent = `INKredible Printing · Financial Dashboard · Live QuickBooks snapshot ${new Date(liveData.generatedAt).toLocaleString()}`;
+            }
+
+            const yearlyPill = document.querySelector('#periodFilter .filter-pill[data-period="yearly"]');
+            if (yearlyPill) yearlyPill.click();
+
+            if (!liveHistoryEnabled) {
+                document.querySelectorAll('#periodFilter .filter-pill').forEach(function(btn) {
+                    if (btn.dataset.period !== 'yearly') {
+                        btn.disabled = true;
+                        btn.style.opacity = '0.45';
+                        btn.title = 'Live QuickBooks mode currently supports yearly snapshot';
+                    }
+                });
+            } else {
+                enableAllPeriodPills();
+            }
+
+            document.querySelectorAll('#yearFilter .year-pill').forEach(function(btn) {
+                if (btn.dataset.year !== 'all') {
+                    btn.style.display = 'none';
+                } else {
+                    btn.classList.add('active');
+                    btn.textContent = 'Live';
+                }
+            });
+
+            renderLiveAlerts(liveData);
+            renderLiveBalanceAndRatios(liveData);
+            applyYearFilter('all');
+        }
+
+        async function loadQuickBooksLiveData() {
+            try {
+                const res = await fetch(LIVE_DATA_URL, { cache: 'no-store' });
+                if (!res.ok) return;
+                const liveData = await res.json();
+                if (!liveData || !liveData.metrics) return;
+                applyQuickBooksLiveData(liveData);
+                console.log('[OK] Live QuickBooks dashboard data loaded');
+            } catch (err) {
+                console.warn('Live QuickBooks data not available, using baseline snapshot.', err.message);
+            }
+        }
+
+        async function loadQuickBooksLiveHistory() {
+            try {
+                const res = await fetch(LIVE_HISTORY_URL, { cache: 'no-store' });
+                if (!res.ok) return;
+                const historyData = await res.json();
+                if (!historyData || !historyData.series) return;
+
+                quickBooksLiveHistory = historyData;
+                liveHistoryEnabled = true;
+                enableAllPeriodPills();
+
+                document.dispatchEvent(new CustomEvent('quickbooks-history-ready', {
+                    detail: { historyData }
+                }));
+
+                console.log('[OK] Live QuickBooks history loaded');
+            } catch (err) {
+                console.warn('Live QuickBooks history not available yet (trend views will stay in placeholder mode).', err.message);
+            }
+        }
+
+        // ===== COGS DATA =====
+        let cogsData = [
+            { name: 'Graphic Design (Brandon)', amount: 67006, color: 'teal' },
+            { name: 'Large Format Supplies', amount: 47983, color: 'purple' },
+            { name: 'Paper Supply', amount: 43454, color: 'amber' },
+            { name: 'Third Party Printing', amount: 41820, color: 'rose' },
+            { name: 'Supplies & Materials', amount: 28379, color: 'green' },
+            { name: 'Cost Per Click', amount: 26986, color: 'teal' },
+            { name: 'COGS General', amount: 18727, color: 'purple' },
+            { name: 'Printing Costs + Afinia', amount: 16764, color: 'amber' },
+            { name: 'Label Supply', amount: 6699, color: 'rose' },
+            { name: 'Printing Supplies', amount: 6654, color: 'green' },
+            { name: 'Other (Job, Binding, etc.)', amount: 7578, color: 'teal' },
+        ];
+
+        // ===== EXPENSE DATA =====
+        let expData = [
+            { name: 'Rent', amount: 75990, color: 'amber' },
+            { name: 'Salaries & Wages', amount: 41658, color: 'teal' },
+            { name: 'Postage & Shipping', amount: 41518, color: 'purple' },
+            { name: "Officer's Pay (Aviel)", amount: 39185, color: 'green' },
+            { name: 'Auto', amount: 23043, color: 'rose' },
+            { name: 'Meals & Entertainment', amount: 20766, color: 'red' },
+            { name: 'Bank Charges / Interest', amount: 18641, color: 'red' },
+            { name: 'Utilities', amount: 14367, color: 'teal' },
+            { name: 'Travel', amount: 12481, color: 'purple' },
+            { name: 'Donations', amount: 13500, color: 'red' },
+            { name: 'Payroll Taxes', amount: 9158, color: 'amber' },
+            { name: 'Office Supplies', amount: 11262, color: 'green' },
+            { name: 'Dues & Subscriptions', amount: 6204, color: 'rose' },
+            { name: 'Other (Ins, Phone, Acct, etc.)', amount: 39119, color: 'teal' },
+        ];
+
+        // ===== RENDER FUNCTIONS =====
+        function renderCOGS(scale) {
+            const cogsList = document.getElementById('cogsBreakdown');
+            if (!cogsList) return;
+            const scaledData = cogsData.map(d => ({ ...d, amount: Math.round(d.amount * scale) }));
+            const scaledTotal = scaledData.reduce((s, d) => s + d.amount, 0);
+            const maxAmt = scaledData[0].amount;
+            const rev = Math.round(BASE_REVENUE * scale);
+
+            cogsList.innerHTML = '';
+            scaledData.forEach(item => {
+                const pct = ((item.amount / scaledTotal) * 100).toFixed(1);
+                const barW = ((item.amount / maxAmt) * 100).toFixed(1);
+                cogsList.innerHTML += `
+                    <div class="bar-row">
+                        <div class="bar-header">
+                            <span class="bar-name">${item.name}</span>
+                            <div class="bar-values">
+                                <span class="bar-amount">$${item.amount.toLocaleString()}</span>
+                                <span class="bar-pct">${pct}%</span>
+                            </div>
+                        </div>
+                        <div class="bar-track"><div class="bar-fill ${item.color}" style="width: ${barW}%;"></div></div>
+                    </div>`;
+            });
+
+            const sub = document.getElementById('cogsSubtitle');
+            if (sub) sub.textContent = `$${scaledTotal.toLocaleString()} total · ${(scaledTotal/rev*100).toFixed(1)}% of revenue`;
+        }
+
+        function renderExpenses(scale) {
+            const expList = document.getElementById('expenseBreakdown');
+            if (!expList) return;
+            const scaledData = expData.map(d => ({ ...d, amount: Math.round(d.amount * scale) }));
+            const scaledTotal = scaledData.reduce((s, d) => s + d.amount, 0);
+            const maxAmt = scaledData[0].amount;
+            const rev = Math.round(BASE_REVENUE * scale);
+
+            // Remove existing biggest-expenses if present
+            const existingBiggest = expList.parentNode.querySelector('.biggest-expenses');
+            if (existingBiggest) existingBiggest.remove();
+
+            expList.innerHTML = '';
+            scaledData.forEach(item => {
+                const pct = ((item.amount / scaledTotal) * 100).toFixed(1);
+                const barW = ((item.amount / maxAmt) * 100).toFixed(1);
+                const revPct = ((item.amount / rev) * 100).toFixed(1);
+                const flag = (item.amount / rev) > 0.10 ? '' : '';
+                expList.innerHTML += `
+                    <div class="bar-row">
+                        <div class="bar-header">
+                            <span class="bar-name">${item.name}${flag}</span>
+                            <div class="bar-values">
+                                <span class="bar-amount">$${item.amount.toLocaleString()}</span>
+                                <span class="bar-pct">${pct}%</span>
+                                <span class="bar-rev-pct" title="% of revenue">${revPct}% rev</span>
+                            </div>
+                        </div>
+                        <div class="bar-track"><div class="bar-fill ${item.color}" style="width: ${barW}%;"></div></div>
+                    </div>`;
+            });
+
+            const sub = document.getElementById('expenseSubtitle');
+            if (sub) sub.textContent = `$${scaledTotal.toLocaleString()} total · ${(scaledTotal/rev*100).toFixed(1)}% of revenue`;
+
+            // Biggest expenses highlight
+            const biggest = [...scaledData].sort((a, b) => b.amount - a.amount).slice(0, 5);
+            const biggestDiv = document.createElement('div');
+            biggestDiv.className = 'biggest-expenses';
+            biggestDiv.innerHTML = '<div class="biggest-expenses-title">Top 5 Biggest Expenses</div>';
+            biggest.forEach((item, i) => {
+                const revPct = ((item.amount / rev) * 100).toFixed(1);
+                const flagIcon = (item.amount / rev) > 0.10 ? 'flag' : 'ok';
+                biggestDiv.innerHTML += `
+                    <div class="biggest-expense-item">
+                        <div class="biggest-expense-rank">${i + 1}</div>
+                        <div class="biggest-expense-name">${item.name}</div>
+                        <div class="biggest-expense-amount">$${item.amount.toLocaleString()}</div>
+                        <div class="biggest-expense-pct">${revPct}% rev</div>
+                        <div class="biggest-expense-flag">${flagIcon}</div>
+                    </div>`;
+            });
+            expList.parentNode.insertBefore(biggestDiv, expList);
+        }
+
+        function renderStatGrid(year) {
+            const d = getYearData(year);
+            const grid = document.getElementById('mainStatGrid');
+            if (!grid) return;
+            const monthlyAvg = Math.round(d.revenue / d.months);
+            const annualized = Math.round(monthlyAvg * 12);
+
+            let subtotalsHtml = '';
+            if (year === 'all' && yearConfig['2024'] && yearConfig['2025']) {
+                const d24 = getYearData('2024');
+                const d25 = getYearData('2025');
+                const d26m = Math.round(BASE_REVENUE / 25); // 1-month Jan 2026
+                subtotalsHtml = `
+                    <div class="year-subtotals">
+                        <div class="year-subtotal-chip"><span class="yr-label">2024</span> ~$${(d24.revenue/1000).toFixed(0)}K</div>
+                        <div class="year-subtotal-chip"><span class="yr-label">2025</span> ~$${(d25.revenue/1000).toFixed(0)}K</div>
+                        <div class="year-subtotal-chip"><span class="yr-label">Jan 2026</span> ~$${(d26m/1000).toFixed(1)}K</div>
+                    </div>`;
+            }
+
+            grid.innerHTML = `
+                <div class="stat-card">
+                    <div class="label">Total Revenue${year !== 'all' ? ' (' + year + ')' : ''}</div>
+                    <div class="value">$${(d.revenue/1000).toFixed(0)}K</div>
+                    <div class="detail">$${d.revenue.toLocaleString()}${year !== 'all' ? ' (est.)' : ''}</div>
+                    ${subtotalsHtml}
+                </div>
+                <div class="stat-card">
+                    <div class="label">Monthly Avg</div>
+                    <div class="value">$${(monthlyAvg/1000).toFixed(0)}K</div>
+                    <div class="detail">$${monthlyAvg.toLocaleString()}/mo</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">Gross Profit</div>
+                    <div class="value positive">$${(d.grossProfit/1000).toFixed(0)}K</div>
+                    <div class="detail">${(d.grossProfit/d.revenue*100).toFixed(1)}% margin</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">Net Income</div>
+                    <div class="value negative">${d.netIncome >= 0 ? '' : '-'}$${(Math.abs(d.netIncome)/1000).toFixed(1)}K</div>
+                    <div class="detail">${(d.netIncome/d.revenue*100).toFixed(1)}% margin</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">Operating Income</div>
+                    <div class="value warn">$${(d.opIncome/1000).toFixed(1)}K</div>
+                    <div class="detail">${(d.opIncome/d.revenue*100).toFixed(1)}% margin</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">Annualized Rev</div>
+                    <div class="value">$${(annualized/1000).toFixed(0)}K</div>
+                    <div class="detail">Current run-rate</div>
+                </div>
+            `;
+        }
+
+        function renderWaterfall(year) {
+            const d = getYearData(year);
+            const bars = document.getElementById('waterfallBars');
+            const sub = document.getElementById('waterfallSubtitle');
+            if (!bars) return;
+            if (sub) sub.textContent = `Revenue → COGS → Gross Profit → Expenses → Net Income · ${d.label}`;
+
+            const rev = d.revenue;
+            const cogsW = (d.cogs / rev * 100).toFixed(1);
+            const grossW = (d.grossProfit / rev * 100).toFixed(1);
+            const expW = (d.expenses / rev * 100).toFixed(1);
+
+            bars.innerHTML = `
+                <div class="waterfall-item">
+                    <div class="waterfall-label">Revenue</div>
+                    <div class="waterfall-bar-wrap">
+                        <div class="waterfall-bar revenue" style="width: 100%;">$${rev.toLocaleString()}</div>
+                    </div>
+                </div>
+                <div class="waterfall-item">
+                    <div class="waterfall-label">− COGS</div>
+                    <div class="waterfall-bar-wrap">
+                        <div class="waterfall-bar cogs" style="width: ${cogsW}%;">−$${d.cogs.toLocaleString()}</div>
+                    </div>
+                </div>
+                <div class="waterfall-item">
+                    <div class="waterfall-label">Gross Profit</div>
+                    <div class="waterfall-bar-wrap">
+                        <div class="waterfall-bar gross" style="width: ${grossW}%;">$${d.grossProfit.toLocaleString()}</div>
+                    </div>
+                </div>
+                <div class="waterfall-item">
+                    <div class="waterfall-label">− Expenses</div>
+                    <div class="waterfall-bar-wrap">
+                        <div class="waterfall-bar expenses" style="width: ${expW}%;">−$${d.expenses.toLocaleString()}</div>
+                    </div>
+                </div>
+                <div class="waterfall-item">
+                    <div class="waterfall-label">Op. Income</div>
+                    <div class="waterfall-bar-wrap">
+                        <div class="waterfall-bar subtotal" style="width: max(8%, 60px);">$${d.opIncome.toLocaleString()}</div>
+                    </div>
+                </div>
+                <div class="waterfall-item">
+                    <div class="waterfall-label">Net Income</div>
+                    <div class="waterfall-bar-wrap">
+                        <div class="waterfall-bar ${d.netIncome >= 0 ? 'net-pos' : 'net-neg'}" style="width: max(6%, 60px);">${d.netIncome >= 0 ? '' : '−'}$${Math.abs(d.netIncome).toLocaleString()}</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function applyYearFilter(year) {
+            currentYear = year;
+            const scale = yearConfig[year] ? yearConfig[year].scale : 1;
+            renderStatGrid(year);
+            renderWaterfall(year);
+            renderCOGS(scale);
+            renderExpenses(scale);
+            // Re-observe for animations
+            document.querySelectorAll('.panel, .waterfall').forEach(el => barObserver.observe(el));
+        }
+
+        // Initial render
+        renderCOGS(1);
+        renderExpenses(1);
+        renderStatGrid('all');
+        renderWaterfall('all');
+        loadQuickBooksLiveData();
+        loadQuickBooksLiveHistory();
+
+        // ===== ANIMATE BARS ON SCROLL =====
+        const barObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.querySelectorAll('.bar-fill, .waterfall-bar').forEach(bar => {
+                        const w = bar.style.width;
+                        bar.style.width = '0%';
+                        requestAnimationFrame(() => {
+                            requestAnimationFrame(() => { bar.style.width = w; });
+                        });
+                    });
+                    barObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15 });
+
+        document.querySelectorAll('.panel, .waterfall').forEach(el => barObserver.observe(el));
+
+        // ===== AI FINANCIAL CHAT WITH CHART.JS =====
+        (function() {
+            const NVIDIA_API_KEY = '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';
+            const NVIDIA_URL = 'https://integrate.api.nvidia.com/v1/chat/completions';
+            const NVIDIA_MODEL = 'moonshotai/kimi-k2.5';
+
+            // Chart tracking
+            let chartIdCounter = 0;
+            const chartInstances = new Map();
+            const pendingChartData = new Map();
+
+            const SYSTEM_PROMPT = `You are a financial advisor and QuickBooks expert specializing in the commercial printing industry. You have access to the following financial data for INKredible Printing, a custom print shop in Brooklyn, NY. Answer questions using this data. Be specific with numbers. Give actionable advice.
+
+=== P&L SUMMARY (Jan 2024 – Feb 2026, ~25 months, Cash Basis) ===
+Total Revenue: $686,179 ($26,909/month avg)
+Gross Profit: $374,129 (54.5% margin)
+Total COGS: $312,050 (45.5% of revenue)
+Total Operating Expenses: $366,892 (53.5% of revenue)
+Net Operating Income: $7,237 (1.1% margin)
+Net Income (after other): -$10,746 (-1.6% margin — donations + depreciation push it negative)
+Annualized Run-Rate: ~$323K revenue, ~$0 profit
+
+=== REVENUE BREAKDOWN ===
+Main Sales: $581,653 (85%)
+Large Format NEW: $67,955 (10%)
+Small Format NEW: $29,521 (4%)
+UPS Shipping: $2,078
+Design Fees: $339
+
+=== COGS BREAKDOWN ($312,050) ===
+Graphic Design (Brandon): $67,006 (21.5%) — ~$2,680/mo
+Large Format Supplies: $47,983 — ~$1,919/mo
+Paper Supply: $43,454 — ~$1,738/mo
+Third Party Printing: $41,820 — ~$1,673/mo
+Supplies & Materials: $28,379 — ~$1,135/mo
+Cost Per Click: $26,986 — ~$1,079/mo
+COGS General: $18,727 — ~$749/mo
+Printing Costs + Afinia: $16,764 — ~$671/mo
+Label Supply: $6,699 — ~$268/mo
+Printing Supplies: $6,654 — ~$266/mo
+Other (Job, Binding, etc.): $7,578
+
+=== OPERATING EXPENSES ($366,892) ===
+Rent: $75,990 (11.1% of rev — $2,980/mo)
+Salaries/Wages: $41,658 — ~$1,666/mo
+Postage/Shipping: $41,518 — ~$1,661/mo (mostly Messilot)
+Officers Payroll (Aviel): $39,185 — ~$1,567/mo
+Auto: $23,043 — ~$922/mo
+Meals/Entertainment: $20,766 — ~$831/mo, mostly personal, IRS audit risk
+Bank Charges/Interest: $18,641 — ~$746/mo, 17-18% APR on $43K LOC
+Utilities: $14,367 — ~$575/mo
+Donations: $13,500 — maaser while net negative
+Travel: $12,481 — ~$499/mo
+Office Supplies: $11,262 — ~$450/mo
+Payroll Taxes: $9,158 — ~$366/mo
+Independent Contractors: $6,635 — ~$265/mo
+Dues/Subscriptions: $6,204 — ~$248/mo
+Medical Insurance: $5,433 — ~$217/mo
+Fuel: $4,736 — ~$189/mo
+Accounting: $4,676 — ~$187/mo
+Telephone: $4,141 — ~$166/mo
+Insurance (Hartford): $3,399 — ~$136/mo
+
+=== BALANCE SHEET ===
+Checking: -$14,000 (OVERDRAWN) | AR: $18,000 | Equipment: $36,000 | Total Assets: ~$40,000
+LOC: $43,000 | Loans: $39,000 | Other Liab: $92,000 | Total Liabilities: ~$174,000
+Owner's Equity: -$42,000 | Debt-to-Revenue: 25.4% | Liability-to-Assets: 2.1×
+
+=== KEY RED FLAGS ===
+1. LOC at ~17-18% APR — refinancing to 8-10% could save $4-5K/year
+2. Meals $20.8K mostly personal — IRS audit risk
+3. Donations $13.5K while net negative — recalibrate with rabbi
+4. Checking OVERDRAWN -$14K — cash flow stress
+5. Break-even at 98% — no profit buffer
+
+=== KEY RATIOS ===
+Gross Margin: 54.5% | Expense Ratio: 53.5% | Net Margin: -1.6% | Break-Even/Mo: ~$27.2K
+
+=== CHART VISUALIZATION RULES ===
+When the user asks about expense breakdowns, COGS analysis, revenue trends, spending comparisons, or any question where a chart would help, include a chart data block.
+
+Wrap chart JSON in triple backticks with "chart" (IMPORTANT: output VALID JSON only, no trailing commas, no comments):
+
+\`\`\`chart
+{
+  "type": "expense-breakdown",
+  "title": "Monthly Expense Breakdown",
+  "dateRange": "Jan 2024 - Jan 2026",
+  "categories": [
+    {"name": "Rent", "color": "#4A90D9", "values": [2980, 2980, 2980, 2980, 2980, 2980, 2980, 2980, 2980, 2980, 2980, 2980, 2980, 2980, 2980, 2980, 2980, 2980, 2980, 2980, 2980, 2980, 2980, 2980, 2980]},
+    {"name": "Salaries", "color": "#E8744F", "values": [1666, 1700, 1650, ...25 values]}
+  ],
+  "labels": ["Jan 24","Feb 24","Mar 24","Apr 24","May 24","Jun 24","Jul 24","Aug 24","Sep 24","Oct 24","Nov 24","Dec 24","Jan 25","Feb 25","Mar 25","Apr 25","May 25","Jun 25","Jul 25","Aug 25","Sep 25","Oct 25","Nov 25","Dec 25","Jan 26"],
+  "summary": {"total": 366892, "avgPerMonth": 14676}
+}
+\`\`\`
+
+Chart rules:
+1. ALWAYS include text analysis BEFORE and/or AFTER the chart block
+2. Use exactly 25 monthly values per category (Jan 2024 through Jan 2026)
+3. Vary values ±10-20% around the monthly average for realism (rent stays fixed)
+4. Max 8 top categories; group the rest as "Other" with color "#7F8C8D"
+5. Use these colors in order: #4A90D9, #E8744F, #50C878, #9B59B6, #F39C12, #E74C3C, #1ABC9C, #3498DB, #E67E22, #2ECC71
+6. summary.total must be the real total from the financial data
+7. Only include charts for visual/breakdown/comparison/trend questions
+8. The JSON must be perfectly valid — no trailing commas, no JS comments, no ellipsis`;
+
+            const chatFab = document.getElementById('chatFab');
+            const chatPanel = document.getElementById('chatPanel');
+            const chatClose = document.getElementById('chatClose');
+            const chatMessages = document.getElementById('chatMessages');
+            const chatInput = document.getElementById('chatInput');
+            const chatSend = document.getElementById('chatSend');
+            const chatTyping = document.getElementById('chatTyping');
+            const chatSuggestions = document.getElementById('chatSuggestions');
+
+            let conversationHistory = [];
+            let isProcessing = false;
+            let welcomeShown = false;
+
+            chatFab.addEventListener('click', () => {
+                chatPanel.classList.add('open');
+                chatFab.classList.add('hidden');
+                chatInput.focus();
+                if (!welcomeShown) {
+                    welcomeShown = true;
+                    addMessage("Hi! I'm your INKredible financial advisor. Ask me about expenses, revenue, COGS, or any financial question. Try: *\"Show me my monthly expense breakdown\"*", 'ai');
+                }
+            });
+
+            chatClose.addEventListener('click', () => {
+                chatPanel.classList.remove('open');
+                chatFab.classList.remove('hidden');
+            });
+
+            chatSuggestions.addEventListener('click', (e) => {
+                const btn = e.target.closest('.chat-suggestion');
+                if (btn) {
+                    const q = btn.getAttribute('data-q');
+                    chatInput.value = q;
+                    sendMessage();
+                }
+            });
+
+            chatSend.addEventListener('click', sendMessage);
+            chatInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+            });
+
+            // ===== UTILITIES =====
+            function formatCurrency(amount) {
+                if (amount >= 1000000) return '$' + (amount / 1000000).toFixed(1) + 'M';
+                if (amount >= 1000) return '$' + Math.round(amount).toLocaleString();
+                return '$' + amount.toFixed(0);
+            }
+
+            function isDarkMode() {
+                return document.documentElement.getAttribute('data-theme') === 'dark';
+            }
+
+            function getChartColors() {
+                const dark = isDarkMode();
+                return {
+                    gridColor: dark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)',
+                    tickColor: dark ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.45)',
+                    tooltipBg: dark ? 'rgba(30,32,36,0.96)' : 'rgba(255,255,255,0.98)',
+                    tooltipText: dark ? '#fff' : '#1A1D23',
+                    tooltipBorder: dark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.08)',
+                    borderColor: dark ? 'rgba(30,32,36,1)' : '#ffffff',
+                };
+            }
+
+            // ===== MARKDOWN + CHART BLOCK PARSER =====
+            function renderMarkdown(text) {
+                // 1. Extract ```chart blocks BEFORE html-escaping
+                const chartRegex = /```chart\s*\n?([\s\S]*?)\n?```/g;
+                let processed = text.replace(chartRegex, (fullMatch, jsonStr) => {
+                    try {
+                        const chartData = JSON.parse(jsonStr.trim());
+                        const id = 'inkChart' + (++chartIdCounter);
+                        pendingChartData.set(id, chartData);
+                        return '\n\n%%CHARTPLACEHOLDER_' + id + '%%\n\n';
+                    } catch (e) {
+                        console.warn('Invalid chart JSON:', e);
+                        return '';
+                    }
+                });
+
+                // 2. Also strip any remaining code fences (```...```)
+                processed = processed.replace(/```[\s\S]*?```/g, '');
+
+                // 3. HTML-escape & markdown
+                let html = processed
+                    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+                    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+                    .replace(/\*(.+?)\*/g, '<em>$1</em>')
+                    .replace(/`(.+?)`/g, '<code>$1</code>');
+
+                // 4. Restore chart placeholders (safe chars, unaffected by escaping)
+                html = html.replace(/%%CHARTPLACEHOLDER_(inkChart\d+)%%/g, (_, id) => {
+                    return '<div class="chart-placeholder" data-chart-id="' + id + '"></div>';
+                });
+
+                // 5. Paragraphs & lists
+                const blocks = html.split(/\n\n+/);
+                const rendered = blocks.map(block => {
+                    if (block.includes('chart-placeholder')) return block.trim();
+                    const lines = block.split('\n');
+                    const nonEmpty = lines.filter(l => l.trim());
+                    if (!nonEmpty.length) return '';
+                    const isBullet = nonEmpty.every(l => /^\s*[\-\*•]\s/.test(l));
+                    const isNumbered = nonEmpty.every(l => /^\s*\d+[\.\)]\s/.test(l));
+                    if (isBullet) {
+                        const items = nonEmpty.map(l => '<li>' + l.replace(/^\s*[\-\*•]\s+/, '') + '</li>').join('');
+                        return '<ul>' + items + '</ul>';
+                    }
+                    if (isNumbered) {
+                        const items = nonEmpty.map(l => '<li>' + l.replace(/^\s*\d+[\.\)]\s+/, '') + '</li>').join('');
+                        return '<ol>' + items + '</ol>';
+                    }
+                    return '<p>' + block.trim().replace(/\n/g, '<br>') + '</p>';
+                }).filter(Boolean);
+                return rendered.join('');
+            }
+
+            // ===== ADD MESSAGE TO CHAT =====
+            function addMessage(text, role) {
+                const div = document.createElement('div');
+                div.className = 'chat-msg ' + role;
+                if (role === 'ai') {
+                    div.innerHTML = renderMarkdown(text);
+                    // Process chart placeholders
+                    div.querySelectorAll('.chart-placeholder').forEach(placeholder => {
+                        const chartId = placeholder.getAttribute('data-chart-id');
+                        const chartData = pendingChartData.get(chartId);
+                        if (chartData && typeof Chart !== 'undefined') {
+                            pendingChartData.delete(chartId);
+                            const container = buildChartContainer(chartId, chartData);
+                            placeholder.replaceWith(container);
+                        }
+                    });
+                } else {
+                    div.textContent = text;
+                }
+                chatMessages.appendChild(div);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+
+                // Initialize charts after DOM insertion
+                if (role === 'ai') {
+                    requestAnimationFrame(() => {
+                        div.querySelectorAll('.chart-container').forEach(container => {
+                            const chartId = container.getAttribute('data-chart-id');
+                            const instance = chartInstances.get(chartId);
+                            if (!instance) {
+                                // Find stored data
+                                const dataAttr = container.getAttribute('data-chart-json');
+                                if (dataAttr) {
+                                    try {
+                                        const data = JSON.parse(dataAttr);
+                                        createChart(chartId, data, 'bar');
+                                    } catch(e) {}
+                                }
+                            }
+                        });
+                        chatMessages.scrollTop = chatMessages.scrollHeight;
+                    });
+                }
+            }
+
+            // ===== BUILD CHART CONTAINER DOM =====
+            function buildChartContainer(chartId, data) {
+                const container = document.createElement('div');
+                container.className = 'chart-container';
+                container.setAttribute('data-chart-id', chartId);
+                container.setAttribute('data-chart-json', JSON.stringify(data));
+
+                // Header
+                const header = document.createElement('div');
+                header.className = 'chart-header';
+
+                const titleWrap = document.createElement('div');
+                const title = document.createElement('div');
+                title.className = 'chart-title';
+                title.textContent = data.title || 'Financial Chart';
+                titleWrap.appendChild(title);
+                if (data.dateRange) {
+                    const range = document.createElement('div');
+                    range.className = 'chart-date-range';
+                    range.textContent = data.dateRange;
+                    titleWrap.appendChild(range);
+                }
+                header.appendChild(titleWrap);
+
+                // Toggle buttons
+                const toggle = document.createElement('div');
+                toggle.className = 'chart-toggle';
+
+                const barBtn = document.createElement('button');
+                barBtn.className = 'chart-toggle-btn active';
+                barBtn.setAttribute('data-view', 'bar');
+                barBtn.title = 'Stacked bar chart';
+                barBtn.innerHTML = '<svg viewBox="0 0 24 24"><rect x="3" y="12" width="4" height="9" rx="1" fill="currentColor"/><rect x="10" y="6" width="4" height="15" rx="1" fill="currentColor"/><rect x="17" y="2" width="4" height="19" rx="1" fill="currentColor"/></svg>';
+
+                const donutBtn = document.createElement('button');
+                donutBtn.className = 'chart-toggle-btn';
+                donutBtn.setAttribute('data-view', 'donut');
+                donutBtn.title = 'Donut chart';
+                donutBtn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z" fill="currentColor"/></svg>';
+
+                toggle.appendChild(barBtn);
+                toggle.appendChild(donutBtn);
+                header.appendChild(toggle);
+                container.appendChild(header);
+
+                // Canvas wrapper
+                const canvasWrap = document.createElement('div');
+                canvasWrap.className = 'chart-canvas-wrap';
+                const canvas = document.createElement('canvas');
+                canvas.id = chartId;
+                canvasWrap.appendChild(canvas);
+                container.appendChild(canvasWrap);
+
+                // Summary cards
+                if (data.summary) {
+                    const summary = document.createElement('div');
+                    summary.className = 'chart-summary';
+
+                    const totalCard = document.createElement('div');
+                    totalCard.className = 'chart-summary-card';
+                    totalCard.innerHTML = '<div class="chart-summary-label">Total</div><div class="chart-summary-value">' + formatCurrency(data.summary.total) + '</div>';
+
+                    const avgCard = document.createElement('div');
+                    avgCard.className = 'chart-summary-card';
+                    avgCard.innerHTML = '<div class="chart-summary-label">Avg / mo</div><div class="chart-summary-value">' + formatCurrency(data.summary.avgPerMonth) + '</div>';
+
+                    summary.appendChild(totalCard);
+                    summary.appendChild(avgCard);
+                    container.appendChild(summary);
+                }
+
+                // Toggle click handler
+                toggle.addEventListener('click', (e) => {
+                    const btn = e.target.closest('.chart-toggle-btn');
+                    if (!btn) return;
+                    const view = btn.getAttribute('data-view');
+                    toggle.querySelectorAll('.chart-toggle-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+
+                    const instance = chartInstances.get(chartId);
+                    if (instance && instance.chart) {
+                        instance.chart.destroy();
+                    }
+                    // Remove center text overlay if present
+                    const existingCenter = canvasWrap.querySelector('.donut-center-text');
+                    if (existingCenter) existingCenter.remove();
+
+                    createChart(chartId, data, view);
+                });
+
+                // Auto-init bar chart
+                requestAnimationFrame(() => {
+                    createChart(chartId, data, 'bar');
+                });
+
+                return container;
+            }
+
+            // ===== CREATE CHART =====
+            function createChart(chartId, data, view) {
+                const canvas = document.getElementById(chartId);
+                if (!canvas) return;
+
+                // Remove donut center text
+                const canvasWrap = canvas.parentElement;
+                const existingCenter = canvasWrap.querySelector('.donut-center-text');
+                if (existingCenter) existingCenter.remove();
+
+                const ctx = canvas.getContext('2d');
+                const colors = getChartColors();
+                let chart;
+
+                if (view === 'bar') {
+                    chart = createStackedBarChart(ctx, data, colors);
+                } else {
+                    chart = createDonutChart(ctx, data, colors, chartId);
+                }
+
+                chartInstances.set(chartId, { chart, data, currentView: view });
+            }
+
+            // ===== STACKED BAR CHART =====
+            function createStackedBarChart(ctx, data, colors) {
+                const datasets = data.categories.map(cat => ({
+                    label: cat.name,
+                    data: cat.values,
+                    backgroundColor: cat.color,
+                    borderRadius: 2,
+                    borderSkipped: false,
+                    borderWidth: 0,
+                }));
+
+                return new Chart(ctx, {
+                    type: 'bar',
+                    data: { labels: data.labels, datasets: datasets },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        animation: { duration: 600, easing: 'easeOutQuart' },
+                        interaction: { mode: 'index', intersect: false },
+                        scales: {
+                            x: {
+                                stacked: true,
+                                grid: { display: false },
+                                ticks: {
+                                    color: colors.tickColor,
+                                    font: { size: 9, family: 'Inter' },
+                                    maxRotation: 45,
+                                    autoSkip: true,
+                                    maxTicksLimit: 10,
+                                },
+                                border: { display: false },
+                            },
+                            y: {
+                                stacked: true,
+                                grid: { color: colors.gridColor, lineWidth: 0.5 },
+                                ticks: {
+                                    color: colors.tickColor,
+                                    font: { size: 9, family: 'Roboto Mono' },
+                                    callback: function(v) {
+                                        if (v === 0) return '$0';
+                                        if (v >= 1000) return '$' + (v / 1000) + 'K';
+                                        return '$' + v;
+                                    },
+                                    maxTicksLimit: 5,
+                                },
+                                border: { display: false },
+                            }
+                        },
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                backgroundColor: colors.tooltipBg,
+                                titleColor: colors.tooltipText,
+                                bodyColor: colors.tooltipText,
+                                borderColor: colors.tooltipBorder,
+                                borderWidth: 1,
+                                cornerRadius: 10,
+                                padding: 12,
+                                titleFont: { size: 12, weight: '700', family: 'Plus Jakarta Sans' },
+                                bodyFont: { size: 10, family: 'Inter' },
+                                footerFont: { size: 11, weight: '700', family: 'Roboto Mono' },
+                                footerColor: colors.tooltipText,
+                                usePointStyle: true,
+                                boxPadding: 4,
+                                callbacks: {
+                                    title: function(items) { return items[0].label; },
+                                    label: function(item) {
+                                        return ' ' + item.dataset.label + ': $' + item.raw.toLocaleString();
+                                    },
+                                    footer: function(items) {
+                                        const total = items.reduce(function(sum, item) { return sum + item.raw; }, 0);
+                                        return 'Total: $' + total.toLocaleString();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // ===== DONUT CHART =====
+            function createDonutChart(ctx, data, colors, chartId) {
+                const totals = data.categories.map(function(cat) {
+                    return cat.values.reduce(function(a, b) { return a + b; }, 0);
+                });
+                const grandTotal = totals.reduce(function(a, b) { return a + b; }, 0);
+
+                const chart = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: data.categories.map(function(c) { return c.name; }),
+                        datasets: [{
+                            data: totals,
+                            backgroundColor: data.categories.map(function(c) { return c.color; }),
+                            borderWidth: 2.5,
+                            borderColor: colors.borderColor,
+                            hoverBorderColor: colors.borderColor,
+                            hoverBorderWidth: 3,
+                            spacing: 2,
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        cutout: '70%',
+                        animation: { duration: 600, easing: 'easeOutQuart' },
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                backgroundColor: colors.tooltipBg,
+                                titleColor: colors.tooltipText,
+                                bodyColor: colors.tooltipText,
+                                borderColor: colors.tooltipBorder,
+                                borderWidth: 1,
+                                cornerRadius: 10,
+                                padding: 12,
+                                titleFont: { size: 12, weight: '700', family: 'Plus Jakarta Sans' },
+                                bodyFont: { size: 11, family: 'Inter' },
+                                callbacks: {
+                                    label: function(item) {
+                                        var pct = ((item.raw / grandTotal) * 100).toFixed(1);
+                                        return ' $' + item.raw.toLocaleString() + ' (' + pct + '%)';
+                                    }
+                                }
+                            }
+                        },
+                        onClick: function(e, elements) {
+                            var container = document.getElementById(chartId).closest('.chart-container');
+                            var centerLabel = container ? container.querySelector('.donut-center-label') : null;
+                            var centerAmount = container ? container.querySelector('.donut-center-amount') : null;
+                            var centerPct = container ? container.querySelector('.donut-center-pct') : null;
+
+                            if (elements.length > 0) {
+                                var idx = elements[0].index;
+                                var cat = data.categories[idx];
+                                var val = totals[idx];
+                                var pct = ((val / grandTotal) * 100).toFixed(1);
+                                if (centerLabel) centerLabel.textContent = cat.name;
+                                if (centerAmount) centerAmount.textContent = formatCurrency(val);
+                                if (centerPct) centerPct.textContent = pct + '%';
+                            } else {
+                                if (centerLabel) centerLabel.textContent = 'Total';
+                                if (centerAmount) centerAmount.textContent = formatCurrency(grandTotal);
+                                if (centerPct) centerPct.textContent = '';
+                            }
+                        }
+                    }
+                });
+
+                // Add center text overlay
+                var canvasWrap = document.getElementById(chartId).parentElement;
+                var centerDiv = document.createElement('div');
+                centerDiv.className = 'donut-center-text';
+                centerDiv.innerHTML = '<div class="donut-center-label">Total</div>'
+                    + '<div class="donut-center-amount">' + formatCurrency(grandTotal) + '</div>'
+                    + '<div class="donut-center-pct"></div>';
+                canvasWrap.appendChild(centerDiv);
+
+                return chart;
+            }
+
+            // ===== DESTROY ALL CHARTS (cleanup) =====
+            function destroyAllCharts() {
+                chartInstances.forEach(function(instance) {
+                    if (instance.chart) instance.chart.destroy();
+                });
+                chartInstances.clear();
+            }
+
+            // ===== SEND MESSAGE =====
+            async function sendMessage() {
+                const text = chatInput.value.trim();
+                if (!text || isProcessing) return;
+
+                isProcessing = true;
+                chatInput.value = '';
+                chatSend.disabled = true;
+                chatSuggestions.style.display = 'none';
+
+                addMessage(text, 'user');
+                conversationHistory.push({ role: 'user', content: text });
+
+                chatTyping.classList.add('visible');
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+
+                try {
+                    const messages = [
+                        { role: 'system', content: SYSTEM_PROMPT },
+                        ...conversationHistory
+                    ];
+
+                    const res = await fetch(NVIDIA_URL, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer ' + NVIDIA_API_KEY
+                        },
+                        body: JSON.stringify({
+                            model: NVIDIA_MODEL,
+                            messages: messages,
+                            temperature: 0.7,
+                            max_tokens: 8192,
+                            top_p: 0.9
+                        })
+                    });
+
+                    if (!res.ok) {
+                        const errBody = await res.text();
+                        let errMsg = 'API error ' + res.status;
+                        try {
+                            const errJson = JSON.parse(errBody);
+                            errMsg += ': ' + (errJson.error?.message || errBody.substring(0, 200));
+                        } catch(e) {
+                            errMsg += ': ' + errBody.substring(0, 200);
+                        }
+                        throw new Error(errMsg);
+                    }
+
+                    const data = await res.json();
+                    const reply = data.choices?.[0]?.message?.content || 'Sorry, I couldn\'t generate a response.';
+
+                    conversationHistory.push({ role: 'assistant', content: reply });
+                    addMessage(reply, 'ai');
+
+                } catch (err) {
+                    addMessage('Error: ' + err.message, 'system');
+                } finally {
+                    chatTyping.classList.remove('visible');
+                    isProcessing = false;
+                    chatSend.disabled = false;
+                    chatInput.focus();
+                }
+            }
+        })();
+
+        // ===== PERIOD FILTER TOGGLE + YEAR FILTER =====
+        (function() {
+            const filterBar = document.getElementById('periodFilter');
+            const pills = filterBar.querySelectorAll('.filter-pill');
+            const yearFilterBar = document.getElementById('yearFilter');
+            const yearPills = yearFilterBar.querySelectorAll('.year-pill');
+            const monthlyView = document.getElementById('monthlyView');
+            const dailyWeeklyView = document.getElementById('dailyWeeklyView');
+            const ctaPeriodLabel = document.getElementById('ctaPeriodLabel');
+            const dailyWeeklyTemplate = dailyWeeklyView.innerHTML;
+
+            // Collect yearly content elements (everything in .container after filter-row, excluding period views and footer)
+            const filterRow = filterBar.closest('.filter-row');
+            const yearlyElements = [];
+            let el = filterRow.nextElementSibling;
+            while (el) {
+                if (el.id === 'monthlyView' || el.id === 'dailyWeeklyView') {
+                    el = el.nextElementSibling;
+                    continue;
+                }
+                if (el.classList.contains('footer')) {
+                    el = el.nextElementSibling;
+                    continue;
+                }
+                yearlyElements.push(el);
+                el = el.nextElementSibling;
+            }
+
+            let monthlyChartInstance = null;
+            let granularChartInstance = null;
+            let activePeriod = 'yearly';
+
+            // Monthly revenue data (25 months, totals to ~$686,179)
+            const monthlyRevData = [22000, 23500, 25000, 24500, 26000, 27500, 24800, 25200, 27000, 28500, 29000, 30500, 27200, 28000, 29500, 28800, 30000, 29200, 27800, 25500, 28200, 29800, 29200, 30000, 29479];
+            const monthLabels = ['Jan 24','Feb 24','Mar 24','Apr 24','May 24','Jun 24','Jul 24','Aug 24','Sep 24','Oct 24','Nov 24','Dec 24','Jan 25','Feb 25','Mar 25','Apr 25','May 25','Jun 25','Jul 25','Aug 25','Sep 25','Oct 25','Nov 25','Dec 25','Jan 26'];
+            const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+            function getFilteredData(year) {
+                if (year === 'all') return { data: monthlyRevData, labels: monthLabels };
+                if (year === '2024') return { data: monthlyRevData.slice(0, 12), labels: monthLabels.slice(0, 12) };
+                if (year === '2025') return { data: monthlyRevData.slice(12, 24), labels: monthLabels.slice(12, 24) };
+                return { data: monthlyRevData, labels: monthLabels };
+            }
+
+            function getLiveSeriesForPeriod(period, year = 'all') {
+                const rows = getHistorySeries(period);
+                if (!rows.length) return [];
+                if (year === 'all') return rows;
+                return rows.filter(function(row) {
+                    const bucket = String(row?.bucket || '');
+                    return bucket.startsWith(String(year));
+                });
+            }
+
+            function isDarkTheme() {
+                return document.documentElement.getAttribute('data-theme') === 'dark';
+            }
+
+            function restoreGranularPlaceholder(period) {
+                dailyWeeklyView.innerHTML = dailyWeeklyTemplate;
+                const label = dailyWeeklyView.querySelector('#ctaPeriodLabel');
+                if (label) label.textContent = period;
+
+                if (liveHistoryEnabled) {
+                    const title = dailyWeeklyView.querySelector('.connect-cta-title');
+                    const detail = dailyWeeklyView.querySelector('.connect-cta-detail');
+                    if (title) title.textContent = `Collecting ${period} trend points…`;
+                    if (detail) {
+                        detail.textContent = `QuickBooks history is connected, but there are not enough ${period} snapshots yet. Keep running the export job and this view will auto-populate.`;
+                    }
+                }
+            }
+
+            function renderGranularView(period) {
+                const rows = getLiveSeriesForPeriod(period, currentYear);
+                if (!rows.length) {
+                    restoreGranularPlaceholder(period);
+                    return;
+                }
+
+                const labels = rows.map(function(row) { return formatHistoryBucketLabel(period, row.bucket); });
+                const incomeSeries = rows.map(function(row) { return Math.round(toNumber(row?.metrics?.income, 0)); });
+                const expenseSeries = rows.map(function(row) { return Math.round(toNumber(row?.metrics?.expenses, 0)); });
+                const netSeries = rows.map(function(row) { return Math.round(toNumber(row?.metrics?.netIncome, 0)); });
+                const latest = rows[rows.length - 1];
+
+                const latestIncome = incomeSeries[incomeSeries.length - 1] || 0;
+                const prevIncome = incomeSeries.length > 1 ? incomeSeries[incomeSeries.length - 2] : latestIncome;
+                const incomeDeltaPct = prevIncome ? ((latestIncome - prevIncome) / prevIncome * 100) : 0;
+                const incomeDeltaClass = latestIncome >= prevIncome ? 'up' : 'down';
+                const incomeDeltaArrow = latestIncome >= prevIncome ? '↑' : '↓';
+
+                const latestExpenses = Math.round(toNumber(latest?.metrics?.expenses, 0));
+                const latestNet = Math.round(toNumber(latest?.metrics?.netIncome, 0));
+                const latestAR = Math.round(toNumber(latest?.metrics?.openInvoicesBalance, 0));
+                const latestRatio = toNumber(latest?.metrics?.currentRatio, 0);
+                const priorUnit = period === 'daily' ? 'day' : period === 'weekly' ? 'week' : period;
+
+                dailyWeeklyView.innerHTML = `
+                    <div class="stat-grid animate-in" id="granularStatGrid">
+                        <div class="stat-card">
+                            <div class="label">Latest Revenue</div>
+                            <div class="value">$${(latestIncome / 1000).toFixed(1)}K</div>
+                            <div class="detail"><span class="mom-indicator ${incomeDeltaClass}">${incomeDeltaArrow} ${Math.abs(incomeDeltaPct).toFixed(1)}% vs prior ${priorUnit}</span></div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="label">Latest Expenses</div>
+                            <div class="value">$${(latestExpenses / 1000).toFixed(1)}K</div>
+                            <div class="detail">As of ${formatHistoryBucketLabel(period, latest.bucket)}</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="label">Latest Net Income</div>
+                            <div class="value ${latestNet >= 0 ? 'positive' : 'negative'}">${latestNet >= 0 ? '' : '-'}$${(Math.abs(latestNet) / 1000).toFixed(1)}K</div>
+                            <div class="detail">Trend point ${rows.length.toLocaleString()}</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="label">Open Invoices</div>
+                            <div class="value warn">$${latestAR.toLocaleString()}</div>
+                            <div class="detail">Current ratio: ${latestRatio ? latestRatio.toFixed(2) : 'N/A'}</div>
+                        </div>
+                    </div>
+
+                    <div class="panel animate-in">
+                        <div class="panel-title">
+                            <span class="icon" style="background: var(--accent-teal);"></span>
+                            ${period[0].toUpperCase() + period.slice(1)} Financial Trend (Live)
+                        </div>
+                        <div class="panel-subtitle" id="granularTrendSubtitle">
+                            ${labels[0]} → ${labels[labels.length - 1]} · ${rows.length} data point${rows.length === 1 ? '' : 's'}
+                        </div>
+                        <div class="monthly-chart-wrap">
+                            <canvas id="granularTrendChart"></canvas>
+                        </div>
+                    </div>
+                `;
+
+                if (granularChartInstance) {
+                    granularChartInstance.destroy();
+                    granularChartInstance = null;
+                }
+
+                const canvas = document.getElementById('granularTrendChart');
+                if (!canvas || typeof Chart === 'undefined') return;
+
+                const dark = isDarkTheme();
+                const gridColor = dark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)';
+                const tickColor = dark ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.45)';
+
+                granularChartInstance = new Chart(canvas.getContext('2d'), {
+                    type: 'line',
+                    data: {
+                        labels,
+                        datasets: [
+                            {
+                                label: 'Revenue',
+                                data: incomeSeries,
+                                borderColor: 'rgba(34,168,95,0.95)',
+                                backgroundColor: 'rgba(34,168,95,0.15)',
+                                pointRadius: 3,
+                                pointHoverRadius: 5,
+                                borderWidth: 2,
+                                tension: 0.32,
+                                fill: false,
+                            },
+                            {
+                                label: 'Expenses',
+                                data: expenseSeries,
+                                borderColor: 'rgba(224,72,72,0.92)',
+                                backgroundColor: 'rgba(224,72,72,0.12)',
+                                pointRadius: 3,
+                                pointHoverRadius: 5,
+                                borderWidth: 2,
+                                tension: 0.32,
+                                fill: false,
+                            },
+                            {
+                                label: 'Net Income',
+                                data: netSeries,
+                                borderColor: 'rgba(0,151,178,0.95)',
+                                backgroundColor: 'rgba(0,151,178,0.14)',
+                                pointRadius: 2,
+                                pointHoverRadius: 4,
+                                borderWidth: 2,
+                                tension: 0.32,
+                                fill: false,
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        interaction: { mode: 'index', intersect: false },
+                        plugins: {
+                            legend: { labels: { color: tickColor, font: { size: 11 } } },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(ctx) {
+                                        return `${ctx.dataset.label}: $${Math.round(ctx.raw).toLocaleString()}`;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                grid: { display: false },
+                                ticks: { color: tickColor, maxRotation: 0, autoSkip: true },
+                                border: { display: false },
+                            },
+                            y: {
+                                grid: { color: gridColor, lineWidth: 0.5 },
+                                ticks: {
+                                    color: tickColor,
+                                    callback: function(v) { return '$' + (v / 1000) + 'K'; },
+                                },
+                                border: { display: false },
+                            }
+                        }
+                    }
+                });
+            }
+
+            function switchPeriod(period) {
+                activePeriod = period;
+                pills.forEach(p => p.classList.toggle('active', p.dataset.period === period));
+
+                yearlyElements.forEach(el => el.style.display = 'none');
+                monthlyView.classList.remove('active');
+                dailyWeeklyView.classList.remove('active');
+
+                if (period !== 'monthly' && monthlyChartInstance) {
+                    monthlyChartInstance.destroy();
+                    monthlyChartInstance = null;
+                }
+
+                if (!['daily', 'weekly'].includes(period) && granularChartInstance) {
+                    granularChartInstance.destroy();
+                    granularChartInstance = null;
+                }
+
+                if (period === 'yearly') {
+                    yearlyElements.forEach(el => el.style.display = '');
+                    applyYearFilter(currentYear);
+                } else if (period === 'monthly') {
+                    monthlyView.classList.add('active');
+                    renderMonthlyView();
+                } else {
+                    if (ctaPeriodLabel) ctaPeriodLabel.textContent = period;
+                    dailyWeeklyView.classList.add('active');
+                    renderGranularView(period);
+                }
+            }
+
+            function renderMonthlyView() {
+                const year = currentYear;
+                const liveRows = getLiveSeriesForPeriod('monthly', year);
+                const useLiveMonthly = liveRows.length > 0;
+
+                let chartData;
+                let labels;
+                let totalIncome;
+                let totalGross;
+                let totalNet;
+                let totalMonths;
+
+                if (useLiveMonthly) {
+                    chartData = liveRows.map(row => Math.round(toNumber(row?.metrics?.income, 0)));
+                    labels = liveRows.map(row => formatHistoryBucketLabel('monthly', row.bucket));
+                    totalIncome = chartData.reduce((sum, val) => sum + val, 0);
+                    totalGross = liveRows.reduce((sum, row) => sum + Math.round(toNumber(row?.metrics?.grossProfit, 0)), 0);
+                    totalNet = liveRows.reduce((sum, row) => sum + Math.round(toNumber(row?.metrics?.netIncome, 0)), 0);
+                    totalMonths = Math.max(1, liveRows.length);
+                } else {
+                    const filtered = getFilteredData(year);
+                    chartData = filtered.data;
+                    labels = filtered.labels;
+
+                    const yd = getYearData(year);
+                    totalIncome = yd.revenue;
+                    totalGross = yd.grossProfit;
+                    totalNet = yd.netIncome;
+                    totalMonths = Math.max(1, yd.months);
+                }
+
+                const latestIdx = chartData.length - 1;
+                const latestMonth = chartData[latestIdx] || 0;
+                const prevMonth = latestIdx > 0 ? chartData[latestIdx - 1] : latestMonth;
+                const momBase = prevMonth || 1;
+                const momChange = ((latestMonth - prevMonth) / momBase * 100).toFixed(1);
+                const momArrow = latestMonth >= prevMonth ? '↑' : '↓';
+                const momClass = latestMonth >= prevMonth ? 'up' : 'down';
+                const latestLabel = labels[latestIdx] || 'Latest';
+
+                const avgRev = Math.round(totalIncome / totalMonths);
+                const avgGross = Math.round(totalGross / totalMonths);
+                const avgNet = Math.round(totalNet / totalMonths);
+                const grossMargin = totalIncome ? (totalGross / totalIncome * 100) : 0;
+                const netMargin = totalIncome ? (totalNet / totalIncome * 100) : 0;
+
+                const statGrid = document.getElementById('monthlyStatGrid');
+                statGrid.innerHTML = `
+                    <div class="stat-card">
+                        <div class="label">${latestLabel} Revenue</div>
+                        <div class="value">$${(latestMonth / 1000).toFixed(1)}K</div>
+                        <div class="detail"><span class="mom-indicator ${momClass}">${momArrow} ${Math.abs(momChange)}% MoM</span></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="label">Avg Revenue/Mo</div>
+                        <div class="value">$${(avgRev/1000).toFixed(1)}K</div>
+                        <div class="detail">${totalMonths}-month average</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="label">Avg Gross/Mo</div>
+                        <div class="value positive">$${(avgGross/1000).toFixed(1)}K</div>
+                        <div class="detail">${grossMargin.toFixed(1)}% margin</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="label">Avg Net/Mo</div>
+                        <div class="value ${avgNet >= 0 ? 'positive' : 'negative'}">${avgNet >= 0 ? '' : '-'}$${Math.abs(avgNet).toLocaleString()}</div>
+                        <div class="detail">${netMargin.toFixed(1)}% margin</div>
+                    </div>
+                `;
+
+                const monthlyRevenueSubtitle = document.getElementById('monthlyRevenueSubtitle');
+                if (monthlyRevenueSubtitle) {
+                    if (useLiveMonthly) {
+                        monthlyRevenueSubtitle.textContent = `Live QuickBooks trend · ${labels[0]} → ${labels[labels.length - 1]} · ${totalMonths} month(s)`;
+                    } else {
+                        monthlyRevenueSubtitle.textContent = `Estimated monthly breakdown · $${totalIncome.toLocaleString()} over ${totalMonths} months`;
+                    }
+                }
+
+                if (monthlyChartInstance) {
+                    monthlyChartInstance.destroy();
+                    monthlyChartInstance = null;
+                }
+
+                const canvas = document.getElementById('monthlyRevenueChart');
+                if (canvas && typeof Chart !== 'undefined') {
+                    const dark = isDarkTheme();
+                    const gridColor = dark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)';
+                    const tickColor = dark ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.45)';
+
+                    const barColors = chartData.map((val, i) => {
+                        if (i === 0) return 'rgba(0, 151, 178, 0.85)';
+                        return val >= chartData[i - 1] ? 'rgba(34, 168, 95, 0.85)' : 'rgba(224, 72, 72, 0.75)';
+                    });
+
+                    monthlyChartInstance = new Chart(canvas.getContext('2d'), {
+                        type: 'bar',
+                        data: {
+                            labels,
+                            datasets: [{
+                                label: 'Revenue',
+                                data: chartData,
+                                backgroundColor: barColors,
+                                borderRadius: 4,
+                                borderSkipped: false,
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            animation: { duration: 600, easing: 'easeOutQuart' },
+                            plugins: {
+                                legend: { display: false },
+                                tooltip: {
+                                    backgroundColor: dark ? 'rgba(30,32,36,0.96)' : 'rgba(255,255,255,0.98)',
+                                    titleColor: dark ? '#fff' : '#1A1D23',
+                                    bodyColor: dark ? '#fff' : '#1A1D23',
+                                    borderColor: dark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.08)',
+                                    borderWidth: 1,
+                                    cornerRadius: 10,
+                                    padding: 12,
+                                    titleFont: { size: 12, weight: '700', family: 'Plus Jakarta Sans' },
+                                    bodyFont: { size: 11, family: 'Roboto Mono' },
+                                    callbacks: {
+                                        label: function(item) {
+                                            const val = item.raw;
+                                            const idx = item.dataIndex;
+                                            let mom = '';
+                                            if (idx > 0) {
+                                                const prev = chartData[idx - 1] || 1;
+                                                const change = ((val - prev) / prev * 100).toFixed(1);
+                                                mom = val >= prev ? '  ↑' + change + '%' : '  ↓' + Math.abs(change) + '%';
+                                            }
+                                            return ' $' + val.toLocaleString() + mom;
+                                        }
+                                    }
+                                }
+                            },
+                            scales: {
+                                x: {
+                                    grid: { display: false },
+                                    ticks: { color: tickColor, font: { size: 9, family: 'Inter' }, maxRotation: 45, autoSkip: true, maxTicksLimit: 12 },
+                                    border: { display: false },
+                                },
+                                y: {
+                                    grid: { color: gridColor, lineWidth: 0.5 },
+                                    ticks: {
+                                        color: tickColor,
+                                        font: { size: 9, family: 'Roboto Mono' },
+                                        callback: function(v) { return '$' + (v / 1000) + 'K'; },
+                                        maxTicksLimit: 5,
+                                    },
+                                    border: { display: false },
+                                }
+                            }
+                        }
+                    });
+                }
+
+                const monthlyExpList = document.getElementById('monthlyExpenseList');
+                const expenseSubtitle = document.getElementById('monthlyExpenseSubtitle');
+
+                let topExpenses;
+                if (expData?.length) {
+                    const divisor = Math.max(1, TOTAL_MONTHS);
+                    topExpenses = expData.slice(0, 12).map(function(item) {
+                        const rawName = String(item.name || '').replace('', '');
+                        return {
+                            name: rawName,
+                            monthly: Math.max(0, Math.round(toNumber(item.amount, 0) / divisor)),
+                            flag: /Meals|Bank Charges|Donations/i.test(rawName)
+                        };
+                    });
+                } else {
+                    topExpenses = [];
+                }
+
+                monthlyExpList.innerHTML = '';
+                topExpenses.forEach(item => {
+                    const warn = item.flag ? '' : '';
+                    const valClass = item.flag ? ' flagged' : '';
+                    monthlyExpList.innerHTML += `
+                        <div class="monthly-expense-row">
+                            <span class="name">${item.name}${warn}</span>
+                            <span class="val${valClass}">$${item.monthly.toLocaleString()}/mo</span>
+                        </div>`;
+                });
+
+                if (expenseSubtitle) {
+                    const avgMonthlyExp = useLiveMonthly
+                        ? Math.round(liveRows.reduce((sum, row) => sum + toNumber(row?.metrics?.expenses, 0), 0) / Math.max(1, liveRows.length))
+                        : 14676;
+                    expenseSubtitle.textContent = useLiveMonthly
+                        ? `Live trend snapshot · avg ${formatMoney(avgMonthlyExp)}/mo (from collected history)`
+                        : 'Average monthly operating expenses · ~$14,676/mo';
+                }
+
+                renderMonthBreakdown(year, useLiveMonthly ? liveRows : null);
+            }
+
+            function renderMonthBreakdown(year, liveRows = null) {
+                const panel = document.getElementById('monthBreakdownPanel');
+                const content = document.getElementById('monthBreakdownContent');
+                const title = document.getElementById('monthBreakdownTitle');
+                const subtitle = document.getElementById('monthBreakdownSubtitle');
+                const disclaimer = document.getElementById('monthlyEstimateDisclaimer');
+
+                if (Array.isArray(liveRows) && liveRows.length) {
+                    panel.style.display = 'block';
+                    title.textContent = 'Month-by-Month P&L — Live QuickBooks';
+                    subtitle.textContent = `${formatHistoryBucketLabel('monthly', liveRows[0].bucket)} → ${formatHistoryBucketLabel('monthly', liveRows[liveRows.length - 1].bucket)} · ${liveRows.length} month(s)`;
+
+                    let rows = '';
+                    let totRev = 0, totCogs = 0, totGross = 0, totExp = 0, totNet = 0;
+
+                    liveRows.forEach(function(row) {
+                        const metrics = row?.metrics || {};
+                        const rev = Math.round(toNumber(metrics.income, 0));
+                        const gross = Math.round(toNumber(metrics.grossProfit, 0));
+                        const cogs = Math.max(0, rev - gross);
+                        const exp = Math.round(toNumber(metrics.expenses, 0));
+                        const net = Math.round(toNumber(metrics.netIncome, 0));
+
+                        totRev += rev;
+                        totCogs += cogs;
+                        totGross += gross;
+                        totExp += exp;
+                        totNet += net;
+
+                        const rowClass = net >= 0 ? 'profitable' : 'loss';
+                        rows += `<tr class="${rowClass}">
+                            <td>${formatHistoryBucketLabel('monthly', row.bucket)}</td>
+                            <td>$${rev.toLocaleString()}</td>
+                            <td>$${cogs.toLocaleString()}</td>
+                            <td>$${gross.toLocaleString()}</td>
+                            <td>$${exp.toLocaleString()}</td>
+                            <td>${net >= 0 ? '' : '−'}$${Math.abs(net).toLocaleString()}</td>
+                        </tr>`;
+                    });
+
+                    const netClass = totNet >= 0 ? 'tfoot-pos' : 'tfoot-neg';
+
+                    content.innerHTML = `
+                        <table class="month-breakdown-table">
+                            <thead>
+                                <tr>
+                                    <th>Month</th>
+                                    <th>Revenue</th>
+                                    <th>COGS</th>
+                                    <th>Gross Profit</th>
+                                    <th>Expenses</th>
+                                    <th>Net Income</th>
+                                </tr>
+                            </thead>
+                            <tbody>${rows}</tbody>
+                            <tfoot>
+                                <tr>
+                                    <td>Total</td>
+                                    <td>$${totRev.toLocaleString()}</td>
+                                    <td>$${totCogs.toLocaleString()}</td>
+                                    <td>$${totGross.toLocaleString()}</td>
+                                    <td>$${totExp.toLocaleString()}</td>
+                                    <td class="${netClass}">${totNet >= 0 ? '' : '−'}$${Math.abs(totNet).toLocaleString()}</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    `;
+
+                    if (disclaimer) {
+                        disclaimer.innerHTML = '<strong>Live data:</strong> This table is generated from collected QuickBooks monthly snapshots.';
+                    }
+                    return;
+                }
+
+                if (year === 'all') {
+                    panel.style.display = 'none';
+                    return;
+                }
+
+                panel.style.display = 'block';
+                title.textContent = `Month-by-Month P&L — ${year}`;
+                subtitle.textContent = `Estimated monthly breakdown · ${yearConfig[year].label}`;
+
+                const yd = getYearData(year);
+                const monthlyRev = yd.revenue / 12;
+                const monthlyCogs = yd.cogs / 12;
+                const monthlyExp = yd.expenses / 12;
+
+                const variations = [0.88, 0.92, 0.96, 0.94, 1.00, 1.05, 0.95, 0.96, 1.03, 1.08, 1.10, 1.13];
+                const total = variations.reduce((a, b) => a + b, 0);
+                const normVariations = variations.map(v => v * 12 / total);
+
+                let rows = '';
+                let totRev = 0, totCogs = 0, totGross = 0, totExp = 0, totNet = 0;
+
+                for (let m = 0; m < 12; m++) {
+                    const v = normVariations[m];
+                    const rev = Math.round(monthlyRev * v);
+                    const cogs = Math.round(monthlyCogs * v);
+                    const gross = rev - cogs;
+                    const exp = Math.round(monthlyExp * (v * 0.85 + 0.15));
+                    const net = gross - exp;
+
+                    totRev += rev;
+                    totCogs += cogs;
+                    totGross += gross;
+                    totExp += exp;
+                    totNet += net;
+
+                    const rowClass = net >= 0 ? 'profitable' : 'loss';
+                    rows += `<tr class="${rowClass}">
+                        <td>${monthNames[m]} ${year}</td>
+                        <td>$${rev.toLocaleString()}</td>
+                        <td>$${cogs.toLocaleString()}</td>
+                        <td>$${gross.toLocaleString()}</td>
+                        <td>$${exp.toLocaleString()}</td>
+                        <td>${net >= 0 ? '' : '−'}$${Math.abs(net).toLocaleString()}</td>
+                    </tr>`;
+                }
+
+                const netClass = totNet >= 0 ? 'tfoot-pos' : 'tfoot-neg';
+
+                content.innerHTML = `
+                    <table class="month-breakdown-table">
+                        <thead>
+                            <tr>
+                                <th>Month</th>
+                                <th>Revenue</th>
+                                <th>COGS</th>
+                                <th>Gross Profit</th>
+                                <th>Expenses</th>
+                                <th>Net Income</th>
+                            </tr>
+                        </thead>
+                        <tbody>${rows}</tbody>
+                        <tfoot>
+                            <tr>
+                                <td>Total ${year}</td>
+                                <td>$${totRev.toLocaleString()}</td>
+                                <td>$${totCogs.toLocaleString()}</td>
+                                <td>$${totGross.toLocaleString()}</td>
+                                <td>$${totExp.toLocaleString()}</td>
+                                <td class="${netClass}">${totNet >= 0 ? '' : '−'}$${Math.abs(totNet).toLocaleString()}</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                `;
+
+                if (disclaimer) {
+                    disclaimer.innerHTML = '<strong>Estimated data:</strong> Monthly breakdown based on historical averages. Connect and run QuickBooks export jobs for live monthly detail.';
+                }
+            }
+
+            function onYearChange(year) {
+                currentYear = year;
+                yearPills.forEach(p => p.classList.toggle('active', p.dataset.year === year));
+
+                if (activePeriod === 'yearly') {
+                    applyYearFilter(year);
+                } else if (activePeriod === 'monthly') {
+                    renderMonthlyView();
+                } else if (activePeriod === 'daily' || activePeriod === 'weekly') {
+                    renderGranularView(activePeriod);
+                }
+            }
+
+            pills.forEach(pill => {
+                pill.addEventListener('click', () => switchPeriod(pill.dataset.period));
+            });
+
+            yearPills.forEach(pill => {
+                pill.addEventListener('click', () => onYearChange(pill.dataset.year));
+            });
+
+            document.addEventListener('quickbooks-history-ready', function() {
+                if (activePeriod === 'daily' || activePeriod === 'weekly') {
+                    renderGranularView(activePeriod);
+                }
+                if (activePeriod === 'monthly') {
+                    renderMonthlyView();
+                }
+            });
+        })();
+    </script>
+</body>
+</html>

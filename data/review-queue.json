@@ -1,0 +1,127 @@
+[
+  {
+    "id": "rq-001",
+    "title": "🖼️ VectorFlow Phase 1",
+    "description": "Image→Vector SaaS app. Upload, analyze with Gemini, regenerate with Imagen, export SVG. Operator/Customer modes.",
+    "status": "pending-review",
+    "dateBuilt": "2026-02-15",
+    "url": "https://shadowwall44.github.io/inkredible-tools/vectorflow.html",
+    "priority": "high"
+  },
+  {
+    "id": "rq-002",
+    "title": "📊 NDF Pricing Excel v3",
+    "description": "12-sheet workbook with cascading dropdowns, 1,765 valid prices, INDEX/MATCH formulas, 3-tier pricing (Floor/Target/Opening).",
+    "status": "pending-review",
+    "dateBuilt": "2026-02-15",
+    "url": null,
+    "priority": "high",
+    "note": "Sent to Telegram as file. Also on Windows desktop."
+  },
+  {
+    "id": "rq-003",
+    "title": "🧠 ADHD Execution System v2 (Developer Mode)",
+    "description": "Push-based daily execution system. ChetGPT picks ONE task, writes exact steps, Aviel executes. No lists, no boards, no streaks.",
+    "status": "pending-review",
+    "dateBuilt": "2026-02-15",
+    "url": null,
+    "priority": "critical",
+    "note": "Day 1 starts at noon Sunday. Cron set."
+  },
+  {
+    "id": "rq-004",
+    "title": "💝 Therapy Synthesis for Aviel",
+    "description": "1-page personal summary of 13 therapy sessions. Written TO Aviel. Covers: what therapy revealed, superpowers, what works/doesn't.",
+    "status": "sent",
+    "dateBuilt": "2026-02-15",
+    "url": null,
+    "priority": "high"
+  },
+  {
+    "id": "rq-005",
+    "title": "📋 Full Conversation Audit",
+    "description": "576 messages audited. 53 decisions, 65 ideas, 30 commitments (27% broken), 21 forgotten items, top 10 recommendations.",
+    "status": "completed",
+    "dateBuilt": "2026-02-15",
+    "url": null,
+    "priority": "high",
+    "note": "47KB report at reports/full-conversation-audit-2026-02-15.md"
+  },
+  {
+    "id": "rq-006",
+    "title": "📈 Financial Dashboard + AI Chat",
+    "description": "QuickBooks data visualization with Chart.js. AI chatbot (Kimi K2.5). Time period filters. Revenue, expenses, profit trends.",
+    "status": "pending-review",
+    "dateBuilt": "2026-02-13",
+    "url": "https://shadowwall44.github.io/inkredible-tools/dashboard.html",
+    "priority": "medium"
+  },
+  {
+    "id": "rq-007",
+    "title": "🏢 Mission Control",
+    "description": "Org chart, office view, task status, cost tracking, schedule, digest. 6 views.",
+    "status": "pending-review",
+    "dateBuilt": "2026-02-13",
+    "url": "https://shadowwall44.github.io/inkredible-tools/status.json",
+    "priority": "medium"
+  },
+  {
+    "id": "rq-008",
+    "title": "🏠 Hub Landing Page",
+    "description": "Single entry point to all INKredible tools. Links to dashboard, kanban, MIS, VectorFlow, etc.",
+    "status": "pending-review",
+    "dateBuilt": "2026-02-13",
+    "url": "https://shadowwall44.github.io/inkredible-tools/",
+    "priority": "medium"
+  },
+  {
+    "id": "rq-009",
+    "title": "💰 NDF Pricing Playbook",
+    "description": "How to use NDF prices for quoting. 3-tier strategy (Opening +25%, Target +10%, Floor = NDF). Objection handling scripts.",
+    "status": "pending-review",
+    "dateBuilt": "2026-02-14",
+    "url": null,
+    "priority": "medium",
+    "note": "reports/ndf-pricing-playbook-2026-02-14.md"
+  },
+  {
+    "id": "rq-010",
+    "title": "🎤 Coaching Skills Suite",
+    "description": "4 coaching skills (business, financial, personal, deep-research). 1,265 lines total. Evidence-based frameworks.",
+    "status": "pending-review",
+    "dateBuilt": "2026-02-14",
+    "url": null,
+    "priority": "low",
+    "note": "Internal skills — Aviel doesn't interact directly, but should approve approach."
+  },
+  {
+    "id": "rq-011",
+    "title": "🔍 ADHD Deep Research Report",
+    "description": "67 sources. Dennis Francis 'Margot' AI body double proof-of-concept. Push vs pull validation. Cortisol rhythm findings.",
+    "status": "completed",
+    "dateBuilt": "2026-02-15",
+    "url": null,
+    "priority": "medium",
+    "note": "research/adhd-deep-dive-2026-02-15.md — used to build the personal system."
+  },
+  {
+    "id": "rq-012",
+    "title": "📱 Aviel Dashboard / Review Queue",
+    "description": "Guided review queue — walk through built items one at a time. Approve/flag buttons.",
+    "status": "pending-review",
+    "dateBuilt": "2026-02-14",
+    "url": "https://shadowwall44.github.io/inkredible-tools/aviel-dashboard.html",
+    "priority": "medium",
+    "note": "Needs QA — buttons may not work yet."
+  },
+  {
+    "id": "rq-013",
+    "title": "🛡️ Emergency Stop Protocol",
+    "description": "STOP ALL kill switch in AGENTS.md. Immutable control principles. Permission tiers. Weekly autonomy report.",
+    "status": "completed",
+    "dateBuilt": "2026-02-14",
+    "url": null,
+    "priority": "high",
+    "note": "Active in AGENTS.md. Never tested — by design."
+  }
+]

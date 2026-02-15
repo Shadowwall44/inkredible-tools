@@ -1,0 +1,1324 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <title>VectorFlow - INKredible</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0a0a0f;
+      --bg-panel: rgba(255, 255, 255, 0.06);
+      --bg-panel-hover: rgba(255, 255, 255, 0.1);
+      --border-subtle: rgba(255, 255, 255, 0.14);
+      --border-hover: rgba(255, 255, 255, 0.24);
+      --text-primary: #ffffff;
+      --text-secondary: rgba(255, 255, 255, 0.72);
+      --text-muted: rgba(255, 255, 255, 0.5);
+      --accent-blue: #3b82f6;
+      --accent-green: #10b981;
+      --accent-red: #ef4444;
+      --accent-amber: #f59e0b;
+      --accent-purple: #8b5cf6;
+      --glow-blue: rgba(59, 130, 246, 0.32);
+      --radius: 18px;
+      --shadow: 0 16px 40px rgba(0, 0, 0, 0.28);
+    }
+
+    [data-theme="light"] {
+      --bg-primary: #f7f7fb;
+      --bg-panel: rgba(255, 255, 255, 0.82);
+      --bg-panel-hover: rgba(255, 255, 255, 0.96);
+      --border-subtle: rgba(12, 18, 27, 0.12);
+      --border-hover: rgba(12, 18, 27, 0.2);
+      --text-primary: #121724;
+      --text-secondary: rgba(18, 23, 36, 0.72);
+      --text-muted: rgba(18, 23, 36, 0.54);
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      min-height: 100%;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+      font-size: 16px;
+      color: var(--text-primary);
+      background: var(--bg-primary);
+    }
+
+    body {
+      background-image:
+        radial-gradient(at 18% 80%, rgba(59, 130, 246, 0.16) 0, transparent 50%),
+        radial-gradient(at 80% 18%, rgba(139, 92, 246, 0.15) 0, transparent 52%),
+        radial-gradient(at 50% 48%, rgba(16, 185, 129, 0.08) 0, transparent 55%),
+        radial-gradient(at 30% 22%, rgba(245, 158, 11, 0.06) 0, transparent 40%);
+      background-attachment: fixed;
+      padding: 14px;
+    }
+
+    .app {
+      width: min(1120px, 100%);
+      margin: 0 auto;
+      padding-bottom: 60px;
+    }
+
+    .panel {
+      background: var(--bg-panel);
+      border: 1px solid var(--border-subtle);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      transition: 220ms ease;
+    }
+
+    .panel:hover { border-color: var(--border-hover); }
+
+    .top {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 10px;
+      padding: 14px;
+      margin-bottom: 14px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .brand-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 999px;
+      background: linear-gradient(120deg, #3b82f6, #8b5cf6 48%, #10b981);
+      box-shadow: 0 0 24px rgba(59, 130, 246, 0.56);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.14rem, 4.1vw, 1.6rem);
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .ink-note {
+      margin: 2px 0 0;
+      font-size: 0.74rem;
+      color: var(--text-muted);
+    }
+
+    .segment {
+      display: inline-flex;
+      border: 1px solid var(--border-subtle);
+      border-radius: 999px;
+      padding: 3px;
+      gap: 3px;
+      min-height: 48px;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .segment button,
+    .btn {
+      min-height: 48px;
+      border-radius: 12px;
+      border: 1px solid transparent;
+      padding: 10px 14px;
+      color: var(--text-primary);
+      background: rgba(255, 255, 255, 0.02);
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: 600;
+      transition: 180ms ease;
+    }
+
+    .segment button.active {
+      background: rgba(59, 130, 246, 0.28);
+      border-color: rgba(59, 130, 246, 0.4);
+    }
+
+    .btn.primary {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.38), rgba(16, 185, 129, 0.28));
+      border-color: rgba(59, 130, 246, 0.52);
+      box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.18) inset, 0 6px 24px var(--glow-blue);
+    }
+
+    .btn.secondary {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: var(--border-subtle);
+    }
+
+    .btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .progress-wrap {
+      padding: 12px;
+      margin-bottom: 14px;
+    }
+
+    .progress {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .step-pill {
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      min-height: 52px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 6px;
+      font-size: 0.79rem;
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.03);
+      transition: 180ms ease;
+    }
+
+    .step-pill.active {
+      color: var(--text-primary);
+      border-color: rgba(59, 130, 246, 0.58);
+      background: rgba(59, 130, 246, 0.24);
+    }
+
+    .step-pill.done {
+      color: #d7f7ea;
+      border-color: rgba(16, 185, 129, 0.56);
+      background: rgba(16, 185, 129, 0.24);
+    }
+
+    .stack { display: grid; gap: 14px; }
+
+    .step-panel {
+      display: none;
+      padding: 16px;
+    }
+
+    .step-panel.visible { display: block; }
+
+    .step-head {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .step-head h2 {
+      margin: 0;
+      font-size: clamp(1.05rem, 3.8vw, 1.3rem);
+      letter-spacing: -0.01em;
+    }
+
+    .muted { color: var(--text-muted); margin: 0; }
+
+    .dropzone {
+      border: 1px dashed rgba(59, 130, 246, 0.56);
+      border-radius: 16px;
+      min-height: 190px;
+      display: grid;
+      place-items: center;
+      padding: 18px;
+      text-align: center;
+      background: linear-gradient(160deg, rgba(59, 130, 246, 0.12), rgba(139, 92, 246, 0.08));
+      transition: 180ms ease;
+    }
+
+    .dropzone.drag {
+      transform: scale(1.01);
+      border-color: rgba(16, 185, 129, 0.72);
+      background: linear-gradient(160deg, rgba(16, 185, 129, 0.2), rgba(59, 130, 246, 0.1));
+    }
+
+    .meta-grid,
+    .analysis-grid,
+    .preview-grid,
+    .export-grid {
+      display: grid;
+      gap: 12px;
+    }
+
+    .meta-grid { grid-template-columns: 1fr; margin-top: 12px; }
+
+    .card {
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 12px;
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .image-box {
+      position: relative;
+      border-radius: 14px;
+      border: 1px solid var(--border-subtle);
+      overflow: hidden;
+      min-height: 230px;
+      background: rgba(0, 0, 0, 0.28);
+      display: grid;
+      place-items: center;
+    }
+
+    .image-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    dl {
+      margin: 0;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 8px 10px;
+      font-size: 0.94rem;
+    }
+
+    dt { color: var(--text-muted); }
+    dd { margin: 0; color: var(--text-primary); }
+
+    .status {
+      border-radius: 12px;
+      border: 1px solid var(--border-subtle);
+      padding: 10px 12px;
+      font-size: 0.93rem;
+      color: var(--text-secondary);
+      background: rgba(255, 255, 255, 0.03);
+      margin-top: 10px;
+    }
+
+    .status.warn {
+      border-color: rgba(239, 68, 68, 0.55);
+      background: rgba(239, 68, 68, 0.14);
+      color: #ffc9c9;
+    }
+
+    .status.ok {
+      border-color: rgba(16, 185, 129, 0.55);
+      background: rgba(16, 185, 129, 0.14);
+      color: #d8ffef;
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 10px;
+      align-items: center;
+    }
+
+    .controls label {
+      display: grid;
+      gap: 6px;
+      font-size: 0.86rem;
+      color: var(--text-secondary);
+      min-width: 150px;
+    }
+
+    select, textarea, input[type="range"], input[type="text"] {
+      width: 100%;
+      border-radius: 12px;
+      border: 1px solid var(--border-subtle);
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text-primary);
+      padding: 10px;
+      font: inherit;
+      min-height: 48px;
+    }
+
+    textarea {
+      min-height: 112px;
+      resize: vertical;
+    }
+
+    .swatches {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .swatch {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid var(--border-subtle);
+      border-radius: 999px;
+      padding: 4px 10px 4px 4px;
+      font-size: 0.83rem;
+      color: var(--text-secondary);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .swatch i {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.45);
+      display: inline-block;
+    }
+
+    .preview-grid,
+    .export-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .download-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .mono {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      word-break: break-all;
+      max-height: 170px;
+      overflow: auto;
+      white-space: pre-wrap;
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 8px;
+      background: rgba(0, 0, 0, 0.24);
+    }
+
+    .hidden { display: none !important; }
+
+    body.customer-mode .operator-only {
+      display: none !important;
+    }
+
+    /* Fix: header overlaps at narrow widths — stack vertically */
+    @media (max-width: 480px) {
+      .top {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+      .brand { justify-content: center; }
+      .segment { justify-self: center; }
+      #changeApiKey { justify-self: center; }
+    }
+
+    @media (min-width: 650px) {
+      body { padding: 20px; }
+      .top { padding: 16px 18px; }
+      .step-panel { padding: 18px; }
+      .meta-grid { grid-template-columns: 1.2fr 1fr; }
+      .analysis-grid { grid-template-columns: 1fr 1fr; }
+      .preview-grid { grid-template-columns: 1.2fr 1fr 1fr; }
+      .export-grid { grid-template-columns: 1fr 1fr; }
+      .step-pill { font-size: 0.86rem; }
+    }
+
+    @media (min-width: 980px) {
+      .top { margin-top: 6px; }
+      .step-panel { padding: 22px; }
+      .dropzone { min-height: 220px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Original R&D test case used Tehila's carpet image: research/carpet-candidates/REFERENCE-tehila-carpet.jpg -->
+  <div class="app">
+    <header class="top panel">
+      <div class="brand">
+        <span class="brand-dot" aria-hidden="true"></span>
+        <div>
+          <h1>VectorFlow Phase 1</h1>
+          <p class="ink-note">INKredible • Print Regeneration Pipeline</p>
+        </div>
+      </div>
+      <div class="segment" role="tablist" aria-label="Mode toggle">
+        <button id="modeOperator" class="active" role="tab" aria-selected="true">Operator</button>
+        <button id="modeCustomer" role="tab" aria-selected="false">Customer</button>
+      </div>
+      <button id="changeApiKey" style="background:none;border:1px solid var(--border-subtle);color:var(--text-primary);border-radius:8px;padding:6px 14px;font-size:13px;cursor:pointer;margin-left:8px;" title="Change Google API Key"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><path d="m21 2-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0 3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>API Key</button>
+    </header>
+
+    <section class="progress-wrap panel">
+      <div class="progress" id="progressBar">
+        <div class="step-pill active" data-step="1">1. Upload</div>
+        <div class="step-pill" data-step="2">2. Analyze</div>
+        <div class="step-pill" data-step="3">3. Regenerate</div>
+        <div class="step-pill" data-step="4">4. Export</div>
+      </div>
+    </section>
+
+    <main class="stack">
+      <section class="step-panel visible panel" id="step1">
+        <div class="step-head">
+          <h2>Step 1 · Upload Source Image</h2>
+          <button id="setApiKeyTop" class="btn secondary operator-only" type="button">Set Google API Key</button>
+        </div>
+
+        <div id="dropzone" class="dropzone" tabindex="0" role="button" aria-label="Upload image">
+          <div>
+            <p style="margin:0 0 6px;font-size:1rem;font-weight:650;">Drop JPG/PNG/WEBP here</p>
+            <p class="muted" style="margin:0 0 10px;">or tap to pick from your device</p>
+            <button class="btn primary" type="button" id="pickBtn">Choose Image</button>
+            <input id="fileInput" type="file" accept="image/jpeg,image/png,image/webp" class="hidden" />
+          </div>
+        </div>
+
+        <div class="meta-grid hidden" id="uploadResults">
+          <div class="image-box"><img id="sourcePreview" alt="Uploaded source preview" /></div>
+          <div class="card">
+            <dl>
+              <dt>File</dt><dd id="metaName">—</dd>
+              <dt>Dimensions</dt><dd id="metaDimensions">—</dd>
+              <dt>Estimated DPI</dt><dd id="metaDpi">—</dd>
+              <dt>File Size</dt><dd id="metaSize">—</dd>
+              <dt>Format</dt><dd id="metaType">—</dd>
+            </dl>
+            <div id="qualityMessage" class="status"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="step-panel panel" id="step2">
+        <div class="step-head">
+          <h2>Step 2 · Analyze Pattern + Colors</h2>
+          <button id="analyzeBtn" class="btn primary" type="button" disabled>Analyze with Gemini</button>
+        </div>
+
+        <div id="analyzeStatus" class="status">Upload an image to begin analysis.</div>
+
+        <div class="analysis-grid" style="margin-top:12px;">
+          <div class="card">
+            <strong>AI Pattern Analysis</strong>
+            <dl style="margin-top:10px;">
+              <dt>Pattern Type</dt><dd id="patternType">—</dd>
+              <dt>Symmetry</dt><dd id="symmetryType">—</dd>
+              <dt>Complexity</dt><dd id="complexityScore">—</dd>
+              <dt>Elements</dt><dd id="elementsList">—</dd>
+            </dl>
+            <div class="operator-only">
+              <p class="muted" style="margin:10px 0 6px;">Gemini palette swatches</p>
+              <div id="paletteSwatches" class="swatches"></div>
+            </div>
+            <p class="muted" style="margin:10px 0 6px;">Canvas dominant colors</p>
+            <div id="dominantSwatches" class="swatches"></div>
+          </div>
+
+          <div class="card">
+            <label for="descriptionField" style="display:block;font-weight:650;margin-bottom:6px;">Editable regeneration description</label>
+            <textarea id="descriptionField" placeholder="AI description will populate here"></textarea>
+            <p class="muted operator-only" style="margin-top:8px;">Tip: tighten shape language + palette notes before regeneration.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="step-panel panel" id="step3">
+        <div class="step-head">
+          <h2>Step 3 · Regenerate High-Res Variations</h2>
+          <button id="regenBtn" class="btn primary" type="button" disabled>Generate 2 Variations</button>
+        </div>
+
+        <div class="controls operator-only">
+          <label>Output size
+            <select id="sizeSelect">
+              <option value="1024x1024">1024 × 1024</option>
+              <option value="1536x1536">1536 × 1536</option>
+            </select>
+          </label>
+          <label>Fidelity note
+            <select id="fidelitySelect">
+              <option value="Keep strong fidelity to the original composition and motif structure.">High Fidelity</option>
+              <option value="Balance fidelity and cleaner geometry for print readability.">Balanced</option>
+              <option value="Prioritize clean reinterpretation while retaining core motifs.">Creative Clean-up</option>
+            </select>
+          </label>
+        </div>
+
+        <div id="regenStatus" class="status">Complete analysis first, then generate.</div>
+
+        <div class="preview-grid" style="margin-top:12px;">
+          <div class="card">
+            <strong>Original</strong>
+            <div class="image-box" style="margin-top:8px;"><img id="origCompare" alt="Original image" /></div>
+          </div>
+
+          <div class="card">
+            <strong>Variation 1</strong>
+            <div class="image-box" style="margin-top:8px;"><img id="var1Preview" alt="Regenerated variation 1" /></div>
+            <div class="download-row">
+              <button id="downloadVar1" class="btn secondary" type="button" disabled>Download PNG</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <strong>Variation 2</strong>
+            <div class="image-box" style="margin-top:8px;"><img id="var2Preview" alt="Regenerated variation 2" /></div>
+            <div class="download-row">
+              <button id="downloadVar2" class="btn secondary" type="button" disabled>Download PNG</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="step-panel panel" id="step4">
+        <div class="step-head">
+          <h2>Step 4 · Export PNG + SVG</h2>
+          <button id="svgBtn" class="btn primary" type="button" disabled>Generate SVG</button>
+        </div>
+
+        <div class="export-grid">
+          <div class="card">
+            <div class="controls" style="margin-bottom:0;">
+              <label>Vector source
+                <select id="svgSourceSelect">
+                  <option value="var1">Variation 1</option>
+                  <option value="var2">Variation 2</option>
+                </select>
+              </label>
+              <label class="operator-only">Threshold (<span id="thresholdValue">128</span>)
+                <input id="thresholdRange" type="range" min="40" max="220" value="128" />
+              </label>
+            </div>
+            <div id="exportStatus" class="status" style="margin-top:8px;">Generate image variations to unlock export.</div>
+            <div class="download-row" style="margin-top:10px;">
+              <button id="downloadSvg" class="btn secondary" type="button" disabled>Download SVG</button>
+            </div>
+          </div>
+
+          <div class="card operator-only">
+            <strong>SVG Preview (truncated)</strong>
+            <div id="svgPreview" class="mono" style="margin-top:8px;">No SVG yet.</div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    (() => {
+      const state = {
+        mode: localStorage.getItem('vectorflow-mode') || 'operator',
+        apiKey: localStorage.getItem('vectorflow-google-api-key') || '',
+        file: null,
+        sourceDataUrl: '',
+        sourceBase64: '',
+        sourceMimeType: '',
+        width: 0,
+        height: 0,
+        estimatedDpi: 0,
+        analysis: null,
+        dominantColors: [],
+        variations: [null, null],
+        svgBlobUrl: '',
+        svgText: ''
+      };
+
+      const $ = (id) => document.getElementById(id);
+      const refs = {
+        modeOperator: $('modeOperator'),
+        modeCustomer: $('modeCustomer'),
+        pickBtn: $('pickBtn'),
+        fileInput: $('fileInput'),
+        dropzone: $('dropzone'),
+        uploadResults: $('uploadResults'),
+        sourcePreview: $('sourcePreview'),
+        origCompare: $('origCompare'),
+        setApiKeyTop: $('setApiKeyTop'),
+        analyzeBtn: $('analyzeBtn'),
+        analyzeStatus: $('analyzeStatus'),
+        regenBtn: $('regenBtn'),
+        regenStatus: $('regenStatus'),
+        svgBtn: $('svgBtn'),
+        exportStatus: $('exportStatus'),
+        descriptionField: $('descriptionField'),
+        sizeSelect: $('sizeSelect'),
+        fidelitySelect: $('fidelitySelect'),
+        var1Preview: $('var1Preview'),
+        var2Preview: $('var2Preview'),
+        downloadVar1: $('downloadVar1'),
+        downloadVar2: $('downloadVar2'),
+        downloadSvg: $('downloadSvg'),
+        svgSourceSelect: $('svgSourceSelect'),
+        thresholdRange: $('thresholdRange'),
+        thresholdValue: $('thresholdValue'),
+        svgPreview: $('svgPreview'),
+        qualityMessage: $('qualityMessage'),
+        paletteSwatches: $('paletteSwatches'),
+        dominantSwatches: $('dominantSwatches')
+      };
+
+      function initMode() {
+        setMode(state.mode);
+        refs.modeOperator.addEventListener('click', () => setMode('operator'));
+        refs.modeCustomer.addEventListener('click', () => setMode('customer'));
+        document.getElementById('changeApiKey').addEventListener('click', () => ensureApiKey(true));
+      }
+
+      function setMode(mode) {
+        state.mode = mode;
+        localStorage.setItem('vectorflow-mode', mode);
+        document.body.classList.toggle('customer-mode', mode === 'customer');
+        refs.modeOperator.classList.toggle('active', mode === 'operator');
+        refs.modeCustomer.classList.toggle('active', mode === 'customer');
+      }
+
+      function updateProgress(step) {
+        document.querySelectorAll('.step-pill').forEach((pill) => {
+          const num = Number(pill.dataset.step);
+          pill.classList.toggle('active', num === step);
+          pill.classList.toggle('done', num < step);
+        });
+
+        $('step1').classList.add('visible');
+        $('step2').classList.toggle('visible', step >= 2);
+        $('step3').classList.toggle('visible', step >= 3);
+        $('step4').classList.toggle('visible', step >= 4);
+      }
+
+      function setStatus(el, msg, kind = '') {
+        el.textContent = msg;
+        el.classList.remove('warn', 'ok');
+        if (kind) el.classList.add(kind);
+      }
+
+      function bytesToSize(bytes) {
+        const units = ['B', 'KB', 'MB'];
+        let value = bytes;
+        let unit = 0;
+        while (value >= 1024 && unit < units.length - 1) {
+          value /= 1024;
+          unit += 1;
+        }
+        return `${value.toFixed(unit === 0 ? 0 : 1)} ${units[unit]}`;
+      }
+
+      function estimateDpi(width, height) {
+        // Approximation for print viability: shortest side intended around 12 inches.
+        return Math.round(Math.min(width, height) / 12);
+      }
+
+      function extractBase64FromDataUrl(dataUrl) {
+        const idx = dataUrl.indexOf(',');
+        return idx >= 0 ? dataUrl.slice(idx + 1) : dataUrl;
+      }
+
+      async function fileToDataUrl(file) {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = reject;
+          reader.readAsDataURL(file);
+        });
+      }
+
+      async function loadImageDimensions(dataUrl) {
+        return new Promise((resolve, reject) => {
+          const img = new Image();
+          img.onload = () => resolve({ width: img.naturalWidth, height: img.naturalHeight, img });
+          img.onerror = reject;
+          img.src = dataUrl;
+        });
+      }
+
+      async function handleFile(file) {
+        if (!file) return;
+        if (!/^image\/(jpeg|png|webp)$/i.test(file.type)) {
+          setStatus(refs.analyzeStatus, 'Please upload JPG, PNG, or WEBP only.', 'warn');
+          return;
+        }
+
+        const dataUrl = await fileToDataUrl(file);
+        const { width, height } = await loadImageDimensions(dataUrl);
+
+        state.file = file;
+        state.sourceDataUrl = dataUrl;
+        state.sourceBase64 = extractBase64FromDataUrl(dataUrl);
+        state.sourceMimeType = file.type;
+        state.width = width;
+        state.height = height;
+        state.estimatedDpi = estimateDpi(width, height);
+        state.analysis = null;
+        state.variations = [null, null];
+        state.svgText = '';
+        revokeSvgBlob();
+
+        refs.sourcePreview.src = dataUrl;
+        refs.origCompare.src = dataUrl;
+        refs.uploadResults.classList.remove('hidden');
+
+        $('metaName').textContent = file.name;
+        $('metaDimensions').textContent = `${width} × ${height}`;
+        $('metaDpi').textContent = `~${state.estimatedDpi} DPI`;
+        $('metaSize').textContent = bytesToSize(file.size);
+        $('metaType').textContent = file.type.replace('image/', '').toUpperCase();
+
+        const lowQuality = state.estimatedDpi < 300 || Math.max(width, height) < 3000;
+        if (lowQuality) {
+          setStatus(
+            refs.qualityMessage,
+            `This image is ${width}×${height} at ~${state.estimatedDpi} DPI — not print-ready`,
+            'warn'
+          );
+        } else {
+          setStatus(refs.qualityMessage, `This image is ${width}×${height} at ~${state.estimatedDpi} DPI — likely print-capable.`, 'ok');
+        }
+
+        refs.var1Preview.removeAttribute('src');
+        refs.var2Preview.removeAttribute('src');
+        refs.downloadVar1.disabled = true;
+        refs.downloadVar2.disabled = true;
+        refs.downloadSvg.disabled = true;
+        refs.svgBtn.disabled = true;
+        refs.descriptionField.value = '';
+        refs.paletteSwatches.innerHTML = '';
+        refs.dominantSwatches.innerHTML = '';
+        refs.svgPreview.textContent = 'No SVG yet.';
+
+        state.dominantColors = extractDominantColors(dataUrl, 6);
+        renderSwatches(refs.dominantSwatches, state.dominantColors);
+
+        refs.analyzeBtn.disabled = false;
+        refs.regenBtn.disabled = true;
+        updateProgress(2);
+        setStatus(refs.analyzeStatus, 'Image loaded. Ready to analyze with Gemini.');
+        setStatus(refs.regenStatus, 'Run analysis first to generate prompt guidance.');
+        setStatus(refs.exportStatus, 'Generate image variations to unlock export.');
+      }
+
+      function renderSwatches(container, colors = []) {
+        container.innerHTML = '';
+        colors.forEach((hex) => {
+          const chip = document.createElement('span');
+          chip.className = 'swatch';
+          chip.innerHTML = `<i style="background:${hex}"></i><span>${hex.toUpperCase()}</span>`;
+          container.appendChild(chip);
+        });
+      }
+
+      function extractDominantColors(dataUrl, max = 6) {
+        const img = new Image();
+        img.src = dataUrl;
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d', { willReadFrequently: true });
+
+        const target = 140;
+        const ratio = img.naturalWidth && img.naturalHeight
+          ? Math.min(target / img.naturalWidth, target / img.naturalHeight, 1)
+          : 1;
+
+        canvas.width = Math.max(1, Math.round((img.naturalWidth || 256) * ratio));
+        canvas.height = Math.max(1, Math.round((img.naturalHeight || 256) * ratio));
+
+        // For synced dataURL images this is safe.
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+        const map = new Map();
+
+        for (let i = 0; i < data.length; i += 16) {
+          const a = data[i + 3];
+          if (a < 180) continue;
+          const r = Math.round(data[i] / 32) * 32;
+          const g = Math.round(data[i + 1] / 32) * 32;
+          const b = Math.round(data[i + 2] / 32) * 32;
+          const key = `${Math.min(r, 255)},${Math.min(g, 255)},${Math.min(b, 255)}`;
+          map.set(key, (map.get(key) || 0) + 1);
+        }
+
+        return [...map.entries()]
+          .sort((a, b) => b[1] - a[1])
+          .slice(0, max)
+          .map(([rgb]) => rgbToHex(...rgb.split(',').map(Number)));
+      }
+
+      function rgbToHex(r, g, b) {
+        return `#${[r, g, b].map((n) => n.toString(16).padStart(2, '0')).join('')}`;
+      }
+
+      function parseModelJson(text) {
+        if (!text) return null;
+        let clean = text.trim();
+        clean = clean.replace(/^```json\s*/i, '').replace(/```$/i, '').trim();
+
+        try { return JSON.parse(clean); } catch {}
+
+        const match = clean.match(/\{[\s\S]*\}/);
+        if (!match) return null;
+        try { return JSON.parse(match[0]); } catch { return null; }
+      }
+
+      async function ensureApiKey(forcePrompt = false) {
+        if (!forcePrompt && state.apiKey) return state.apiKey;
+        const value = window.prompt('Enter your Google API key (saved locally on this device for VectorFlow):', state.apiKey || '');
+        if (!value) return null;
+        state.apiKey = value.trim();
+        localStorage.setItem('vectorflow-google-api-key', state.apiKey);
+        return state.apiKey;
+      }
+
+      async function analyzeWithGemini() {
+        if (!state.sourceBase64) return;
+
+        const key = await ensureApiKey(false);
+        if (!key) {
+          setStatus(refs.analyzeStatus, 'Analysis canceled: no API key provided.', 'warn');
+          return;
+        }
+
+        refs.analyzeBtn.disabled = true;
+        setStatus(refs.analyzeStatus, 'Analyzing image with Gemini…');
+
+        const prompt = [
+          'Analyze this decorative pattern image for print regeneration.',
+          'Return STRICT JSON with these keys exactly:',
+          '{',
+          '  "patternType": string,',
+          '  "colorPalette": string[] // hex list,',
+          '  "symmetryType": string,',
+          '  "complexityScore": number // 1-10,',
+          '  "elementsIdentified": string[],',
+          '  "regenerationDescription": string // concise production-ready prompt',
+          '}',
+          'No markdown, no extra commentary.'
+        ].join('\n');
+
+        try {
+          const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${encodeURIComponent(key)}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              contents: [{
+                role: 'user',
+                parts: [
+                  { text: prompt },
+                  { inlineData: { mimeType: state.sourceMimeType, data: state.sourceBase64 } }
+                ]
+              }],
+              generationConfig: {
+                temperature: 0.2,
+                responseMimeType: 'application/json'
+              }
+            })
+          });
+
+          const data = await res.json();
+          if (!res.ok) {
+            throw new Error(data?.error?.message || `Gemini request failed (${res.status})`);
+          }
+
+          const text = (data?.candidates?.[0]?.content?.parts || [])
+            .map((p) => p.text || '')
+            .join('\n')
+            .trim();
+
+          const parsed = parseModelJson(text) || {};
+
+          state.analysis = {
+            patternType: parsed.patternType || 'Unknown',
+            colorPalette: Array.isArray(parsed.colorPalette) ? parsed.colorPalette.slice(0, 8) : [],
+            symmetryType: parsed.symmetryType || 'Not specified',
+            complexityScore: Number(parsed.complexityScore || 5),
+            elementsIdentified: Array.isArray(parsed.elementsIdentified) ? parsed.elementsIdentified : [],
+            regenerationDescription: parsed.regenerationDescription || ''
+          };
+
+          $('patternType').textContent = state.analysis.patternType;
+          $('symmetryType').textContent = state.analysis.symmetryType;
+          $('complexityScore').textContent = `${Math.min(10, Math.max(1, state.analysis.complexityScore))}/10`;
+          $('elementsList').textContent = state.analysis.elementsIdentified.length
+            ? state.analysis.elementsIdentified.join(', ')
+            : 'Not specified';
+
+          const palette = (state.analysis.colorPalette || []).filter((c) => /^#([0-9a-f]{3}|[0-9a-f]{6})$/i.test(c));
+          renderSwatches(refs.paletteSwatches, palette);
+
+          refs.descriptionField.value = state.analysis.regenerationDescription || [
+            `Regenerate a print-ready high-resolution interpretation of a ${state.analysis.patternType} pattern.`,
+            `Preserve ${state.analysis.symmetryType} symmetry and core motifs (${state.analysis.elementsIdentified.join(', ') || 'ornamental forms'}).`,
+            `Use clean edges, balanced repeat structure, and production-friendly color separation.`
+          ].join(' ');
+
+          refs.regenBtn.disabled = false;
+          updateProgress(3);
+          setStatus(refs.analyzeStatus, 'Analysis complete. Edit the description if needed, then regenerate.', 'ok');
+        } catch (error) {
+          setStatus(refs.analyzeStatus, `Analysis failed: ${error.message}`, 'warn');
+        } finally {
+          refs.analyzeBtn.disabled = false;
+        }
+      }
+
+      function collectBase64Images(obj, found = []) {
+        if (!obj) return found;
+        if (typeof obj === 'string') {
+          if (/^[A-Za-z0-9+/=\n\r]+$/.test(obj) && obj.length > 500) found.push(obj.replace(/\s+/g, ''));
+          return found;
+        }
+        if (Array.isArray(obj)) {
+          obj.forEach((item) => collectBase64Images(item, found));
+          return found;
+        }
+        if (typeof obj === 'object') {
+          for (const [k, v] of Object.entries(obj)) {
+            const key = k.toLowerCase();
+            if (typeof v === 'string' && ['data', 'bytesbase64encoded', 'base64', 'imagebytes', 'b64'].includes(key) && v.length > 500) {
+              found.push(v.replace(/\s+/g, ''));
+            } else {
+              collectBase64Images(v, found);
+            }
+          }
+        }
+        return found;
+      }
+
+      async function tryImagenEndpoints(key, prompt, size) {
+        const [w, h] = size.split('x').map(Number);
+
+        const attempts = [
+          {
+            name: 'imagen:predict',
+            url: `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${encodeURIComponent(key)}`,
+            body: {
+              instances: [{
+                prompt,
+                image: { bytesBase64Encoded: state.sourceBase64, mimeType: state.sourceMimeType }
+              }],
+              parameters: {
+                sampleCount: 2,
+                width: w,
+                height: h,
+                outputMimeType: 'image/png'
+              }
+            }
+          },
+          {
+            name: 'imagen:generateImages',
+            url: `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:generateImages?key=${encodeURIComponent(key)}`,
+            body: {
+              prompt,
+              numberOfImages: 2,
+              imageSize: { width: w, height: h },
+              outputMimeType: 'image/png',
+              referenceImages: [{ inlineData: { mimeType: state.sourceMimeType, data: state.sourceBase64 } }]
+            }
+          }
+        ];
+
+        const errors = [];
+
+        for (const attempt of attempts) {
+          try {
+            const res = await fetch(attempt.url, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(attempt.body)
+            });
+            const data = await res.json();
+
+            if (!res.ok) {
+              errors.push(`${attempt.name}: ${data?.error?.message || res.status}`);
+              continue;
+            }
+
+            const images = collectBase64Images(data).slice(0, 2);
+            if (images.length >= 2) {
+              return images.map((b64) => `data:image/png;base64,${b64}`);
+            }
+
+            errors.push(`${attempt.name}: no images returned`);
+          } catch (err) {
+            errors.push(`${attempt.name}: ${err.message}`);
+          }
+        }
+
+        throw new Error(errors.join(' | '));
+      }
+
+      async function generateOneGeminiImage(key, prompt) {
+        const models = [
+          'gemini-2.0-flash-preview-image-generation',
+          'gemini-2.0-flash-exp-image-generation'
+        ];
+
+        let lastError = 'unknown';
+
+        for (const model of models) {
+          try {
+            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(key)}`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                contents: [{
+                  role: 'user',
+                  parts: [
+                    { text: prompt },
+                    { inlineData: { mimeType: state.sourceMimeType, data: state.sourceBase64 } }
+                  ]
+                }],
+                generationConfig: {
+                  temperature: 0.5,
+                  responseModalities: ['TEXT', 'IMAGE']
+                }
+              })
+            });
+
+            const data = await res.json();
+            if (!res.ok) {
+              lastError = data?.error?.message || `${model} failed (${res.status})`;
+              continue;
+            }
+
+            const imagePart = (data?.candidates?.[0]?.content?.parts || []).find((p) => p.inlineData?.data || p.inline_data?.data);
+            const b64 = imagePart?.inlineData?.data || imagePart?.inline_data?.data;
+            if (b64) return `data:image/png;base64,${b64}`;
+
+            const generic = collectBase64Images(data)[0];
+            if (generic) return `data:image/png;base64,${generic}`;
+
+            lastError = `${model}: no image in response`;
+          } catch (err) {
+            lastError = `${model}: ${err.message}`;
+          }
+        }
+
+        throw new Error(lastError);
+      }
+
+      async function regenerateImages() {
+        if (!state.sourceBase64) return;
+
+        const key = await ensureApiKey(false);
+        if (!key) {
+          setStatus(refs.regenStatus, 'Generation canceled: no API key provided.', 'warn');
+          return;
+        }
+
+        refs.regenBtn.disabled = true;
+        setStatus(refs.regenStatus, 'Generating 2 variations…');
+
+        const size = refs.sizeSelect.value;
+        const fidelityNote = refs.fidelitySelect.value;
+        const description = refs.descriptionField.value.trim() || 'Decorative pattern regeneration';
+        const prompt = [
+          description,
+          fidelityNote,
+          `Target output: ${size}.`,
+          'Print production intent: crisp edges, clean repeats, no blur, no artifacts, no text overlays.'
+        ].join(' ');
+
+        try {
+          let variations;
+          let usedFallback = false;
+
+          try {
+            variations = await tryImagenEndpoints(key, prompt, size);
+          } catch (imagenErr) {
+            usedFallback = true;
+            const v1 = await generateOneGeminiImage(key, `${prompt} Produce variation 1.`);
+            const v2 = await generateOneGeminiImage(key, `${prompt} Produce variation 2 with slight compositional variation.`);
+            variations = [v1, v2];
+            console.warn('Imagen endpoint unavailable, fallback used:', imagenErr.message);
+          }
+
+          state.variations = variations.slice(0, 2);
+          refs.var1Preview.src = state.variations[0] || '';
+          refs.var2Preview.src = state.variations[1] || '';
+
+          refs.downloadVar1.disabled = !state.variations[0];
+          refs.downloadVar2.disabled = !state.variations[1];
+          refs.svgBtn.disabled = !(state.variations[0] || state.variations[1]);
+
+          updateProgress(4);
+          setStatus(
+            refs.regenStatus,
+            usedFallback
+              ? 'Generated via Gemini image fallback (Imagen endpoint unavailable on current key tier).'
+              : 'Generated via Imagen successfully.',
+            'ok'
+          );
+          setStatus(refs.exportStatus, 'Variations ready. Generate SVG and download assets.', 'ok');
+        } catch (error) {
+          setStatus(refs.regenStatus, `Generation failed: ${error.message}`, 'warn');
+        } finally {
+          refs.regenBtn.disabled = false;
+        }
+      }
+
+      function downloadDataUrl(dataUrl, filename) {
+        if (!dataUrl) return;
+        const a = document.createElement('a');
+        a.href = dataUrl;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+      }
+
+      function revokeSvgBlob() {
+        if (state.svgBlobUrl) {
+          URL.revokeObjectURL(state.svgBlobUrl);
+          state.svgBlobUrl = '';
+        }
+      }
+
+      async function generateSvg() {
+        const key = refs.svgSourceSelect.value;
+        const src = key === 'var2' ? state.variations[1] : state.variations[0];
+
+        if (!src) {
+          setStatus(refs.exportStatus, 'Pick a generated variation first.', 'warn');
+          return;
+        }
+
+        refs.svgBtn.disabled = true;
+        setStatus(refs.exportStatus, 'Tracing raster to SVG…');
+
+        try {
+          const threshold = Number(refs.thresholdRange.value);
+          const svg = await rasterToThresholdSvg(src, threshold);
+          state.svgText = svg;
+          refs.svgPreview.textContent = `${svg.slice(0, 1800)}\n${svg.length > 1800 ? '\n…(truncated)' : ''}`;
+
+          revokeSvgBlob();
+          state.svgBlobUrl = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml' }));
+          refs.downloadSvg.disabled = false;
+
+          setStatus(refs.exportStatus, 'SVG ready for download.', 'ok');
+        } catch (error) {
+          setStatus(refs.exportStatus, `SVG generation failed: ${error.message}`, 'warn');
+        } finally {
+          refs.svgBtn.disabled = false;
+        }
+      }
+
+      async function rasterToThresholdSvg(dataUrl, threshold = 128) {
+        const img = await new Promise((resolve, reject) => {
+          const i = new Image();
+          i.onload = () => resolve(i);
+          i.onerror = reject;
+          i.src = dataUrl;
+        });
+
+        const maxW = 260;
+        const ratio = Math.min(maxW / img.naturalWidth, 1);
+        const w = Math.max(1, Math.round(img.naturalWidth * ratio));
+        const h = Math.max(1, Math.round(img.naturalHeight * ratio));
+
+        const canvas = document.createElement('canvas');
+        canvas.width = w;
+        canvas.height = h;
+        const ctx = canvas.getContext('2d', { willReadFrequently: true });
+        ctx.drawImage(img, 0, 0, w, h);
+
+        const { data } = ctx.getImageData(0, 0, w, h);
+
+        let rects = '';
+        for (let y = 0; y < h; y++) {
+          let runStart = -1;
+          for (let x = 0; x < w; x++) {
+            const idx = (y * w + x) * 4;
+            const r = data[idx];
+            const g = data[idx + 1];
+            const b = data[idx + 2];
+            const lum = 0.299 * r + 0.587 * g + 0.114 * b;
+            const dark = lum < threshold;
+
+            if (dark && runStart < 0) {
+              runStart = x;
+            }
+
+            if ((!dark || x === w - 1) && runStart >= 0) {
+              const end = dark && x === w - 1 ? x + 1 : x;
+              const width = end - runStart;
+              rects += `<rect x="${runStart}" y="${y}" width="${width}" height="1"/>`;
+              runStart = -1;
+            }
+          }
+        }
+
+        return [
+          `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" width="${img.naturalWidth}" height="${img.naturalHeight}">`,
+          `<rect width="100%" height="100%" fill="#ffffff"/>`,
+          `<g fill="#111111">${rects}</g>`,
+          `</svg>`
+        ].join('');
+      }
+
+      function bindEvents() {
+        refs.pickBtn.addEventListener('click', () => refs.fileInput.click());
+        refs.dropzone.addEventListener('click', () => refs.fileInput.click());
+        refs.fileInput.addEventListener('change', (e) => handleFile(e.target.files?.[0]));
+
+        ['dragenter', 'dragover'].forEach((evt) => {
+          refs.dropzone.addEventListener(evt, (e) => {
+            e.preventDefault();
+            refs.dropzone.classList.add('drag');
+          });
+        });
+
+        ['dragleave', 'drop'].forEach((evt) => {
+          refs.dropzone.addEventListener(evt, (e) => {
+            e.preventDefault();
+            refs.dropzone.classList.remove('drag');
+          });
+        });
+
+        refs.dropzone.addEventListener('drop', (e) => {
+          const file = e.dataTransfer?.files?.[0];
+          handleFile(file);
+        });
+
+        refs.setApiKeyTop.addEventListener('click', () => ensureApiKey(true));
+        refs.analyzeBtn.addEventListener('click', analyzeWithGemini);
+        refs.regenBtn.addEventListener('click', regenerateImages);
+        refs.svgBtn.addEventListener('click', generateSvg);
+
+        refs.downloadVar1.addEventListener('click', () => downloadDataUrl(state.variations[0], 'vectorflow-variation-1.png'));
+        refs.downloadVar2.addEventListener('click', () => downloadDataUrl(state.variations[1], 'vectorflow-variation-2.png'));
+
+        refs.downloadSvg.addEventListener('click', () => {
+          if (!state.svgBlobUrl) return;
+          const a = document.createElement('a');
+          a.href = state.svgBlobUrl;
+          a.download = 'vectorflow-trace.svg';
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+        });
+
+        refs.thresholdRange.addEventListener('input', () => {
+          refs.thresholdValue.textContent = refs.thresholdRange.value;
+        });
+
+        window.addEventListener('beforeunload', revokeSvgBlob);
+      }
+
+      function boot() {
+        initMode();
+        bindEvents();
+        updateProgress(1);
+
+        if (state.apiKey) {
+          setStatus(refs.analyzeStatus, 'API key loaded from local storage. Upload an image to begin.', 'ok');
+        }
+      }
+
+      boot();
+    })();
+  </script>
+</body>
+</html>
