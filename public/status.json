@@ -1,337 +1,354 @@
 {
-  "lastUpdated": "2026-02-14T19:35:00-05:00",
-  "mission": "Role-first AI organization for INKredible — strategy by Chet, execution by specialist agents",
+  "lastUpdated": "2026-02-15T15:30:00-05:00",
+  "mission": "USE MODE ACTIVATED — No new builds for 1 week. Verify, use, and fix what exists.",
   "agents": [
     {
       "id": "aviel",
       "name": "Aviel",
       "role": "CEO",
-      "status": "offline",
-      "currentTask": "Shabbat rest (returns Saturday evening)",
+      "status": "active",
+      "currentTask": "Reviewing and verifying all tools built this week",
       "model": "Human",
       "cost": "Boss",
-      "skills": [
-        "Vision & Strategy",
-        "Final Decisions",
-        "Business Development"
-      ]
+      "skills": ["Vision & Strategy", "Final Decisions", "Business Development"]
     },
     {
       "id": "brain",
-      "name": "Brain",
+      "name": "Brain (ChetGPT)",
       "role": "COO / Strategist",
       "status": "working",
-      "currentTask": "Running Goal Engine — orchestrating autonomous build queue",
+      "currentTask": "Build freeze — coaching and verification mode only",
       "model": "Claude Opus 4.6",
       "cost": "$200/mo flat",
-      "skills": [
-        "Strategic Planning",
-        "Task Orchestration",
-        "Complex Reasoning",
-        "Decision Architecture"
-      ]
+      "skills": ["Strategic Planning", "Task Orchestration", "ADHD Coaching", "Verification"]
     },
     {
       "id": "engineer",
       "name": "Engineer",
       "role": "Builder / Coder",
-      "status": "working",
-      "currentTask": "Building apps, deploying tools, coding automation",
+      "status": "standby",
+      "currentTask": "Bug fixes and verification only — no new features",
       "model": "GPT-5.3 Codex",
       "cost": "OpenAI subscription (OAuth)",
-      "skills": [
-        "Full-Stack Development",
-        "Deployment & CI/CD",
-        "Shell Scripting",
-        "Browser Automation"
-      ]
+      "skills": ["Full-Stack Development", "Deployment & CI/CD", "Shell Scripting"]
     },
     {
       "id": "researcher",
       "name": "Researcher",
       "role": "Web Research / Analysis",
-      "status": "active",
-      "currentTask": "Competitive analysis, pricing research, data extraction",
-      "model": "Gemma 3 27B / Codex Mini",
-      "cost": "Free tier + subscription",
-      "skills": [
-        "Web Scraping",
-        "Market Research",
-        "Invoice Parsing",
-        "Data Analysis"
-      ]
+      "status": "standby",
+      "currentTask": "Available for verification tasks",
+      "model": "Codex 5.3 / Codex Mini",
+      "cost": "Subscription",
+      "skills": ["Web Scraping", "Market Research", "Invoice Parsing", "Data Analysis"]
     },
     {
       "id": "coach",
       "name": "Coach",
       "role": "Personal / Business Coaching",
       "status": "active",
-      "currentTask": "ADHD support, therapy action tracking, personal task nudges",
+      "currentTask": "Daily push system active — coaching Aviel through use mode",
       "model": "Claude Opus 4.6",
-      "cost": "Included in Brain subscription",
-      "skills": [
-        "ADHD Coaching",
-        "Accountability",
-        "Therapy Action Tracking",
-        "Goal Setting"
-      ]
+      "cost": "Included in Brain",
+      "skills": ["ADHD Coaching", "Accountability", "Goal Tracking", "Habit Building"]
     }
   ],
   "tasks": {
     "queued": [
       {
-        "title": "Q4: Top-50 High-Value Account Builder",
-        "agent": "codex",
+        "title": "Linux migration (Tuesday Feb 17)",
+        "agent": "aviel + chet",
         "priority": "high"
       },
       {
-        "title": "Q5: Brandon Content OS (90 Days)",
-        "agent": "codex",
-        "priority": "high"
-      },
-      {
-        "title": "Q6: DM-to-Quote Conversion Workflow",
-        "agent": "codex",
-        "priority": "medium"
-      },
-      {
-        "title": "Q8: MIS Floor Job Calendar Spec",
-        "agent": "codex",
-        "priority": "medium"
-      },
-      {
-        "title": "Q10: ADHD Execution System",
-        "agent": "codex",
-        "priority": "medium"
-      },
-      {
-        "title": "Kanban auto-sync cron",
-        "agent": "codex",
-        "priority": "high"
-      },
-      {
-        "title": "QuickBooks API Production (awaiting Intuit review)",
+        "title": "Skill functional testing (20 skills)",
         "agent": "chet",
+        "priority": "high"
+      },
+      {
+        "title": "Enable Gemini paid billing ($5/mo budget)",
+        "agent": "aviel",
+        "priority": "medium"
+      },
+      {
+        "title": "QuickBooks production (awaiting Intuit review)",
+        "agent": "blocked",
         "priority": "critical"
+      },
+      {
+        "title": "Personal Finance Dashboard (blocked on bank info)",
+        "agent": "blocked",
+        "priority": "medium"
       }
     ],
     "inProgress": [
       {
-        "title": "Q3: Floor Graphics Pipeline Tracker",
-        "agent": "codex",
-        "priority": "high"
+        "title": "Build Freeze — Use & Verify week",
+        "agent": "aviel + chet",
+        "priority": "critical"
       },
       {
-        "title": "NDF Price Scraper",
-        "agent": "codex",
+        "title": "Real-Time Operations Dashboard",
+        "agent": "engineer",
         "priority": "high"
       }
     ],
     "done": [
       {
-        "title": "MIS Phase 1 — deployed to GitHub Pages",
-        "agent": "codex",
+        "title": "Aviel Dashboard v3 — glassmorphic redesign",
+        "agent": "engineer",
+        "completedAt": "2026-02-15T15:25:00-05:00"
+      },
+      {
+        "title": "Voice note transcription FIXED (Groq key)",
+        "agent": "chet",
+        "completedAt": "2026-02-15T14:00:00-05:00"
+      },
+      {
+        "title": "Vercel deployment live (auto-deploys)",
+        "agent": "engineer",
+        "completedAt": "2026-02-15T13:30:00-05:00"
+      },
+      {
+        "title": "FUTO Keyboard configured",
+        "agent": "aviel",
+        "completedAt": "2026-02-15T13:45:00-05:00"
+      },
+      {
+        "title": "Deep Research skill rebuilt (7-step methodology)",
+        "agent": "chet",
+        "completedAt": "2026-02-15T10:00:00-05:00"
+      },
+      {
+        "title": "Self-Improving skill created (#20)",
+        "agent": "chet",
+        "completedAt": "2026-02-15T11:00:00-05:00"
+      },
+      {
+        "title": "Daily Standup Meeting cron (8:15 PM)",
+        "agent": "chet",
+        "completedAt": "2026-02-15T11:30:00-05:00"
+      },
+      {
+        "title": "Weekly Unknown Unknowns Audit cron",
+        "agent": "chet",
+        "completedAt": "2026-02-15T11:30:00-05:00"
+      },
+      {
+        "title": "Goal-driven daily push cron updated",
+        "agent": "chet",
+        "completedAt": "2026-02-15T15:15:00-05:00"
+      },
+      {
+        "title": "Weekly Goal Review cron created",
+        "agent": "chet",
+        "completedAt": "2026-02-15T15:15:00-05:00"
+      },
+      {
+        "title": "deploy-qa.sh (54 checks)",
+        "agent": "engineer",
+        "completedAt": "2026-02-15T12:00:00-05:00"
+      },
+      {
+        "title": "System audit 93/100 — context optimized",
+        "agent": "chet",
+        "completedAt": "2026-02-15T09:00:00-05:00"
+      },
+      {
+        "title": "Token savings ~5,077/turn applied",
+        "agent": "chet",
+        "completedAt": "2026-02-15T09:00:00-05:00"
+      },
+      {
+        "title": "Second Brain rebuilt as standalone HTML",
+        "agent": "engineer",
+        "completedAt": "2026-02-15T12:30:00-05:00"
+      },
+      {
+        "title": "Workspace root cleanup (11 files organized)",
+        "agent": "chet",
+        "completedAt": "2026-02-15T12:31:00-05:00"
+      },
+      {
+        "title": "All app links pinned in Telegram",
+        "agent": "chet",
+        "completedAt": "2026-02-15T13:00:00-05:00"
+      },
+      {
+        "title": "OpenClaw Ops + Troubleshoot skills created",
+        "agent": "chet",
+        "completedAt": "2026-02-15T10:30:00-05:00"
+      },
+      {
+        "title": "NDF Pricing Excel v3 QA'd (10/10 pass)",
+        "agent": "engineer",
+        "completedAt": "2026-02-14T23:00:00-05:00"
+      },
+      {
+        "title": "MIS Phase 1 deployed",
+        "agent": "engineer",
         "completedAt": "2026-02-14T08:44:00-05:00"
       },
       {
-        "title": "Wispr Flow v2 — pushed to v2 branch",
-        "agent": "codex",
-        "completedAt": "2026-02-14T08:00:00-05:00"
-      },
-      {
-        "title": "Developer-mode skill — pushed",
-        "agent": "codex",
-        "completedAt": "2026-02-14T07:00:00-05:00"
-      },
-      {
-        "title": "All workspace MD files audited & updated",
-        "agent": "chet",
-        "completedAt": "2026-02-14T00:00:00-05:00"
-      },
-      {
-        "title": "Q2: Weekly Finance Scoreboard Template",
-        "agent": "codex",
-        "completedAt": "2026-02-13T23:48:00-05:00"
-      },
-      {
-        "title": "Q1: Financial Command Center v1",
-        "agent": "codex",
-        "completedAt": "2026-02-13T23:46:00-05:00"
-      },
-      {
-        "title": "Goal-Driven Roadmap (8 goals, 10-item build queue)",
-        "agent": "codex",
-        "completedAt": "2026-02-13T23:43:00-05:00"
-      },
-      {
-        "title": "MEMORY.md created (8.8KB permanent brain)",
-        "agent": "chet",
-        "completedAt": "2026-02-13T23:39:00-05:00"
-      },
-      {
-        "title": "Session memory search enabled",
-        "agent": "chet",
-        "completedAt": "2026-02-13T23:40:00-05:00"
-      },
-      {
-        "title": "OpenClaw updated to 2026.2.13",
-        "agent": "aviel",
-        "completedAt": "2026-02-13T23:51:00-05:00"
-      },
-      {
-        "title": "Ollama local LLM installed (phi3:mini + gemma2:2b)",
-        "agent": "codex",
-        "completedAt": "2026-02-13T23:27:00-05:00"
-      },
-      {
-        "title": "MIS database schema designed",
-        "agent": "codex",
-        "completedAt": "2026-02-13T23:15:00-05:00"
-      },
-      {
-        "title": "QuickBooks API — sandbox wired, production blocked on Intuit review",
-        "agent": "chet",
+        "title": "QuickBooks sandbox dashboard live",
+        "agent": "engineer",
         "completedAt": "2026-02-14T06:00:00-05:00"
-      },
-      {
-        "title": "Debt paydown model built",
-        "agent": "codex",
-        "completedAt": "2026-02-13T23:10:00-05:00"
       }
     ]
   },
   "activity": [
     {
-      "time": "19:35",
-      "text": "🧠 Nomic (nomic-embed-text) added to the team — local memory engine, $0/mo, no rate limits"
+      "time": "15:25",
+      "text": "Aviel Dashboard v3 deployed — glassmorphic, SVG icons, 54/54 QA pass"
     },
     {
-      "time": "19:31",
-      "text": "⚡ Switched memory search from Gemini API → Ollama local embeddings. Hybrid search (BM25 + vector) enabled."
+      "time": "15:15",
+      "text": "Goal-driven daily push + weekly goal review crons created"
     },
     {
-      "time": "19:23",
-      "text": "📱 Dashboard v3 deployed — guided review flow, one task at a time, checklists, auto-advance"
+      "time": "14:00",
+      "text": "Voice transcription FIXED — Groq API key was missing. 4/4 tests passed"
     },
     {
-      "time": "19:14",
-      "text": "📱 Dashboard v2 deployed — mobile-first, swipeable cards, Origin dark theme"
+      "time": "13:45",
+      "text": "FUTO Keyboard configured on Z-Fold 7 (offline voice)"
     },
     {
-      "time": "08:44",
-      "text": "🏭 MIS Phase 1 deployed to GitHub Pages — job tracker, CRM, quotes, calendar, finance dashboard"
+      "time": "13:30",
+      "text": "Vercel deployment live — auto-deploys on git push"
     },
     {
-      "time": "08:44",
-      "text": "✅ Hub page updated — MIS card added as featured/prominent link"
+      "time": "13:00",
+      "text": "All 10 app links pinned in Telegram"
     },
     {
-      "time": "08:00",
-      "text": "✅ Wispr Flow v2 complete — pushed to v2 branch"
+      "time": "12:31",
+      "text": "Workspace cleanup — 11 files organized into specs/reference/sops/scripts/"
     },
     {
-      "time": "07:00",
-      "text": "✅ Developer-mode skill complete — pushed"
+      "time": "12:30",
+      "text": "Second Brain rebuilt as standalone HTML — 45 docs searchable"
     },
     {
-      "time": "03:26",
-      "text": "✅ Mission Control org chart switched to role-based structure (Quote Calculator / Workflow Operator / Invoice Processor)"
+      "time": "12:00",
+      "text": "deploy-qa.sh created — 54 checks, mandatory after every push"
     },
     {
-      "time": "00:02",
-      "text": "🔄 Mission Control status.json refreshed — full Goal Engine state"
+      "time": "11:30",
+      "text": "Daily Standup (8:15 PM) + Weekly Unknowns Audit (Sun 7 PM) crons created"
     },
     {
-      "time": "00:00",
-      "text": "✅ All workspace MD files audited & rewritten (IDENTITY, USER, AGENTS, TOOLS, SOUL)"
+      "time": "11:00",
+      "text": "Self-Improving skill (#20) built — auto-detects corrections/errors"
     },
     {
-      "time": "23:54",
-      "text": "✅ OpenClaw 2026.2.13 confirmed running — session memory search active"
+      "time": "10:30",
+      "text": "OpenClaw Ops + Troubleshoot skills created"
     },
     {
-      "time": "23:48",
-      "text": "✅ Q2 Weekly Finance Scoreboard — red/yellow/green KPI thresholds, Telegram format"
+      "time": "10:00",
+      "text": "Deep Research skill completely rebuilt (7-step, Source Authority Framework)"
     },
     {
-      "time": "23:46",
-      "text": "✅ Q1 Financial Command Center — cash+debt+margin dashboard, debt waterfall model"
+      "time": "09:00",
+      "text": "Full system audit: 93/100. Token savings: ~5,077/turn applied"
     },
     {
-      "time": "23:43",
-      "text": "✅ Goal Engine built — 8 goals mapped, 10-item autonomous build queue"
-    },
-    {
-      "time": "23:39",
-      "text": "✅ MEMORY.md created — 8.8KB permanent brain, survives all compactions"
-    },
-    {
-      "time": "23:40",
-      "text": "✅ Session memory search enabled — 120 past sessions now searchable"
-    },
-    {
-      "time": "23:27",
-      "text": "✅ Ollama installed — phi3:mini (7.2 tok/s) + gemma2:2b (4.4 tok/s)"
-    },
-    {
-      "time": "23:15",
-      "text": "✅ MIS database schema designed"
-    },
-    {
-      "time": "23:10",
-      "text": "✅ Debt paydown model built"
+      "time": "01:00",
+      "text": "Nightly autonomous work — therapy extraction, transcript processing, review queue prep"
     }
   ],
   "usage": {
-    "sessionPct": 31,
+    "sessionPct": 0,
     "weeklyPct": 0,
-    "sessionResetsAt": "~4:06 AM ET",
-    "weeklyResetsAt": "Fri 12:00 AM (just reset)",
     "model": "Opus 4.6 (PERMANENT DEFAULT)",
-    "exchangeCount": 132
+    "note": "Post-compaction — fresh context"
   },
   "schedule": [
     {
       "name": "Morning Brief",
       "schedule": "8 AM Mon-Fri",
       "model": "Codex 5.3",
-      "lastRun": "Today 8:00 AM",
+      "status": "ok"
+    },
+    {
+      "name": "Daily Push (Goal-Driven)",
+      "schedule": "9 AM daily",
+      "model": "Codex 5.3",
       "status": "ok"
     },
     {
       "name": "Gauge Sync",
       "schedule": "Every 15 min",
       "model": "Codex Mini",
-      "lastRun": "11:45 PM",
       "status": "ok"
     },
     {
-      "name": "Journaling",
+      "name": "Afternoon Research",
+      "schedule": "2 PM Mon-Fri",
+      "model": "Codex 5.3",
+      "status": "ok"
+    },
+    {
+      "name": "Daily Journaling",
       "schedule": "5 PM Mon-Fri",
       "model": "Codex 5.3",
-      "lastRun": "Today 5:00 PM",
+      "status": "ok"
+    },
+    {
+      "name": "Daily Standup Meeting",
+      "schedule": "8:15 PM daily",
+      "model": "Codex 5.3",
       "status": "ok"
     },
     {
       "name": "Nightly Work",
       "schedule": "1 AM daily",
       "model": "Codex 5.3",
-      "lastRun": "Today 1:00 AM",
       "status": "ok"
     },
     {
-      "name": "Post-Shabbat Autonomous",
-      "schedule": "Sat 6:31 PM ET",
+      "name": "Invoice Extraction",
+      "schedule": "6 AM daily",
       "model": "Codex 5.3",
-      "lastRun": "Pending",
+      "status": "yellow — timeout fixed, untested"
+    },
+    {
+      "name": "Autonomous Work Loop",
+      "schedule": "Every 60 min",
+      "model": "Codex 5.3",
       "status": "ok"
     },
     {
-      "name": "Post-Shabbat Rules Session",
-      "schedule": "Sat 8:11 PM ET",
+      "name": "Weekly Memory Distill",
+      "schedule": "Sun 3 AM",
       "model": "Codex 5.3",
-      "lastRun": "Pending",
+      "status": "ok"
+    },
+    {
+      "name": "Weekly Optimization Scan",
+      "schedule": "Sun 10 AM",
+      "model": "Codex 5.3",
+      "status": "ok"
+    },
+    {
+      "name": "Weekly Unknown Unknowns",
+      "schedule": "Sun 7 PM",
+      "model": "Codex 5.3",
+      "status": "ok"
+    },
+    {
+      "name": "Weekly Goal Review",
+      "schedule": "Sun 9 PM",
+      "model": "Codex 5.3",
       "status": "ok"
     }
-  ]
+  ],
+  "mode": "USE_MODE",
+  "buildFreeze": {
+    "active": true,
+    "startDate": "2026-02-15",
+    "endDate": "2026-02-22",
+    "reason": "Aviel-mandated: verify and use everything built this week before building anything new"
+  }
 }
