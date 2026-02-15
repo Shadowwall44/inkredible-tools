@@ -1305,7 +1305,7 @@
             .sidebar { display: none; }
             .hamburger { display: flex; }
             .floating-nav { display: flex; }
-            .main-content { padding: 16px; padding-top: 60px; }
+            .main-content { padding: 16px; padding-top: 16px; }
 
             .sidebar.mobile-open {
                 display: flex;
@@ -1360,6 +1360,18 @@
             .top-header { padding: 12px 16px; }
             .gauge-container { flex-direction: column; }
             .live-status #lastSynced { display: none; }
+            /* Fix: floating-nav was hidden behind top-header (z-index 100 vs 90) */
+            .floating-nav {
+                position: sticky;
+                top: 0;
+                left: 0;
+                transform: none;
+                border-radius: 0;
+                max-width: 100%;
+                z-index: 99;
+                justify-content: flex-start;
+                padding: 6px 12px;
+            }
         }
 
         /* ===== LIVE STATUS INDICATORS ===== */

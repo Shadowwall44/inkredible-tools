@@ -404,6 +404,17 @@
       display: none !important;
     }
 
+    /* Fix: header overlaps at narrow widths — stack vertically */
+    @media (max-width: 480px) {
+      .top {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+      .brand { justify-content: center; }
+      .segment { justify-self: center; }
+      #changeApiKey { justify-self: center; }
+    }
+
     @media (min-width: 650px) {
       body { padding: 20px; }
       .top { padding: 16px 18px; }
