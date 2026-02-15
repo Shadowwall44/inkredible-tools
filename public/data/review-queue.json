@@ -1,157 +1,127 @@
-{
-  "version": 1,
-  "lastUpdated": "2026-02-14T12:30:00-05:00",
-  "description": "Aviel's Review Queue — items awaiting review, served one at a time via Telegram inline buttons",
-  "stats": {
-    "totalItems": 12,
-    "reviewed": 0,
-    "pending": 10,
-    "needsInput": 2
+[
+  {
+    "id": "rq-001",
+    "title": "🖼️ VectorFlow Phase 1",
+    "description": "Image→Vector SaaS app. Upload, analyze with Gemini, regenerate with Imagen, export SVG. Operator/Customer modes.",
+    "status": "pending-review",
+    "dateBuilt": "2026-02-15",
+    "url": "https://shadowwall44.github.io/inkredible-tools/vectorflow.html",
+    "priority": "high"
   },
-  "items": [
-    {
-      "id": "rq-001",
-      "title": "🔴 Emergency Stop Protocol",
-      "category": "needs-input",
-      "priority": 1,
-      "summary": "Added kill switch + 8 immutable control rules to AGENTS.md. You say 'STOP ALL' and everything halts instantly.",
-      "file": "AGENTS.md (top section)",
-      "verifySteps": ["Send 'STOP ALL' to test (I'll halt and wait)", "Review the 8 control principles", "Confirm you're comfortable with the permission tiers"],
-      "status": "pending",
-      "createdAt": "2026-02-14T11:20:00-05:00",
-      "reviewedAt": null
-    },
-    {
-      "id": "rq-002",
-      "title": "🔒 Security Audit Results",
-      "category": "fyi",
-      "priority": 2,
-      "summary": "Ran OpenClaw security audit. 0 critical issues. Gateway properly locked to localhost. All credentials secured with correct permissions.",
-      "file": "Telegram message #1595",
-      "verifySteps": ["Review the audit summary (already sent via Telegram)"],
-      "status": "pending",
-      "createdAt": "2026-02-14T11:25:00-05:00",
-      "reviewedAt": null
-    },
-    {
-      "id": "rq-003",
-      "title": "📊 NDF Pricing Database (4,086 price points)",
-      "category": "review",
-      "priority": 3,
-      "summary": "Complete NextDayFlyers pricing across 10 products, 3 turnaround tiers, with Floor/Target/Opening markup columns.",
-      "file": "workspace/ndf-pricing-complete.xlsx",
-      "verifySteps": ["Open the Excel file on your computer", "Spot-check 2-3 prices against NextDayFlyers.com", "Confirm markup columns are correct"],
-      "status": "pending",
-      "createdAt": "2026-02-14T09:33:00-05:00",
-      "reviewedAt": null
-    },
-    {
-      "id": "rq-004",
-      "title": "💰 NDF Pricing Playbook",
-      "category": "review",
-      "priority": 4,
-      "summary": "Competitive analysis: NDF vs VistaPrint pricing, quote guardrails, competitor objection scripts, rush multiplier framing.",
-      "file": "workspace/reports/ndf-pricing-playbook-2026-02-14.md",
-      "verifySteps": ["Read the playbook", "Confirm pricing recommendations match your market knowledge", "Flag any competitors missing"],
-      "status": "pending",
-      "createdAt": "2026-02-14T10:17:00-05:00",
-      "reviewedAt": null
-    },
-    {
-      "id": "rq-005",
-      "title": "🏭 MIS Phase 1 (Live on GitHub Pages)",
-      "category": "review",
-      "priority": 5,
-      "summary": "Job tracker, CRM, quotes, calendar, finance dashboard — all deployed to GitHub Pages.",
-      "file": "https://shadowwall44.github.io/inkredible-tools/mis.html",
-      "verifySteps": ["Open the MIS page on your phone", "Try adding a test job", "Check if the layout works on the Z-Fold"],
-      "status": "pending",
-      "createdAt": "2026-02-14T08:44:00-05:00",
-      "reviewedAt": null
-    },
-    {
-      "id": "rq-006",
-      "title": "🎤 Wispr Flow v2 (15 new features)",
-      "category": "review",
-      "priority": 6,
-      "summary": "Hands-free mode, command mode, voice snippets, 12 languages added. Pushed to v2 branch.",
-      "file": "workspace/wispr-flow-v2-analysis.md",
-      "verifySteps": ["Read the feature list", "Confirm priorities match your vision", "Decide if any features should be cut"],
-      "status": "pending",
-      "createdAt": "2026-02-14T08:00:00-05:00",
-      "reviewedAt": null
-    },
-    {
-      "id": "rq-007",
-      "title": "🧠 Coaching Skills (Business + Personal + Financial)",
-      "category": "fyi",
-      "priority": 7,
-      "summary": "4 skills built: deep-research, coach-business (E-Myth/EOS/Hormozi), coach-personal (ADHD/Atomic Habits), coach-financial (Profit First). 1,265 lines total.",
-      "file": "~/.openclaw/skills/coach-*/SKILL.md",
-      "verifySteps": ["Test by asking a business question", "Test by asking a personal/ADHD question", "Test by asking a financial question"],
-      "status": "pending",
-      "createdAt": "2026-02-14T12:00:00-05:00",
-      "reviewedAt": null
-    },
-    {
-      "id": "rq-008",
-      "title": "📋 Financial Command Center",
-      "category": "review",
-      "priority": 8,
-      "summary": "Cash + debt + margin dashboard framework. Debt waterfall model included.",
-      "file": "workspace/financial-command-center-v1.md",
-      "verifySteps": ["Read the framework", "Compare debt numbers to your actual debts", "Flag anything that looks wrong"],
-      "status": "pending",
-      "createdAt": "2026-02-13T23:46:00-05:00",
-      "reviewedAt": null
-    },
-    {
-      "id": "rq-009",
-      "title": "🗓️ ADHD Execution System",
-      "category": "review",
-      "priority": 9,
-      "summary": "Custom ADHD-friendly task management system designed for your brain.",
-      "file": "workspace/adhd-execution-system.md",
-      "verifySteps": ["Read through the system", "Does it match how your brain actually works?", "What would you change?"],
-      "status": "pending",
-      "createdAt": "2026-02-14T03:00:00-05:00",
-      "reviewedAt": null
-    },
-    {
-      "id": "rq-010",
-      "title": "📈 Aviel Report (Your Progress Doc)",
-      "category": "needs-input",
-      "priority": 10,
-      "summary": "Living document tracking your patterns, growth wins, goals, and coaching sessions. YOU need to validate the patterns I've observed.",
-      "file": "memory/aviel-report.md",
-      "verifySteps": ["Read the patterns section — are they accurate?", "Add anything I'm missing about your habits", "Confirm the goals list is correct"],
-      "status": "pending",
-      "createdAt": "2026-02-14T12:00:00-05:00",
-      "reviewedAt": null
-    },
-    {
-      "id": "rq-011",
-      "title": "🏢 Floor Graphics Pipeline System",
-      "category": "review",
-      "priority": 11,
-      "summary": "Sales pipeline tracker for floor graphic leads — your biggest money maker.",
-      "file": "workspace/floor-graphics-pipeline-system.md",
-      "verifySteps": ["Review the pipeline stages", "Confirm target client types are right", "Flag any missing steps in your actual sales process"],
-      "status": "pending",
-      "createdAt": "2026-02-14T02:00:00-05:00",
-      "reviewedAt": null
-    },
-    {
-      "id": "rq-012",
-      "title": "📱 Developer Mode Skill v3.1.0",
-      "category": "fyi",
-      "priority": 12,
-      "summary": "2,096 lines of senior developer thinking patterns. Pushed to inkredible-voice v2 branch.",
-      "file": "inkredible-voice/.claude/skills/developer-mode/",
-      "verifySteps": ["FYI only — this powers how sub-agents code", "Review if interested"],
-      "status": "pending",
-      "createdAt": "2026-02-14T07:00:00-05:00",
-      "reviewedAt": null
-    }
-  ]
-}
+  {
+    "id": "rq-002",
+    "title": "📊 NDF Pricing Excel v3",
+    "description": "12-sheet workbook with cascading dropdowns, 1,765 valid prices, INDEX/MATCH formulas, 3-tier pricing (Floor/Target/Opening).",
+    "status": "pending-review",
+    "dateBuilt": "2026-02-15",
+    "url": null,
+    "priority": "high",
+    "note": "Sent to Telegram as file. Also on Windows desktop."
+  },
+  {
+    "id": "rq-003",
+    "title": "🧠 ADHD Execution System v2 (Developer Mode)",
+    "description": "Push-based daily execution system. ChetGPT picks ONE task, writes exact steps, Aviel executes. No lists, no boards, no streaks.",
+    "status": "pending-review",
+    "dateBuilt": "2026-02-15",
+    "url": null,
+    "priority": "critical",
+    "note": "Day 1 starts at noon Sunday. Cron set."
+  },
+  {
+    "id": "rq-004",
+    "title": "💝 Therapy Synthesis for Aviel",
+    "description": "1-page personal summary of 13 therapy sessions. Written TO Aviel. Covers: what therapy revealed, superpowers, what works/doesn't.",
+    "status": "sent",
+    "dateBuilt": "2026-02-15",
+    "url": null,
+    "priority": "high"
+  },
+  {
+    "id": "rq-005",
+    "title": "📋 Full Conversation Audit",
+    "description": "576 messages audited. 53 decisions, 65 ideas, 30 commitments (27% broken), 21 forgotten items, top 10 recommendations.",
+    "status": "completed",
+    "dateBuilt": "2026-02-15",
+    "url": null,
+    "priority": "high",
+    "note": "47KB report at reports/full-conversation-audit-2026-02-15.md"
+  },
+  {
+    "id": "rq-006",
+    "title": "📈 Financial Dashboard + AI Chat",
+    "description": "QuickBooks data visualization with Chart.js. AI chatbot (Kimi K2.5). Time period filters. Revenue, expenses, profit trends.",
+    "status": "pending-review",
+    "dateBuilt": "2026-02-13",
+    "url": "https://shadowwall44.github.io/inkredible-tools/dashboard.html",
+    "priority": "medium"
+  },
+  {
+    "id": "rq-007",
+    "title": "🏢 Mission Control",
+    "description": "Org chart, office view, task status, cost tracking, schedule, digest. 6 views.",
+    "status": "pending-review",
+    "dateBuilt": "2026-02-13",
+    "url": "https://shadowwall44.github.io/inkredible-tools/status.json",
+    "priority": "medium"
+  },
+  {
+    "id": "rq-008",
+    "title": "🏠 Hub Landing Page",
+    "description": "Single entry point to all INKredible tools. Links to dashboard, kanban, MIS, VectorFlow, etc.",
+    "status": "pending-review",
+    "dateBuilt": "2026-02-13",
+    "url": "https://shadowwall44.github.io/inkredible-tools/",
+    "priority": "medium"
+  },
+  {
+    "id": "rq-009",
+    "title": "💰 NDF Pricing Playbook",
+    "description": "How to use NDF prices for quoting. 3-tier strategy (Opening +25%, Target +10%, Floor = NDF). Objection handling scripts.",
+    "status": "pending-review",
+    "dateBuilt": "2026-02-14",
+    "url": null,
+    "priority": "medium",
+    "note": "reports/ndf-pricing-playbook-2026-02-14.md"
+  },
+  {
+    "id": "rq-010",
+    "title": "🎤 Coaching Skills Suite",
+    "description": "4 coaching skills (business, financial, personal, deep-research). 1,265 lines total. Evidence-based frameworks.",
+    "status": "pending-review",
+    "dateBuilt": "2026-02-14",
+    "url": null,
+    "priority": "low",
+    "note": "Internal skills — Aviel doesn't interact directly, but should approve approach."
+  },
+  {
+    "id": "rq-011",
+    "title": "🔍 ADHD Deep Research Report",
+    "description": "67 sources. Dennis Francis 'Margot' AI body double proof-of-concept. Push vs pull validation. Cortisol rhythm findings.",
+    "status": "completed",
+    "dateBuilt": "2026-02-15",
+    "url": null,
+    "priority": "medium",
+    "note": "research/adhd-deep-dive-2026-02-15.md — used to build the personal system."
+  },
+  {
+    "id": "rq-012",
+    "title": "📱 Aviel Dashboard / Review Queue",
+    "description": "Guided review queue — walk through built items one at a time. Approve/flag buttons.",
+    "status": "pending-review",
+    "dateBuilt": "2026-02-14",
+    "url": "https://shadowwall44.github.io/inkredible-tools/aviel-dashboard.html",
+    "priority": "medium",
+    "note": "Needs QA — buttons may not work yet."
+  },
+  {
+    "id": "rq-013",
+    "title": "🛡️ Emergency Stop Protocol",
+    "description": "STOP ALL kill switch in AGENTS.md. Immutable control principles. Permission tiers. Weekly autonomy report.",
+    "status": "completed",
+    "dateBuilt": "2026-02-14",
+    "url": null,
+    "priority": "high",
+    "note": "Active in AGENTS.md. Never tested — by design."
+  }
+]
