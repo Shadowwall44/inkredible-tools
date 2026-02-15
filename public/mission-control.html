@@ -1157,6 +1157,13 @@
             color: var(--text-muted);
         }
 
+        .schedule-desc {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+            line-height: 1.4;
+        }
+
         .schedule-meta {
             display: flex;
             flex-direction: column;
@@ -2371,7 +2378,9 @@
                     el.className = 'schedule-item';
                     el.innerHTML = '<div class="schedule-icon">' + icon + '</div>'
                         + '<div class="schedule-info"><div class="schedule-name">' + item.name + '</div>'
-                        + '<div class="schedule-time">' + item.schedule + '</div></div>'
+                        + '<div class="schedule-time">' + item.schedule + '</div>'
+                        + (item.desc ? '<div class="schedule-desc">' + item.desc + '</div>' : '')
+                        + '</div>'
                         + '<div class="schedule-meta"><div class="schedule-model">' + item.model + '</div>'
                         + '<div class="schedule-status ' + sClass + '">' + sText + '</div></div>';
                     list.appendChild(el);

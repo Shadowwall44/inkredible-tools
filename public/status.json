@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-02-15T15:30:00-05:00",
+  "lastUpdated": "2026-02-15T16:45:00-05:00",
   "mission": "USE MODE ACTIVATED — No new builds for 1 week. Verify, use, and fix what exists.",
   "agents": [
     {
@@ -269,78 +269,84 @@
       "name": "Morning Brief",
       "schedule": "8 AM Mon-Fri",
       "model": "Codex 5.3",
+      "desc": "AI news, printing trends, OpenClaw tips, App of the Day, and your ONE priority for today. Sent to Telegram.",
       "status": "ok"
     },
     {
       "name": "Daily Push (Goal-Driven)",
       "schedule": "9 AM daily",
       "model": "Codex 5.3",
-      "status": "ok"
-    },
-    {
-      "name": "Gauge Sync",
-      "schedule": "Every 15 min",
-      "model": "Codex Mini",
+      "desc": "Picks ONE task from your 8 goals using a scoring algorithm (momentum × effort × energy). Developer Mode format — exact steps, clear done criteria.",
       "status": "ok"
     },
     {
       "name": "Afternoon Research",
       "schedule": "2 PM Mon-Fri",
       "model": "Codex 5.3",
+      "desc": "Searches for 2-3 printing industry news items, trends, or competitor moves. Sent to Telegram with why it matters for INKredible.",
       "status": "ok"
     },
     {
       "name": "Daily Journaling",
       "schedule": "5 PM Mon-Fri",
       "model": "Codex 5.3",
+      "desc": "Gentle end-of-day check-in. What got done, one reflection question. Low-pressure, 3-5 lines. Sent to Telegram.",
       "status": "ok"
     },
     {
       "name": "Daily Standup Meeting",
       "schedule": "8:15 PM daily",
       "model": "Codex 5.3",
+      "desc": "Your daily meeting with ChetGPT. What happened today, project status, decisions needed (yes/no format), tomorrow's priority. Sent to Telegram.",
       "status": "ok"
     },
     {
       "name": "Nightly Work",
       "schedule": "1 AM daily",
       "model": "Codex 5.3",
+      "desc": "Silent overnight work session. Picks highest-impact task from roadmap, does the work, logs results. No Telegram — you see results in morning brief.",
       "status": "ok"
     },
     {
       "name": "Invoice Extraction",
       "schedule": "6 AM daily",
       "model": "Codex 5.3",
+      "desc": "Extracts line items from vendor PDF invoices using AI. Builds pricing database for the MIS. 109 PDFs remaining. Silent.",
       "status": "yellow — timeout fixed, untested"
     },
     {
       "name": "Autonomous Work Loop",
       "schedule": "Every 60 min",
       "model": "Codex 5.3",
+      "desc": "Picks tasks from your goal roadmap and works on them continuously. Coding, research, file organization. Silent — logs to daily memory file.",
       "status": "ok"
     },
     {
       "name": "Weekly Memory Distill",
       "schedule": "Sun 3 AM",
       "model": "Codex 5.3",
+      "desc": "Compresses daily notes older than 3 days. Keeps key decisions and outcomes, moves raw logs to archive. Keeps memory lean.",
       "status": "ok"
     },
     {
       "name": "Weekly Optimization Scan",
       "schedule": "Sun 10 AM",
       "model": "Codex 5.3",
+      "desc": "Researches latest OpenClaw tips, token optimization tricks, and community patterns. Finds ways to make the system faster and cheaper.",
       "status": "ok"
     },
     {
       "name": "Weekly Unknown Unknowns",
       "schedule": "Sun 7 PM",
       "model": "Codex 5.3",
+      "desc": "Blind spot audit. What should we be doing but aren't? What tools exist that you've never used? What decisions are we avoiding? Sent to Telegram.",
       "status": "ok"
     },
     {
       "name": "Weekly Goal Review",
       "schedule": "Sun 9 PM",
       "model": "Codex 5.3",
+      "desc": "Assesses all 8 of your goals. Which got attention this week? Which got zero? Adjusts priority scores. Silent — Brain reviews and shares relevant parts.",
       "status": "ok"
     }
   ],
