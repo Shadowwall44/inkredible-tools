@@ -264,7 +264,7 @@
             display: flex;
             flex: 1;
             position: relative;
-            z-index: 1;
+            /* z-index removed: was creating stacking context that trapped sidebar below mobile-overlay */
         }
 
         /* ===== SIDEBAR ===== */
@@ -1292,9 +1292,12 @@
             }
             .org-level {
                 gap: 14px;
+                flex-wrap: wrap;
+                justify-content: center;
             }
             .agent-card {
-                width: 210px;
+                width: 280px;
+                max-width: 100%;
             }
         }
 
@@ -1310,9 +1313,16 @@
                 top: 60px;
                 left: 0;
                 bottom: 0;
-                z-index: 200;
+                z-index: 300;
                 width: 260px;
                 box-shadow: 4px 0 24px rgba(0,0,0,0.2);
+            }
+
+            /* Ensure sidebar nav items are clickable on touch */
+            .sidebar.mobile-open .nav-item {
+                min-height: 44px;
+                position: relative;
+                z-index: 301;
             }
 
             .mobile-overlay {
@@ -1321,10 +1331,17 @@
                 inset: 0;
                 top: 60px;
                 background: rgba(0,0,0,0.4);
-                z-index: 199;
+                z-index: 250;
             }
 
             .mobile-overlay.active { display: block; }
+
+            /* Hide floating nav when sidebar is open to prevent overlap */
+            .sidebar.mobile-open ~ .main-content { pointer-events: none; }
+
+            /* Agent cards: fill width on tablet */
+            .agent-card { width: 100%; max-width: 320px; }
+            .org-level { gap: 16px; flex-wrap: wrap; justify-content: center; }
         }
 
         @media (max-width: 640px) {
@@ -2136,8 +2153,15 @@
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('mobileOverlay');
+            const floatingNav = document.getElementById('floatingNav');
             sidebar.classList.toggle('mobile-open');
             overlay.classList.toggle('active');
+            // Hide floating nav when sidebar is open (prevents touch interception)
+            if (sidebar.classList.contains('mobile-open')) {
+                floatingNav.style.display = 'none';
+            } else {
+                floatingNav.style.display = '';
+            }
         }
 
         // ===== OFFICE CLOCK =====
