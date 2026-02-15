@@ -1,12 +1,15 @@
 <!doctype html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
-  <title>VectorFlow • INKredible</title>
+  <title>VectorFlow - INKredible</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg-primary: #0a0a0f;
@@ -44,7 +47,7 @@
       margin: 0;
       padding: 0;
       min-height: 100%;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
       font-size: 16px;
       color: var(--text-primary);
       background: var(--bg-primary);
@@ -448,7 +451,7 @@
         <button id="modeOperator" class="active" role="tab" aria-selected="true">Operator</button>
         <button id="modeCustomer" role="tab" aria-selected="false">Customer</button>
       </div>
-      <button id="changeApiKey" style="background:none;border:1px solid rgba(255,255,255,0.3);color:#fff;border-radius:8px;padding:6px 14px;font-size:13px;cursor:pointer;margin-left:8px;" title="Change Google API Key">🔑 API Key</button>
+      <button id="changeApiKey" style="background:none;border:1px solid var(--border-subtle);color:var(--text-primary);border-radius:8px;padding:6px 14px;font-size:13px;cursor:pointer;margin-left:8px;" title="Change Google API Key"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><path d="m21 2-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0 3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>API Key</button>
     </header>
 
     <section class="progress-wrap panel">

@@ -1,12 +1,15 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
-  <title>INKredible MIS — Phase 1</title>
+  <title>INKredible MIS - Phase 1</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -29,7 +32,7 @@
       --radius-lg: 18px;
       --radius-md: 12px;
       --radius-sm: 8px;
-      --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, system-ui, sans-serif;
+      --font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
       --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
     }
 
@@ -883,7 +886,7 @@
     }
 
     function loadTheme() {
-      const saved = localStorage.getItem(STORAGE.theme) || 'dark';
+      const saved = localStorage.getItem(STORAGE.theme) || 'light';
       setTheme(saved);
     }
 
@@ -1554,8 +1557,8 @@
                     </div>
                     <div class="job-meta">Due: ${shortDate(j.due_at)}</div>
                     <div class="job-actions">
-                      <button class="mini" data-action="prev" data-id="${j.id}" ${stageIdx <= 0 ? 'disabled' : ''}>◀ Prev</button>
-                      <button class="mini" data-action="next" data-id="${j.id}" ${stageIdx >= STAGES.length - 1 ? 'disabled' : ''}>Next ▶</button>
+                      <button class="mini" data-action="prev" data-id="${j.id}" ${stageIdx <= 0 ? 'disabled' : ''}>Prev</button>
+                      <button class="mini" data-action="next" data-id="${j.id}" ${stageIdx >= STAGES.length - 1 ? 'disabled' : ''}>Next</button>
                     </div>
                   </article>
                 `;
@@ -1668,7 +1671,7 @@
 
         <div class="span-2" style="display:flex; gap:8px; flex-wrap:wrap;">
           <button class="btn primary" type="submit">Save Changes</button>
-          <button class="btn" type="button" id="d_prev">◀ Prev Stage</button>
+          <button class="btn" type="button" id="d_prev">Prev Stage</button>
           <button class="btn" type="button" id="d_next">Next Stage ▶</button>
           <button class="btn danger" type="button" id="d_mark_lost">Mark Lost</button>
         </div>
@@ -1976,7 +1979,7 @@
               <div>
                 <div><strong>${shortDate(j.event_date)}</strong> — ${j.title}</div>
                 <div class="small muted">${customer ? customer.company_name : 'Unknown'} • ${STAGE_LABELS[j.stage]} • ${j.job_type}</div>
-                <div class="tiny muted">Due: ${shortDate(j.due_at)} ${dueSoon ? '• ⚠️ soon' : ''}</div>
+                <div class="tiny muted">Due: ${shortDate(j.due_at)} ${dueSoon ? '-- due soon' : ''}</div>
               </div>
               <span class="pill">${money(j.estimated_value)}</span>
             </div>

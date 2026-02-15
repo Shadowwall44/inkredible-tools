@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -358,7 +358,7 @@
                 <!-- CASH CONTROL -->
                 <div class="panel fade-in">
                     <div class="panel-header">
-                        <span class="panel-title">💰 Cash Control</span>
+                        <span class="panel-title"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> Cash Control</span>
                     </div>
                     <div class="metric-big" id="cashPosition">—</div>
                     <div class="metric-label">Real Cash Position</div>
@@ -381,7 +381,7 @@
                 <!-- DEBT WATERFALL -->
                 <div class="panel fade-in">
                     <div class="panel-header">
-                        <span class="panel-title">🏔️ Debt Waterfall</span>
+                        <span class="panel-title"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 22 12 2l10 20Z"/><path d="M12 14v4"/><path d="M12 10h.01"/></svg> Debt Waterfall</span>
                         <button class="btn-icon" onclick="openDebtModal()" title="Edit debts" style="width:28px;height:28px;">
                             <svg style="width:14px;height:14px;"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
                         </button>
@@ -401,7 +401,7 @@
                 <!-- MARGIN HEALTH -->
                 <div class="panel fade-in">
                     <div class="panel-header">
-                        <span class="panel-title">📊 Margin Health</span>
+                        <span class="panel-title"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> Margin Health</span>
                     </div>
                     <div class="metric-big" id="grossMargin" style="color:var(--accent-green);">—</div>
                     <div class="metric-label">Gross Margin (Current Period)</div>
@@ -416,7 +416,7 @@
                 <!-- FLOOR GRAPHICS SHARE -->
                 <div class="panel fade-in">
                     <div class="panel-header">
-                        <span class="panel-title">🎯 Floor Graphics</span>
+                        <span class="panel-title"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> Floor Graphics</span>
                     </div>
                     <div class="metric-big" id="floorShare" style="color:var(--accent-purple);">—</div>
                     <div class="metric-label">Share of Revenue (Target: ≥40%)</div>
@@ -442,7 +442,7 @@
 
             <!-- WEEKLY WIN -->
             <div class="weekly-win" id="weeklyWin" style="display:none;">
-                <div class="win-label">🏆 This Week's Win</div>
+                <div class="win-label">This Week's Win</div>
                 <div id="winText"></div>
             </div>
         </div>
@@ -451,7 +451,7 @@
         <div class="section" id="sec-scoreboard">
             <div class="scoreboard">
                 <div class="scoreboard-header">
-                    <span class="scoreboard-title">📋 Weekly Scoreboard</span>
+                    <span class="scoreboard-title"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg> Weekly Scoreboard</span>
                     <span class="scoreboard-date" id="scoreboardDate">—</span>
                 </div>
                 <div class="scoreboard-grid" id="scoreboardGrid"></div>
@@ -460,7 +460,7 @@
             <!-- This Week's 3 Moves -->
             <div class="panel" style="margin-bottom:20px;">
                 <div class="panel-header">
-                    <span class="panel-title">⚡ This Week's 3 Moves</span>
+                    <span class="panel-title"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> This Week's 3 Moves</span>
                 </div>
                 <ul class="actions-list" id="weeklyActions"></ul>
             </div>
@@ -470,11 +470,11 @@
         <div class="section" id="sec-cashlog">
             <div class="panel cash-log-section">
                 <div class="panel-header">
-                    <span class="panel-title">💵 Off-Books Cash Log</span>
+                    <span class="panel-title"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg> Off-Books Cash Log</span>
                     <button class="add-btn" onclick="openCashModal()">+ Add</button>
                 </div>
                 <div style="font-size:0.78rem;color:var(--text-muted);margin-bottom:12px;">
-                    Log every cash payment here. Undeposited cash >7 days = 🔴 red alert.
+                    Log every cash payment here. Undeposited cash >7 days triggers a red alert.
                 </div>
                 <div class="log-entries" id="cashLogEntries">
                     <div style="color:var(--text-muted);font-size:0.85rem;text-align:center;padding:20px;">No entries yet. Tap + Add to start logging.</div>
@@ -490,8 +490,8 @@
         <div class="section" id="sec-debts">
             <div class="panel">
                 <div class="panel-header">
-                    <span class="panel-title">🏔️ Debt Waterfall (Full View)</span>
-                    <button class="add-btn" onclick="openDebtModal()">✏️ Edit</button>
+                    <span class="panel-title"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 22 12 2l10 20Z"/><path d="M12 14v4"/><path d="M12 10h.01"/></svg> Debt Waterfall (Full View)</span>
+                    <button class="add-btn" onclick="openDebtModal()">Edit</button>
                 </div>
                 <div style="font-size:0.78rem;color:var(--text-muted);margin-bottom:12px;">
                     Ranked by APR (highest first). #1 gets all extra payments after reserve is met.
@@ -523,23 +523,23 @@
     <!-- BOTTOM NAV -->
     <nav class="footer-nav">
         <button class="nav-btn active" onclick="showSection('overview')" id="nav-overview">
-            <span class="nav-icon">📊</span>Overview
+            <span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span>Overview
         </button>
         <button class="nav-btn" onclick="showSection('scoreboard')" id="nav-scoreboard">
-            <span class="nav-icon">📋</span>Scoreboard
+            <span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg></span>Scoreboard
         </button>
         <button class="nav-btn" onclick="showSection('cashlog')" id="nav-cashlog">
-            <span class="nav-icon">💵</span>Cash Log
+            <span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg></span>Cash Log
         </button>
         <button class="nav-btn" onclick="showSection('debts')" id="nav-debts">
-            <span class="nav-icon">🏔️</span>Debts
+            <span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 22 12 2l10 20Z"/><path d="M12 14v4"/><path d="M12 10h.01"/></svg></span>Debts
         </button>
     </nav>
 
     <!-- CASH ENTRY MODAL -->
     <div class="modal-overlay" id="cashModal">
         <div class="modal">
-            <h2>💵 Log Cash Payment</h2>
+            <h2><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg> Log Cash Payment</h2>
             <label>Date</label>
             <input type="date" id="cashDate">
             <label>Customer / Description</label>
@@ -565,7 +565,7 @@
     <!-- DEBT EDIT MODAL -->
     <div class="modal-overlay" id="debtModal">
         <div class="modal" style="max-width:520px;">
-            <h2>✏️ Edit Debt Register</h2>
+            <h2>Edit Debt Register</h2>
             <div style="font-size:0.78rem;color:var(--text-muted);margin-bottom:12px;">
                 Enter all debts with their current balance, APR, and minimum payment.
             </div>
@@ -580,7 +580,7 @@
 
     <script>
         // ===== THEME =====
-        const saved = localStorage.getItem('fcc-theme') || 'dark';
+        const saved = localStorage.getItem('fcc-theme') || 'light';
         document.documentElement.setAttribute('data-theme', saved);
         function toggleTheme() {
             const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
@@ -764,9 +764,9 @@
             if (grossMarginPct !== null && grossMarginPct < 50) alerts.push({ level: 'amber', text: `Gross margin at ${grossMarginPct.toFixed(1)}% — below 54.5% target. Review COGS/pricing.` });
             const staleEntries = cashLog.filter(e => !e.deposited && daysSince(e.date) > 7);
             if (staleEntries.length > 0) alerts.push({ level: 'red', text: `${staleEntries.length} cash entries undeposited >7 days. Reconcile or deposit.` });
-            if (alerts.length === 0) alerts.push({ level: 'green', text: 'No critical alerts. Keep executing the plan. 💪' });
+            if (alerts.length === 0) alerts.push({ level: 'green', text: 'No critical alerts. Keep executing the plan.' });
 
-            const alertsHtml = alerts.map(a => `<div class="risk-alert ${a.level}"><span>${a.level === 'red' ? '🔴' : a.level === 'amber' ? '🟡' : '🟢'}</span><span>${a.text}</span></div>`).join('');
+            const alertsHtml = alerts.map(a => `<div class="risk-alert ${a.level}"><span>${a.level === 'red' ? '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>' : a.level === 'amber' ? '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/></svg>' : '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>'}</span><span>${a.text}</span></div>`).join('');
             document.getElementById('riskAlerts').innerHTML = alertsHtml;
 
             // ---- WEEKLY WIN ----
@@ -825,25 +825,25 @@
             const actions = [];
 
             if (cash < reserveFloor) {
-                actions.push({ icon: '🔴', cls: 'priority-high', text: `Build reserve: need $${(reserveFloor - cash).toLocaleString()} more before any extra debt payments.` });
+                actions.push({ icon: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>', cls: 'priority-high', text: `Build reserve: need $${(reserveFloor - cash).toLocaleString()} more before any extra debt payments.` });
             } else if (topDebt) {
-                actions.push({ icon: '🎯', cls: 'priority-high', text: `Send extra payment to ${topDebt.lender} (${topDebt.apr}% APR). Every $100 saves $${(topDebt.apr / 12).toFixed(0)}/mo.` });
+                actions.push({ icon: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>', cls: 'priority-high', text: `Send extra payment to ${topDebt.lender} (${topDebt.apr}% APR). Every $100 saves $${(topDebt.apr / 12).toFixed(0)}/mo.` });
             }
 
             if (staleCash > 0) {
-                actions.push({ icon: '💰', cls: 'priority-med', text: `Deposit or reconcile ${staleCash} undeposited cash entries (>7 days old).` });
+                actions.push({ icon: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>', cls: 'priority-med', text: `Deposit or reconcile ${staleCash} undeposited cash entries (>7 days old).` });
             }
 
             if (overdueAR && overdueAR > 2000) {
-                actions.push({ icon: '📞', cls: 'priority-med', text: `Follow up on $${overdueAR.toLocaleString()} in overdue invoices.` });
+                actions.push({ icon: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>', cls: 'priority-med', text: `Follow up on $${overdueAR.toLocaleString()} in overdue invoices.` });
             }
 
             // Always include one proactive action
             if (actions.length < 3) {
-                actions.push({ icon: '📊', cls: 'priority-low', text: 'Log all cash payments for the week. 10 minutes at end of each day.' });
+                actions.push({ icon: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>', cls: 'priority-low', text: 'Log all cash payments for the week. 10 minutes at end of each day.' });
             }
             if (actions.length < 3) {
-                actions.push({ icon: '🎯', cls: 'priority-low', text: 'Tag floor graphics jobs in QuickBooks for accurate revenue-share tracking.' });
+                actions.push({ icon: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>', cls: 'priority-low', text: 'Tag floor graphics jobs in QuickBooks for accurate revenue-share tracking.' });
             }
 
             document.getElementById('weeklyActions').innerHTML = actions.slice(0, 3).map(a =>
@@ -898,7 +898,7 @@
             const sorted = [...log].sort((a, b) => new Date(b.date) - new Date(a.date));
             el.innerHTML = sorted.map((e, i) => {
                 const stale = !e.deposited && daysSince(e.date) > 7;
-                const depBadge = e.deposited ? '✅' : (stale ? '🔴' : '⏳');
+                const depBadge = e.deposited ? '[done]' : (stale ? '[overdue]' : '[pending]');
                 return `<div class="log-entry" style="${stale ? 'border-color:rgba(224,72,72,0.3);' : ''}">
                     <span class="date">${new Date(e.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} ${depBadge}</span>
                     <span class="desc">${e.desc || e.jobType || '—'}</span>
