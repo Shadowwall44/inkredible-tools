@@ -1,0 +1,116 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-02-15T04:14:07.075Z",
+  "snapshotsCount": 1,
+  "range": {
+    "firstGeneratedAt": "2026-02-15T04:14:07.073Z",
+    "lastGeneratedAt": "2026-02-15T04:14:07.073Z"
+  },
+  "source": {
+    "env": "sandbox",
+    "realmId": "9341456363972482",
+    "companyName": "Sandbox Company_US_1"
+  },
+  "latest": {
+    "generatedAt": "2026-02-15T04:14:07.073Z",
+    "asOf": "2026-02-14",
+    "metrics": {
+      "income": 6915.88,
+      "grossProfit": 6510.88,
+      "expenses": 2929.1,
+      "netIncome": 915.78,
+      "openInvoicesBalance": 5281.52,
+      "overdueInvoicesBalance": 4127.67,
+      "currentRatio": 1.62,
+      "totalAssets": 23436.29,
+      "totalLiabilities": 31131.33,
+      "totalEquity": -7695.04
+    }
+  },
+  "series": {
+    "daily": [
+      {
+        "bucket": "2026-02-15",
+        "generatedAt": "2026-02-15T04:14:07.073Z",
+        "asOf": "2026-02-14",
+        "pnlStart": "2026-01-01",
+        "pnlEnd": "2026-02-14",
+        "metrics": {
+          "income": 6915.88,
+          "grossProfit": 6510.88,
+          "expenses": 2929.1,
+          "netIncome": 915.78,
+          "openInvoicesBalance": 5281.52,
+          "overdueInvoicesBalance": 4127.67,
+          "currentRatio": 1.62,
+          "totalAssets": 23436.29,
+          "totalLiabilities": 31131.33,
+          "totalEquity": -7695.04
+        }
+      }
+    ],
+    "weekly": [
+      {
+        "bucket": "2026-W07",
+        "generatedAt": "2026-02-15T04:14:07.073Z",
+        "asOf": "2026-02-14",
+        "pnlStart": "2026-01-01",
+        "pnlEnd": "2026-02-14",
+        "metrics": {
+          "income": 6915.88,
+          "grossProfit": 6510.88,
+          "expenses": 2929.1,
+          "netIncome": 915.78,
+          "openInvoicesBalance": 5281.52,
+          "overdueInvoicesBalance": 4127.67,
+          "currentRatio": 1.62,
+          "totalAssets": 23436.29,
+          "totalLiabilities": 31131.33,
+          "totalEquity": -7695.04
+        }
+      }
+    ],
+    "monthly": [
+      {
+        "bucket": "2026-02",
+        "generatedAt": "2026-02-15T04:14:07.073Z",
+        "asOf": "2026-02-14",
+        "pnlStart": "2026-01-01",
+        "pnlEnd": "2026-02-14",
+        "metrics": {
+          "income": 6915.88,
+          "grossProfit": 6510.88,
+          "expenses": 2929.1,
+          "netIncome": 915.78,
+          "openInvoicesBalance": 5281.52,
+          "overdueInvoicesBalance": 4127.67,
+          "currentRatio": 1.62,
+          "totalAssets": 23436.29,
+          "totalLiabilities": 31131.33,
+          "totalEquity": -7695.04
+        }
+      }
+    ],
+    "yearly": [
+      {
+        "bucket": "2026",
+        "generatedAt": "2026-02-15T04:14:07.073Z",
+        "asOf": "2026-02-14",
+        "pnlStart": "2026-01-01",
+        "pnlEnd": "2026-02-14",
+        "metrics": {
+          "income": 6915.88,
+          "grossProfit": 6510.88,
+          "expenses": 2929.1,
+          "netIncome": 915.78,
+          "openInvoicesBalance": 5281.52,
+          "overdueInvoicesBalance": 4127.67,
+          "currentRatio": 1.62,
+          "totalAssets": 23436.29,
+          "totalLiabilities": 31131.33,
+          "totalEquity": -7695.04
+        }
+      }
+    ]
+  }
+}

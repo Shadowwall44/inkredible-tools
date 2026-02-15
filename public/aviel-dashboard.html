@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <title>Aviel Guided Review</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --text: #ffffff;
+      --muted: rgba(255, 255, 255, 0.72);
+      --border: rgba(255, 255, 255, 0.1);
+      --card: rgba(255, 255, 255, 0.04);
+      --teal: #14b8a6;
+      --teal-2: #06b6d4;
+      --green: #16a34a;
+      --green-2: #22c55e;
+      --amber: #f59e0b;
+      --red: #ef4444;
+      --blue: #3b82f6;
+      --gray: #6b7280;
+      --radius: 20px;
+      --tap: 56px;
+      --top-h: 104px;
+      --bottom-h: 104px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      width: 100%;
+      min-height: 100%;
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      overscroll-behavior-y: none;
+    }
+
+    body {
+      font-size: 18px;
+      line-height: 1.4;
+      background-image:
+        radial-gradient(1000px 500px at 100% -10%, rgba(20, 184, 166, 0.12), transparent 55%),
+        radial-gradient(900px 450px at -10% 110%, rgba(59, 130, 246, 0.10), transparent 58%);
+      overflow-x: hidden;
+    }
+
+    .topbar,
+    .bottombar {
+      position: fixed;
+      left: 0;
+      right: 0;
+      z-index: 20;
+      background: rgba(10, 10, 15, 0.9);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      padding-left: max(14px, env(safe-area-inset-left));
+      padding-right: max(14px, env(safe-area-inset-right));
+    }
+
+    .topbar {
+      top: 0;
+      border-bottom: 1px solid var(--border);
+      min-height: var(--top-h);
+      padding-top: calc(10px + env(safe-area-inset-top));
+      padding-bottom: 10px;
+    }
+
+    .topbar-inner {
+      max-width: 760px;
+      margin: 0 auto;
+      display: grid;
+      gap: 10px;
+    }
+
+    .top-row {
+      display: grid;
+      grid-template-columns: 56px 1fr;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .back-btn {
+      min-height: var(--tap);
+      min-width: var(--tap);
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text);
+      font-size: 28px;
+      cursor: pointer;
+    }
+
+    .back-btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    .progress-title {
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      color: var(--muted);
+    }
+
+    .progress-wrap {
+      width: 100%;
+      height: 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.12);
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--teal-2), var(--green-2));
+      transition: width 220ms ease;
+    }
+
+    main {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: calc(var(--top-h) + 18px) 14px calc(var(--bottom-h) + 22px);
+      min-height: 100dvh;
+    }
+
+    .card {
+      border: 1px solid var(--border);
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 18px;
+      display: grid;
+      gap: 18px;
+      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.35);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 34px;
+      padding: 0 12px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      border: 1px solid transparent;
+      width: fit-content;
+    }
+
+    .badge.needs-input {
+      background: rgba(239, 68, 68, 0.2);
+      border-color: rgba(239, 68, 68, 0.55);
+      color: #ffd5d5;
+    }
+
+    .badge.review {
+      background: rgba(59, 130, 246, 0.2);
+      border-color: rgba(59, 130, 246, 0.55);
+      color: #d8e8ff;
+    }
+
+    .badge.fyi {
+      background: rgba(107, 114, 128, 0.24);
+      border-color: rgba(156, 163, 175, 0.45);
+      color: #e5e7eb;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 24px;
+      line-height: 1.25;
+      letter-spacing: -0.01em;
+    }
+
+    .summary {
+      color: var(--muted);
+      margin: 0;
+    }
+
+    .open-btn {
+      width: 100%;
+      min-height: var(--tap);
+      border-radius: 16px;
+      border: 1px solid rgba(34, 211, 238, 0.5);
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.34), rgba(20, 184, 166, 0.38));
+      color: #effcff;
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: 0.01em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      cursor: pointer;
+      text-decoration: none;
+      padding: 12px;
+    }
+
+    .open-sub {
+      color: var(--muted);
+      font-size: 15px;
+      margin-top: 8px;
+    }
+
+    .section-title {
+      font-size: 15px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .checklist {
+      display: grid;
+      gap: 10px;
+    }
+
+    .check-row {
+      display: grid;
+      grid-template-columns: 34px 1fr;
+      align-items: center;
+      gap: 10px;
+      min-height: var(--tap);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 10px 12px;
+      background: rgba(255, 255, 255, 0.03);
+      cursor: pointer;
+    }
+
+    .check-row input {
+      width: 24px;
+      height: 24px;
+      accent-color: var(--teal);
+      margin: 0;
+    }
+
+    .check-row span {
+      font-size: 17px;
+      color: #f5f5f5;
+    }
+
+    .toggle-wrap {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 10px;
+      background: rgba(245, 158, 11, 0.08);
+    }
+
+    .toggle-btn {
+      width: 100%;
+      min-height: var(--tap);
+      border-radius: 12px;
+      border: 1px solid rgba(245, 158, 11, 0.5);
+      background: rgba(245, 158, 11, 0.18);
+      color: #ffe8bd;
+      font-size: 18px;
+      font-weight: 700;
+      text-align: left;
+      padding: 0 14px;
+      cursor: pointer;
+    }
+
+    .toggle-btn.active {
+      background: rgba(245, 158, 11, 0.28);
+      border-color: rgba(245, 158, 11, 0.75);
+    }
+
+    .input {
+      width: 100%;
+      min-height: 110px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(0, 0, 0, 0.2);
+      color: var(--text);
+      padding: 12px;
+      font-size: 17px;
+      font-family: inherit;
+      resize: vertical;
+      margin-top: 10px;
+      display: none;
+    }
+
+    .input.show { display: block; }
+
+    .expand-btn {
+      width: 100%;
+      min-height: var(--tap);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text);
+      font-size: 17px;
+      font-weight: 600;
+      text-align: left;
+      padding: 0 14px;
+      cursor: pointer;
+    }
+
+    .status-line {
+      color: var(--muted);
+      font-size: 15px;
+      margin-top: -2px;
+    }
+
+    .bottombar {
+      bottom: 0;
+      border-top: 1px solid var(--border);
+      min-height: var(--bottom-h);
+      padding-top: 10px;
+      padding-bottom: calc(10px + env(safe-area-inset-bottom));
+    }
+
+    .bottombar-inner {
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .done-btn,
+    .send-btn {
+      width: 100%;
+      min-height: var(--tap);
+      border-radius: 16px;
+      border: 1px solid rgba(34, 197, 94, 0.55);
+      background: linear-gradient(135deg, rgba(34, 197, 94, 0.32), rgba(22, 163, 74, 0.36));
+      color: #ecfdf3;
+      font-size: 20px;
+      font-weight: 800;
+      cursor: pointer;
+      padding: 10px 12px;
+    }
+
+    .done-btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    .celebration {
+      border: 1px solid var(--border);
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 24px 18px;
+      display: grid;
+      gap: 14px;
+      text-align: left;
+      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.35);
+    }
+
+    .celebration h2 {
+      margin: 0;
+      font-size: 30px;
+      line-height: 1.15;
+    }
+
+    .celebration p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .mini {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.55);
+    }
+
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="top-row">
+        <button id="backBtn" class="back-btn" aria-label="Previous task">←</button>
+        <div>
+          <div id="progressTitle" class="progress-title">Task 1 of 12</div>
+          <div class="progress-wrap" aria-label="Progress">
+            <div id="progressFill" class="progress-fill"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="taskView" class="card" aria-live="polite">
+      <span id="categoryBadge" class="badge review">Review</span>
+      <h1 id="taskTitle"></h1>
+      <p id="taskSummary" class="summary"></p>
+
+      <div>
+        <button id="openBtn" class="open-btn" type="button">📂 Open &amp; Review →</button>
+        <p id="openSub" class="open-sub"></p>
+      </div>
+
+      <div>
+        <div class="section-title">Checklist</div>
+        <div id="checklist" class="checklist"></div>
+      </div>
+
+      <div class="toggle-wrap">
+        <button id="needsChangesBtn" class="toggle-btn" type="button">🔧 Needs Changes: Off</button>
+        <textarea id="changesInput" class="input" placeholder="What should change before this is approved?"></textarea>
+      </div>
+
+      <div>
+        <button id="noteToggle" class="expand-btn" type="button">📝 Add Note (Optional)</button>
+        <textarea id="noteInput" class="input" placeholder="Any thoughts, context, or reminders..."></textarea>
+      </div>
+
+      <p id="statusLine" class="status-line"></p>
+    </section>
+
+    <section id="doneView" class="celebration hidden" aria-live="polite">
+      <h2>🎉 All done!</h2>
+      <p id="doneStats">You reviewed 12 items, flagged 0 for changes.</p>
+      <p class="mini">Tap below to send the summary directly to Chet on Telegram.</p>
+      <button id="sendBtn" class="send-btn" type="button">📋 Send to Chet →</button>
+    </section>
+  </main>
+
+  <footer class="bottombar">
+    <div class="bottombar-inner">
+      <button id="doneBtn" class="done-btn" type="button" disabled>✅ Done — Next Task →</button>
+    </div>
+  </footer>
+
+  <script>
+    const ITEMS = [
+      {
+        id: "rq-001",
+        title: "🔴 Emergency Stop Protocol",
+        category: "needs-input",
+        summary: "Kill switch + 8 control rules added to AGENTS.md",
+        link: "https://github.com/Shadowwall44/kanban/blob/main/LINUX-MIGRATION-STEPS.md",
+        linkLabel: "View AGENTS.md on GitHub",
+        actualLink: "https://shadowwall44.github.io/inkredible-tools/mission-control.html",
+        checklist: [
+          "Read the 8 control principles",
+          "Check the 3 permission tiers (Free/Notify/Approval)",
+          "Confirm you're comfortable with what I can do without asking"
+        ]
+      },
+      {
+        id: "rq-002",
+        title: "🔒 Security Audit Results",
+        category: "fyi",
+        summary: "0 critical issues. Gateway locked to localhost. All credentials secured.",
+        link: null,
+        linkLabel: "Already sent via Telegram (no link needed)",
+        checklist: [
+          "You saw the audit results in Telegram",
+          "No concerns about security"
+        ]
+      },
+      {
+        id: "rq-003",
+        title: "📊 NDF Pricing Database",
+        category: "review",
+        summary: "4,086 price points across 10 products with Floor/Target/Opening markups",
+        link: null,
+        linkLabel: "Excel file on your computer (ask Chet to send samples)",
+        checklist: [
+          "Ask Chet to show you 2-3 sample prices",
+          "Confirm the 3-tier markup makes sense (Opening +25%, Target +10%, Floor = NDF)"
+        ]
+      },
+      {
+        id: "rq-004",
+        title: "💰 NDF Pricing Playbook",
+        category: "review",
+        summary: "NDF vs VistaPrint analysis, quote guardrails, competitor objection scripts",
+        link: "https://github.com/Shadowwall44/inkredible-tools/blob/main/public/data/review-queue.json",
+        linkLabel: "View Playbook",
+        checklist: [
+          "Read the competitor comparison section",
+          "Check if objection scripts match what customers actually say",
+          "Flag any missing competitors"
+        ]
+      },
+      {
+        id: "rq-005",
+        title: "🏭 MIS Phase 1",
+        category: "review",
+        summary: "Job tracker, CRM, quotes, calendar — live on GitHub Pages",
+        link: "https://shadowwall44.github.io/inkredible-tools/mis.html",
+        linkLabel: "Open MIS App →",
+        checklist: [
+          "Try the Jobs tab — add a test job",
+          "Check Customers tab",
+          "Look at Calendar view",
+          "Note anything ugly or confusing"
+        ]
+      },
+      {
+        id: "rq-006",
+        title: "🎤 Wispr Flow v2",
+        category: "review",
+        summary: "15 new features added. Pushed to v2 branch on GitHub.",
+        link: null,
+        linkLabel: "Ask Chet to walk you through the features",
+        checklist: [
+          "Ask Chet for the feature list",
+          "Confirm priorities match your vision",
+          "Decide if any features should be cut"
+        ]
+      },
+      {
+        id: "rq-007",
+        title: "🧠 Coaching Skills Suite",
+        category: "fyi",
+        summary: "4 skills built: deep-research, coach-business, coach-personal, coach-financial",
+        link: null,
+        linkLabel: "Test by asking Chet a coaching question",
+        checklist: [
+          "Ask a business question and see if the response cites frameworks",
+          "Ask a personal/ADHD question",
+          "Ask a financial question about debt or pricing"
+        ]
+      },
+      {
+        id: "rq-008",
+        title: "📋 Financial Command Center",
+        category: "review",
+        summary: "Cash + debt + margin dashboard framework with debt waterfall model",
+        link: null,
+        linkLabel: "Ask Chet to show the framework",
+        checklist: [
+          "Compare debt numbers to your actual debts",
+          "Check if the margin calculations look right",
+          "Flag anything that looks wrong"
+        ]
+      },
+      {
+        id: "rq-009",
+        title: "🗓️ ADHD Execution System",
+        category: "review",
+        summary: "Custom ADHD-friendly task management designed for your brain",
+        link: null,
+        linkLabel: "Ask Chet to walk you through it",
+        checklist: [
+          "Does the system match how your brain works?",
+          "Would you actually use this daily?",
+          "What would you change?"
+        ]
+      },
+      {
+        id: "rq-010",
+        title: "📈 Aviel Report",
+        category: "needs-input",
+        summary: "Living doc tracking your patterns, growth, goals, and coaching sessions",
+        link: null,
+        linkLabel: "Ask Chet to read you the patterns section",
+        checklist: [
+          "Are the observed patterns accurate?",
+          "Anything missing about your habits?",
+          "Confirm the goals list is correct"
+        ]
+      },
+      {
+        id: "rq-011",
+        title: "🏢 Floor Graphics Pipeline",
+        category: "review",
+        summary: "Sales pipeline tracker for floor graphic leads — your biggest money maker",
+        link: null,
+        linkLabel: "Ask Chet to show the pipeline stages",
+        checklist: [
+          "Review the pipeline stages",
+          "Confirm target client types are right",
+          "Flag any missing steps in your actual sales process"
+        ]
+      },
+      {
+        id: "rq-012",
+        title: "📱 Developer Mode Skill v3.1.0",
+        category: "fyi",
+        summary: "2,096 lines of senior developer thinking patterns. Powers how sub-agents code.",
+        link: null,
+        linkLabel: "FYI only — no action needed",
+        checklist: [
+          "This powers how sub-agents code (no action needed)",
+          "Review later if interested"
+        ]
+      }
+    ];
+
+    const STORAGE_KEY = "aviel-guided-review-v1";
+
+    const state = {
+      index: 0,
+      items: ITEMS,
+      progress: {}
+    };
+
+    const ui = {
+      progressTitle: document.getElementById("progressTitle"),
+      progressFill: document.getElementById("progressFill"),
+      backBtn: document.getElementById("backBtn"),
+      taskView: document.getElementById("taskView"),
+      doneView: document.getElementById("doneView"),
+      categoryBadge: document.getElementById("categoryBadge"),
+      taskTitle: document.getElementById("taskTitle"),
+      taskSummary: document.getElementById("taskSummary"),
+      openBtn: document.getElementById("openBtn"),
+      openSub: document.getElementById("openSub"),
+      checklist: document.getElementById("checklist"),
+      needsChangesBtn: document.getElementById("needsChangesBtn"),
+      changesInput: document.getElementById("changesInput"),
+      noteToggle: document.getElementById("noteToggle"),
+      noteInput: document.getElementById("noteInput"),
+      doneBtn: document.getElementById("doneBtn"),
+      statusLine: document.getElementById("statusLine"),
+      doneStats: document.getElementById("doneStats"),
+      sendBtn: document.getElementById("sendBtn")
+    };
+
+    function initItemState(item) {
+      if (!state.progress[item.id]) {
+        state.progress[item.id] = {
+          opened: false,
+          checks: item.checklist.map(() => false),
+          needsChanges: false,
+          changesNote: "",
+          note: "",
+          reviewed: false,
+          reviewedAt: null
+        };
+      }
+      if (!Array.isArray(state.progress[item.id].checks)) {
+        state.progress[item.id].checks = item.checklist.map(() => false);
+      }
+      if (state.progress[item.id].checks.length !== item.checklist.length) {
+        state.progress[item.id].checks = item.checklist.map((_, idx) => !!state.progress[item.id].checks[idx]);
+      }
+    }
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return;
+        const parsed = JSON.parse(raw);
+        if (parsed && typeof parsed === "object") {
+          state.index = Number.isInteger(parsed.index) ? parsed.index : 0;
+          state.progress = parsed.progress && typeof parsed.progress === "object" ? parsed.progress : {};
+        }
+      } catch (err) {
+        state.index = 0;
+        state.progress = {};
+      }
+
+      state.items.forEach(initItemState);
+      if (state.index < 0) state.index = 0;
+      if (state.index > state.items.length) state.index = state.items.length;
+    }
+
+    function saveState() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({
+        index: state.index,
+        progress: state.progress
+      }));
+    }
+
+    function currentItem() {
+      return state.items[state.index] || null;
+    }
+
+    function currentProgress() {
+      const item = currentItem();
+      if (!item) return null;
+      initItemState(item);
+      return state.progress[item.id];
+    }
+
+    function checkedCount(itemId) {
+      const p = state.progress[itemId];
+      if (!p || !Array.isArray(p.checks)) return 0;
+      return p.checks.filter(Boolean).length;
+    }
+
+    function canCompleteCurrent() {
+      const p = currentProgress();
+      if (!p) return false;
+      return p.opened || p.checks.some(Boolean);
+    }
+
+    function progressCount() {
+      return state.items.filter((item) => state.progress[item.id]?.reviewed).length;
+    }
+
+    function itemActionUrl(item) {
+      const direct = item.actualLink || item.link;
+      if (direct) return direct;
+      const prompt = `Please walk me through ${item.id} - ${item.title}. ${item.linkLabel || "I need the review content."}`;
+      return `tg://resolve?domain=AvielAI_Bot&text=${encodeURIComponent(prompt)}`;
+    }
+
+    function updateTopBar() {
+      const reviewed = progressCount();
+      const total = state.items.length;
+      if (state.index >= total) {
+        ui.progressTitle.textContent = `Complete: ${reviewed} of ${total} reviewed`;
+        ui.progressFill.style.width = "100%";
+        ui.backBtn.disabled = false;
+        return;
+      }
+
+      ui.progressTitle.textContent = `Task ${state.index + 1} of ${total}`;
+      ui.progressFill.style.width = `${((state.index + 1) / total) * 100}%`;
+      ui.backBtn.disabled = state.index === 0;
+    }
+
+    function renderChecklist(item, prog) {
+      ui.checklist.innerHTML = "";
+
+      item.checklist.forEach((label, idx) => {
+        const row = document.createElement("label");
+        row.className = "check-row";
+
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.checked = !!prog.checks[idx];
+        checkbox.setAttribute("aria-label", label);
+
+        checkbox.addEventListener("change", () => {
+          prog.checks[idx] = checkbox.checked;
+          saveState();
+          updateDoneButtonState();
+          updateStatusLine(item, prog);
+        });
+
+        const text = document.createElement("span");
+        text.textContent = label;
+
+        row.appendChild(checkbox);
+        row.appendChild(text);
+        ui.checklist.appendChild(row);
+      });
+    }
+
+    function updateStatusLine(item, prog) {
+      const checks = checkedCount(item.id);
+      const opened = prog.opened ? "Opened" : "Not opened yet";
+      const flagged = prog.needsChanges ? "Flagged for changes" : "No change request";
+      ui.statusLine.textContent = `${opened} • ${checks}/${item.checklist.length} checked • ${flagged}`;
+    }
+
+    function renderTask() {
+      const item = currentItem();
+
+      if (!item) {
+        showCelebration();
+        return;
+      }
+
+      const prog = currentProgress();
+      const actionUrl = itemActionUrl(item);
+
+      ui.taskView.classList.remove("hidden");
+      ui.doneView.classList.add("hidden");
+      ui.doneBtn.classList.remove("hidden");
+
+      ui.categoryBadge.className = `badge ${item.category}`;
+      ui.categoryBadge.textContent = item.category.replace("-", " ");
+      ui.taskTitle.textContent = item.title;
+      ui.taskSummary.textContent = item.summary;
+      ui.openSub.textContent = item.linkLabel || "Open linked content";
+
+      ui.needsChangesBtn.classList.toggle("active", !!prog.needsChanges);
+      ui.needsChangesBtn.textContent = prog.needsChanges ? "🔧 Needs Changes: On" : "🔧 Needs Changes: Off";
+
+      ui.changesInput.value = prog.changesNote || "";
+      ui.changesInput.classList.toggle("show", !!prog.needsChanges);
+
+      const noteOpen = (prog.note || "").length > 0;
+      ui.noteInput.value = prog.note || "";
+      ui.noteInput.classList.toggle("show", noteOpen);
+      ui.noteToggle.textContent = noteOpen ? "📝 Hide Note" : "📝 Add Note (Optional)";
+
+      renderChecklist(item, prog);
+      updateStatusLine(item, prog);
+      updateDoneButtonState();
+      updateTopBar();
+
+      ui.openBtn.onclick = () => {
+        prog.opened = true;
+        saveState();
+        updateDoneButtonState();
+        updateStatusLine(item, prog);
+        window.open(actionUrl, "_blank", "noopener,noreferrer");
+      };
+
+      ui.needsChangesBtn.onclick = () => {
+        prog.needsChanges = !prog.needsChanges;
+        if (!prog.needsChanges) prog.changesNote = "";
+        saveState();
+        renderTask();
+      };
+
+      ui.changesInput.oninput = (event) => {
+        prog.changesNote = event.target.value;
+        saveState();
+      };
+
+      ui.noteToggle.onclick = () => {
+        const showing = ui.noteInput.classList.contains("show");
+        ui.noteInput.classList.toggle("show", !showing);
+        ui.noteToggle.textContent = showing ? "📝 Add Note (Optional)" : "📝 Hide Note";
+      };
+
+      ui.noteInput.oninput = (event) => {
+        prog.note = event.target.value;
+        saveState();
+      };
+    }
+
+    function updateDoneButtonState() {
+      const enabled = canCompleteCurrent();
+      ui.doneBtn.disabled = !enabled;
+    }
+
+    function moveNext() {
+      const item = currentItem();
+      if (!item) return;
+
+      const prog = currentProgress();
+      prog.reviewed = true;
+      prog.reviewedAt = new Date().toISOString();
+
+      state.index += 1;
+      if (state.index > state.items.length) state.index = state.items.length;
+
+      saveState();
+      renderTask();
+    }
+
+    function moveBack() {
+      if (state.index <= 0) return;
+      state.index -= 1;
+      saveState();
+      renderTask();
+    }
+
+    function summaryText() {
+      const reviewedItems = state.items.filter((item) => state.progress[item.id]?.reviewed);
+      const flaggedItems = reviewedItems.filter((item) => state.progress[item.id]?.needsChanges);
+
+      const lines = [];
+      lines.push("✅ Aviel Guided Review Complete");
+      lines.push(`Reviewed: ${reviewedItems.length}/${state.items.length}`);
+      lines.push(`Flagged for changes: ${flaggedItems.length}`);
+      lines.push("");
+      lines.push("Reviewed Items:");
+
+      reviewedItems.forEach((item, idx) => {
+        const p = state.progress[item.id];
+        const checks = checkedCount(item.id);
+        lines.push(`${idx + 1}. ${item.title} (${checks}/${item.checklist.length} checks)`);
+        if ((p.note || "").trim()) {
+          lines.push(`   Note: ${p.note.trim()}`);
+        }
+      });
+
+      if (flaggedItems.length) {
+        lines.push("");
+        lines.push("Needs Changes:");
+        flaggedItems.forEach((item) => {
+          const p = state.progress[item.id];
+          lines.push(`- ${item.title}`);
+          lines.push(`  Change request: ${(p.changesNote || "No details provided").trim() || "No details provided"}`);
+          if ((p.note || "").trim()) {
+            lines.push(`  Note: ${p.note.trim()}`);
+          }
+        });
+      }
+
+      return lines.join("\n");
+    }
+
+    function showCelebration() {
+      const reviewed = progressCount();
+      const flagged = state.items.filter((item) => state.progress[item.id]?.reviewed && state.progress[item.id]?.needsChanges).length;
+
+      ui.taskView.classList.add("hidden");
+      ui.doneView.classList.remove("hidden");
+      ui.doneStats.textContent = `All done! You reviewed ${reviewed} items, flagged ${flagged} for changes.`;
+      ui.doneBtn.classList.add("hidden");
+      updateTopBar();
+    }
+
+    function bindEvents() {
+      ui.doneBtn.addEventListener("click", moveNext);
+      ui.backBtn.addEventListener("click", moveBack);
+      ui.sendBtn.addEventListener("click", () => {
+        const summary = summaryText();
+        const url = `tg://resolve?domain=AvielAI_Bot&text=${encodeURIComponent(summary)}`;
+        window.location.href = url;
+      });
+    }
+
+    function start() {
+      loadState();
+      bindEvents();
+
+      if (state.index >= state.items.length) {
+        showCelebration();
+      } else {
+        ui.doneBtn.classList.remove("hidden");
+        renderTask();
+      }
+    }
+
+    start();
+  </script>
+</body>
+</html>

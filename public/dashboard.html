@@ -1604,7 +1604,7 @@
         <header class="animate-in">
             <div>
                 <h1>INKredible <em>Financial</em> Dashboard
-                    <span class="sub">Jan 2024 – Feb 2026 · 25 Months · Cash Basis</span>
+                    <span class="sub" id="headerPeriodSub">Jan 2024 – Feb 2026 · 25 Months · Cash Basis</span>
                 </h1>
             </div>
         </header>
@@ -1647,7 +1647,7 @@
                     <span class="icon" style="background: var(--accent-teal);"></span>
                     Monthly Revenue Trend
                 </div>
-                <div class="panel-subtitle">Estimated monthly breakdown · $686,179 over 25 months</div>
+                <div class="panel-subtitle" id="monthlyRevenueSubtitle">Estimated monthly breakdown · $686,179 over 25 months</div>
                 <div class="monthly-chart-wrap">
                     <canvas id="monthlyRevenueChart"></canvas>
                 </div>
@@ -1658,7 +1658,7 @@
                     <span class="icon" style="background: var(--accent-amber);"></span>
                     Monthly Expense Breakdown
                 </div>
-                <div class="panel-subtitle">Average monthly operating expenses · ~$14,676/mo</div>
+                <div class="panel-subtitle" id="monthlyExpenseSubtitle">Average monthly operating expenses · ~$14,676/mo</div>
                 <div class="monthly-expense-list" id="monthlyExpenseList"></div>
             </div>
 
@@ -1670,7 +1670,7 @@
                 </div>
                 <div class="panel-subtitle" id="monthBreakdownSubtitle">Estimated monthly breakdown</div>
                 <div id="monthBreakdownContent"></div>
-                <div class="estimation-disclaimer">
+                <div class="estimation-disclaimer" id="monthlyEstimateDisclaimer">
                     <strong>⚠️ Estimated data:</strong> Monthly breakdown based on 25-month P&L averages distributed proportionally. Connect QuickBooks API for actual monthly data.
                 </div>
             </div>
@@ -1787,7 +1787,7 @@
                 Red Flag Alerts
             </div>
 
-            <div class="alert-list">
+            <div class="alert-list" id="alertList">
                 <div class="alert-card">
                     <div class="alert-icon">🏦</div>
                     <div class="alert-content">
@@ -1946,7 +1946,7 @@
         </div>
 
         <!-- FOOTER -->
-        <div class="footer animate-in">
+        <div class="footer animate-in" id="footerGenerated">
             INKredible Printing · Financial Dashboard · Generated Feb 2026 · ChetGPT
         </div>
     </div>
@@ -2026,15 +2026,15 @@
         });
 
         // ===== FINANCIAL DATA MODEL =====
-        const BASE_REVENUE = 686179;
-        const BASE_COGS = 312050;
-        const BASE_GROSS = 374129;
-        const BASE_EXPENSES = 366892;
-        const BASE_OP_INCOME = 7237;
-        const BASE_NET_INCOME = -10746;
-        const TOTAL_MONTHS = 25;
+        let BASE_REVENUE = 686179;
+        let BASE_COGS = 312050;
+        let BASE_GROSS = 374129;
+        let BASE_EXPENSES = 366892;
+        let BASE_OP_INCOME = 7237;
+        let BASE_NET_INCOME = -10746;
+        let TOTAL_MONTHS = 25;
 
-        const yearConfig = {
+        let yearConfig = {
             all:  { months: 25, scale: 1,      label: 'Jan 2024 – Jan 2026 · 25 Months', shortLabel: 'All Time' },
             2024: { months: 12, scale: 12/25,  label: 'Jan – Dec 2024 · 12 Months (Est.)', shortLabel: '2024' },
             2025: { months: 12, scale: 12/25,  label: 'Jan – Dec 2025 · 12 Months (Est.)', shortLabel: '2025' },
@@ -2059,8 +2059,368 @@
 
         let currentYear = 'all';
 
+        const LIVE_DATA_URL = 'data/quickbooks-live.json';
+        const LIVE_HISTORY_URL = 'data/quickbooks-live-history.json';
+        const BREAKDOWN_COLORS = ['teal', 'purple', 'amber', 'rose', 'green', 'red'];
+
+        let quickBooksLiveHistory = null;
+        let liveHistoryEnabled = false;
+
+        function toNumber(value, fallback = 0) {
+            const n = Number(value);
+            return Number.isFinite(n) ? n : fallback;
+        }
+
+        function formatMoney(value) {
+            const n = toNumber(value, 0);
+            return `${n < 0 ? '-' : ''}$${Math.abs(Math.round(n)).toLocaleString()}`;
+        }
+
+        function monthDiffInclusive(startDate, endDate) {
+            if (!startDate || !endDate) return 1;
+            const start = new Date(startDate + 'T00:00:00');
+            const end = new Date(endDate + 'T00:00:00');
+            if (Number.isNaN(start.getTime()) || Number.isNaN(end.getTime())) return 1;
+            const months = (end.getFullYear() - start.getFullYear()) * 12 + (end.getMonth() - start.getMonth()) + 1;
+            return Math.max(1, months);
+        }
+
+        function mapBreakdownToBars(items) {
+            return (items || [])
+                .map(function(item, idx) {
+                    const amount = Math.round(toNumber(item.value, 0));
+                    return {
+                        name: item.label || 'Unknown',
+                        amount,
+                        color: BREAKDOWN_COLORS[idx % BREAKDOWN_COLORS.length],
+                    };
+                })
+                .filter(function(item) { return item.amount > 0; })
+                .slice(0, 10);
+        }
+
+        function getHistorySeries(period) {
+            const rows = quickBooksLiveHistory?.series?.[period];
+            if (!Array.isArray(rows)) return [];
+            return rows
+                .filter(function(row) { return row && row.metrics; })
+                .sort(function(a, b) { return String(a.bucket || '').localeCompare(String(b.bucket || '')); });
+        }
+
+        function enableAllPeriodPills() {
+            document.querySelectorAll('#periodFilter .filter-pill').forEach(function(btn) {
+                btn.disabled = false;
+                btn.style.opacity = '';
+                btn.title = '';
+            });
+        }
+
+        function formatHistoryBucketLabel(period, bucket) {
+            if (!bucket) return '—';
+            if (period === 'daily') {
+                const d = new Date(bucket + 'T00:00:00');
+                if (!Number.isNaN(d.getTime())) {
+                    return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+                }
+            }
+            if (period === 'monthly') {
+                const d = new Date(`${bucket}-01T00:00:00`);
+                if (!Number.isNaN(d.getTime())) {
+                    return d.toLocaleDateString(undefined, { month: 'short', year: '2-digit' });
+                }
+            }
+            if (period === 'weekly') {
+                return String(bucket).replace('-W', ' W');
+            }
+            return String(bucket);
+        }
+
+        function renderLiveAlerts(liveData) {
+            const alertList = document.getElementById('alertList');
+            if (!alertList) return;
+
+            const metrics = liveData?.metrics || {};
+            const alerts = liveData?.alerts || {};
+
+            const cards = [];
+
+            cards.push({
+                icon: '🔄',
+                title: `QuickBooks ${String(liveData?.env || '').toUpperCase()} data connected`,
+                detail: `Live snapshot loaded from ${LIVE_DATA_URL}. Generated ${new Date(liveData.generatedAt).toLocaleString()}.`
+            });
+
+            if (alerts.negativeNetIncome) {
+                cards.push({
+                    icon: '📉',
+                    title: 'Net income is negative',
+                    detail: `Current net income is <strong>${formatMoney(metrics.netIncome || 0)}</strong> for the selected live period.`
+                });
+            }
+
+            if (alerts.negativeEquity) {
+                cards.push({
+                    icon: '⚠️',
+                    title: 'Negative equity detected',
+                    detail: `Total equity is <strong>${formatMoney(metrics.totalEquity || 0)}</strong>. Liabilities are higher than assets.`
+                });
+            }
+
+            if (toNumber(metrics.overdueInvoicesCount, 0) > 0) {
+                cards.push({
+                    icon: '🧾',
+                    title: `${metrics.overdueInvoicesCount} overdue invoices`,
+                    detail: `Overdue receivables total <strong>${formatMoney(metrics.overdueInvoicesBalance || 0)}</strong> out of <strong>${formatMoney(metrics.openInvoicesBalance || 0)}</strong> open invoices.`
+                });
+            }
+
+            if (alerts.currentRatioRisk) {
+                cards.push({
+                    icon: '🏦',
+                    title: 'Current ratio risk',
+                    detail: `Current ratio is <strong>${toNumber(metrics.currentRatio, 0).toFixed(2)}</strong>, which can signal short-term cash pressure.`
+                });
+            }
+
+            alertList.innerHTML = cards.slice(0, 4).map(function(card) {
+                return `
+                    <div class="alert-card">
+                        <div class="alert-icon">${card.icon}</div>
+                        <div class="alert-content">
+                            <div class="alert-title">${card.title}</div>
+                            <div class="alert-detail">${card.detail}</div>
+                        </div>
+                    </div>`;
+            }).join('');
+        }
+
+        function renderLiveBalanceAndRatios(liveData) {
+            const metrics = liveData?.metrics || {};
+
+            const assets = toNumber(metrics.totalAssets, 0);
+            const liabilities = toNumber(metrics.totalLiabilities, 0);
+            const equity = toNumber(metrics.totalEquity, 0);
+            const currentAssets = toNumber(metrics.currentAssets, 0);
+            const currentLiabilities = toNumber(metrics.currentLiabilities, 0);
+            const currentRatio = toNumber(metrics.currentRatio, 0);
+            const grossMargin = toNumber(metrics.grossMarginPct, 0);
+            const netMargin = toNumber(metrics.netMarginPct, 0);
+            const cogsRatio = BASE_REVENUE ? (BASE_COGS / BASE_REVENUE) * 100 : 0;
+            const expenseRatio = BASE_REVENUE ? (BASE_EXPENSES / BASE_REVENUE) * 100 : 0;
+            const liabilityAssetRatio = assets ? (liabilities / assets) : 0;
+
+            const panels = Array.from(document.querySelectorAll('.panel'));
+            const balancePanel = panels.find(function(panel) {
+                return panel.textContent.includes('Balance Sheet Summary');
+            });
+            const ratioPanel = panels.find(function(panel) {
+                return panel.textContent.includes('Key Ratios & Metrics');
+            });
+
+            if (balancePanel) {
+                balancePanel.innerHTML = `
+                    <div class="panel-title">
+                        <span class="icon" style="background: var(--accent-purple);"></span>
+                        Balance Sheet Summary (Live QuickBooks)
+                    </div>
+
+                    <div class="bs-grid">
+                        <div class="bs-col">
+                            <div class="bs-col-title">Assets</div>
+                            <div class="bs-line"><span class="name">Current Assets</span><span class="val">${formatMoney(currentAssets)}</span></div>
+                            <div class="bs-line"><span class="name">Open Invoices</span><span class="val">${formatMoney(metrics.openInvoicesBalance || 0)}</span></div>
+                            <div class="bs-line"><span class="name">Total Assets</span><span class="val">${formatMoney(assets)}</span></div>
+                        </div>
+                        <div class="bs-col">
+                            <div class="bs-col-title">Liabilities</div>
+                            <div class="bs-line"><span class="name">Current Liabilities</span><span class="val neg">${formatMoney(currentLiabilities)}</span></div>
+                            <div class="bs-line"><span class="name">Total Liabilities</span><span class="val neg">${formatMoney(liabilities)}</span></div>
+                            <div class="bs-line"><span class="name">Current Ratio</span><span class="val ${currentRatio >= 1 ? 'pos' : 'neg'}">${currentRatio ? currentRatio.toFixed(2) : 'N/A'}</span></div>
+                        </div>
+                    </div>
+
+                    <div class="equity-banner">
+                        <div class="eq-label">Owner's Equity</div>
+                        <div class="eq-value">${formatMoney(equity)}</div>
+                        <div class="eq-detail">Liabilities / Assets: ${liabilityAssetRatio.toFixed(2)}×</div>
+                    </div>
+
+                    <div class="debt-list">
+                        <div class="debt-row"><span class="name">Open Invoices</span><span class="val">${toNumber(metrics.openInvoicesCount, 0)} (${formatMoney(metrics.openInvoicesBalance || 0)})</span></div>
+                        <div class="debt-row"><span class="name">Overdue Invoices</span><span class="val danger">${toNumber(metrics.overdueInvoicesCount, 0)} (${formatMoney(metrics.overdueInvoicesBalance || 0)})</span></div>
+                        <div class="debt-row"><span class="name">Data Source</span><span class="val">${String(liveData?.env || '').toUpperCase()} QuickBooks</span></div>
+                    </div>
+                `;
+            }
+
+            if (ratioPanel) {
+                const expenseRatioClass = expenseRatio > 50 ? 'bad' : expenseRatio > 35 ? 'warn' : 'good';
+                const currentRatioClass = currentRatio >= 1.5 ? 'good' : currentRatio >= 1 ? 'warn' : 'bad';
+                const netClass = netMargin >= 0 ? 'good' : 'bad';
+
+                ratioPanel.innerHTML = `
+                    <div class="panel-title">
+                        <span class="icon" style="background: var(--accent-green);"></span>
+                        Key Ratios &amp; Metrics (Live QuickBooks)
+                    </div>
+
+                    <div class="ratio-grid">
+                        <div class="ratio-card">
+                            <div class="r-label">Gross Margin</div>
+                            <div class="r-value ${grossMargin >= 45 ? 'good' : 'warn'}">${grossMargin.toFixed(1)}%</div>
+                            <div class="r-detail">Gross Profit / Revenue</div>
+                        </div>
+                        <div class="ratio-card">
+                            <div class="r-label">Expense Ratio</div>
+                            <div class="r-value ${expenseRatioClass}">${expenseRatio.toFixed(1)}%</div>
+                            <div class="r-detail">Expenses / Revenue</div>
+                        </div>
+                        <div class="ratio-card">
+                            <div class="r-label">Net Margin</div>
+                            <div class="r-value ${netClass}">${netMargin.toFixed(1)}%</div>
+                            <div class="r-detail">Net Income / Revenue</div>
+                        </div>
+                        <div class="ratio-card">
+                            <div class="r-label">Current Ratio</div>
+                            <div class="r-value ${currentRatioClass}">${currentRatio ? currentRatio.toFixed(2) : 'N/A'}</div>
+                            <div class="r-detail">Current Assets / Liabilities</div>
+                        </div>
+                        <div class="ratio-card">
+                            <div class="r-label">COGS Ratio</div>
+                            <div class="r-value ${cogsRatio <= 50 ? 'good' : 'warn'}">${cogsRatio.toFixed(1)}%</div>
+                            <div class="r-detail">COGS / Revenue</div>
+                        </div>
+                        <div class="ratio-card">
+                            <div class="r-label">Open Invoices</div>
+                            <div class="r-value warn">${toNumber(metrics.openInvoicesCount, 0)}</div>
+                            <div class="r-detail">${formatMoney(metrics.openInvoicesBalance || 0)}</div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function applyQuickBooksLiveData(liveData) {
+            const metrics = liveData?.metrics || {};
+
+            BASE_REVENUE = Math.round(toNumber(metrics.income, BASE_REVENUE));
+            BASE_COGS = Math.round(toNumber(metrics.cogs, BASE_COGS));
+            BASE_GROSS = Math.round(toNumber(metrics.grossProfit, BASE_GROSS));
+            BASE_EXPENSES = Math.round(toNumber(metrics.expenses, BASE_EXPENSES));
+            BASE_NET_INCOME = Math.round(toNumber(metrics.netIncome, BASE_NET_INCOME));
+            BASE_OP_INCOME = Math.round(BASE_GROSS - BASE_EXPENSES);
+
+            const start = liveData?.periods?.pnl?.start;
+            const end = liveData?.periods?.pnl?.end;
+            TOTAL_MONTHS = monthDiffInclusive(start, end);
+
+            const periodLabel = start && end
+                ? `${start} → ${end}`
+                : 'Current Fiscal Year';
+
+            yearConfig = {
+                all: {
+                    months: TOTAL_MONTHS,
+                    scale: 1,
+                    label: `${periodLabel} · Live QuickBooks`,
+                    shortLabel: 'Live'
+                }
+            };
+
+            const incomeRows = mapBreakdownToBars(liveData?.breakdowns?.incomeTop || []);
+            if (incomeRows.length) {
+                cogsData = incomeRows;
+                const cogsTitle = document.querySelector('#cogsPanel .panel-title');
+                if (cogsTitle) {
+                    cogsTitle.innerHTML = '<span class="icon" style="background: var(--accent-teal);"></span>Income Breakdown (Live QuickBooks)';
+                }
+            }
+
+            const expenseRows = mapBreakdownToBars(liveData?.breakdowns?.expensesTop || []);
+            if (expenseRows.length) {
+                expData = expenseRows;
+                const expTitle = document.querySelector('#expensePanel .panel-title');
+                if (expTitle) {
+                    expTitle.innerHTML = '<span class="icon" style="background: var(--accent-amber);"></span>Expense Breakdown (Live QuickBooks)';
+                }
+            }
+
+            const headerSub = document.getElementById('headerPeriodSub');
+            if (headerSub) {
+                const env = String(liveData?.env || '').toUpperCase();
+                headerSub.textContent = `${periodLabel} · ${TOTAL_MONTHS} month(s) · ${env} QuickBooks`;
+            }
+
+            const footer = document.getElementById('footerGenerated');
+            if (footer) {
+                footer.textContent = `INKredible Printing · Financial Dashboard · Live QuickBooks snapshot ${new Date(liveData.generatedAt).toLocaleString()}`;
+            }
+
+            const yearlyPill = document.querySelector('#periodFilter .filter-pill[data-period="yearly"]');
+            if (yearlyPill) yearlyPill.click();
+
+            if (!liveHistoryEnabled) {
+                document.querySelectorAll('#periodFilter .filter-pill').forEach(function(btn) {
+                    if (btn.dataset.period !== 'yearly') {
+                        btn.disabled = true;
+                        btn.style.opacity = '0.45';
+                        btn.title = 'Live QuickBooks mode currently supports yearly snapshot';
+                    }
+                });
+            } else {
+                enableAllPeriodPills();
+            }
+
+            document.querySelectorAll('#yearFilter .year-pill').forEach(function(btn) {
+                if (btn.dataset.year !== 'all') {
+                    btn.style.display = 'none';
+                } else {
+                    btn.classList.add('active');
+                    btn.textContent = 'Live';
+                }
+            });
+
+            renderLiveAlerts(liveData);
+            renderLiveBalanceAndRatios(liveData);
+            applyYearFilter('all');
+        }
+
+        async function loadQuickBooksLiveData() {
+            try {
+                const res = await fetch(LIVE_DATA_URL, { cache: 'no-store' });
+                if (!res.ok) return;
+                const liveData = await res.json();
+                if (!liveData || !liveData.metrics) return;
+                applyQuickBooksLiveData(liveData);
+                console.log('✅ Live QuickBooks dashboard data loaded');
+            } catch (err) {
+                console.warn('Live QuickBooks data not available, using baseline snapshot.', err.message);
+            }
+        }
+
+        async function loadQuickBooksLiveHistory() {
+            try {
+                const res = await fetch(LIVE_HISTORY_URL, { cache: 'no-store' });
+                if (!res.ok) return;
+                const historyData = await res.json();
+                if (!historyData || !historyData.series) return;
+
+                quickBooksLiveHistory = historyData;
+                liveHistoryEnabled = true;
+                enableAllPeriodPills();
+
+                document.dispatchEvent(new CustomEvent('quickbooks-history-ready', {
+                    detail: { historyData }
+                }));
+
+                console.log('✅ Live QuickBooks history loaded');
+            } catch (err) {
+                console.warn('Live QuickBooks history not available yet (trend views will stay in placeholder mode).', err.message);
+            }
+        }
+
         // ===== COGS DATA =====
-        const cogsData = [
+        let cogsData = [
             { name: 'Graphic Design (Brandon)', amount: 67006, color: 'teal' },
             { name: 'Large Format Supplies', amount: 47983, color: 'purple' },
             { name: 'Paper Supply', amount: 43454, color: 'amber' },
@@ -2075,7 +2435,7 @@
         ];
 
         // ===== EXPENSE DATA =====
-        const expData = [
+        let expData = [
             { name: 'Rent', amount: 75990, color: 'amber' },
             { name: 'Salaries & Wages', amount: 41658, color: 'teal' },
             { name: 'Postage & Shipping', amount: 41518, color: 'purple' },
@@ -2185,7 +2545,7 @@
             const annualized = Math.round(monthlyAvg * 12);
 
             let subtotalsHtml = '';
-            if (year === 'all') {
+            if (year === 'all' && yearConfig['2024'] && yearConfig['2025']) {
                 const d24 = getYearData('2024');
                 const d25 = getYearData('2025');
                 const d26m = Math.round(BASE_REVENUE / 25); // 1-month Jan 2026
@@ -2300,6 +2660,8 @@
         renderExpenses(1);
         renderStatGrid('all');
         renderWaterfall('all');
+        loadQuickBooksLiveData();
+        loadQuickBooksLiveHistory();
 
         // ===== ANIMATE BARS ON SCROLL =====
         const barObserver = new IntersectionObserver((entries) => {
@@ -2953,6 +3315,7 @@ Chart rules:
             const monthlyView = document.getElementById('monthlyView');
             const dailyWeeklyView = document.getElementById('dailyWeeklyView');
             const ctaPeriodLabel = document.getElementById('ctaPeriodLabel');
+            const dailyWeeklyTemplate = dailyWeeklyView.innerHTML;
 
             // Collect yearly content elements (everything in .container after filter-row, excluding period views and footer)
             const filterRow = filterBar.closest('.filter-row');
@@ -2972,6 +3335,7 @@ Chart rules:
             }
 
             let monthlyChartInstance = null;
+            let granularChartInstance = null;
             let activePeriod = 'yearly';
 
             // Monthly revenue data (25 months, totals to ~$686,179)
@@ -2979,16 +3343,188 @@ Chart rules:
             const monthLabels = ['Jan 24','Feb 24','Mar 24','Apr 24','May 24','Jun 24','Jul 24','Aug 24','Sep 24','Oct 24','Nov 24','Dec 24','Jan 25','Feb 25','Mar 25','Apr 25','May 25','Jun 25','Jul 25','Aug 25','Sep 25','Oct 25','Nov 25','Dec 25','Jan 26'];
             const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
-            // Monthly P&L variation seeds (realistic ±variation around averages)
-            // Revenue variations per month index (0-11), multiplied by avg
-            const monthlyVariation = [0.82, 0.88, 0.93, 0.91, 0.97, 1.03, 0.93, 0.94, 1.01, 1.07, 1.09, 1.14,
-                                      1.02, 1.05, 1.10, 1.08, 1.12, 1.09, 1.04, 0.95, 1.06, 1.12, 1.09, 1.12, 1.10];
-
             function getFilteredData(year) {
-                if (year === 'all') return { data: monthlyRevData, labels: monthLabels, startIdx: 0 };
-                if (year === '2024') return { data: monthlyRevData.slice(0, 12), labels: monthLabels.slice(0, 12), startIdx: 0 };
-                if (year === '2025') return { data: monthlyRevData.slice(12, 24), labels: monthLabels.slice(12, 24), startIdx: 12 };
-                return { data: monthlyRevData, labels: monthLabels, startIdx: 0 };
+                if (year === 'all') return { data: monthlyRevData, labels: monthLabels };
+                if (year === '2024') return { data: monthlyRevData.slice(0, 12), labels: monthLabels.slice(0, 12) };
+                if (year === '2025') return { data: monthlyRevData.slice(12, 24), labels: monthLabels.slice(12, 24) };
+                return { data: monthlyRevData, labels: monthLabels };
+            }
+
+            function getLiveSeriesForPeriod(period, year = 'all') {
+                const rows = getHistorySeries(period);
+                if (!rows.length) return [];
+                if (year === 'all') return rows;
+                return rows.filter(function(row) {
+                    const bucket = String(row?.bucket || '');
+                    return bucket.startsWith(String(year));
+                });
+            }
+
+            function isDarkTheme() {
+                return document.documentElement.getAttribute('data-theme') === 'dark';
+            }
+
+            function restoreGranularPlaceholder(period) {
+                dailyWeeklyView.innerHTML = dailyWeeklyTemplate;
+                const label = dailyWeeklyView.querySelector('#ctaPeriodLabel');
+                if (label) label.textContent = period;
+
+                if (liveHistoryEnabled) {
+                    const title = dailyWeeklyView.querySelector('.connect-cta-title');
+                    const detail = dailyWeeklyView.querySelector('.connect-cta-detail');
+                    if (title) title.textContent = `Collecting ${period} trend points…`;
+                    if (detail) {
+                        detail.textContent = `QuickBooks history is connected, but there are not enough ${period} snapshots yet. Keep running the export job and this view will auto-populate.`;
+                    }
+                }
+            }
+
+            function renderGranularView(period) {
+                const rows = getLiveSeriesForPeriod(period, currentYear);
+                if (!rows.length) {
+                    restoreGranularPlaceholder(period);
+                    return;
+                }
+
+                const labels = rows.map(function(row) { return formatHistoryBucketLabel(period, row.bucket); });
+                const incomeSeries = rows.map(function(row) { return Math.round(toNumber(row?.metrics?.income, 0)); });
+                const expenseSeries = rows.map(function(row) { return Math.round(toNumber(row?.metrics?.expenses, 0)); });
+                const netSeries = rows.map(function(row) { return Math.round(toNumber(row?.metrics?.netIncome, 0)); });
+                const latest = rows[rows.length - 1];
+
+                const latestIncome = incomeSeries[incomeSeries.length - 1] || 0;
+                const prevIncome = incomeSeries.length > 1 ? incomeSeries[incomeSeries.length - 2] : latestIncome;
+                const incomeDeltaPct = prevIncome ? ((latestIncome - prevIncome) / prevIncome * 100) : 0;
+                const incomeDeltaClass = latestIncome >= prevIncome ? 'up' : 'down';
+                const incomeDeltaArrow = latestIncome >= prevIncome ? '↑' : '↓';
+
+                const latestExpenses = Math.round(toNumber(latest?.metrics?.expenses, 0));
+                const latestNet = Math.round(toNumber(latest?.metrics?.netIncome, 0));
+                const latestAR = Math.round(toNumber(latest?.metrics?.openInvoicesBalance, 0));
+                const latestRatio = toNumber(latest?.metrics?.currentRatio, 0);
+                const priorUnit = period === 'daily' ? 'day' : period === 'weekly' ? 'week' : period;
+
+                dailyWeeklyView.innerHTML = `
+                    <div class="stat-grid animate-in" id="granularStatGrid">
+                        <div class="stat-card">
+                            <div class="label">Latest Revenue</div>
+                            <div class="value">$${(latestIncome / 1000).toFixed(1)}K</div>
+                            <div class="detail"><span class="mom-indicator ${incomeDeltaClass}">${incomeDeltaArrow} ${Math.abs(incomeDeltaPct).toFixed(1)}% vs prior ${priorUnit}</span></div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="label">Latest Expenses</div>
+                            <div class="value">$${(latestExpenses / 1000).toFixed(1)}K</div>
+                            <div class="detail">As of ${formatHistoryBucketLabel(period, latest.bucket)}</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="label">Latest Net Income</div>
+                            <div class="value ${latestNet >= 0 ? 'positive' : 'negative'}">${latestNet >= 0 ? '' : '-'}$${(Math.abs(latestNet) / 1000).toFixed(1)}K</div>
+                            <div class="detail">Trend point ${rows.length.toLocaleString()}</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="label">Open Invoices</div>
+                            <div class="value warn">$${latestAR.toLocaleString()}</div>
+                            <div class="detail">Current ratio: ${latestRatio ? latestRatio.toFixed(2) : 'N/A'}</div>
+                        </div>
+                    </div>
+
+                    <div class="panel animate-in">
+                        <div class="panel-title">
+                            <span class="icon" style="background: var(--accent-teal);"></span>
+                            ${period[0].toUpperCase() + period.slice(1)} Financial Trend (Live)
+                        </div>
+                        <div class="panel-subtitle" id="granularTrendSubtitle">
+                            ${labels[0]} → ${labels[labels.length - 1]} · ${rows.length} data point${rows.length === 1 ? '' : 's'}
+                        </div>
+                        <div class="monthly-chart-wrap">
+                            <canvas id="granularTrendChart"></canvas>
+                        </div>
+                    </div>
+                `;
+
+                if (granularChartInstance) {
+                    granularChartInstance.destroy();
+                    granularChartInstance = null;
+                }
+
+                const canvas = document.getElementById('granularTrendChart');
+                if (!canvas || typeof Chart === 'undefined') return;
+
+                const dark = isDarkTheme();
+                const gridColor = dark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)';
+                const tickColor = dark ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.45)';
+
+                granularChartInstance = new Chart(canvas.getContext('2d'), {
+                    type: 'line',
+                    data: {
+                        labels,
+                        datasets: [
+                            {
+                                label: 'Revenue',
+                                data: incomeSeries,
+                                borderColor: 'rgba(34,168,95,0.95)',
+                                backgroundColor: 'rgba(34,168,95,0.15)',
+                                pointRadius: 3,
+                                pointHoverRadius: 5,
+                                borderWidth: 2,
+                                tension: 0.32,
+                                fill: false,
+                            },
+                            {
+                                label: 'Expenses',
+                                data: expenseSeries,
+                                borderColor: 'rgba(224,72,72,0.92)',
+                                backgroundColor: 'rgba(224,72,72,0.12)',
+                                pointRadius: 3,
+                                pointHoverRadius: 5,
+                                borderWidth: 2,
+                                tension: 0.32,
+                                fill: false,
+                            },
+                            {
+                                label: 'Net Income',
+                                data: netSeries,
+                                borderColor: 'rgba(0,151,178,0.95)',
+                                backgroundColor: 'rgba(0,151,178,0.14)',
+                                pointRadius: 2,
+                                pointHoverRadius: 4,
+                                borderWidth: 2,
+                                tension: 0.32,
+                                fill: false,
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        interaction: { mode: 'index', intersect: false },
+                        plugins: {
+                            legend: { labels: { color: tickColor, font: { size: 11 } } },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(ctx) {
+                                        return `${ctx.dataset.label}: $${Math.round(ctx.raw).toLocaleString()}`;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                grid: { display: false },
+                                ticks: { color: tickColor, maxRotation: 0, autoSkip: true },
+                                border: { display: false },
+                            },
+                            y: {
+                                grid: { color: gridColor, lineWidth: 0.5 },
+                                ticks: {
+                                    color: tickColor,
+                                    callback: function(v) { return '$' + (v / 1000) + 'K'; },
+                                },
+                                border: { display: false },
+                            }
+                        }
+                    }
+                });
             }
 
             function switchPeriod(period) {
@@ -3004,6 +3540,11 @@ Chart rules:
                     monthlyChartInstance = null;
                 }
 
+                if (!['daily', 'weekly'].includes(period) && granularChartInstance) {
+                    granularChartInstance.destroy();
+                    granularChartInstance = null;
+                }
+
                 if (period === 'yearly') {
                     yearlyElements.forEach(el => el.style.display = '');
                     applyYearFilter(currentYear);
@@ -3011,28 +3552,57 @@ Chart rules:
                     monthlyView.classList.add('active');
                     renderMonthlyView();
                 } else {
-                    ctaPeriodLabel.textContent = period;
+                    if (ctaPeriodLabel) ctaPeriodLabel.textContent = period;
                     dailyWeeklyView.classList.add('active');
+                    renderGranularView(period);
                 }
             }
 
             function renderMonthlyView() {
                 const year = currentYear;
-                const filtered = getFilteredData(year);
-                const yd = getYearData(year);
+                const liveRows = getLiveSeriesForPeriod('monthly', year);
+                const useLiveMonthly = liveRows.length > 0;
 
-                // --- Stat cards ---
-                const chartData = filtered.data;
+                let chartData;
+                let labels;
+                let totalIncome;
+                let totalGross;
+                let totalNet;
+                let totalMonths;
+
+                if (useLiveMonthly) {
+                    chartData = liveRows.map(row => Math.round(toNumber(row?.metrics?.income, 0)));
+                    labels = liveRows.map(row => formatHistoryBucketLabel('monthly', row.bucket));
+                    totalIncome = chartData.reduce((sum, val) => sum + val, 0);
+                    totalGross = liveRows.reduce((sum, row) => sum + Math.round(toNumber(row?.metrics?.grossProfit, 0)), 0);
+                    totalNet = liveRows.reduce((sum, row) => sum + Math.round(toNumber(row?.metrics?.netIncome, 0)), 0);
+                    totalMonths = Math.max(1, liveRows.length);
+                } else {
+                    const filtered = getFilteredData(year);
+                    chartData = filtered.data;
+                    labels = filtered.labels;
+
+                    const yd = getYearData(year);
+                    totalIncome = yd.revenue;
+                    totalGross = yd.grossProfit;
+                    totalNet = yd.netIncome;
+                    totalMonths = Math.max(1, yd.months);
+                }
+
                 const latestIdx = chartData.length - 1;
-                const latestMonth = chartData[latestIdx];
+                const latestMonth = chartData[latestIdx] || 0;
                 const prevMonth = latestIdx > 0 ? chartData[latestIdx - 1] : latestMonth;
-                const momChange = ((latestMonth - prevMonth) / prevMonth * 100).toFixed(1);
+                const momBase = prevMonth || 1;
+                const momChange = ((latestMonth - prevMonth) / momBase * 100).toFixed(1);
                 const momArrow = latestMonth >= prevMonth ? '↑' : '↓';
                 const momClass = latestMonth >= prevMonth ? 'up' : 'down';
-                const latestLabel = filtered.labels[latestIdx];
-                const avgRev = Math.round(yd.revenue / yd.months);
-                const avgGross = Math.round(yd.grossProfit / yd.months);
-                const avgNet = Math.round(yd.netIncome / yd.months);
+                const latestLabel = labels[latestIdx] || 'Latest';
+
+                const avgRev = Math.round(totalIncome / totalMonths);
+                const avgGross = Math.round(totalGross / totalMonths);
+                const avgNet = Math.round(totalNet / totalMonths);
+                const grossMargin = totalIncome ? (totalGross / totalIncome * 100) : 0;
+                const netMargin = totalIncome ? (totalNet / totalIncome * 100) : 0;
 
                 const statGrid = document.getElementById('monthlyStatGrid');
                 statGrid.innerHTML = `
@@ -3044,21 +3614,29 @@ Chart rules:
                     <div class="stat-card">
                         <div class="label">Avg Revenue/Mo</div>
                         <div class="value">$${(avgRev/1000).toFixed(1)}K</div>
-                        <div class="detail">${yd.months}-month average</div>
+                        <div class="detail">${totalMonths}-month average</div>
                     </div>
                     <div class="stat-card">
                         <div class="label">Avg Gross/Mo</div>
                         <div class="value positive">$${(avgGross/1000).toFixed(1)}K</div>
-                        <div class="detail">${(yd.grossProfit/yd.revenue*100).toFixed(1)}% margin</div>
+                        <div class="detail">${grossMargin.toFixed(1)}% margin</div>
                     </div>
                     <div class="stat-card">
                         <div class="label">Avg Net/Mo</div>
-                        <div class="value negative">${avgNet >= 0 ? '' : '-'}$${Math.abs(avgNet).toLocaleString()}</div>
-                        <div class="detail">${(yd.netIncome/yd.revenue*100).toFixed(1)}% margin</div>
+                        <div class="value ${avgNet >= 0 ? 'positive' : 'negative'}">${avgNet >= 0 ? '' : '-'}$${Math.abs(avgNet).toLocaleString()}</div>
+                        <div class="detail">${netMargin.toFixed(1)}% margin</div>
                     </div>
                 `;
 
-                // --- Monthly revenue chart (filtered by year) ---
+                const monthlyRevenueSubtitle = document.getElementById('monthlyRevenueSubtitle');
+                if (monthlyRevenueSubtitle) {
+                    if (useLiveMonthly) {
+                        monthlyRevenueSubtitle.textContent = `Live QuickBooks trend · ${labels[0]} → ${labels[labels.length - 1]} · ${totalMonths} month(s)`;
+                    } else {
+                        monthlyRevenueSubtitle.textContent = `Estimated monthly breakdown · $${totalIncome.toLocaleString()} over ${totalMonths} months`;
+                    }
+                }
+
                 if (monthlyChartInstance) {
                     monthlyChartInstance.destroy();
                     monthlyChartInstance = null;
@@ -3066,9 +3644,9 @@ Chart rules:
 
                 const canvas = document.getElementById('monthlyRevenueChart');
                 if (canvas && typeof Chart !== 'undefined') {
-                    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-                    const gridColor = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)';
-                    const tickColor = isDark ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.45)';
+                    const dark = isDarkTheme();
+                    const gridColor = dark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)';
+                    const tickColor = dark ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.45)';
 
                     const barColors = chartData.map((val, i) => {
                         if (i === 0) return 'rgba(0, 151, 178, 0.85)';
@@ -3078,7 +3656,7 @@ Chart rules:
                     monthlyChartInstance = new Chart(canvas.getContext('2d'), {
                         type: 'bar',
                         data: {
-                            labels: filtered.labels,
+                            labels,
                             datasets: [{
                                 label: 'Revenue',
                                 data: chartData,
@@ -3094,10 +3672,10 @@ Chart rules:
                             plugins: {
                                 legend: { display: false },
                                 tooltip: {
-                                    backgroundColor: isDark ? 'rgba(30,32,36,0.96)' : 'rgba(255,255,255,0.98)',
-                                    titleColor: isDark ? '#fff' : '#1A1D23',
-                                    bodyColor: isDark ? '#fff' : '#1A1D23',
-                                    borderColor: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.08)',
+                                    backgroundColor: dark ? 'rgba(30,32,36,0.96)' : 'rgba(255,255,255,0.98)',
+                                    titleColor: dark ? '#fff' : '#1A1D23',
+                                    bodyColor: dark ? '#fff' : '#1A1D23',
+                                    borderColor: dark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.08)',
                                     borderWidth: 1,
                                     cornerRadius: 10,
                                     padding: 12,
@@ -3109,7 +3687,7 @@ Chart rules:
                                             const idx = item.dataIndex;
                                             let mom = '';
                                             if (idx > 0) {
-                                                const prev = chartData[idx - 1];
+                                                const prev = chartData[idx - 1] || 1;
                                                 const change = ((val - prev) / prev * 100).toFixed(1);
                                                 mom = val >= prev ? '  ↑' + change + '%' : '  ↓' + Math.abs(change) + '%';
                                             }
@@ -3139,22 +3717,23 @@ Chart rules:
                     });
                 }
 
-                // --- Monthly expense list ---
                 const monthlyExpList = document.getElementById('monthlyExpenseList');
-                const topExpenses = [
-                    { name: 'Rent', monthly: 3040 },
-                    { name: 'Salaries & Wages', monthly: 1666 },
-                    { name: 'Postage & Shipping', monthly: 1661 },
-                    { name: "Officer's Pay (Aviel)", monthly: 1567 },
-                    { name: 'Auto', monthly: 922 },
-                    { name: 'Meals & Entertainment', monthly: 831, flag: true },
-                    { name: 'Bank Charges / Interest', monthly: 746, flag: true },
-                    { name: 'Utilities', monthly: 575 },
-                    { name: 'Donations', monthly: 540, flag: true },
-                    { name: 'Travel', monthly: 499 },
-                    { name: 'Office Supplies', monthly: 450 },
-                    { name: 'Other (Tax, Dues, Ins, etc.)', monthly: 2179 },
-                ];
+                const expenseSubtitle = document.getElementById('monthlyExpenseSubtitle');
+
+                let topExpenses;
+                if (expData?.length) {
+                    const divisor = Math.max(1, TOTAL_MONTHS);
+                    topExpenses = expData.slice(0, 12).map(function(item) {
+                        const rawName = String(item.name || '').replace(' ⚠️', '');
+                        return {
+                            name: rawName,
+                            monthly: Math.max(0, Math.round(toNumber(item.amount, 0) / divisor)),
+                            flag: /⚠️|Meals|Bank Charges|Donations/i.test(rawName)
+                        };
+                    });
+                } else {
+                    topExpenses = [];
+                }
 
                 monthlyExpList.innerHTML = '';
                 topExpenses.forEach(item => {
@@ -3167,15 +3746,91 @@ Chart rules:
                         </div>`;
                 });
 
-                // --- Month-by-Month P&L Breakdown Table ---
-                renderMonthBreakdown(year);
+                if (expenseSubtitle) {
+                    const avgMonthlyExp = useLiveMonthly
+                        ? Math.round(liveRows.reduce((sum, row) => sum + toNumber(row?.metrics?.expenses, 0), 0) / Math.max(1, liveRows.length))
+                        : 14676;
+                    expenseSubtitle.textContent = useLiveMonthly
+                        ? `Live trend snapshot · avg ${formatMoney(avgMonthlyExp)}/mo (from collected history)`
+                        : 'Average monthly operating expenses · ~$14,676/mo';
+                }
+
+                renderMonthBreakdown(year, useLiveMonthly ? liveRows : null);
             }
 
-            function renderMonthBreakdown(year) {
+            function renderMonthBreakdown(year, liveRows = null) {
                 const panel = document.getElementById('monthBreakdownPanel');
                 const content = document.getElementById('monthBreakdownContent');
                 const title = document.getElementById('monthBreakdownTitle');
                 const subtitle = document.getElementById('monthBreakdownSubtitle');
+                const disclaimer = document.getElementById('monthlyEstimateDisclaimer');
+
+                if (Array.isArray(liveRows) && liveRows.length) {
+                    panel.style.display = 'block';
+                    title.textContent = 'Month-by-Month P&L — Live QuickBooks';
+                    subtitle.textContent = `${formatHistoryBucketLabel('monthly', liveRows[0].bucket)} → ${formatHistoryBucketLabel('monthly', liveRows[liveRows.length - 1].bucket)} · ${liveRows.length} month(s)`;
+
+                    let rows = '';
+                    let totRev = 0, totCogs = 0, totGross = 0, totExp = 0, totNet = 0;
+
+                    liveRows.forEach(function(row) {
+                        const metrics = row?.metrics || {};
+                        const rev = Math.round(toNumber(metrics.income, 0));
+                        const gross = Math.round(toNumber(metrics.grossProfit, 0));
+                        const cogs = Math.max(0, rev - gross);
+                        const exp = Math.round(toNumber(metrics.expenses, 0));
+                        const net = Math.round(toNumber(metrics.netIncome, 0));
+
+                        totRev += rev;
+                        totCogs += cogs;
+                        totGross += gross;
+                        totExp += exp;
+                        totNet += net;
+
+                        const rowClass = net >= 0 ? 'profitable' : 'loss';
+                        rows += `<tr class="${rowClass}">
+                            <td>${formatHistoryBucketLabel('monthly', row.bucket)}</td>
+                            <td>$${rev.toLocaleString()}</td>
+                            <td>$${cogs.toLocaleString()}</td>
+                            <td>$${gross.toLocaleString()}</td>
+                            <td>$${exp.toLocaleString()}</td>
+                            <td>${net >= 0 ? '' : '−'}$${Math.abs(net).toLocaleString()}</td>
+                        </tr>`;
+                    });
+
+                    const netClass = totNet >= 0 ? 'tfoot-pos' : 'tfoot-neg';
+
+                    content.innerHTML = `
+                        <table class="month-breakdown-table">
+                            <thead>
+                                <tr>
+                                    <th>Month</th>
+                                    <th>Revenue</th>
+                                    <th>COGS</th>
+                                    <th>Gross Profit</th>
+                                    <th>Expenses</th>
+                                    <th>Net Income</th>
+                                </tr>
+                            </thead>
+                            <tbody>${rows}</tbody>
+                            <tfoot>
+                                <tr>
+                                    <td>Total</td>
+                                    <td>$${totRev.toLocaleString()}</td>
+                                    <td>$${totCogs.toLocaleString()}</td>
+                                    <td>$${totGross.toLocaleString()}</td>
+                                    <td>$${totExp.toLocaleString()}</td>
+                                    <td class="${netClass}">${totNet >= 0 ? '' : '−'}$${Math.abs(totNet).toLocaleString()}</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    `;
+
+                    if (disclaimer) {
+                        disclaimer.innerHTML = '<strong>✅ Live data:</strong> This table is generated from collected QuickBooks monthly snapshots.';
+                    }
+                    return;
+                }
 
                 if (year === 'all') {
                     panel.style.display = 'none';
@@ -3191,7 +3846,6 @@ Chart rules:
                 const monthlyCogs = yd.cogs / 12;
                 const monthlyExp = yd.expenses / 12;
 
-                // Variation factors for realistic-looking distribution
                 const variations = [0.88, 0.92, 0.96, 0.94, 1.00, 1.05, 0.95, 0.96, 1.03, 1.08, 1.10, 1.13];
                 const total = variations.reduce((a, b) => a + b, 0);
                 const normVariations = variations.map(v => v * 12 / total);
@@ -3204,7 +3858,7 @@ Chart rules:
                     const rev = Math.round(monthlyRev * v);
                     const cogs = Math.round(monthlyCogs * v);
                     const gross = rev - cogs;
-                    const exp = Math.round(monthlyExp * (v * 0.85 + 0.15)); // expenses vary less than revenue
+                    const exp = Math.round(monthlyExp * (v * 0.85 + 0.15));
                     const net = gross - exp;
 
                     totRev += rev;
@@ -3251,9 +3905,12 @@ Chart rules:
                         </tfoot>
                     </table>
                 `;
+
+                if (disclaimer) {
+                    disclaimer.innerHTML = '<strong>⚠️ Estimated data:</strong> Monthly breakdown based on historical averages. Connect and run QuickBooks export jobs for live monthly detail.';
+                }
             }
 
-            // Year filter handler
             function onYearChange(year) {
                 currentYear = year;
                 yearPills.forEach(p => p.classList.toggle('active', p.dataset.year === year));
@@ -3262,16 +3919,26 @@ Chart rules:
                     applyYearFilter(year);
                 } else if (activePeriod === 'monthly') {
                     renderMonthlyView();
+                } else if (activePeriod === 'daily' || activePeriod === 'weekly') {
+                    renderGranularView(activePeriod);
                 }
             }
 
-            // Event listeners
             pills.forEach(pill => {
                 pill.addEventListener('click', () => switchPeriod(pill.dataset.period));
             });
 
             yearPills.forEach(pill => {
                 pill.addEventListener('click', () => onYearChange(pill.dataset.year));
+            });
+
+            document.addEventListener('quickbooks-history-ready', function() {
+                if (activePeriod === 'daily' || activePeriod === 'weekly') {
+                    renderGranularView(activePeriod);
+                }
+                if (activePeriod === 'monthly') {
+                    renderMonthlyView();
+                }
             });
         })();
     </script>

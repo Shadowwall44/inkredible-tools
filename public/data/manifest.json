@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-02-13T07:24:04.310Z",
-  "totalDocuments": 34,
+  "generatedAt": "2026-02-14T18:13:23.221Z",
+  "totalDocuments": 44,
   "categories": {
-    "daily-notes": 4,
-    "brain-dumps": 15,
-    "conversation-logs": 8,
-    "extracted-documents": 7
+    "daily-notes": 5,
+    "brain-dumps": 16,
+    "conversation-logs": 9,
+    "extracted-documents": 14
   },
   "viewportTarget": "900-1000px"
 }

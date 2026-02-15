@@ -1,6 +1,6 @@
 {
-  "lastUpdated": "2026-02-14T03:26:00-05:00",
-  "mission": "Role-first AI organization for INKredible \u2014 strategy by Chet, execution by specialist agents",
+  "lastUpdated": "2026-02-14T19:35:00-05:00",
+  "mission": "Role-first AI organization for INKredible — strategy by Chet, execution by specialist agents",
   "agents": [
     {
       "id": "aviel",
@@ -17,63 +17,63 @@
       ]
     },
     {
-      "id": "chet",
-      "name": "Chet",
-      "role": "COO / Chief Strategy Officer",
+      "id": "brain",
+      "name": "Brain",
+      "role": "COO / Strategist",
       "status": "working",
-      "currentTask": "Running Goal Engine \u2014 orchestrating Q1-Q10 autonomous build queue",
+      "currentTask": "Running Goal Engine — orchestrating autonomous build queue",
       "model": "Claude Opus 4.6",
       "cost": "$200/mo flat",
       "skills": [
         "Strategic Planning",
         "Task Orchestration",
         "Complex Reasoning",
-        "Coaching"
+        "Decision Architecture"
       ]
     },
     {
-      "id": "codex",
-      "name": "Quote Calculator",
-      "role": "Pricing & Estimation Specialist",
+      "id": "engineer",
+      "name": "Engineer",
+      "role": "Builder / Coder",
       "status": "working",
-      "currentTask": "Role-based org chart refresh + quote workflow support",
+      "currentTask": "Building apps, deploying tools, coding automation",
       "model": "GPT-5.3 Codex",
       "cost": "OpenAI subscription (OAuth)",
       "skills": [
-        "Quote Drafting",
-        "Margin Guardrails",
-        "NDF Benchmarking",
-        "Floor Pricing"
+        "Full-Stack Development",
+        "Deployment & CI/CD",
+        "Shell Scripting",
+        "Browser Automation"
       ]
     },
     {
-      "id": "codex-mini",
-      "name": "Workflow Operator",
-      "role": "Ops Automation & System Hygiene",
+      "id": "researcher",
+      "name": "Researcher",
+      "role": "Web Research / Analysis",
       "status": "active",
-      "currentTask": "Mission status sync + routine automation health",
-      "model": "GPT-5.1 Codex Mini",
-      "cost": "OpenAI subscription (OAuth)",
+      "currentTask": "Competitive analysis, pricing research, data extraction",
+      "model": "Gemma 3 27B / Codex Mini",
+      "cost": "Free tier + subscription",
       "skills": [
-        "Gauge Sync",
-        "Kanban Sync",
-        "Status JSON",
-        "Reminders"
+        "Web Scraping",
+        "Market Research",
+        "Invoice Parsing",
+        "Data Analysis"
       ]
     },
     {
-      "id": "gemma",
-      "name": "Invoice Processor",
-      "role": "Financial Data Extraction & QA",
-      "status": "idle",
-      "currentTask": "Standby for invoice parsing and financial QA",
-      "model": "Gemma 3 27B",
-      "cost": "Free tier",
+      "id": "coach",
+      "name": "Coach",
+      "role": "Personal / Business Coaching",
+      "status": "active",
+      "currentTask": "ADHD support, therapy action tracking, personal task nudges",
+      "model": "Claude Opus 4.6",
+      "cost": "Included in Brain subscription",
       "skills": [
-        "Invoice Parsing",
-        "Line-Item QA",
-        "P&L Structuring",
-        "Doc Analysis"
+        "ADHD Coaching",
+        "Accountability",
+        "Therapy Action Tracking",
+        "Goal Setting"
       ]
     }
   ],
@@ -95,17 +95,7 @@
         "priority": "medium"
       },
       {
-        "title": "Q7: MIS v1 Scope Lock + Build Plan",
-        "agent": "codex",
-        "priority": "high"
-      },
-      {
         "title": "Q8: MIS Floor Job Calendar Spec",
-        "agent": "codex",
-        "priority": "medium"
-      },
-      {
-        "title": "Q9: Wispr Desktop Release-Readiness Audit",
         "agent": "codex",
         "priority": "medium"
       },
@@ -120,7 +110,7 @@
         "priority": "high"
       },
       {
-        "title": "QuickBooks API Production (awaiting Intuit)",
+        "title": "QuickBooks API Production (awaiting Intuit review)",
         "agent": "chet",
         "priority": "critical"
       }
@@ -130,9 +120,29 @@
         "title": "Q3: Floor Graphics Pipeline Tracker",
         "agent": "codex",
         "priority": "high"
+      },
+      {
+        "title": "NDF Price Scraper",
+        "agent": "codex",
+        "priority": "high"
       }
     ],
     "done": [
+      {
+        "title": "MIS Phase 1 — deployed to GitHub Pages",
+        "agent": "codex",
+        "completedAt": "2026-02-14T08:44:00-05:00"
+      },
+      {
+        "title": "Wispr Flow v2 — pushed to v2 branch",
+        "agent": "codex",
+        "completedAt": "2026-02-14T08:00:00-05:00"
+      },
+      {
+        "title": "Developer-mode skill — pushed",
+        "agent": "codex",
+        "completedAt": "2026-02-14T07:00:00-05:00"
+      },
       {
         "title": "All workspace MD files audited & updated",
         "agent": "chet",
@@ -179,6 +189,11 @@
         "completedAt": "2026-02-13T23:15:00-05:00"
       },
       {
+        "title": "QuickBooks API — sandbox wired, production blocked on Intuit review",
+        "agent": "chet",
+        "completedAt": "2026-02-14T06:00:00-05:00"
+      },
+      {
         "title": "Debt paydown model built",
         "agent": "codex",
         "completedAt": "2026-02-13T23:10:00-05:00"
@@ -187,52 +202,84 @@
   },
   "activity": [
     {
+      "time": "19:35",
+      "text": "🧠 Nomic (nomic-embed-text) added to the team — local memory engine, $0/mo, no rate limits"
+    },
+    {
+      "time": "19:31",
+      "text": "⚡ Switched memory search from Gemini API → Ollama local embeddings. Hybrid search (BM25 + vector) enabled."
+    },
+    {
+      "time": "19:23",
+      "text": "📱 Dashboard v3 deployed — guided review flow, one task at a time, checklists, auto-advance"
+    },
+    {
+      "time": "19:14",
+      "text": "📱 Dashboard v2 deployed — mobile-first, swipeable cards, Origin dark theme"
+    },
+    {
+      "time": "08:44",
+      "text": "🏭 MIS Phase 1 deployed to GitHub Pages — job tracker, CRM, quotes, calendar, finance dashboard"
+    },
+    {
+      "time": "08:44",
+      "text": "✅ Hub page updated — MIS card added as featured/prominent link"
+    },
+    {
+      "time": "08:00",
+      "text": "✅ Wispr Flow v2 complete — pushed to v2 branch"
+    },
+    {
+      "time": "07:00",
+      "text": "✅ Developer-mode skill complete — pushed"
+    },
+    {
       "time": "03:26",
-      "text": "\u2705 Mission Control org chart switched to role-based structure (Quote Calculator / Workflow Operator / Invoice Processor)"
+      "text": "✅ Mission Control org chart switched to role-based structure (Quote Calculator / Workflow Operator / Invoice Processor)"
     },
     {
       "time": "00:02",
-      "text": "\ud83d\udd04 Mission Control status.json refreshed \u2014 full Goal Engine state"
+      "text": "🔄 Mission Control status.json refreshed — full Goal Engine state"
     },
     {
       "time": "00:00",
-      "text": "\u2705 All workspace MD files audited & rewritten (IDENTITY, USER, AGENTS, TOOLS, SOUL)"
+      "text": "✅ All workspace MD files audited & rewritten (IDENTITY, USER, AGENTS, TOOLS, SOUL)"
     },
     {
       "time": "23:54",
-      "text": "\u2705 OpenClaw 2026.2.13 confirmed running \u2014 session memory search active"
+      "text": "✅ OpenClaw 2026.2.13 confirmed running — session memory search active"
     },
     {
       "time": "23:48",
-      "text": "\u2705 Q2 Weekly Finance Scoreboard \u2014 red/yellow/green KPI thresholds, Telegram format"
+      "text": "✅ Q2 Weekly Finance Scoreboard — red/yellow/green KPI thresholds, Telegram format"
     },
     {
       "time": "23:46",
-      "text": "\u2705 Q1 Financial Command Center \u2014 cash+debt+margin dashboard, debt waterfall model"
+      "text": "✅ Q1 Financial Command Center — cash+debt+margin dashboard, debt waterfall model"
     },
     {
       "time": "23:43",
-      "text": "\u2705 Goal Engine built \u2014 8 goals mapped, 10-item autonomous build queue"
+      "text": "✅ Goal Engine built — 8 goals mapped, 10-item autonomous build queue"
     },
     {
       "time": "23:39",
-      "text": "\u2705 MEMORY.md created \u2014 8.8KB permanent brain, survives all compactions"
+      "text": "✅ MEMORY.md created — 8.8KB permanent brain, survives all compactions"
     },
     {
       "time": "23:40",
-      "text": "\u2705 Session memory search enabled \u2014 120 past sessions now searchable"
+      "text": "✅ Session memory search enabled — 120 past sessions now searchable"
     },
     {
       "time": "23:27",
-      "text": "\u2705 Ollama installed \u2014 phi3:mini (7.2 tok/s) + gemma2:2b (4.4 tok/s)"
+      "text": "✅ Ollama installed — phi3:mini (7.2 tok/s) + gemma2:2b (4.4 tok/s)"
     },
     {
       "time": "23:15",
-      "text": "\u2705 MIS database schema designed"
+      "text": "✅ MIS database schema designed"
     },
     {
       "time": "23:10",
-      "text": "\u2705 Debt paydown model built"
+      "text": "✅ Debt paydown model built"
     }
   ],
   "usage": {

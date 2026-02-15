@@ -1,0 +1,264 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-02-15T04:14:07.073Z",
+  "env": "sandbox",
+  "realmId": "9341456363972482",
+  "company": {
+    "name": "Sandbox Company_US_1",
+    "legalName": "Sandbox Company_US_1",
+    "country": "US",
+    "email": "inkredibleprinting31@gmail.com"
+  },
+  "periods": {
+    "pnl": {
+      "start": "2026-01-01",
+      "end": "2026-02-14"
+    },
+    "balanceSheet": {
+      "asOf": "2026-02-14"
+    }
+  },
+  "metrics": {
+    "income": 6915.88,
+    "cogs": 405,
+    "grossProfit": 6510.88,
+    "expenses": 2929.1,
+    "operatingIncome": 3581.78,
+    "otherIncomeExpenseNet": -2666,
+    "netIncome": 915.78,
+    "totalAssets": 23436.29,
+    "totalLiabilities": 31131.33,
+    "totalEquity": -7695.04,
+    "currentAssets": 9941.29,
+    "currentLiabilities": 6131.33,
+    "currentRatio": 1.62,
+    "openInvoicesCount": 20,
+    "openInvoicesBalance": 5281.52,
+    "overdueInvoicesCount": 17,
+    "overdueInvoicesBalance": 4127.67,
+    "grossMarginPct": 94.14,
+    "netMarginPct": 13.24
+  },
+  "breakdowns": {
+    "incomeTop": [
+      {
+        "label": "Landscaping Services",
+        "value": 4244.08
+      },
+      {
+        "label": "Design income",
+        "value": 1275
+      },
+      {
+        "label": "Sales of Product Income",
+        "value": 912.75
+      },
+      {
+        "label": "Services",
+        "value": 503.55
+      },
+      {
+        "label": "Discounts given",
+        "value": -89.5
+      },
+      {
+        "label": "Pest Control Services",
+        "value": 70
+      }
+    ],
+    "expensesTop": [
+      {
+        "label": "Maintenance and Repair",
+        "value": 940
+      },
+      {
+        "label": "Job Expenses",
+        "value": 602.63
+      },
+      {
+        "label": "Legal & Professional Fees",
+        "value": 565
+      },
+      {
+        "label": "Automobile",
+        "value": 346.81
+      },
+      {
+        "label": "Insurance",
+        "value": 241.23
+      },
+      {
+        "label": "Equipment Rental",
+        "value": 112
+      },
+      {
+        "label": "Advertising",
+        "value": 74.86
+      },
+      {
+        "label": "Meals and Entertainment",
+        "value": 28.49
+      }
+    ],
+    "openInvoicesTop": [
+      {
+        "id": "49",
+        "docNumber": "1015",
+        "customer": "Paulsen Medical Supplies",
+        "txnDate": "2026-01-14",
+        "dueDate": "2026-02-13",
+        "totalAmt": 954.75,
+        "balance": 954.75,
+        "overdue": true
+      },
+      {
+        "id": "103",
+        "docNumber": "1033",
+        "customer": "Geeta Kalapatapu",
+        "txnDate": "2026-01-15",
+        "dueDate": "2026-02-14",
+        "totalAmt": 629.1,
+        "balance": 629.1,
+        "overdue": true
+      },
+      {
+        "id": "129",
+        "docNumber": "1036",
+        "customer": "0969 Ocean View Road",
+        "txnDate": "2026-01-16",
+        "dueDate": "2026-02-15",
+        "totalAmt": 477.5,
+        "balance": 477.5,
+        "overdue": false
+      },
+      {
+        "id": "16",
+        "docNumber": "1007",
+        "customer": "John Melton",
+        "txnDate": "2025-12-22",
+        "dueDate": "2026-01-21",
+        "totalAmt": 750,
+        "balance": 450,
+        "overdue": true
+      },
+      {
+        "id": "99",
+        "docNumber": "1032",
+        "customer": "Travis Waldron",
+        "txnDate": "2026-01-13",
+        "dueDate": "2026-02-12",
+        "totalAmt": 414.72,
+        "balance": 414.72,
+        "overdue": true
+      },
+      {
+        "id": "34",
+        "docNumber": "1010",
+        "customer": "Weiskopf Consulting",
+        "txnDate": "2026-01-14",
+        "dueDate": "2026-02-13",
+        "totalAmt": 375,
+        "balance": 375,
+        "overdue": true
+      },
+      {
+        "id": "130",
+        "docNumber": "1037",
+        "customer": "Sonnenschein Family Store",
+        "txnDate": "2026-01-16",
+        "dueDate": "2026-02-15",
+        "totalAmt": 362.07,
+        "balance": 362.07,
+        "overdue": false
+      },
+      {
+        "id": "119",
+        "docNumber": "1035",
+        "customer": "Mark Cho",
+        "txnDate": "2026-01-16",
+        "dueDate": "2026-02-15",
+        "totalAmt": 314.28,
+        "balance": 314.28,
+        "overdue": false
+      },
+      {
+        "id": "39",
+        "docNumber": "1012",
+        "customer": "Barnett Design",
+        "txnDate": "2026-01-02",
+        "dueDate": "2026-02-01",
+        "totalAmt": 274.5,
+        "balance": 274.5,
+        "overdue": true
+      },
+      {
+        "id": "67",
+        "docNumber": "1021",
+        "customer": "Amy's Bird Sanctuary",
+        "txnDate": "2025-12-25",
+        "dueDate": "2026-01-24",
+        "totalAmt": 459,
+        "balance": 239,
+        "overdue": true
+      }
+    ],
+    "customersByBalanceTop": [
+      {
+        "id": "18",
+        "name": "Paulsen Medical Supplies",
+        "balance": 954.75
+      },
+      {
+        "id": "10",
+        "name": "Geeta Kalapatapu",
+        "balance": 629.1
+      },
+      {
+        "id": "8",
+        "name": "0969 Ocean View Road",
+        "balance": 477.5
+      },
+      {
+        "id": "13",
+        "name": "John Melton",
+        "balance": 450
+      },
+      {
+        "id": "26",
+        "name": "Travis Waldron",
+        "balance": 414.72
+      },
+      {
+        "id": "29",
+        "name": "Weiskopf Consulting",
+        "balance": 375
+      },
+      {
+        "id": "24",
+        "name": "Sonnenschein Family Store",
+        "balance": 362.07
+      },
+      {
+        "id": "17",
+        "name": "Mark Cho",
+        "balance": 314.28
+      },
+      {
+        "id": "23",
+        "name": "Barnett Design",
+        "balance": 274.5
+      },
+      {
+        "id": "1",
+        "name": "Amy's Bird Sanctuary",
+        "balance": 239
+      }
+    ]
+  },
+  "alerts": {
+    "negativeNetIncome": false,
+    "negativeEquity": true,
+    "highOverdueReceivables": false,
+    "currentRatioRisk": false
+  }
+}
