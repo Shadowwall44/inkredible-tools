@@ -6,978 +6,1008 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <title>Aviel's Command Center</title>
+    <title>INKredible — Financial Command Center</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        /* ================================================
-           AVIEL'S COMMAND CENTER
-           Origin Design System — Single unified page
-           Mobile-first for Samsung Galaxy Z Fold 7
-           ================================================ */
-        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        /* ===== ORIGIN DESIGN SYSTEM — Financial Command Center ===== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
-            --bg: #F7F8FA;
-            --text: #1A1D23;
-            --text-secondary: rgba(26, 29, 35, 0.65);
-            --text-muted: rgba(26, 29, 35, 0.42);
-
-            --accent-teal: #0097B2;
-            --accent-purple: #6C63FF;
-            --accent-green: #10b981;
-            --accent-amber: #f59e0b;
-            --accent-red: #ef4444;
-            --accent-blue: #3b82f6;
-
-            --glass-bg: rgba(255, 255, 255, 0.72);
-            --glass-border: rgba(0, 0, 0, 0.06);
-            --glass-shadow: 0 4px 12px rgba(0, 0, 0, 0.06), 0 12px 32px rgba(0, 0, 0, 0.08);
-
-            --card-bg: rgba(255, 255, 255, 0.85);
-            --card-border: rgba(0, 0, 0, 0.06);
-            --card-hover-border: rgba(0, 151, 178, 0.25);
-
-            --font-display: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-            --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-
-            --radius-card: 20px;
-            --radius-sm: 10px;
-            --radius-full: 9999px;
-        }
-
-        html[data-theme="dark"] {
             --bg: #0a0a0f;
             --text: #ffffff;
-            --text-secondary: rgba(255, 255, 255, 0.60);
-            --text-muted: rgba(255, 255, 255, 0.38);
-
+            --text-secondary: rgba(255,255,255,0.6);
+            --text-muted: rgba(255,255,255,0.38);
             --accent-teal: #13B0C9;
+            --accent-teal-deep: #0E8EA7;
+            --accent-green: #22A85F;
+            --accent-red: #E04848;
+            --accent-amber: #F59E0B;
             --accent-purple: #8E87FF;
-
-            --glass-bg: rgba(255, 255, 255, 0.04);
-            --glass-border: rgba(255, 255, 255, 0.06);
-            --glass-shadow: 0 4px 12px rgba(0, 0, 0, 0.25), 0 12px 32px rgba(0, 0, 0, 0.35);
-
-            --card-bg: rgba(255, 255, 255, 0.05);
-            --card-border: rgba(255, 255, 255, 0.08);
-            --card-hover-border: rgba(19, 176, 201, 0.30);
+            --accent-rose: #D47EB8;
+            --glass: rgba(255,255,255,0.05);
+            --glass-border: rgba(255,255,255,0.1);
+            --glass-hover: rgba(255,255,255,0.08);
+            --card-bg: rgba(255,255,255,0.04);
+            --font-display: 'Plus Jakarta Sans','Inter',-apple-system,sans-serif;
+            --font-body: 'Inter',-apple-system,sans-serif;
+            --font-mono: 'Roboto Mono',monospace;
         }
 
-        html, body {
-            height: 100%;
-            font-family: var(--font-body);
-            font-size: 16px;
-            line-height: 1.6;
-            background: var(--bg);
-            color: var(--text);
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
+        [data-theme="light"] {
+            --bg: #f7f8fa;
+            --text: #1a1d23;
+            --text-secondary: rgba(26,29,35,0.65);
+            --text-muted: rgba(26,29,35,0.42);
+            --accent-teal: #0097B2;
+            --accent-green: #1B9E55;
+            --accent-red: #D43B3B;
+            --accent-amber: #C4962E;
+            --accent-purple: #6C63FF;
+            --glass: rgba(255,255,255,0.75);
+            --glass-border: rgba(0,0,0,0.08);
+            --glass-hover: rgba(255,255,255,0.9);
+            --card-bg: rgba(255,255,255,0.8);
         }
 
         body {
+            font-family: var(--font-body);
+            background: var(--bg);
+            color: var(--text);
             min-height: 100vh;
-            min-height: 100dvh;
-        }
-
-        /* Mesh gradient background */
-        body::before {
-            content: '';
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-            pointer-events: none;
-        }
-        html[data-theme="dark"] body::before {
-            background:
-                radial-gradient(ellipse 60% 50% at 20% 10%, rgba(19, 176, 201, 0.08) 0%, transparent 70%),
-                radial-gradient(ellipse 50% 60% at 80% 80%, rgba(142, 135, 255, 0.07) 0%, transparent 70%),
-                radial-gradient(ellipse 40% 40% at 60% 30%, rgba(16, 185, 129, 0.05) 0%, transparent 70%);
-        }
-        html:not([data-theme="dark"]) body::before {
-            background:
-                radial-gradient(ellipse 60% 50% at 20% 10%, rgba(0, 151, 178, 0.07) 0%, transparent 70%),
-                radial-gradient(ellipse 50% 60% at 80% 80%, rgba(108, 99, 255, 0.06) 0%, transparent 70%),
-                radial-gradient(ellipse 40% 40% at 60% 30%, rgba(16, 185, 129, 0.04) 0%, transparent 70%);
-        }
-
-        /* ---- LAYOUT ---- */
-        .page {
-            position: relative;
-            z-index: 1;
-            max-width: 640px;
-            margin: 0 auto;
-            padding: 16px 16px 100px;
-        }
-        @media (min-width: 768px) {
-            .page { padding: 24px 24px 80px; max-width: 720px; }
-        }
-
-        /* ---- HEADER ---- */
-        .header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 24px;
-            padding-top: 8px;
-        }
-        .header h1 {
-            font-size: 22px;
-            font-weight: 700;
-            letter-spacing: -0.02em;
-        }
-        .header .sync-time {
-            font-size: 11px;
-            color: var(--text-muted);
-            margin-top: 2px;
-        }
-
-        /* Theme Toggle */
-        .theme-toggle {
-            width: 44px;
-            height: 28px;
-            border-radius: 14px;
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            cursor: pointer;
-            position: relative;
-            flex-shrink: 0;
-            -webkit-tap-highlight-color: transparent;
-        }
-        .theme-toggle-knob {
-            position: absolute;
-            top: 2px;
-            left: 2px;
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            background: var(--text);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            transition: transform 0.3s ease;
-        }
-        html[data-theme="dark"] .theme-toggle-knob {
-            transform: translateX(16px);
-        }
-
-        /* ---- SECTION STYLES ---- */
-        .section {
-            margin-bottom: 28px;
-        }
-        .section-label {
-            font-size: 13px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-            color: var(--text-muted);
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        /* ---- GLASSMORPHIC PANEL ---- */
-        .panel {
-            background: var(--card-bg);
-            backdrop-filter: blur(20px) saturate(1.4);
-            -webkit-backdrop-filter: blur(20px) saturate(1.4);
-            border: 1px solid var(--card-border);
-            border-radius: var(--radius-card);
-            box-shadow: var(--glass-shadow);
-            padding: 20px;
-            transition: border-color 0.3s ease;
-        }
-        .panel:active {
-            border-color: var(--card-hover-border);
-        }
-
-        /* ================================================
-           SECTION 1 — FOCUS NOW (hero card)
-           ================================================ */
-        .focus-card {
-            background: linear-gradient(135deg, rgba(19, 176, 201, 0.12), rgba(142, 135, 255, 0.10));
-            border-color: rgba(19, 176, 201, 0.25);
-            padding: 28px 24px;
-            position: relative;
-            overflow: hidden;
-        }
-        html:not([data-theme="dark"]) .focus-card {
-            background: linear-gradient(135deg, rgba(0, 151, 178, 0.08), rgba(108, 99, 255, 0.07));
-            border-color: rgba(0, 151, 178, 0.18);
-        }
-        .focus-card::after {
-            content: '';
-            position: absolute;
-            top: -40%;
-            right: -20%;
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(19, 176, 201, 0.08) 0%, transparent 70%);
-            pointer-events: none;
-        }
-        .focus-card .focus-emoji {
-            font-size: 36px;
-            margin-bottom: 12px;
-            display: block;
-        }
-        .focus-card .focus-title {
-            font-size: 22px;
-            font-weight: 700;
-            letter-spacing: -0.01em;
-            line-height: 1.3;
-            margin-bottom: 8px;
-        }
-        .focus-card .focus-why {
-            font-size: 14px;
-            color: var(--text-secondary);
-            margin-bottom: 20px;
-            line-height: 1.5;
-        }
-        .focus-card .focus-updated {
-            font-size: 11px;
-            color: var(--text-muted);
-            margin-top: 12px;
-        }
-
-        /* Primary button */
-        .btn-primary {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 14px 28px;
-            background: var(--accent-teal);
-            color: #fff;
-            border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            text-decoration: none;
-            -webkit-tap-highlight-color: transparent;
-            min-height: 48px;
-            transition: opacity 0.2s, transform 0.15s;
-        }
-        .btn-primary:active {
-            transform: scale(0.97);
-            opacity: 0.9;
-        }
-
-        /* ================================================
-           SECTION 2 — READY FOR YOU
-           ================================================ */
-        .ready-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        .ready-card {
-            display: flex;
-            align-items: flex-start;
-            gap: 14px;
             padding: 16px;
-            background: var(--card-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--card-border);
-            border-radius: 14px;
-            box-shadow: var(--glass-shadow);
-            transition: border-color 0.2s;
-        }
-        .ready-card.actioned {
-            opacity: 0.45;
-            transform: scale(0.98);
-        }
-        .ready-card-body {
-            flex: 1;
-            min-width: 0;
-        }
-        .ready-card-title {
-            font-size: 15px;
-            font-weight: 600;
-            margin-bottom: 4px;
-            line-height: 1.35;
-        }
-        .ready-card-desc {
-            font-size: 13px;
-            color: var(--text-secondary);
-            line-height: 1.4;
-            margin-bottom: 10px;
+            padding-bottom: 80px;
+            -webkit-font-smoothing: antialiased;
+            position: relative;
+            overflow-x: hidden;
         }
 
-        /* Category badge */
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            font-size: 10px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-            padding: 3px 8px;
-            border-radius: 6px;
-            margin-bottom: 8px;
+        body::before {
+            content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+            background:
+                radial-gradient(ellipse 60% 50% at 10% 12%, rgba(19,176,201,0.08), transparent 55%),
+                radial-gradient(ellipse 55% 55% at 85% 10%, rgba(142,135,255,0.07), transparent 50%),
+                radial-gradient(ellipse 50% 60% at 70% 80%, rgba(212,126,184,0.04), transparent 50%);
+            filter: blur(6px);
         }
-        .badge-review { background: rgba(239, 68, 68, 0.12); color: var(--accent-red); }
-        .badge-input { background: rgba(59, 130, 246, 0.12); color: var(--accent-blue); }
-        .badge-decision { background: rgba(245, 158, 11, 0.12); color: var(--accent-amber); }
 
-        /* Action row */
-        .action-row {
-            display: flex;
-            gap: 6px;
-            flex-wrap: wrap;
-            align-items: center;
+        [data-theme="light"] body::before {
+            background:
+                radial-gradient(ellipse 60% 50% at 10% 12%, rgba(0,151,178,0.05), transparent 55%),
+                radial-gradient(ellipse 55% 55% at 85% 10%, rgba(108,99,255,0.05), transparent 50%);
         }
-        .action-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            padding: 8px 12px;
-            border: 1px solid var(--card-border);
-            border-radius: 8px;
-            background: transparent;
+
+        .container { max-width: 900px; margin: 0 auto; position: relative; z-index: 1; }
+
+        /* ===== HEADER ===== */
+        header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 20px; padding-bottom: 16px;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        h1 { font-family: var(--font-display); font-size: clamp(1.2rem,4vw,1.6rem); font-weight: 700; letter-spacing: -0.02em; }
+        h1 em { color: var(--accent-teal); font-style: normal; }
+        h1 .sub { display: block; font-size: 0.5em; font-weight: 500; color: var(--text-muted); letter-spacing: 0.06em; text-transform: uppercase; margin-top: 4px; }
+
+        .header-actions { display: flex; gap: 8px; align-items: center; }
+
+        .btn-icon {
+            width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--glass-border);
+            background: var(--glass); color: var(--text-secondary); cursor: pointer;
+            display: flex; align-items: center; justify-content: center; transition: all 0.2s;
+        }
+        .btn-icon:hover { background: var(--glass-hover); color: var(--text); }
+        .btn-icon svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+        /* ===== STATUS BAR ===== */
+        .status-bar {
+            display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
+            padding: 10px 16px; border-radius: 12px;
+            background: var(--glass); border: 1px solid var(--glass-border);
+            margin-bottom: 20px; font-size: 0.8rem;
+        }
+        .status-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+        .status-dot.green { background: var(--accent-green); box-shadow: 0 0 8px rgba(34,168,95,0.4); }
+        .status-dot.amber { background: var(--accent-amber); box-shadow: 0 0 8px rgba(245,158,11,0.4); }
+        .status-dot.red { background: var(--accent-red); box-shadow: 0 0 8px rgba(224,72,72,0.4); }
+        .status-text { color: var(--text-secondary); }
+        .status-text strong { color: var(--text); }
+
+        /* ===== GRID ===== */
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+        @media (max-width: 640px) { .grid-2 { grid-template-columns: 1fr; } }
+
+        /* ===== PANELS ===== */
+        .panel {
+            background: var(--glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border); border-radius: 16px; padding: 20px;
+            transition: all 0.3s ease;
+        }
+        .panel:hover { border-color: rgba(255,255,255,0.18); }
+        [data-theme="light"] .panel:hover { border-color: rgba(0,0,0,0.15); }
+
+        .panel-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 16px;
+        }
+        .panel-title {
+            font-family: var(--font-display); font-size: 0.85rem; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary);
+        }
+        .panel-icon { font-size: 1.1rem; }
+
+        /* ===== METRICS ===== */
+        .metric-big {
+            font-family: var(--font-mono); font-size: clamp(1.6rem,5vw,2.2rem);
+            font-weight: 700; letter-spacing: -0.02em; line-height: 1;
+        }
+        .metric-label { font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; }
+        .metric-row { display: flex; justify-content: space-between; align-items: baseline; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+        [data-theme="light"] .metric-row { border-bottom-color: rgba(0,0,0,0.04); }
+        .metric-row:last-child { border-bottom: none; }
+        .metric-row .label { font-size: 0.82rem; color: var(--text-secondary); }
+        .metric-row .value { font-family: var(--font-mono); font-size: 0.9rem; font-weight: 600; }
+
+        .positive { color: var(--accent-green); }
+        .negative { color: var(--accent-red); }
+        .warning { color: var(--accent-amber); }
+        .neutral { color: var(--text-secondary); }
+
+        /* ===== PROGRESS BAR ===== */
+        .progress-wrap { margin-top: 12px; }
+        .progress-bar { height: 8px; border-radius: 4px; background: rgba(255,255,255,0.08); overflow: hidden; position: relative; }
+        [data-theme="light"] .progress-bar { background: rgba(0,0,0,0.06); }
+        .progress-fill { height: 100%; border-radius: 4px; transition: width 0.6s ease; }
+        .progress-labels { display: flex; justify-content: space-between; font-size: 0.7rem; color: var(--text-muted); margin-top: 4px; }
+
+        /* ===== DEBT TABLE ===== */
+        .debt-table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+        .debt-table th {
+            text-align: left; font-size: 0.7rem; font-weight: 600; text-transform: uppercase;
+            letter-spacing: 0.04em; color: var(--text-muted); padding: 6px 8px;
+            border-bottom: 1px solid var(--glass-border);
+        }
+        .debt-table td {
+            font-size: 0.82rem; padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.03);
             color: var(--text-secondary);
-            font-size: 12px;
-            font-weight: 500;
-            cursor: pointer;
-            -webkit-tap-highlight-color: transparent;
-            min-height: 36px;
+        }
+        [data-theme="light"] .debt-table td { border-bottom-color: rgba(0,0,0,0.04); }
+        .debt-table td.mono { font-family: var(--font-mono); font-weight: 500; color: var(--text); }
+        .debt-table tr.target td { background: rgba(19,176,201,0.06); }
+        .debt-rank { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 50%; font-size: 0.65rem; font-weight: 700; }
+        .debt-rank.r1 { background: var(--accent-red); color: #fff; }
+        .debt-rank.r2 { background: var(--accent-amber); color: #000; }
+        .debt-rank.r3 { background: var(--accent-teal); color: #fff; }
+
+        /* ===== SCOREBOARD ===== */
+        .scoreboard {
+            background: var(--glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border); border-radius: 16px; padding: 20px;
+            margin-bottom: 20px;
+        }
+        .scoreboard-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 16px;
+        }
+        .scoreboard-title {
+            font-family: var(--font-display); font-size: 1rem; font-weight: 700;
+        }
+        .scoreboard-date { font-size: 0.75rem; color: var(--text-muted); }
+        .scoreboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; }
+        .sb-card {
+            background: var(--card-bg); border: 1px solid var(--glass-border);
+            border-radius: 12px; padding: 14px; text-align: center;
+        }
+        .sb-value { font-family: var(--font-mono); font-size: 1.3rem; font-weight: 700; }
+        .sb-label { font-size: 0.7rem; color: var(--text-muted); margin-top: 4px; }
+
+        /* ===== ACTION ITEMS ===== */
+        .actions-list { list-style: none; margin-top: 12px; }
+        .actions-list li {
+            display: flex; align-items: flex-start; gap: 10px;
+            padding: 10px 12px; border-radius: 10px; margin-bottom: 6px;
+            background: var(--card-bg); border: 1px solid var(--glass-border);
+            font-size: 0.85rem; color: var(--text-secondary);
+        }
+        .actions-list .icon { font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
+        .actions-list .priority-high .icon { color: var(--accent-red); }
+        .actions-list .priority-med .icon { color: var(--accent-amber); }
+        .actions-list .priority-low .icon { color: var(--accent-teal); }
+
+        /* ===== CASH LOG ===== */
+        .cash-log-section { margin-bottom: 20px; }
+        .add-btn {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 8px 16px; border-radius: 10px;
+            background: var(--accent-teal); color: #fff; border: none;
+            font-size: 0.82rem; font-weight: 600; cursor: pointer;
             transition: all 0.2s;
         }
-        .action-btn:active {
-            background: var(--card-bg);
-            border-color: var(--accent-teal);
+        .add-btn:hover { filter: brightness(1.1); transform: translateY(-1px); }
+
+        .log-entries { margin-top: 12px; }
+        .log-entry {
+            display: grid; grid-template-columns: auto 1fr auto auto; gap: 8px; align-items: center;
+            padding: 8px 12px; border-radius: 8px; margin-bottom: 4px;
+            background: var(--card-bg); border: 1px solid var(--glass-border);
+            font-size: 0.82rem;
         }
-        .action-btn.selected {
-            background: rgba(19, 176, 201, 0.12);
-            border-color: var(--accent-teal);
-            color: var(--accent-teal);
+        .log-entry .date { font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); }
+        .log-entry .desc { color: var(--text-secondary); }
+        .log-entry .amount { font-family: var(--font-mono); font-weight: 600; }
+        .log-entry .del-btn { background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 0.9rem; padding: 2px; }
+        .log-entry .del-btn:hover { color: var(--accent-red); }
+
+        /* ===== MODAL ===== */
+        .modal-overlay {
+            display: none; position: fixed; inset: 0; z-index: 9999;
+            background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
+            align-items: center; justify-content: center; padding: 16px;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal {
+            background: var(--bg); border: 1px solid var(--glass-border);
+            border-radius: 20px; padding: 24px; max-width: 420px; width: 100%;
+            max-height: 90vh; overflow-y: auto;
+        }
+        .modal h2 { font-family: var(--font-display); font-size: 1.1rem; margin-bottom: 16px; }
+        .modal label { display: block; font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 4px; margin-top: 12px; }
+        .modal input, .modal select, .modal textarea {
+            width: 100%; padding: 10px 12px; border-radius: 10px;
+            border: 1px solid var(--glass-border); background: var(--glass);
+            color: var(--text); font-family: var(--font-body); font-size: 0.9rem;
+        }
+        .modal input:focus, .modal select:focus, .modal textarea:focus {
+            outline: none; border-color: var(--accent-teal);
+        }
+        .modal-actions { display: flex; gap: 8px; margin-top: 20px; }
+        .modal-actions button {
+            flex: 1; padding: 10px; border-radius: 10px; font-weight: 600;
+            font-size: 0.85rem; cursor: pointer; transition: all 0.2s;
+        }
+        .btn-save { background: var(--accent-teal); color: #fff; border: none; }
+        .btn-save:hover { filter: brightness(1.1); }
+        .btn-cancel { background: transparent; color: var(--text-secondary); border: 1px solid var(--glass-border); }
+        .btn-cancel:hover { background: var(--glass); }
+
+        /* ===== RISK ALERTS ===== */
+        .risk-alert {
+            display: flex; align-items: flex-start; gap: 10px;
+            padding: 12px 16px; border-radius: 12px; margin-bottom: 8px;
+            font-size: 0.82rem;
+        }
+        .risk-alert.red { background: rgba(224,72,72,0.08); border: 1px solid rgba(224,72,72,0.2); color: var(--accent-red); }
+        .risk-alert.amber { background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.2); color: var(--accent-amber); }
+        .risk-alert.green { background: rgba(34,168,95,0.08); border: 1px solid rgba(34,168,95,0.2); color: var(--accent-green); }
+
+        /* ===== WEEKLY WIN ===== */
+        .weekly-win {
+            background: linear-gradient(135deg, rgba(34,168,95,0.08), rgba(19,176,201,0.06));
+            border: 1px solid rgba(34,168,95,0.15); border-radius: 12px;
+            padding: 14px 16px; margin-top: 12px;
+            font-size: 0.85rem; color: var(--accent-green);
+        }
+        .weekly-win .win-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.7; margin-bottom: 4px; }
+
+        /* ===== FOOTER NAV ===== */
+        .footer-nav {
+            position: fixed; bottom: 0; left: 0; right: 0;
+            background: var(--bg); border-top: 1px solid var(--glass-border);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            display: flex; justify-content: center; gap: 4px;
+            padding: 8px 16px; z-index: 9000;
+        }
+        .nav-btn {
+            flex: 1; max-width: 100px; padding: 6px 4px; border: none;
+            background: transparent; color: var(--text-muted); cursor: pointer;
+            border-radius: 8px; font-size: 0.65rem; text-align: center;
+            transition: all 0.2s;
+        }
+        .nav-btn.active { color: var(--accent-teal); background: rgba(19,176,201,0.08); }
+        .nav-btn:hover { color: var(--text); }
+        .nav-btn .nav-icon { font-size: 1.2rem; display: block; margin-bottom: 2px; }
+
+        /* ===== SECTIONS ===== */
+        .section { display: none; }
+        .section.active { display: block; }
+
+        /* ===== EDIT DEBT MODAL EXTRAS ===== */
+        .debt-edit-row {
+            display: grid; grid-template-columns: 2fr 1fr 1fr 1fr auto; gap: 6px;
+            align-items: center; padding: 6px 0; font-size: 0.8rem;
+        }
+        .debt-edit-row input { padding: 6px 8px; font-size: 0.8rem; }
+        .debt-edit-row .del-btn { width: 28px; height: 28px; }
+
+        @media (max-width: 640px) {
+            .debt-edit-row { grid-template-columns: 1fr 1fr; }
         }
 
-        .ready-card .open-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            padding: 8px 14px;
-            background: var(--accent-teal);
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            text-decoration: none;
-            min-height: 36px;
-            -webkit-tap-highlight-color: transparent;
-            transition: opacity 0.2s;
-        }
-        .ready-card .open-link:active { opacity: 0.85; }
-
-        .show-more-btn {
-            display: block;
-            width: 100%;
-            padding: 14px;
-            border: 1px dashed var(--card-border);
-            border-radius: 12px;
-            background: transparent;
-            color: var(--text-secondary);
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            text-align: center;
-            min-height: 48px;
-            -webkit-tap-highlight-color: transparent;
-        }
-        .show-more-btn:active { background: var(--card-bg); }
-        .hidden { display: none !important; }
-
-        /* ================================================
-           SECTION 3 — QUICK CAPTURE
-           ================================================ */
-        .capture-panel {
-            padding: 20px;
-        }
-        .capture-form {
-            display: flex;
-            gap: 8px;
-        }
-        .capture-input {
-            flex: 1;
-            padding: 14px 16px;
-            border: 1px solid var(--card-border);
-            border-radius: 12px;
-            background: rgba(255, 255, 255, 0.03);
-            color: var(--text);
-            font-size: 15px;
-            font-family: inherit;
-            min-height: 48px;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-        html:not([data-theme="dark"]) .capture-input {
-            background: rgba(0, 0, 0, 0.03);
-        }
-        .capture-input:focus {
-            border-color: var(--accent-teal);
-        }
-        .capture-input::placeholder {
-            color: var(--text-muted);
-        }
-        .capture-btn {
-            padding: 14px 20px;
-            background: var(--accent-purple);
-            color: #fff;
-            border: none;
-            border-radius: 12px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            min-height: 48px;
-            min-width: 48px;
-            -webkit-tap-highlight-color: transparent;
-            transition: opacity 0.2s;
-        }
-        .capture-btn:active { opacity: 0.85; }
-        .capture-count {
-            font-size: 12px;
-            color: var(--text-muted);
-            margin-top: 10px;
-            text-align: center;
-        }
-
-        /* Toast */
-        .toast {
-            position: fixed;
-            bottom: 24px;
-            left: 50%;
-            transform: translateX(-50%) translateY(80px);
-            background: var(--accent-green);
-            color: #fff;
-            padding: 12px 24px;
-            border-radius: 12px;
-            font-size: 14px;
-            font-weight: 600;
-            z-index: 1000;
-            opacity: 0;
-            transition: all 0.3s ease;
-            pointer-events: none;
-        }
-        .toast.show {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
-        }
-
-        /* ================================================
-           SECTION 4 — RECENT WINS
-           ================================================ */
-        .wins-toggle {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            width: 100%;
-            padding: 16px 20px;
-            background: var(--card-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--card-border);
-            border-radius: var(--radius-card);
-            box-shadow: var(--glass-shadow);
-            cursor: pointer;
-            color: var(--text);
-            font-size: 15px;
-            font-weight: 600;
-            min-height: 56px;
-            -webkit-tap-highlight-color: transparent;
-            transition: border-color 0.2s;
-        }
-        .wins-toggle:active { border-color: var(--card-hover-border); }
-        .wins-toggle .arrow {
-            transition: transform 0.3s ease;
-            font-size: 18px;
-        }
-        .wins-toggle.open .arrow {
-            transform: rotate(180deg);
-        }
-        .wins-list {
-            margin-top: 8px;
-            overflow: hidden;
-            max-height: 0;
-            transition: max-height 0.4s ease;
-        }
-        .wins-list.open {
-            max-height: 600px;
-        }
-        .win-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            padding: 12px 16px;
-            border-bottom: 1px solid var(--card-border);
-        }
-        .win-item:last-child { border-bottom: none; }
-        .win-check {
-            color: var(--accent-green);
-            font-size: 16px;
-            flex-shrink: 0;
-            margin-top: 1px;
-        }
-        .win-text {
-            font-size: 14px;
-            flex: 1;
-        }
-        .win-date {
-            font-size: 11px;
-            color: var(--text-muted);
-            flex-shrink: 0;
-            margin-top: 2px;
-        }
-        .wins-panel {
-            background: var(--card-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--card-border);
-            border-radius: 14px;
-            overflow: hidden;
-        }
-
-        /* ================================================
-           SECTION 5 — PARKED IDEAS
-           ================================================ */
-        .parked-list {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        .parked-item {
-            background: var(--card-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--card-border);
-            border-radius: 14px;
-            overflow: hidden;
-            box-shadow: var(--glass-shadow);
-        }
-        .parked-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 14px 16px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-            min-height: 48px;
-            -webkit-tap-highlight-color: transparent;
-        }
-        .parked-header .arrow {
-            font-size: 14px;
-            transition: transform 0.3s;
-            color: var(--text-muted);
-        }
-        .parked-item.open .parked-header .arrow {
-            transform: rotate(180deg);
-        }
-        .parked-detail {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
-        }
-        .parked-item.open .parked-detail {
-            max-height: 200px;
-        }
-        .parked-detail-inner {
-            padding: 0 16px 16px;
-        }
-        .parked-detail-inner p {
-            font-size: 13px;
-            color: var(--text-secondary);
-            margin-bottom: 12px;
-            line-height: 1.5;
-        }
-        .send-to-chet {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            padding: 8px 14px;
-            border: 1px solid var(--accent-purple);
-            border-radius: 8px;
-            background: rgba(142, 135, 255, 0.08);
-            color: var(--accent-purple);
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            min-height: 36px;
-            -webkit-tap-highlight-color: transparent;
-        }
-        .send-to-chet:active { opacity: 0.7; }
-
-        /* ---- FOOTER ---- */
-        .footer {
-            text-align: center;
-            padding: 20px;
-            font-size: 11px;
-            color: var(--text-muted);
-        }
-
-        /* ---- ANIMATIONS ---- */
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(12px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-        .section {
-            animation: fadeInUp 0.4s ease both;
-        }
-        .section:nth-child(1) { animation-delay: 0s; }
-        .section:nth-child(2) { animation-delay: 0.08s; }
-        .section:nth-child(3) { animation-delay: 0.16s; }
-        .section:nth-child(4) { animation-delay: 0.24s; }
-        .section:nth-child(5) { animation-delay: 0.32s; }
-
-        /* ---- Z-FOLD UNFOLDED ---- */
-        @media (min-width: 600px) {
-            .focus-card .focus-title { font-size: 26px; }
-            .ready-card { padding: 18px 20px; }
-        }
-
-        /* ---- DESKTOP ---- */
-        @media (min-width: 1024px) {
-            .page { max-width: 800px; padding: 32px; }
-        }
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+        .fade-in { animation: fadeIn 0.3s ease forwards; }
     </style>
 </head>
 <body>
+    <div class="container">
+        <!-- HEADER -->
+        <header>
+            <h1><em>Financial</em> Command Center <span class="sub">INKredible Printing</span></h1>
+            <div class="header-actions">
+                <button class="btn-icon" onclick="refreshData()" title="Refresh">
+                    <svg><path d="M1 4v6h6"/><path d="M23 20v-6h-6"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"/></svg>
+                </button>
+                <button class="btn-icon" onclick="toggleTheme()" title="Toggle theme">
+                    <svg class="theme-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                </button>
+            </div>
+        </header>
 
-<div class="page">
-
-    <!-- HEADER -->
-    <div class="header">
-        <div>
-            <h1>🎯 Command Center</h1>
-            <div class="sync-time" id="syncTime"></div>
+        <!-- STATUS BAR -->
+        <div class="status-bar" id="statusBar">
+            <div class="status-dot" id="statusDot"></div>
+            <span class="status-text" id="statusText">Loading...</span>
         </div>
-        <div class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">
-            <div class="theme-toggle-knob" id="themeKnob">🌙</div>
-        </div>
-    </div>
 
-    <!-- SECTION 1: FOCUS NOW -->
-    <div class="section" id="focusSection">
-        <div class="section-label">🎯 Focus Now</div>
-        <div class="panel focus-card" id="focusCard">
-            <!-- Populated by JS -->
-        </div>
-    </div>
+        <!-- ==================== SECTION: OVERVIEW ==================== -->
+        <div class="section active" id="sec-overview">
+            <!-- Top Metrics: Cash + Debt -->
+            <div class="grid-2">
+                <!-- CASH CONTROL -->
+                <div class="panel fade-in">
+                    <div class="panel-header">
+                        <span class="panel-title">💰 Cash Control</span>
+                    </div>
+                    <div class="metric-big" id="cashPosition">—</div>
+                    <div class="metric-label">Real Cash Position</div>
+                    <div class="progress-wrap">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="reserveFill" style="width:0%;background:var(--accent-green);"></div>
+                        </div>
+                        <div class="progress-labels">
+                            <span>Reserve: <span id="reservePct">—</span></span>
+                            <span>Target: <span id="reserveTarget">$26K</span></span>
+                        </div>
+                    </div>
+                    <div style="margin-top:12px;">
+                        <div class="metric-row"><span class="label">Bank (QB)</span><span class="value" id="bankBalance">—</span></div>
+                        <div class="metric-row"><span class="label">Off-books Cash</span><span class="value" id="offbooksCash">—</span></div>
+                        <div class="metric-row"><span class="label">Overdue A/R</span><span class="value warning" id="overdueAR">—</span></div>
+                    </div>
+                </div>
 
-    <!-- SECTION 2: READY FOR YOU -->
-    <div class="section" id="readySection">
-        <div class="section-label">📬 Ready for You</div>
-        <div class="ready-list" id="readyList">
-            <!-- Populated by JS -->
-        </div>
-        <button class="show-more-btn hidden" id="showMoreBtn" onclick="showAllReady()">Show more ↓</button>
-    </div>
+                <!-- DEBT WATERFALL -->
+                <div class="panel fade-in">
+                    <div class="panel-header">
+                        <span class="panel-title">🏔️ Debt Waterfall</span>
+                        <button class="btn-icon" onclick="openDebtModal()" title="Edit debts" style="width:28px;height:28px;">
+                            <svg style="width:14px;height:14px;"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                        </button>
+                    </div>
+                    <div class="metric-big negative" id="totalDebt">—</div>
+                    <div class="metric-label">Total Debt Outstanding</div>
+                    <div style="margin-top:12px;">
+                        <div class="metric-row"><span class="label">Monthly Interest</span><span class="value negative" id="monthlyInterest">—</span></div>
+                        <div class="metric-row"><span class="label">WoW Change</span><span class="value" id="debtWoW">—</span></div>
+                        <div class="metric-row"><span class="label">#1 Target</span><span class="value" id="debtTarget" style="color:var(--accent-teal);">—</span></div>
+                    </div>
+                </div>
+            </div>
 
-    <!-- SECTION 3: QUICK CAPTURE -->
-    <div class="section">
-        <div class="section-label">💡 Quick Capture</div>
-        <div class="panel capture-panel">
-            <form class="capture-form" onsubmit="captureIdea(event)">
-                <input type="text" class="capture-input" id="captureInput" placeholder="Drop an idea here…" autocomplete="off">
-                <button type="submit" class="capture-btn">💡</button>
-            </form>
-            <div class="capture-count" id="captureCount"></div>
-        </div>
-    </div>
+            <!-- Bottom Metrics: Margin + Floor Graphics -->
+            <div class="grid-2">
+                <!-- MARGIN HEALTH -->
+                <div class="panel fade-in">
+                    <div class="panel-header">
+                        <span class="panel-title">📊 Margin Health</span>
+                    </div>
+                    <div class="metric-big" id="grossMargin" style="color:var(--accent-green);">—</div>
+                    <div class="metric-label">Gross Margin (Current Period)</div>
+                    <div style="margin-top:12px;">
+                        <div class="metric-row"><span class="label">Revenue</span><span class="value" id="revenue">—</span></div>
+                        <div class="metric-row"><span class="label">COGS</span><span class="value" id="cogs">—</span></div>
+                        <div class="metric-row"><span class="label">Gross Profit</span><span class="value positive" id="grossProfit">—</span></div>
+                        <div class="metric-row"><span class="label">Net Income</span><span class="value" id="netIncome">—</span></div>
+                    </div>
+                </div>
 
-    <!-- SECTION 4: RECENT WINS -->
-    <div class="section">
-        <div class="section-label">✅ Recent Wins</div>
-        <button class="wins-toggle" id="winsToggle" onclick="toggleWins()">
-            <span>🏆 <span id="winsCount">10</span> wins this week</span>
-            <span class="arrow">▾</span>
-        </button>
-        <div class="wins-list" id="winsList">
-            <div class="wins-panel" id="winsPanel">
-                <!-- Populated by JS -->
+                <!-- FLOOR GRAPHICS SHARE -->
+                <div class="panel fade-in">
+                    <div class="panel-header">
+                        <span class="panel-title">🎯 Floor Graphics</span>
+                    </div>
+                    <div class="metric-big" id="floorShare" style="color:var(--accent-purple);">—</div>
+                    <div class="metric-label">Share of Revenue (Target: ≥40%)</div>
+                    <div class="progress-wrap">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="floorFill" style="width:0%;background:var(--accent-purple);"></div>
+                        </div>
+                        <div class="progress-labels">
+                            <span>Current</span>
+                            <span>Target: 40%</span>
+                        </div>
+                    </div>
+                    <div style="margin-top:12px;">
+                        <div class="metric-row"><span class="label">Floor Revenue</span><span class="value" id="floorRevenue">—</span></div>
+                        <div class="metric-row"><span class="label">Jobs This Period</span><span class="value" id="floorJobs">—</span></div>
+                        <div class="metric-row"><span class="label">Avg Job Value</span><span class="value" id="floorAvg">—</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RISK ALERTS -->
+            <div id="riskAlerts" style="margin-bottom:20px;"></div>
+
+            <!-- WEEKLY WIN -->
+            <div class="weekly-win" id="weeklyWin" style="display:none;">
+                <div class="win-label">🏆 This Week's Win</div>
+                <div id="winText"></div>
+            </div>
+        </div>
+
+        <!-- ==================== SECTION: SCOREBOARD ==================== -->
+        <div class="section" id="sec-scoreboard">
+            <div class="scoreboard">
+                <div class="scoreboard-header">
+                    <span class="scoreboard-title">📋 Weekly Scoreboard</span>
+                    <span class="scoreboard-date" id="scoreboardDate">—</span>
+                </div>
+                <div class="scoreboard-grid" id="scoreboardGrid"></div>
+            </div>
+
+            <!-- This Week's 3 Moves -->
+            <div class="panel" style="margin-bottom:20px;">
+                <div class="panel-header">
+                    <span class="panel-title">⚡ This Week's 3 Moves</span>
+                </div>
+                <ul class="actions-list" id="weeklyActions"></ul>
+            </div>
+        </div>
+
+        <!-- ==================== SECTION: CASH LOG ==================== -->
+        <div class="section" id="sec-cashlog">
+            <div class="panel cash-log-section">
+                <div class="panel-header">
+                    <span class="panel-title">💵 Off-Books Cash Log</span>
+                    <button class="add-btn" onclick="openCashModal()">+ Add</button>
+                </div>
+                <div style="font-size:0.78rem;color:var(--text-muted);margin-bottom:12px;">
+                    Log every cash payment here. Undeposited cash >7 days = 🔴 red alert.
+                </div>
+                <div class="log-entries" id="cashLogEntries">
+                    <div style="color:var(--text-muted);font-size:0.85rem;text-align:center;padding:20px;">No entries yet. Tap + Add to start logging.</div>
+                </div>
+                <div class="metric-row" style="margin-top:12px;padding-top:12px;border-top:1px solid var(--glass-border);">
+                    <span class="label" style="font-weight:600;">Total Undeposited</span>
+                    <span class="value positive" id="totalUndeposited">$0</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== SECTION: DEBTS ==================== -->
+        <div class="section" id="sec-debts">
+            <div class="panel">
+                <div class="panel-header">
+                    <span class="panel-title">🏔️ Debt Waterfall (Full View)</span>
+                    <button class="add-btn" onclick="openDebtModal()">✏️ Edit</button>
+                </div>
+                <div style="font-size:0.78rem;color:var(--text-muted);margin-bottom:12px;">
+                    Ranked by APR (highest first). #1 gets all extra payments after reserve is met.
+                </div>
+                <div style="overflow-x:auto;">
+                    <table class="debt-table" id="debtTableFull">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Lender</th>
+                                <th>Type</th>
+                                <th>Balance</th>
+                                <th>APR</th>
+                                <th>Min Pmt</th>
+                                <th>Mo. Interest</th>
+                            </tr>
+                        </thead>
+                        <tbody id="debtBodyFull"></tbody>
+                    </table>
+                </div>
+                <div class="metric-row" style="margin-top:12px;padding-top:12px;border-top:1px solid var(--glass-border);">
+                    <span class="label" style="font-weight:600;">Reserve Rule</span>
+                    <span class="value" id="reserveRule" style="font-size:0.8rem;">—</span>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- SECTION 5: PARKED IDEAS -->
-    <div class="section">
-        <div class="section-label">🅿️ Parked Ideas</div>
-        <div class="parked-list" id="parkedList">
-            <!-- Populated by JS -->
+    <!-- BOTTOM NAV -->
+    <nav class="footer-nav">
+        <button class="nav-btn active" onclick="showSection('overview')" id="nav-overview">
+            <span class="nav-icon">📊</span>Overview
+        </button>
+        <button class="nav-btn" onclick="showSection('scoreboard')" id="nav-scoreboard">
+            <span class="nav-icon">📋</span>Scoreboard
+        </button>
+        <button class="nav-btn" onclick="showSection('cashlog')" id="nav-cashlog">
+            <span class="nav-icon">💵</span>Cash Log
+        </button>
+        <button class="nav-btn" onclick="showSection('debts')" id="nav-debts">
+            <span class="nav-icon">🏔️</span>Debts
+        </button>
+    </nav>
+
+    <!-- CASH ENTRY MODAL -->
+    <div class="modal-overlay" id="cashModal">
+        <div class="modal">
+            <h2>💵 Log Cash Payment</h2>
+            <label>Date</label>
+            <input type="date" id="cashDate">
+            <label>Customer / Description</label>
+            <input type="text" id="cashDesc" placeholder="e.g. Walk-in customer">
+            <label>Amount ($)</label>
+            <input type="number" id="cashAmount" placeholder="0.00" step="0.01" min="0">
+            <label>Job Type</label>
+            <select id="cashJobType">
+                <option value="floor_graphics">Floor Graphics</option>
+                <option value="small_format">Small Format</option>
+                <option value="wide_format">Wide Format</option>
+                <option value="other">Other</option>
+            </select>
+            <label>Notes (optional)</label>
+            <textarea id="cashNotes" rows="2" placeholder="e.g. paid cash at pickup"></textarea>
+            <div class="modal-actions">
+                <button class="btn-cancel" onclick="closeCashModal()">Cancel</button>
+                <button class="btn-save" onclick="saveCashEntry()">Save</button>
+            </div>
         </div>
     </div>
 
-    <div class="footer">
-        Built by ChetGPT ⚡ for Aviel &nbsp;|&nbsp; <a href="index.html" style="color:var(--text-muted)">All Tools</a>
+    <!-- DEBT EDIT MODAL -->
+    <div class="modal-overlay" id="debtModal">
+        <div class="modal" style="max-width:520px;">
+            <h2>✏️ Edit Debt Register</h2>
+            <div style="font-size:0.78rem;color:var(--text-muted);margin-bottom:12px;">
+                Enter all debts with their current balance, APR, and minimum payment.
+            </div>
+            <div id="debtEditList"></div>
+            <button class="add-btn" onclick="addDebtRow()" style="margin-top:12px;">+ Add Debt</button>
+            <div class="modal-actions">
+                <button class="btn-cancel" onclick="closeDebtModal()">Cancel</button>
+                <button class="btn-save" onclick="saveDebts()">Save All</button>
+            </div>
+        </div>
     </div>
 
-</div>
+    <script>
+        // ===== THEME =====
+        const saved = localStorage.getItem('fcc-theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', saved);
+        function toggleTheme() {
+            const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
+            const t = isDark ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', t);
+            localStorage.setItem('fcc-theme', t);
+        }
 
-<!-- Toast -->
-<div class="toast" id="toast">✅ Captured!</div>
+        // ===== NAVIGATION =====
+        function showSection(name) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('sec-' + name).classList.add('active');
+            document.getElementById('nav-' + name).classList.add('active');
+        }
 
-<script>
-/* ============================
-   DATA — ChetGPT updates this
-   ============================ */
-const COMMAND_CENTER_DATA = {
-  focusNow: {
-    title: "Review the Aviel Dashboard",
-    why: "Personal progress tracking — wins, confidence, daily push planner",
-    link: "https://shadowwall44.github.io/inkredible-tools/aviel-dashboard.html",
-    updatedAt: "2026-02-14T22:40:00.000Z"
-  },
-  readyForYou: [
-    { id: "r1", title: "🔴 Emergency Stop Protocol", desc: "Kill switch + safety rules in AGENTS.md", link: "#", category: "review" },
-    { id: "r2", title: "📊 NDF Pricing Database", desc: "4,086 price points, 10 products — verify accuracy", link: "https://shadowwall44.github.io/inkredible-tools/quote-tool.html", category: "review" },
-    { id: "r3", title: "💰 Quote Conversion System", desc: "Close rate tracker + concession scripts", link: "#", category: "review" },
-    { id: "r4", title: "📊 Financial Dashboard", desc: "P&L, balance sheet, expense trends", link: "https://shadowwall44.github.io/inkredible-tools/dashboard.html", category: "review" },
-    { id: "r5", title: "🎤 INKredible Voice v2", desc: "15 new features — needs your testing", link: "#", category: "input" }
-  ],
-  recentWins: [
-    { text: "Memory System Overhaul — 49 entries distilled", date: "Feb 14" },
-    { text: "Coaching Skills Updated — real-world 2026 research", date: "Feb 14" },
-    { text: "Kanban Board — 111 tasks, fully synced", date: "Feb 14" },
-    { text: "NDF Pricing — 4,086 price points scraped", date: "Feb 14" },
-    { text: "MIS Phase 1 deployed", date: "Feb 14" },
-    { text: "14 OpenClaw Skills built", date: "Feb 14" },
-    { text: "Safety Framework — kill switch active", date: "Feb 14" },
-    { text: "QuickBooks Sandbox connected", date: "Feb 13" },
-    { text: "Financial Dashboard live", date: "Feb 13" },
-    { text: "5 custom skills built", date: "Feb 13" }
-  ],
-  parkedIdeas: [
-    { title: "Pattern Match & Color Swap module for MIS", detail: "AI analyzes carpet pattern → finds high-res match → color remap" },
-    { title: "ChetGPT email setup", detail: "Dedicated email for API signups and automated comms" },
-    { title: "Tavily Search API", detail: "Free backup search — 1,000/month" },
-    { title: "Adobe Illustrator vectorizing workflow", detail: "Scan/vectorize low-res images using AI" },
-    { title: "AGENTS.md formal review", detail: "Walk through all rules with Aviel" },
-    { title: "OpenClaw organization best practices research", detail: "Last-30-days on how other users organize" }
-  ],
-  syncTimestamp: "2026-02-14T22:40:00.000Z"
-};
+        // ===== DATA STORE =====
+        const STORE_DEBTS = 'fcc-debts';
+        const STORE_CASH = 'fcc-cash-log';
+        const STORE_WIN = 'fcc-weekly-win';
+        const STORE_FLOOR = 'fcc-floor-data';
 
-/* ============================
-   LOCAL STORAGE
-   ============================ */
-const LS_KEY = 'command_center_v1';
-function loadState() {
-  try { return JSON.parse(localStorage.getItem(LS_KEY)) || {}; } catch(e) { return {}; }
-}
-function saveState(s) {
-  localStorage.setItem(LS_KEY, JSON.stringify(s));
-}
-let state = loadState();
-if (!state.actions) state.actions = {};
-if (!state.captures) state.captures = [];
+        // Default debts from INKredible's known debt profile
+        const DEFAULT_DEBTS = [
+            { lender: 'Credit Cards (Various)', type: 'credit_card', balance: 71000, apr: 24.99, minPmt: 1800, status: 'active' },
+            { lender: 'Chase LOC', type: 'loc', balance: 43000, apr: 17.5, minPmt: 502, status: 'active' },
+            { lender: 'Loan Payable', type: 'term_loan', balance: 60000, apr: 8.0, minPmt: 950, status: 'active' }
+        ];
 
-/* ============================
-   RENDER: FOCUS NOW
-   ============================ */
-function renderFocus() {
-  const d = COMMAND_CENTER_DATA.focusNow;
-  document.getElementById('focusCard').innerHTML = `
-    <span class="focus-emoji">🎯</span>
-    <div class="focus-title">${d.title}</div>
-    <div class="focus-why">${d.why}</div>
-    <a href="${d.link}" class="btn-primary" target="_blank" rel="noopener">Open →</a>
-    <div class="focus-updated">Updated: ${new Date(d.updatedAt).toLocaleString()}</div>
-  `;
-}
+        function loadDebts() {
+            const stored = localStorage.getItem(STORE_DEBTS);
+            if (stored) return JSON.parse(stored);
+            return DEFAULT_DEBTS;
+        }
+        function saveDebtsToStore(debts) { localStorage.setItem(STORE_DEBTS, JSON.stringify(debts)); }
 
-/* ============================
-   RENDER: READY FOR YOU
-   ============================ */
-const MAX_VISIBLE = 5;
-let showingAll = false;
+        function loadCashLog() {
+            const stored = localStorage.getItem(STORE_CASH);
+            return stored ? JSON.parse(stored) : [];
+        }
+        function saveCashLogToStore(log) { localStorage.setItem(STORE_CASH, JSON.stringify(log)); }
 
-function renderReady() {
-  const list = document.getElementById('readyList');
-  const items = COMMAND_CENTER_DATA.readyForYou;
-  const btn = document.getElementById('showMoreBtn');
-  list.innerHTML = '';
+        function loadFloorData() {
+            const stored = localStorage.getItem(STORE_FLOOR);
+            return stored ? JSON.parse(stored) : { revenue: 0, jobs: 0 };
+        }
 
-  items.forEach(function(item, i) {
-    var action = state.actions[item.id] || null;
-    var hidden = (!showingAll && i >= MAX_VISIBLE) ? ' hidden' : '';
-    var actioned = action ? ' actioned' : '';
+        // ===== FORMAT HELPERS =====
+        const fmt = (n) => {
+            if (n === null || n === undefined || isNaN(n)) return '—';
+            const abs = Math.abs(n);
+            if (abs >= 1000) return (n < 0 ? '-' : '') + '$' + (abs / 1000).toFixed(abs >= 10000 ? 0 : 1) + 'K';
+            return (n < 0 ? '-' : '') + '$' + abs.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+        };
+        const fmtFull = (n) => {
+            if (n === null || n === undefined || isNaN(n)) return '—';
+            return (n < 0 ? '-' : '') + '$' + Math.abs(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        };
+        const fmtPct = (n) => (n === null || n === undefined || isNaN(n)) ? '—' : n.toFixed(1) + '%';
 
-    var badgeClass = 'badge-' + item.category;
-    var card = document.createElement('div');
-    card.className = 'ready-card' + hidden + actioned;
-    card.id = 'ready-' + item.id;
+        // ===== QUICKBOOKS DATA =====
+        let qbData = null;
 
-    card.innerHTML = `
-      <div class="ready-card-body">
-        <span class="badge ${badgeClass}">${item.category}</span>
-        <div class="ready-card-title">${item.title}</div>
-        <div class="ready-card-desc">${item.desc}</div>
-        <div class="action-row">
-          <button class="action-btn ${action==='done'?'selected':''}" onclick="setAction('${item.id}','done')">✅ Done</button>
-          <button class="action-btn ${action==='fix'?'selected':''}" onclick="setAction('${item.id}','fix')">🔧 Fix</button>
-          <button class="action-btn ${action==='idea'?'selected':''}" onclick="setAction('${item.id}','idea')">💡 Idea</button>
-          ${item.link !== '#' ? `<a href="${item.link}" class="open-link" target="_blank" rel="noopener">Open →</a>` : ''}
-        </div>
-      </div>
-    `;
-    list.appendChild(card);
-  });
+        async function fetchQBData() {
+            try {
+                const resp = await fetch('data/quickbooks-live.json?_=' + Date.now());
+                if (resp.ok) {
+                    qbData = await resp.json();
+                    return true;
+                }
+            } catch (e) { console.warn('QB fetch failed:', e); }
 
-  if (items.length > MAX_VISIBLE && !showingAll) {
-    btn.classList.remove('hidden');
-    btn.textContent = 'Show ' + (items.length - MAX_VISIBLE) + ' more ↓';
-  } else {
-    btn.classList.add('hidden');
-  }
-}
+            // Try sample data
+            try {
+                const resp = await fetch('data/quickbooks-sample.json?_=' + Date.now());
+                if (resp.ok) { qbData = await resp.json(); return true; }
+            } catch (e) {}
 
-function setAction(id, action) {
-  if (state.actions[id] === action) {
-    delete state.actions[id];
-  } else {
-    state.actions[id] = action;
-  }
-  saveState(state);
-  renderReady();
-}
+            return false;
+        }
 
-function showAllReady() {
-  showingAll = true;
-  renderReady();
-}
+        // ===== RENDER =====
+        async function refreshData() {
+            const ok = await fetchQBData();
+            const debts = loadDebts();
+            const cashLog = loadCashLog();
+            const floorData = loadFloorData();
 
-/* ============================
-   RENDER: QUICK CAPTURE
-   ============================ */
-function captureIdea(e) {
-  e.preventDefault();
-  var input = document.getElementById('captureInput');
-  var text = input.value.trim();
-  if (!text) return;
+            // Sort debts by APR descending
+            debts.sort((a, b) => b.apr - a.apr);
 
-  state.captures.push({ text: text, time: new Date().toISOString() });
-  saveState(state);
-  input.value = '';
-  updateCaptureCount();
-  showToast();
-}
+            // ---- CALCULATIONS ----
+            const totalDebt = debts.reduce((s, d) => s + (d.balance || 0), 0);
+            const monthlyInterest = debts.reduce((s, d) => s + ((d.balance || 0) * (d.apr || 0) / 100 / 12), 0);
+            const totalMinPmt = debts.reduce((s, d) => s + (d.minPmt || 0), 0);
+            const topTarget = debts.length > 0 ? debts[0] : null;
 
-function updateCaptureCount() {
-  var n = state.captures.length;
-  document.getElementById('captureCount').textContent = n > 0 ? n + ' idea' + (n > 1 ? 's' : '') + ' captured' : '';
-}
+            // Cash position
+            const undepositedCash = cashLog.filter(e => !e.deposited).reduce((s, e) => s + (e.amount || 0), 0);
+            let bankBalance = null;
+            let overdueAR = null;
+            let income = null, cogs = null, grossProfit = null, netIncome = null, grossMarginPct = null;
 
-function showToast() {
-  var t = document.getElementById('toast');
-  t.classList.add('show');
-  setTimeout(function() { t.classList.remove('show'); }, 1800);
-}
+            if (qbData && qbData.metrics) {
+                const m = qbData.metrics;
+                // Use total equity as a rough bank proxy or currentAssets
+                bankBalance = m.currentAssets || m.totalAssets || null;
+                overdueAR = m.overdueInvoicesBalance || null;
+                income = m.income;
+                cogs = m.cogs;
+                grossProfit = m.grossProfit;
+                netIncome = m.netIncome;
+                grossMarginPct = m.grossMarginPct;
+            }
 
-/* ============================
-   RENDER: RECENT WINS
-   ============================ */
-function renderWins() {
-  var wins = COMMAND_CENTER_DATA.recentWins;
-  document.getElementById('winsCount').textContent = wins.length;
-  var html = '';
-  wins.forEach(function(w) {
-    html += '<div class="win-item"><span class="win-check">✅</span><span class="win-text">' + w.text + '</span><span class="win-date">' + w.date + '</span></div>';
-  });
-  document.getElementById('winsPanel').innerHTML = html;
-}
+            // Real cash position = bank + undeposited cash
+            const realCash = (bankBalance || 0) + undepositedCash;
+            // Reserve targets from spec
+            const reserveFloor = 20000;
+            const reserveTargetVal = 26000;
+            const reserveCoverage = reserveTargetVal > 0 ? (realCash / reserveTargetVal * 100) : 0;
 
-function toggleWins() {
-  var btn = document.getElementById('winsToggle');
-  var list = document.getElementById('winsList');
-  btn.classList.toggle('open');
-  list.classList.toggle('open');
-}
+            // Floor graphics (from localStorage or estimate)
+            const floorRevenue = floorData.revenue || 0;
+            const floorJobs = floorData.jobs || 0;
+            const floorSharePct = income > 0 ? (floorRevenue / income * 100) : 0;
+            const floorAvgJob = floorJobs > 0 ? (floorRevenue / floorJobs) : 0;
 
-/* ============================
-   RENDER: PARKED IDEAS
-   ============================ */
-function renderParked() {
-  var ideas = COMMAND_CENTER_DATA.parkedIdeas;
-  var html = '';
-  ideas.forEach(function(idea, i) {
-    html += '<div class="parked-item" id="parked-' + i + '">' +
-      '<div class="parked-header" onclick="toggleParked(' + i + ')">' +
-        '<span>🅿️ ' + idea.title + '</span>' +
-        '<span class="arrow">▾</span>' +
-      '</div>' +
-      '<div class="parked-detail">' +
-        '<div class="parked-detail-inner">' +
-          '<p>' + idea.detail + '</p>' +
-          '<button class="send-to-chet" onclick="sendToChet(\'' + idea.title.replace(/'/g, "\\'") + '\')">📨 Send to Chet</button>' +
-        '</div>' +
-      '</div>' +
-    '</div>';
-  });
-  document.getElementById('parkedList').innerHTML = html;
-}
+            // ---- STATUS BAR ----
+            const statusDot = document.getElementById('statusDot');
+            const statusText = document.getElementById('statusText');
+            if (realCash >= reserveTargetVal) {
+                statusDot.className = 'status-dot green';
+                statusText.innerHTML = 'Reserve target met — <strong>safe to attack debt</strong>';
+            } else if (realCash >= reserveFloor) {
+                statusDot.className = 'status-dot amber';
+                statusText.innerHTML = 'Above reserve floor — <strong>building toward target</strong>';
+            } else {
+                statusDot.className = 'status-dot red';
+                statusText.innerHTML = 'Below reserve floor — <strong>all surplus to reserve</strong>';
+            }
 
-function toggleParked(i) {
-  document.getElementById('parked-' + i).classList.toggle('open');
-}
+            // ---- CASH CONTROL ----
+            document.getElementById('cashPosition').textContent = fmt(realCash);
+            document.getElementById('cashPosition').className = 'metric-big ' + (realCash < 0 ? 'negative' : realCash < reserveFloor ? 'warning' : 'positive');
+            document.getElementById('reservePct').textContent = fmtPct(reserveCoverage);
+            document.getElementById('reserveTarget').textContent = fmt(reserveTargetVal);
+            document.getElementById('reserveFill').style.width = Math.min(100, Math.max(0, reserveCoverage)) + '%';
+            document.getElementById('reserveFill').style.background = reserveCoverage >= 100 ? 'var(--accent-green)' : reserveCoverage >= 75 ? 'var(--accent-amber)' : 'var(--accent-red)';
+            document.getElementById('bankBalance').textContent = bankBalance !== null ? fmtFull(bankBalance) : '—';
+            document.getElementById('offbooksCash').textContent = fmtFull(undepositedCash);
+            document.getElementById('overdueAR').textContent = overdueAR !== null ? fmtFull(overdueAR) : '—';
 
-function sendToChet(title) {
-  // Future: sends to Telegram via API
-  state.captures.push({ text: '[From Parked] ' + title, time: new Date().toISOString() });
-  saveState(state);
-  updateCaptureCount();
-  var t = document.getElementById('toast');
-  t.textContent = '📨 Sent to Chet!';
-  t.classList.add('show');
-  setTimeout(function() {
-    t.classList.remove('show');
-    t.textContent = '✅ Captured!';
-  }, 1800);
-}
+            // ---- DEBT WATERFALL ----
+            document.getElementById('totalDebt').textContent = fmt(totalDebt);
+            document.getElementById('monthlyInterest').textContent = fmt(monthlyInterest) + '/mo';
+            document.getElementById('debtWoW').textContent = '—'; // needs historical data
+            document.getElementById('debtTarget').textContent = topTarget ? topTarget.lender : '—';
 
-/* ============================
-   SYNC TIMESTAMP
-   ============================ */
-function renderSyncTime() {
-  var ts = COMMAND_CENTER_DATA.syncTimestamp;
-  document.getElementById('syncTime').textContent = 'Last sync: ' + new Date(ts).toLocaleString();
-}
+            // ---- MARGIN HEALTH ----
+            document.getElementById('grossMargin').textContent = grossMarginPct !== null ? fmtPct(grossMarginPct) : '—';
+            document.getElementById('grossMargin').className = 'metric-big ' + (grossMarginPct !== null ? (grossMarginPct >= 54 ? 'positive' : grossMarginPct >= 40 ? 'warning' : 'negative') : '');
+            document.getElementById('revenue').textContent = income !== null ? fmtFull(income) : '—';
+            document.getElementById('cogs').textContent = cogs !== null ? fmtFull(cogs) : '—';
+            document.getElementById('grossProfit').textContent = grossProfit !== null ? fmtFull(grossProfit) : '—';
+            document.getElementById('netIncome').textContent = netIncome !== null ? fmtFull(netIncome) : '—';
+            document.getElementById('netIncome').className = 'value ' + (netIncome !== null ? (netIncome >= 0 ? 'positive' : 'negative') : '');
 
-/* ============================
-   THEME TOGGLE
-   ============================ */
-function toggleTheme() {
-  var html = document.documentElement;
-  var knob = document.getElementById('themeKnob');
-  if (html.getAttribute('data-theme') === 'dark') {
-    html.setAttribute('data-theme', 'light');
-    knob.textContent = '☀️';
-  } else {
-    html.setAttribute('data-theme', 'dark');
-    knob.textContent = '🌙';
-  }
-  localStorage.setItem('cc-theme', html.getAttribute('data-theme'));
-}
+            // ---- FLOOR GRAPHICS ----
+            document.getElementById('floorShare').textContent = floorSharePct > 0 ? fmtPct(floorSharePct) : 'Track jobs →';
+            document.getElementById('floorFill').style.width = Math.min(100, Math.max(0, floorSharePct / 40 * 100)) + '%';
+            document.getElementById('floorRevenue').textContent = floorRevenue > 0 ? fmtFull(floorRevenue) : 'Not tracked yet';
+            document.getElementById('floorJobs').textContent = floorJobs > 0 ? floorJobs : '—';
+            document.getElementById('floorAvg').textContent = floorAvgJob > 0 ? fmtFull(floorAvgJob) : '—';
 
-(function() {
-  var saved = localStorage.getItem('cc-theme');
-  if (saved) {
-    document.documentElement.setAttribute('data-theme', saved);
-    document.getElementById('themeKnob').textContent = saved === 'dark' ? '🌙' : '☀️';
-  }
-})();
+            // ---- RISK ALERTS ----
+            const alerts = [];
+            if (realCash < reserveFloor) alerts.push({ level: 'red', text: `Cash ($${realCash.toLocaleString()}) below reserve floor ($${reserveFloor.toLocaleString()}). Freeze extra debt payments.` });
+            if (overdueAR && overdueAR > 3000) alerts.push({ level: 'amber', text: `$${overdueAR.toLocaleString()} in overdue invoices. Follow up on collections.` });
+            if (monthlyInterest > 2000) alerts.push({ level: 'red', text: `Monthly interest burn: $${monthlyInterest.toFixed(0)}. Refinance check needed for ${topTarget ? topTarget.lender : 'top debt'}.` });
+            if (grossMarginPct !== null && grossMarginPct < 50) alerts.push({ level: 'amber', text: `Gross margin at ${grossMarginPct.toFixed(1)}% — below 54.5% target. Review COGS/pricing.` });
+            const staleEntries = cashLog.filter(e => !e.deposited && daysSince(e.date) > 7);
+            if (staleEntries.length > 0) alerts.push({ level: 'red', text: `${staleEntries.length} cash entries undeposited >7 days. Reconcile or deposit.` });
+            if (alerts.length === 0) alerts.push({ level: 'green', text: 'No critical alerts. Keep executing the plan. 💪' });
 
-/* ============================
-   INIT
-   ============================ */
-renderFocus();
-renderReady();
-renderWins();
-renderParked();
-renderSyncTime();
-updateCaptureCount();
-</script>
+            const alertsHtml = alerts.map(a => `<div class="risk-alert ${a.level}"><span>${a.level === 'red' ? '🔴' : a.level === 'amber' ? '🟡' : '🟢'}</span><span>${a.text}</span></div>`).join('');
+            document.getElementById('riskAlerts').innerHTML = alertsHtml;
+
+            // ---- WEEKLY WIN ----
+            const winStore = localStorage.getItem(STORE_WIN);
+            if (winStore) {
+                const win = JSON.parse(winStore);
+                document.getElementById('weeklyWin').style.display = 'block';
+                document.getElementById('winText').textContent = win.text;
+            }
+
+            // ---- SCOREBOARD ----
+            renderScoreboard(realCash, reserveCoverage, reserveTargetVal, totalDebt, monthlyInterest, grossMarginPct, grossProfit, income, floorSharePct);
+
+            // ---- DEBT TABLE (full view) ----
+            renderDebtTable(debts);
+
+            // ---- CASH LOG ----
+            renderCashLog(cashLog);
+
+            // ---- WEEKLY ACTIONS ----
+            renderWeeklyActions(realCash, reserveFloor, topTarget, overdueAR, staleEntries.length);
+        }
+
+        function daysSince(dateStr) {
+            if (!dateStr) return 999;
+            const d = new Date(dateStr);
+            const now = new Date();
+            return Math.floor((now - d) / (1000 * 60 * 60 * 24));
+        }
+
+        // ---- SCOREBOARD ----
+        function renderScoreboard(cash, reservePct, reserveTarget, debt, interest, margin, grossProfit, revenue, floorPct) {
+            const now = new Date();
+            const weekStart = new Date(now); weekStart.setDate(now.getDate() - now.getDay());
+            const weekEnd = new Date(weekStart); weekEnd.setDate(weekStart.getDate() + 6);
+            document.getElementById('scoreboardDate').textContent =
+                weekStart.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) + ' – ' +
+                weekEnd.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+
+            const items = [
+                { label: 'Cash Position', value: fmt(cash), cls: cash >= reserveTarget ? 'positive' : cash >= 0 ? 'warning' : 'negative' },
+                { label: 'Reserve %', value: fmtPct(reservePct), cls: reservePct >= 100 ? 'positive' : reservePct >= 75 ? 'warning' : 'negative' },
+                { label: 'Total Debt', value: fmt(debt), cls: 'negative' },
+                { label: 'Mo. Interest', value: fmt(interest), cls: 'negative' },
+                { label: 'Gross Margin', value: margin !== null ? fmtPct(margin) : '—', cls: margin >= 54 ? 'positive' : margin >= 40 ? 'warning' : 'negative' },
+                { label: 'Floor Share', value: floorPct > 0 ? fmtPct(floorPct) : '—', cls: floorPct >= 40 ? 'positive' : floorPct >= 20 ? 'warning' : 'neutral' },
+            ];
+
+            document.getElementById('scoreboardGrid').innerHTML = items.map(i =>
+                `<div class="sb-card"><div class="sb-value ${i.cls}">${i.value}</div><div class="sb-label">${i.label}</div></div>`
+            ).join('');
+        }
+
+        // ---- WEEKLY ACTIONS (auto-generated) ----
+        function renderWeeklyActions(cash, reserveFloor, topDebt, overdueAR, staleCash) {
+            const actions = [];
+
+            if (cash < reserveFloor) {
+                actions.push({ icon: '🔴', cls: 'priority-high', text: `Build reserve: need $${(reserveFloor - cash).toLocaleString()} more before any extra debt payments.` });
+            } else if (topDebt) {
+                actions.push({ icon: '🎯', cls: 'priority-high', text: `Send extra payment to ${topDebt.lender} (${topDebt.apr}% APR). Every $100 saves $${(topDebt.apr / 12).toFixed(0)}/mo.` });
+            }
+
+            if (staleCash > 0) {
+                actions.push({ icon: '💰', cls: 'priority-med', text: `Deposit or reconcile ${staleCash} undeposited cash entries (>7 days old).` });
+            }
+
+            if (overdueAR && overdueAR > 2000) {
+                actions.push({ icon: '📞', cls: 'priority-med', text: `Follow up on $${overdueAR.toLocaleString()} in overdue invoices.` });
+            }
+
+            // Always include one proactive action
+            if (actions.length < 3) {
+                actions.push({ icon: '📊', cls: 'priority-low', text: 'Log all cash payments for the week. 10 minutes at end of each day.' });
+            }
+            if (actions.length < 3) {
+                actions.push({ icon: '🎯', cls: 'priority-low', text: 'Tag floor graphics jobs in QuickBooks for accurate revenue-share tracking.' });
+            }
+
+            document.getElementById('weeklyActions').innerHTML = actions.slice(0, 3).map(a =>
+                `<li class="${a.cls}"><span class="icon">${a.icon}</span><span>${a.text}</span></li>`
+            ).join('');
+        }
+
+        // ---- DEBT TABLE (full) ----
+        function renderDebtTable(debts) {
+            const sorted = [...debts].sort((a, b) => b.apr - a.apr);
+            const tbody = document.getElementById('debtBodyFull');
+            tbody.innerHTML = sorted.map((d, i) => {
+                const moInt = (d.balance * d.apr / 100 / 12);
+                const rankCls = i === 0 ? 'r1' : i === 1 ? 'r2' : 'r3';
+                return `<tr class="${i === 0 ? 'target' : ''}">
+                    <td><span class="debt-rank ${rankCls}">${i + 1}</span></td>
+                    <td>${d.lender}</td>
+                    <td style="font-size:0.75rem;color:var(--text-muted);">${d.type.replace('_', ' ')}</td>
+                    <td class="mono">${fmtFull(d.balance)}</td>
+                    <td class="mono" style="color:var(--accent-red);">${d.apr}%</td>
+                    <td class="mono">${fmtFull(d.minPmt)}</td>
+                    <td class="mono" style="color:var(--accent-red);">${fmtFull(moInt)}</td>
+                </tr>`;
+            }).join('');
+
+            // Totals
+            const totalBal = sorted.reduce((s, d) => s + d.balance, 0);
+            const totalMin = sorted.reduce((s, d) => s + d.minPmt, 0);
+            const totalInt = sorted.reduce((s, d) => s + (d.balance * d.apr / 100 / 12), 0);
+            tbody.innerHTML += `<tr style="font-weight:700;border-top:2px solid var(--glass-border);">
+                <td></td><td>TOTAL</td><td></td>
+                <td class="mono">${fmtFull(totalBal)}</td><td></td>
+                <td class="mono">${fmtFull(totalMin)}</td>
+                <td class="mono negative">${fmtFull(totalInt)}</td>
+            </tr>`;
+
+            // Reserve rule
+            document.getElementById('reserveRule').innerHTML =
+                totalBal > 0 ? `Cash < $20K → reserve only. Cash ≥ $26K → attack #1 (${sorted[0]?.lender || '?'} @ ${sorted[0]?.apr || '?'}%)` : 'No debts registered.';
+        }
+
+        // ---- CASH LOG ----
+        function renderCashLog(log) {
+            const el = document.getElementById('cashLogEntries');
+            if (log.length === 0) {
+                el.innerHTML = '<div style="color:var(--text-muted);font-size:0.85rem;text-align:center;padding:20px;">No entries yet. Tap + Add to start logging.</div>';
+                document.getElementById('totalUndeposited').textContent = '$0';
+                return;
+            }
+
+            // Sort by date descending
+            const sorted = [...log].sort((a, b) => new Date(b.date) - new Date(a.date));
+            el.innerHTML = sorted.map((e, i) => {
+                const stale = !e.deposited && daysSince(e.date) > 7;
+                const depBadge = e.deposited ? '✅' : (stale ? '🔴' : '⏳');
+                return `<div class="log-entry" style="${stale ? 'border-color:rgba(224,72,72,0.3);' : ''}">
+                    <span class="date">${new Date(e.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} ${depBadge}</span>
+                    <span class="desc">${e.desc || e.jobType || '—'}</span>
+                    <span class="amount positive">$${(e.amount || 0).toFixed(2)}</span>
+                    <button class="del-btn" onclick="deleteCashEntry(${i})" title="Delete">✕</button>
+                </div>`;
+            }).join('');
+
+            const total = log.filter(e => !e.deposited).reduce((s, e) => s + (e.amount || 0), 0);
+            document.getElementById('totalUndeposited').textContent = fmtFull(total);
+        }
+
+        // ---- CASH MODAL ----
+        function openCashModal() {
+            document.getElementById('cashDate').value = new Date().toISOString().split('T')[0];
+            document.getElementById('cashDesc').value = '';
+            document.getElementById('cashAmount').value = '';
+            document.getElementById('cashJobType').value = 'floor_graphics';
+            document.getElementById('cashNotes').value = '';
+            document.getElementById('cashModal').classList.add('active');
+        }
+        function closeCashModal() { document.getElementById('cashModal').classList.remove('active'); }
+
+        function saveCashEntry() {
+            const entry = {
+                id: 'CASH-' + Date.now(),
+                date: document.getElementById('cashDate').value,
+                desc: document.getElementById('cashDesc').value.trim(),
+                amount: parseFloat(document.getElementById('cashAmount').value) || 0,
+                jobType: document.getElementById('cashJobType').value,
+                notes: document.getElementById('cashNotes').value.trim(),
+                deposited: false,
+                createdAt: new Date().toISOString()
+            };
+            if (entry.amount <= 0) return alert('Enter an amount > $0');
+            if (!entry.date) return alert('Select a date');
+
+            const log = loadCashLog();
+            log.push(entry);
+            saveCashLogToStore(log);
+            closeCashModal();
+            refreshData();
+        }
+
+        function deleteCashEntry(idx) {
+            const log = loadCashLog();
+            const sorted = [...log].sort((a, b) => new Date(b.date) - new Date(a.date));
+            const toDelete = sorted[idx];
+            const newLog = log.filter(e => e.id !== toDelete.id);
+            saveCashLogToStore(newLog);
+            refreshData();
+        }
+
+        // ---- DEBT MODAL ----
+        function openDebtModal() {
+            const debts = loadDebts();
+            const el = document.getElementById('debtEditList');
+            el.innerHTML = '';
+            debts.forEach((d, i) => addDebtEditRow(d, i));
+            document.getElementById('debtModal').classList.add('active');
+        }
+        function closeDebtModal() { document.getElementById('debtModal').classList.remove('active'); }
+
+        function addDebtEditRow(d, idx) {
+            const el = document.getElementById('debtEditList');
+            const row = document.createElement('div');
+            row.style.cssText = 'margin-bottom:12px;padding:12px;border-radius:12px;background:var(--card-bg);border:1px solid var(--glass-border);';
+            row.innerHTML = `
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                    <span style="font-weight:600;font-size:0.85rem;">Debt #${(idx !== undefined ? idx : document.querySelectorAll('.debt-edit-card').length) + 1}</span>
+                    <button class="del-btn" onclick="this.closest('div[style]').remove()" style="background:none;border:none;color:var(--accent-red);cursor:pointer;font-size:1rem;">✕</button>
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                    <div><label style="font-size:0.7rem;color:var(--text-muted);">Lender</label><input class="debt-lender" type="text" value="${d ? d.lender : ''}" placeholder="e.g. Chase" style="width:100%;padding:8px;border-radius:8px;border:1px solid var(--glass-border);background:var(--glass);color:var(--text);font-size:0.85rem;"></div>
+                    <div><label style="font-size:0.7rem;color:var(--text-muted);">Type</label><select class="debt-type" style="width:100%;padding:8px;border-radius:8px;border:1px solid var(--glass-border);background:var(--glass);color:var(--text);font-size:0.85rem;">
+                        <option value="credit_card" ${d && d.type === 'credit_card' ? 'selected' : ''}>Credit Card</option>
+                        <option value="loc" ${d && d.type === 'loc' ? 'selected' : ''}>Line of Credit</option>
+                        <option value="term_loan" ${d && d.type === 'term_loan' ? 'selected' : ''}>Term Loan</option>
+                        <option value="tax" ${d && d.type === 'tax' ? 'selected' : ''}>Tax</option>
+                    </select></div>
+                    <div><label style="font-size:0.7rem;color:var(--text-muted);">Balance ($)</label><input class="debt-balance" type="number" value="${d ? d.balance : ''}" placeholder="0" step="100" style="width:100%;padding:8px;border-radius:8px;border:1px solid var(--glass-border);background:var(--glass);color:var(--text);font-size:0.85rem;"></div>
+                    <div><label style="font-size:0.7rem;color:var(--text-muted);">APR (%)</label><input class="debt-apr" type="number" value="${d ? d.apr : ''}" placeholder="0" step="0.1" style="width:100%;padding:8px;border-radius:8px;border:1px solid var(--glass-border);background:var(--glass);color:var(--text);font-size:0.85rem;"></div>
+                    <div><label style="font-size:0.7rem;color:var(--text-muted);">Min Payment ($)</label><input class="debt-min" type="number" value="${d ? d.minPmt : ''}" placeholder="0" step="10" style="width:100%;padding:8px;border-radius:8px;border:1px solid var(--glass-border);background:var(--glass);color:var(--text);font-size:0.85rem;"></div>
+                </div>
+            `;
+            row.classList.add('debt-edit-card');
+            el.appendChild(row);
+        }
+
+        function addDebtRow() { addDebtEditRow(null, document.querySelectorAll('.debt-edit-card').length); }
+
+        function saveDebts() {
+            const cards = document.querySelectorAll('.debt-edit-card');
+            const debts = [];
+            cards.forEach(card => {
+                const lender = card.querySelector('.debt-lender').value.trim();
+                const type = card.querySelector('.debt-type').value;
+                const balance = parseFloat(card.querySelector('.debt-balance').value) || 0;
+                const apr = parseFloat(card.querySelector('.debt-apr').value) || 0;
+                const minPmt = parseFloat(card.querySelector('.debt-min').value) || 0;
+                if (lender && balance > 0) debts.push({ lender, type, balance, apr, minPmt, status: 'active' });
+            });
+            saveDebtsToStore(debts);
+            closeDebtModal();
+            refreshData();
+        }
+
+        // ===== INIT =====
+        refreshData();
+    </script>
 </body>
 </html>
