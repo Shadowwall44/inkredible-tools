@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aviel's Quest Board</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f8f7f4;
+  --surface: #ffffff;
+  --surface-alt: #f0ede8;
+  --text: #1a1a1a;
+  --text-muted: #6b6b6b;
+  --border: #e2ddd5;
+  --accent: #c9a227;
+  --accent-glow: rgba(201, 162, 39, 0.15);
+  --hp: #e74c3c;
+  --mp: #3498db;
+  --xp: #c9a227;
+  --stamina: #2ecc71;
+  --shadow: 0 2px 12px rgba(0,0,0,0.06);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.08);
+  --radius: 12px;
+  --radius-sm: 8px;
+}
+
+[data-theme="dark"] {
+  --bg: #0f0f0f;
+  --surface: #1a1a1a;
+  --surface-alt: #222222;
+  --text: #e8e4dc;
+  --text-muted: #8a8a8a;
+  --border: #2a2a2a;
+  --shadow: 0 2px 12px rgba(0,0,0,0.3);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.4);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  padding: 16px;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+/* Theme Toggle */
+.theme-toggle {
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  box-shadow: var(--shadow);
+}
+.theme-toggle svg { width: 18px; height: 18px; stroke: var(--text); fill: none; stroke-width: 2; }
+
+/* Character Header */
+.char-header {
+  text-align: center;
+  padding: 24px 16px 16px;
+  position: relative;
+}
+
+.char-class {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 4px;
+}
+
+.char-name {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  margin-bottom: 2px;
+}
+
+.char-title {
+  font-size: 13px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.char-level {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--accent-glow);
+  border: 1px solid var(--accent);
+  border-radius: 20px;
+  padding: 4px 14px;
+  margin-top: 12px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+/* Stat Bars */
+.stat-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.stat-bar {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  box-shadow: var(--shadow);
+}
+
+.stat-bar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.stat-bar-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.stat-bar-label svg { width: 14px; height: 14px; stroke-width: 2; fill: none; }
+
+.stat-bar-value {
+  font-size: 12px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.stat-bar-track {
+  height: 8px;
+  background: var(--surface-alt);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.stat-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.8s ease;
+}
+
+.stat-hp .stat-bar-label svg { stroke: var(--hp); }
+.stat-hp .stat-bar-value { color: var(--hp); }
+.stat-hp .stat-bar-fill { background: var(--hp); }
+
+.stat-mp .stat-bar-label svg { stroke: var(--mp); }
+.stat-mp .stat-bar-value { color: var(--mp); }
+.stat-mp .stat-bar-fill { background: var(--mp); }
+
+.stat-xp .stat-bar-label svg { stroke: var(--xp); }
+.stat-xp .stat-bar-value { color: var(--xp); }
+.stat-xp .stat-bar-fill { background: linear-gradient(90deg, var(--xp), #e8d44d); }
+
+.stat-sta .stat-bar-label svg { stroke: var(--stamina); }
+.stat-sta .stat-bar-value { color: var(--stamina); }
+.stat-sta .stat-bar-fill { background: var(--stamina); }
+
+/* Section Headers */
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 24px 0 12px;
+  padding: 0 4px;
+}
+
+.section-header svg { width: 18px; height: 18px; stroke: var(--accent); fill: none; stroke-width: 2; }
+
+.section-header h2 {
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--text);
+}
+
+/* Energizer System (3 pillars) */
+.energizers {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.energizer-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px 10px;
+  text-align: center;
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+.energizer-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+}
+
+.energizer-card.play::before { background: #e74c3c; }
+.energizer-card.power::before { background: #3498db; }
+.energizer-card.people::before { background: #2ecc71; }
+
+.energizer-icon {
+  width: 32px;
+  height: 32px;
+  margin: 0 auto 8px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.energizer-icon svg { width: 18px; height: 18px; fill: none; stroke-width: 2; }
+
+.play .energizer-icon { background: rgba(231,76,60,0.1); }
+.play .energizer-icon svg { stroke: #e74c3c; }
+.power .energizer-icon { background: rgba(52,152,219,0.1); }
+.power .energizer-icon svg { stroke: #3498db; }
+.people .energizer-icon { background: rgba(46,204,113,0.1); }
+.people .energizer-icon svg { stroke: #2ecc71; }
+
+.energizer-name {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+
+.energizer-level {
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 1;
+  margin-bottom: 2px;
+}
+
+.energizer-sub {
+  font-size: 10px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* Main Quest */
+.main-quest {
+  background: var(--surface);
+  border: 2px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: var(--shadow-lg);
+  position: relative;
+  overflow: hidden;
+}
+
+.main-quest::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), #e8d44d);
+}
+
+.quest-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--accent-glow);
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+
+.quest-badge svg { width: 12px; height: 12px; stroke: var(--accent); fill: none; stroke-width: 2; }
+
+.quest-title {
+  font-size: 18px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.quest-desc {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
+
+.quest-progress {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.quest-progress-track {
+  flex: 1;
+  height: 10px;
+  background: var(--surface-alt);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.quest-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), #e8d44d);
+  border-radius: 5px;
+  transition: width 1s ease;
+}
+
+.quest-progress-text {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+.quest-reward {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.quest-reward svg { width: 14px; height: 14px; stroke: var(--accent); fill: none; stroke-width: 2; }
+
+/* Side Quests */
+.side-quests {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.side-quest {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.side-quest:hover { border-color: var(--accent); }
+
+.side-quest-check {
+  width: 22px;
+  height: 22px;
+  min-width: 22px;
+  border: 2px solid var(--border);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.side-quest.done .side-quest-check {
+  background: var(--stamina);
+  border-color: var(--stamina);
+}
+
+.side-quest.done .side-quest-check svg { opacity: 1; }
+
+.side-quest-check svg {
+  width: 14px;
+  height: 14px;
+  stroke: white;
+  fill: none;
+  stroke-width: 3;
+  opacity: 0;
+}
+
+.side-quest-info { flex: 1; min-width: 0; }
+
+.side-quest-title {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.side-quest.done .side-quest-title {
+  text-decoration: line-through;
+  color: var(--text-muted);
+}
+
+.side-quest-meta {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.side-quest-xp {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--xp);
+  white-space: nowrap;
+}
+
+/* Blockers Section */
+.blockers {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+}
+
+.blocker-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px 10px;
+  text-align: center;
+  box-shadow: var(--shadow);
+  position: relative;
+}
+
+.blocker-icon {
+  width: 28px;
+  height: 28px;
+  margin: 0 auto 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.blocker-icon svg { width: 20px; height: 20px; fill: none; stroke-width: 2; }
+
+.blocker-name {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 2px;
+}
+
+.blocker-status {
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.blocker-status.low { color: var(--stamina); }
+.blocker-status.med { color: var(--xp); }
+.blocker-status.high { color: var(--hp); }
+
+/* Sustain (Energy Budget) */
+.sustain-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+}
+
+.sustain-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px 10px;
+  text-align: center;
+  box-shadow: var(--shadow);
+}
+
+.sustain-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.sustain-value {
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.sustain-sub {
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+/* Achievement Wall */
+.achievements {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.achievement {
+  min-width: 64px;
+  text-align: center;
+  padding: 8px;
+}
+
+.achievement-icon {
+  width: 40px;
+  height: 40px;
+  margin: 0 auto 6px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--border);
+  background: var(--surface-alt);
+}
+
+.achievement.earned .achievement-icon {
+  border-color: var(--accent);
+  background: var(--accent-glow);
+}
+
+.achievement-icon svg { width: 20px; height: 20px; fill: none; stroke-width: 2; }
+.achievement .achievement-icon svg { stroke: var(--text-muted); }
+.achievement.earned .achievement-icon svg { stroke: var(--accent); }
+
+.achievement-name {
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--text-muted);
+  line-height: 1.2;
+}
+
+.achievement.earned .achievement-name { color: var(--text); }
+
+/* Daily Log */
+.daily-log {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px;
+  box-shadow: var(--shadow);
+}
+
+.log-entry {
+  display: flex;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.log-entry:last-child { border-bottom: none; }
+
+.log-time {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 600;
+  min-width: 52px;
+  font-variant-numeric: tabular-nums;
+}
+
+.log-text {
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 24px 0;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.footer-framework {
+  font-size: 10px;
+  margin-top: 4px;
+  opacity: 0.6;
+}
+</style>
+</head>
+<body>
+
+<!-- Theme Toggle -->
+<button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+  <svg class="sun-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+</button>
+
+<!-- Character Header -->
+<div class="char-header">
+  <div class="char-class">Print Shop Warrior</div>
+  <div class="char-name">Aviel</div>
+  <div class="char-title">Owner of INKredible Printing &middot; Brooklyn, NY</div>
+  <div class="char-level">
+    <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+    Level 7 &middot; 2,340 / 5,000 XP
+  </div>
+</div>
+
+<!-- Stat Bars -->
+<div class="stat-bars">
+  <div class="stat-bar stat-hp">
+    <div class="stat-bar-header">
+      <span class="stat-bar-label">
+        <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        Energy
+      </span>
+      <span class="stat-bar-value">45 / 100</span>
+    </div>
+    <div class="stat-bar-track"><div class="stat-bar-fill" style="width: 45%"></div></div>
+  </div>
+
+  <div class="stat-bar stat-mp">
+    <div class="stat-bar-header">
+      <span class="stat-bar-label">
+        <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        Focus
+      </span>
+      <span class="stat-bar-value">60 / 100</span>
+    </div>
+    <div class="stat-bar-track"><div class="stat-bar-fill" style="width: 60%"></div></div>
+  </div>
+
+  <div class="stat-bar stat-xp">
+    <div class="stat-bar-header">
+      <span class="stat-bar-label">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        XP Today
+      </span>
+      <span class="stat-bar-value">340 / 500</span>
+    </div>
+    <div class="stat-bar-track"><div class="stat-bar-fill" style="width: 68%"></div></div>
+  </div>
+
+  <div class="stat-bar stat-sta">
+    <div class="stat-bar-header">
+      <span class="stat-bar-label">
+        <svg viewBox="0 0 24 24"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+        Streak
+      </span>
+      <span class="stat-bar-value">3 days</span>
+    </div>
+    <div class="stat-bar-track"><div class="stat-bar-fill" style="width: 30%"></div></div>
+  </div>
+</div>
+
+<!-- Feel-Good Energizers -->
+<div class="section-header">
+  <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+  <h2>Energizers</h2>
+</div>
+
+<div class="energizers">
+  <div class="energizer-card play">
+    <div class="energizer-icon">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+    </div>
+    <div class="energizer-name">Play</div>
+    <div class="energizer-level">6</div>
+    <div class="energizer-sub">Adventure + Fun</div>
+  </div>
+
+  <div class="energizer-card power">
+    <div class="energizer-icon">
+      <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+    </div>
+    <div class="energizer-name">Power</div>
+    <div class="energizer-level">7</div>
+    <div class="energizer-sub">Confidence + Control</div>
+  </div>
+
+  <div class="energizer-card people">
+    <div class="energizer-icon">
+      <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+    </div>
+    <div class="energizer-name">People</div>
+    <div class="energizer-level">8</div>
+    <div class="energizer-sub">Team + Connection</div>
+  </div>
+</div>
+
+<!-- Main Quest -->
+<div class="section-header">
+  <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+  <h2>Main Quest</h2>
+</div>
+
+<div class="main-quest">
+  <div class="quest-badge">
+    <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+    30-Day Sprint
+  </div>
+  <div class="quest-title">Financial Fortress</div>
+  <div class="quest-desc">Get checking from -$14K to $0. Land 5 floor graphic clients. Hit $35K in March revenue.</div>
+  <div class="quest-progress">
+    <div class="quest-progress-track">
+      <div class="quest-progress-fill" style="width: 8%"></div>
+    </div>
+    <span class="quest-progress-text">Day 1 / 30</span>
+  </div>
+  <div class="quest-reward">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><line x1="12" y1="18" x2="12" y2="6"/></svg>
+    Reward: Financial peace of mind + Level 10 unlock
+  </div>
+</div>
+
+<!-- Side Quests (Today's Tasks) -->
+<div class="section-header">
+  <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+  <h2>Side Quests</h2>
+</div>
+
+<div class="side-quests">
+  <div class="side-quest done" onclick="this.classList.toggle('done')">
+    <div class="side-quest-check">
+      <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <div class="side-quest-info">
+      <div class="side-quest-title">Activate COO Mode</div>
+      <div class="side-quest-meta">Systems &middot; Completed 8:15 PM</div>
+    </div>
+    <div class="side-quest-xp">+100 XP</div>
+  </div>
+
+  <div class="side-quest done" onclick="this.classList.toggle('done')">
+    <div class="side-quest-check">
+      <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <div class="side-quest-info">
+      <div class="side-quest-title">Share Feel Good Productivity book</div>
+      <div class="side-quest-meta">Knowledge &middot; Completed 7:18 PM</div>
+    </div>
+    <div class="side-quest-xp">+40 XP</div>
+  </div>
+
+  <div class="side-quest" onclick="this.classList.toggle('done')">
+    <div class="side-quest-check">
+      <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <div class="side-quest-info">
+      <div class="side-quest-title">Send bank info to ChetGPT</div>
+      <div class="side-quest-meta">Financial Sprint &middot; Due tonight</div>
+    </div>
+    <div class="side-quest-xp">+80 XP</div>
+  </div>
+
+  <div class="side-quest" onclick="this.classList.toggle('done')">
+    <div class="side-quest-check">
+      <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <div class="side-quest-info">
+      <div class="side-quest-title">Review Top-50 target accounts</div>
+      <div class="side-quest-meta">Floor Graphics &middot; For Monday</div>
+    </div>
+    <div class="side-quest-xp">+60 XP</div>
+  </div>
+</div>
+
+<!-- Blockers (Unblock System) -->
+<div class="section-header">
+  <svg viewBox="0 0 24 24"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
+  <h2>Blockers</h2>
+</div>
+
+<div class="blockers">
+  <div class="blocker-card">
+    <div class="blocker-icon">
+      <svg viewBox="0 0 24 24" stroke="#6b6b6b"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+    </div>
+    <div class="blocker-name">Uncertainty</div>
+    <div class="blocker-status med">Medium</div>
+  </div>
+
+  <div class="blocker-card">
+    <div class="blocker-icon">
+      <svg viewBox="0 0 24 24" stroke="#6b6b6b"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+    </div>
+    <div class="blocker-name">Fear</div>
+    <div class="blocker-status low">Low</div>
+  </div>
+
+  <div class="blocker-card">
+    <div class="blocker-icon">
+      <svg viewBox="0 0 24 24" stroke="#6b6b6b"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    </div>
+    <div class="blocker-name">Inertia</div>
+    <div class="blocker-status high">High</div>
+  </div>
+</div>
+
+<!-- Sustain (Energy Budget) -->
+<div class="section-header">
+  <svg viewBox="0 0 24 24"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+  <h2>Sustain</h2>
+</div>
+
+<div class="sustain-grid">
+  <div class="sustain-card">
+    <div class="sustain-label">Sleep</div>
+    <div class="sustain-value" style="color: var(--hp)">4.5h</div>
+    <div class="sustain-sub">Target: 7h</div>
+  </div>
+  <div class="sustain-card">
+    <div class="sustain-label">Recharge</div>
+    <div class="sustain-value" style="color: var(--stamina)">2</div>
+    <div class="sustain-sub">Breaks today</div>
+  </div>
+  <div class="sustain-card">
+    <div class="sustain-label">Align</div>
+    <div class="sustain-value" style="color: var(--mp)">72%</div>
+    <div class="sustain-sub">On-mission work</div>
+  </div>
+</div>
+
+<!-- Achievements -->
+<div class="section-header">
+  <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+  <h2>Achievements</h2>
+</div>
+
+<div class="achievements">
+  <div class="achievement earned">
+    <div class="achievement-icon">
+      <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+    </div>
+    <div class="achievement-name">First Build</div>
+  </div>
+  <div class="achievement earned">
+    <div class="achievement-icon">
+      <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+    </div>
+    <div class="achievement-name">Team Hired</div>
+  </div>
+  <div class="achievement earned">
+    <div class="achievement-icon">
+      <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+    </div>
+    <div class="achievement-name">AI COO</div>
+  </div>
+  <div class="achievement">
+    <div class="achievement-icon">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><line x1="12" y1="18" x2="12" y2="6"/></svg>
+    </div>
+    <div class="achievement-name">$0 Checking</div>
+  </div>
+  <div class="achievement">
+    <div class="achievement-icon">
+      <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+    </div>
+    <div class="achievement-name">$1M Revenue</div>
+  </div>
+  <div class="achievement">
+    <div class="achievement-icon">
+      <svg viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+    </div>
+    <div class="achievement-name">MIS Launch</div>
+  </div>
+</div>
+
+<!-- Daily Log -->
+<div class="section-header">
+  <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+  <h2>Today's Log</h2>
+</div>
+
+<div class="daily-log">
+  <div class="log-entry">
+    <span class="log-time">6:30 AM</span>
+    <span class="log-text">Baby alarm clock. Day started.</span>
+  </div>
+  <div class="log-entry">
+    <span class="log-time">2:00 PM</span>
+    <span class="log-text">Shop closed for Shabbat prep</span>
+  </div>
+  <div class="log-entry">
+    <span class="log-time">7:15 PM</span>
+    <span class="log-text">COO Mode activated. 5 principles replace 50 rules.</span>
+  </div>
+  <div class="log-entry">
+    <span class="log-time">7:18 PM</span>
+    <span class="log-text">Feel Good Productivity scanned and uploaded</span>
+  </div>
+  <div class="log-entry">
+    <span class="log-time">7:45 PM</span>
+    <span class="log-text">30-Day Financial Sprint defined. The quest begins.</span>
+  </div>
+</div>
+
+<div class="footer">
+  <div>Updated Feb 15, 2026 &middot; 7:55 PM ET</div>
+  <div class="footer-framework">Powered by Feel-Good Productivity &middot; Ali Abdaal</div>
+</div>
+
+<script>
+function toggleTheme() {
+  const html = document.documentElement;
+  const current = html.getAttribute('data-theme');
+  const next = current === 'dark' ? 'light' : 'dark';
+  html.setAttribute('data-theme', next);
+  localStorage.setItem('rpg-theme', next);
+}
+
+// Restore saved theme (light default)
+const saved = localStorage.getItem('rpg-theme');
+if (saved) document.documentElement.setAttribute('data-theme', saved);
+</script>
+</body>
+</html>
