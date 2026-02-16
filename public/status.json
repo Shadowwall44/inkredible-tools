@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-02-15T22:25:00-05:00",
+  "lastUpdated": "2026-02-16T05:45:00-05:00",
   "mission": "COO MODE — 30-day sprint: Get checking positive, 5 floor graphic leads, $35K March revenue.",
   "agents": [
     {
@@ -7,7 +7,7 @@
       "name": "Aviel",
       "role": "CEO",
       "status": "active",
-      "currentTask": "Financial data collection — QB exports + bank screenshots sent to Chet",
+      "currentTask": "Monday Sprint Day 1 — CC payments, Brandon Purim briefing, Google Business fix, SCC walk-in",
       "model": "Human",
       "cost": "Boss",
       "skills": ["Vision & Strategy", "Sales", "Client Relationships"]
@@ -17,7 +17,7 @@
       "name": "Chet",
       "role": "COO / Chief Strategy Officer",
       "status": "working",
-      "currentTask": "Financial analysis — P&L, balance sheet, vendor audit complete. Building model + CPA research.",
+      "currentTask": "System QA + Monday sprint support — overnight deliverables verified, fixing remaining issues",
       "model": "Claude Opus 4.6",
       "cost": "$200/mo",
       "skills": ["Strategic Planning", "Orchestration", "Reasoning", "Coaching"]
@@ -40,227 +40,64 @@
       "currentTask": "Build freeze — standby",
       "model": "Codex Mini",
       "cost": "Subscription",
-      "skills": ["Gauge Sync", "Kanban Sync", "Status JSON", "Reminders"]
+      "skills": ["Gauge Sync", "Kanban Sync", "Status JSON", "Cron Monitoring"]
     },
     {
-      "id": "heartbeat",
+      "id": "pulse",
       "name": "Pulse",
-      "role": "Heartbeat Monitor",
-      "status": "active",
-      "currentTask": "Hourly system health checks",
-      "model": "Haiku",
-      "cost": "Minimal",
-      "skills": ["Health Checks", "Alert Routing"]
+      "role": "Research & Intelligence",
+      "status": "standby",
+      "currentTask": "Afternoon Research cron at 2 PM",
+      "model": "Codex 5.2",
+      "cost": "Subscription",
+      "skills": ["Web Research", "Competitive Intel", "Market Analysis"]
     }
   ],
-  "tasks": {
-    "queued": [
-      {
-        "title": "CPA research — Brooklyn small biz specialists (tonight)",
-        "agent": "Chet",
-        "priority": "critical"
-      },
-      {
-        "title": "Financial model — real monthly cash flow with correct numbers",
-        "agent": "Chet",
-        "priority": "critical"
-      },
-      {
-        "title": "QuickBooks cleanup — import missing CC transactions, fix vendors",
-        "agent": "Chet + Aviel (Tuesday)",
-        "priority": "high"
-      },
-      {
-        "title": "HFLS $60K loan — set up $2,500/mo payment plan",
-        "agent": "Aviel (this week, due Mar 2)",
-        "priority": "critical"
-      },
-      {
-        "title": "Linux migration (Tuesday Feb 17)",
-        "agent": "Aviel + Chet",
-        "priority": "high"
-      },
-      {
-        "title": "Pick 5 accounts from Top-50 list with Brandon",
-        "agent": "Aviel + Brandon (Monday)",
-        "priority": "high"
-      }
-    ],
-    "inProgress": [
-      {
-        "title": "30-Day Financial Sprint — checking -$14K to $0",
-        "agent": "Chet + Aviel",
-        "priority": "critical"
-      },
-      {
-        "title": "Floor Graphics Revenue Pipeline",
-        "agent": "Aviel + Brandon",
-        "priority": "high"
-      },
-      {
-        "title": "Full financial picture — P&L + Balance Sheet + Vendor audit",
-        "agent": "Chet",
-        "priority": "critical"
-      }
-    ],
-    "done": [
-      {
-        "title": "P&L analysis complete — $323K annualized revenue, 54.5% margin",
-        "agent": "Chet",
-        "completedAt": "2026-02-15T21:30:00-05:00"
-      },
-      {
-        "title": "Balance sheet analysis — identified $95K phantom CC balances",
-        "agent": "Chet",
-        "completedAt": "2026-02-15T21:45:00-05:00"
-      },
-      {
-        "title": "Vendor audit — 133 vendors, 39 active, 57 cancelled",
-        "agent": "Chet",
-        "completedAt": "2026-02-15T22:00:00-05:00"
-      },
-      {
-        "title": "Personal finance data collected (Origin Financial)",
-        "agent": "Aviel",
-        "completedAt": "2026-02-15T21:15:00-05:00"
-      },
-      {
-        "title": "COO Mode activated — 5 principles replace 50 rules",
-        "agent": "Chet",
-        "completedAt": "2026-02-15T21:00:00-05:00"
-      },
-      {
-        "title": "Mission Control emoji to SVG (108 icons)",
-        "agent": "Max",
-        "completedAt": "2026-02-15T17:00:00-05:00"
-      },
-      {
-        "title": "Aviel Dashboard v4 deployed",
-        "agent": "Max",
-        "completedAt": "2026-02-15T15:25:00-05:00"
-      }
-    ]
+  "todaysMove": {
+    "title": "Monday Sprint Day 1 — Pay CC + Purim Outreach Launch",
+    "priority": "critical",
+    "details": "1) Pay Chase ...3904 ($40 due TODAY). 2) Brief Brandon with outreach package. 3) Fix Google Business Profile (10 min, biggest ROI). 4) Walk into SCC for Purim."
   },
   "activity": [
+    {"time": "5:15 AM", "text": "System QA complete — config verified, Telegram ID fixed, search accuracy improved"},
+    {"time": "4:11 AM", "text": "Sales enablement built — competitive battlecard, upsell menu, portfolio prep guide"},
+    {"time": "3:11 AM", "text": "Pipeline math: 7 DMs = ~1 lead. Added phone scripts + call schedule for Wed/Thu"},
+    {"time": "2:11 AM", "text": "8 venue TBDs filled with real contact info + 4 email templates + pipeline expanded to 15 leads"},
+    {"time": "1:00 AM", "text": "Brandon Monday outreach package — 7 verified handles, personalized DMs, daily schedule"},
+    {"time": "12:13 AM", "text": "Sprint week plan fixed, all 9 web URLs verified, March event pipeline researched"},
+    {"time": "11:35 PM", "text": "Memory + compaction research complete — config optimized, 24 sources analyzed"},
+    {"time": "10:25 PM", "text": "COO Mode activated — system overhaul: skills pruned 51→7, memory tuned, Ollama monitored"}
+  ],
+  "needsInput": [
     {
-      "time": "10:25 PM",
-      "text": "Mission Control updated — AI team names (Max, Rio, Pulse), financial analysis progress, real task status"
+      "title": "PAY Chase ...3904 minimum ($40) — DUE TODAY Feb 16",
+      "assigned": "Aviel",
+      "priority": "critical"
     },
     {
-      "time": "10:00 PM",
-      "text": "Vendor audit complete — 133 vendors, found missing rent payments, QB import gaps, cancelled services"
+      "title": "PAY Chase ...7325 minimum ($162.16) — DUE TOMORROW Feb 17",
+      "assigned": "Aviel",
+      "priority": "critical"
     },
     {
-      "time": "9:45 PM",
-      "text": "Balance sheet analyzed — $95K phantom CC balances from missing transaction imports"
+      "title": "Fix Google Business Profile — wrong address, wrong category, invisible for floor graphics",
+      "assigned": "Aviel (10 min on phone)",
+      "priority": "high"
     },
     {
-      "time": "9:30 PM",
-      "text": "P&L deep dive — revenue is $323K annualized (not $686K), 54.5% margins, $1,700/mo breathing room"
+      "title": "Brief Brandon on Purim outreach — hand him brandon-monday-outreach.md",
+      "assigned": "Aviel",
+      "priority": "high"
     },
     {
-      "time": "9:15 PM",
-      "text": "Personal finance data received — $12.1K CC debt, $5.9K liquid, net -$3K personal"
-    },
-    {
-      "time": "9:00 PM",
-      "text": "COO Mode activated — AGENTS.md rebuilt, autonomous work rewritten for judgment-based operation"
-    },
-    {
-      "time": "8:45 PM",
-      "text": "30-day financial sprint defined: checking to $0, 5 floor leads, $35K March"
+      "title": "HFLS $60K loan — set up $2,500/mo payment plan (change date to Mar 15)",
+      "assigned": "Aviel (this week, due Mar 2)",
+      "priority": "critical"
     }
   ],
-  "usage": {
-    "sessionPct": 0,
-    "weeklyPct": 0,
-    "model": "Opus 4.6",
-    "note": "COO Mode — judgment-based operation"
-  },
-  "schedule": [
-    {
-      "name": "Morning Brief",
-      "schedule": "8 AM Mon-Fri",
-      "model": "Max (Codex 5.3)",
-      "desc": "AI news, printing trends, your ONE priority for today.",
-      "status": "ok"
-    },
-    {
-      "name": "Daily Push",
-      "schedule": "9 AM daily",
-      "model": "Max (Codex 5.3)",
-      "desc": "ONE task from your goals — exact steps, clear done criteria.",
-      "status": "ok"
-    },
-    {
-      "name": "Afternoon Research",
-      "schedule": "2 PM Mon-Fri",
-      "model": "Max (Codex 5.3)",
-      "desc": "Printing industry news and trends.",
-      "status": "ok"
-    },
-    {
-      "name": "Daily Journaling",
-      "schedule": "5 PM Mon-Fri",
-      "model": "Max (Codex 5.3)",
-      "desc": "Gentle end-of-day check-in.",
-      "status": "ok"
-    },
-    {
-      "name": "Daily Standup",
-      "schedule": "8:15 PM daily",
-      "model": "Max (Codex 5.3)",
-      "desc": "Your daily meeting with Chet — what happened, decisions needed, tomorrow's priority.",
-      "status": "ok"
-    },
-    {
-      "name": "Nightly COO Session",
-      "schedule": "1 AM daily",
-      "model": "Max (Codex 5.3)",
-      "desc": "Deep work — revenue analysis, financial modeling, system fixes.",
-      "status": "ok"
-    },
-    {
-      "name": "Invoice Extraction",
-      "schedule": "6 AM daily",
-      "model": "Max (Codex 5.3)",
-      "desc": "DISABLED — fix after Tuesday Linux migration.",
-      "status": "error — disabled"
-    },
-    {
-      "name": "Autonomous COO Loop",
-      "schedule": "Every 60 min",
-      "model": "Max (Codex 5.3)",
-      "desc": "Proactive business work — fixes, analysis, prep.",
-      "status": "ok"
-    },
-    {
-      "name": "Heartbeat",
-      "schedule": "Every 60 min",
-      "model": "Pulse (Haiku)",
-      "desc": "System health monitoring.",
-      "status": "ok"
-    },
-    {
-      "name": "Weekly Memory Distill",
-      "schedule": "Sun 3 AM",
-      "model": "Max (Codex 5.3)",
-      "desc": "Compresses old daily notes, keeps memory lean.",
-      "status": "ok"
-    },
-    {
-      "name": "Weekly Goal Review",
-      "schedule": "Sun 9 PM",
-      "model": "Max (Codex 5.3)",
-      "desc": "Assess all goals, adjust priorities for next week.",
-      "status": "ok"
-    }
-  ],
-  "mode": "COO_MODE",
-  "buildFreeze": {
-    "active": true,
-    "startDate": "2026-02-15",
-    "endDate": "2026-02-22",
-    "reason": "Verify and fix existing tools — no new apps"
+  "systemHealth": {
+    "total": 12,
+    "healthy": 12,
+    "dots": ["green","green","green","green","green","green","green","green","green","green","green","green"]
   }
 }
