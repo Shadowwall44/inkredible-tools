@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-02-15T21:15:00-05:00",
+  "lastUpdated": "2026-02-15T22:25:00-05:00",
   "mission": "COO MODE — 30-day sprint: Get checking positive, 5 floor graphic leads, $35K March revenue.",
   "agents": [
     {
@@ -7,147 +7,168 @@
       "name": "Aviel",
       "role": "CEO",
       "status": "active",
-      "currentTask": "Floor graphics outreach — pick 5 from Top-50 list with Brandon",
+      "currentTask": "Financial data collection — QB exports + bank screenshots sent to Chet",
       "model": "Human",
       "cost": "Boss",
       "skills": ["Vision & Strategy", "Sales", "Client Relationships"]
     },
     {
       "id": "brain",
-      "name": "ChetGPT",
-      "role": "COO",
+      "name": "Chet",
+      "role": "COO / Chief Strategy Officer",
       "status": "working",
-      "currentTask": "Financial analysis + week prep + system fixes",
+      "currentTask": "Financial analysis — P&L, balance sheet, vendor audit complete. Building model + CPA research.",
       "model": "Claude Opus 4.6",
-      "cost": "$200/mo flat",
-      "skills": ["Strategy", "Financial Analysis", "ADHD Coaching", "Operations"]
+      "cost": "$200/mo",
+      "skills": ["Strategic Planning", "Orchestration", "Reasoning", "Coaching"]
     },
     {
       "id": "engineer",
-      "name": "Engineer",
-      "role": "Builder",
+      "name": "Max",
+      "role": "Engineer",
       "status": "standby",
-      "currentTask": "Bug fixes only — build freeze active",
-      "model": "GPT-5.3 Codex",
+      "currentTask": "Build freeze — standby until Feb 22",
+      "model": "Codex 5.3",
       "cost": "Subscription",
-      "skills": ["Full-Stack", "Deployment", "Scripting"]
+      "skills": ["Full-Stack", "Deployment", "Scripting", "UI/UX"]
+    },
+    {
+      "id": "ops",
+      "name": "Rio",
+      "role": "Ops Automation & System Hygiene",
+      "status": "standby",
+      "currentTask": "Build freeze — standby",
+      "model": "Codex Mini",
+      "cost": "Subscription",
+      "skills": ["Gauge Sync", "Kanban Sync", "Status JSON", "Reminders"]
+    },
+    {
+      "id": "heartbeat",
+      "name": "Pulse",
+      "role": "Heartbeat Monitor",
+      "status": "active",
+      "currentTask": "Hourly system health checks",
+      "model": "Haiku",
+      "cost": "Minimal",
+      "skills": ["Health Checks", "Alert Routing"]
     }
   ],
   "tasks": {
     "queued": [
       {
-        "title": "Share Origin Financial + Chase bank details with Chet",
-        "agent": "aviel",
+        "title": "CPA research — Brooklyn small biz specialists (tonight)",
+        "agent": "Chet",
+        "priority": "critical"
+      },
+      {
+        "title": "Financial model — real monthly cash flow with correct numbers",
+        "agent": "Chet",
+        "priority": "critical"
+      },
+      {
+        "title": "QuickBooks cleanup — import missing CC transactions, fix vendors",
+        "agent": "Chet + Aviel (Tuesday)",
         "priority": "high"
       },
       {
+        "title": "HFLS $60K loan — set up $2,500/mo payment plan",
+        "agent": "Aviel (this week, due Mar 2)",
+        "priority": "critical"
+      },
+      {
         "title": "Linux migration (Tuesday Feb 17)",
-        "agent": "aviel + chet",
+        "agent": "Aviel + Chet",
         "priority": "high"
       },
       {
         "title": "Pick 5 accounts from Top-50 list with Brandon",
-        "agent": "aviel + brandon",
+        "agent": "Aviel + Brandon (Monday)",
         "priority": "high"
-      },
-      {
-        "title": "Enable Gemini paid billing ($5/mo)",
-        "agent": "aviel",
-        "priority": "medium"
-      },
-      {
-        "title": "QuickBooks production (awaiting Intuit review)",
-        "agent": "blocked",
-        "priority": "critical"
       }
     ],
     "inProgress": [
       {
-        "title": "30-Day Financial Sprint — checking to $0",
-        "agent": "chet",
+        "title": "30-Day Financial Sprint — checking -$14K to $0",
+        "agent": "Chet + Aviel",
         "priority": "critical"
       },
       {
         "title": "Floor Graphics Revenue Pipeline",
-        "agent": "aviel + chet",
+        "agent": "Aviel + Brandon",
         "priority": "high"
+      },
+      {
+        "title": "Full financial picture — P&L + Balance Sheet + Vendor audit",
+        "agent": "Chet",
+        "priority": "critical"
       }
     ],
     "done": [
       {
-        "title": "COO Mode activated — 50 rules replaced with 5 principles",
-        "agent": "chet",
+        "title": "P&L analysis complete — $323K annualized revenue, 54.5% margin",
+        "agent": "Chet",
+        "completedAt": "2026-02-15T21:30:00-05:00"
+      },
+      {
+        "title": "Balance sheet analysis — identified $95K phantom CC balances",
+        "agent": "Chet",
+        "completedAt": "2026-02-15T21:45:00-05:00"
+      },
+      {
+        "title": "Vendor audit — 133 vendors, 39 active, 57 cancelled",
+        "agent": "Chet",
+        "completedAt": "2026-02-15T22:00:00-05:00"
+      },
+      {
+        "title": "Personal finance data collected (Origin Financial)",
+        "agent": "Aviel",
+        "completedAt": "2026-02-15T21:15:00-05:00"
+      },
+      {
+        "title": "COO Mode activated — 5 principles replace 50 rules",
+        "agent": "Chet",
         "completedAt": "2026-02-15T21:00:00-05:00"
       },
       {
-        "title": "Mission Control emoji → SVG (108 icons, zero emoji)",
-        "agent": "engineer",
+        "title": "Mission Control emoji to SVG (108 icons)",
+        "agent": "Max",
         "completedAt": "2026-02-15T17:00:00-05:00"
       },
       {
-        "title": "Corrections tracking system built",
-        "agent": "chet",
-        "completedAt": "2026-02-15T16:45:00-05:00"
-      },
-      {
         "title": "Aviel Dashboard v4 deployed",
-        "agent": "engineer",
+        "agent": "Max",
         "completedAt": "2026-02-15T15:25:00-05:00"
-      },
-      {
-        "title": "Voice transcription FIXED (Groq key)",
-        "agent": "chet",
-        "completedAt": "2026-02-15T14:00:00-05:00"
-      },
-      {
-        "title": "Goal-driven daily push system",
-        "agent": "chet",
-        "completedAt": "2026-02-15T15:15:00-05:00"
-      },
-      {
-        "title": "Invoice extraction disabled (3 errors — fix Tuesday)",
-        "agent": "chet",
-        "completedAt": "2026-02-15T17:30:00-05:00"
-      },
-      {
-        "title": "Autonomous work loop → COO mode",
-        "agent": "chet",
-        "completedAt": "2026-02-15T21:00:00-05:00"
       }
     ]
   },
   "activity": [
     {
+      "time": "10:25 PM",
+      "text": "Mission Control updated — AI team names (Max, Rio, Pulse), financial analysis progress, real task status"
+    },
+    {
+      "time": "10:00 PM",
+      "text": "Vendor audit complete — 133 vendors, found missing rent payments, QB import gaps, cancelled services"
+    },
+    {
+      "time": "9:45 PM",
+      "text": "Balance sheet analyzed — $95K phantom CC balances from missing transaction imports"
+    },
+    {
+      "time": "9:30 PM",
+      "text": "P&L deep dive — revenue is $323K annualized (not $686K), 54.5% margins, $1,700/mo breathing room"
+    },
+    {
       "time": "9:15 PM",
-      "text": "COO Mode activated — AGENTS.md rebuilt with 5 principles, old rules archived"
+      "text": "Personal finance data received — $12.1K CC debt, $5.9K liquid, net -$3K personal"
     },
     {
       "time": "9:00 PM",
-      "text": "Autonomous work loop + nightly session rewritten for COO thinking"
+      "text": "COO Mode activated — AGENTS.md rebuilt, autonomous work rewritten for judgment-based operation"
     },
     {
       "time": "8:45 PM",
       "text": "30-day financial sprint defined: checking to $0, 5 floor leads, $35K March"
-    },
-    {
-      "time": "5:30 PM",
-      "text": "Mission Control emoji→SVG verified: 108 SVGs, zero emoji, timestamps on Done cards"
-    },
-    {
-      "time": "5:00 PM",
-      "text": "Corrections tracking system + pre-send verification protocol built"
-    },
-    {
-      "time": "4:45 PM",
-      "text": "Invoice Extraction cron disabled — 3 consecutive timeouts, fix after Linux migration"
-    },
-    {
-      "time": "3:25 PM",
-      "text": "Aviel Dashboard v4 deployed — The Glance design, light mode default"
-    },
-    {
-      "time": "3:15 PM",
-      "text": "Goal-driven daily push + weekly goal review crons created"
     }
   ],
   "usage": {
@@ -160,85 +181,78 @@
     {
       "name": "Morning Brief",
       "schedule": "8 AM Mon-Fri",
-      "model": "Codex 5.3",
+      "model": "Max (Codex 5.3)",
       "desc": "AI news, printing trends, your ONE priority for today.",
       "status": "ok"
     },
     {
       "name": "Daily Push",
       "schedule": "9 AM daily",
-      "model": "Codex 5.3",
+      "model": "Max (Codex 5.3)",
       "desc": "ONE task from your goals — exact steps, clear done criteria.",
       "status": "ok"
     },
     {
       "name": "Afternoon Research",
       "schedule": "2 PM Mon-Fri",
-      "model": "Codex 5.3",
+      "model": "Max (Codex 5.3)",
       "desc": "Printing industry news and trends.",
       "status": "ok"
     },
     {
       "name": "Daily Journaling",
       "schedule": "5 PM Mon-Fri",
-      "model": "Codex 5.3",
+      "model": "Max (Codex 5.3)",
       "desc": "Gentle end-of-day check-in.",
       "status": "ok"
     },
     {
       "name": "Daily Standup",
       "schedule": "8:15 PM daily",
-      "model": "Codex 5.3",
-      "desc": "Your daily meeting with ChetGPT — what happened, decisions needed, tomorrow's priority.",
+      "model": "Max (Codex 5.3)",
+      "desc": "Your daily meeting with Chet — what happened, decisions needed, tomorrow's priority.",
       "status": "ok"
     },
     {
       "name": "Nightly COO Session",
       "schedule": "1 AM daily",
-      "model": "Codex 5.3",
+      "model": "Max (Codex 5.3)",
       "desc": "Deep work — revenue analysis, financial modeling, system fixes.",
       "status": "ok"
     },
     {
       "name": "Invoice Extraction",
       "schedule": "6 AM daily",
-      "model": "Codex 5.3",
-      "desc": "DISABLED — 3 consecutive errors. Re-enable after Tuesday Linux migration.",
+      "model": "Max (Codex 5.3)",
+      "desc": "DISABLED — fix after Tuesday Linux migration.",
       "status": "error — disabled"
     },
     {
       "name": "Autonomous COO Loop",
       "schedule": "Every 60 min",
-      "model": "Codex 5.3",
-      "desc": "Proactive business work — fixes broken systems, analyzes data, prepares for priorities.",
+      "model": "Max (Codex 5.3)",
+      "desc": "Proactive business work — fixes, analysis, prep.",
+      "status": "ok"
+    },
+    {
+      "name": "Heartbeat",
+      "schedule": "Every 60 min",
+      "model": "Pulse (Haiku)",
+      "desc": "System health monitoring.",
       "status": "ok"
     },
     {
       "name": "Weekly Memory Distill",
       "schedule": "Sun 3 AM",
-      "model": "Codex 5.3",
+      "model": "Max (Codex 5.3)",
       "desc": "Compresses old daily notes, keeps memory lean.",
-      "status": "ok"
-    },
-    {
-      "name": "Weekly Optimization",
-      "schedule": "Sun 10 AM",
-      "model": "Codex 5.3",
-      "desc": "Research latest optimization techniques.",
-      "status": "ok"
-    },
-    {
-      "name": "Weekly Blind Spot Audit",
-      "schedule": "Sun 7 PM",
-      "model": "Codex 5.3",
-      "desc": "What should we be doing that we're not?",
       "status": "ok"
     },
     {
       "name": "Weekly Goal Review",
       "schedule": "Sun 9 PM",
-      "model": "Codex 5.3",
-      "desc": "Assess all 8 goals, adjust priorities for next week.",
+      "model": "Max (Codex 5.3)",
+      "desc": "Assess all goals, adjust priorities for next week.",
       "status": "ok"
     }
   ],
@@ -247,6 +261,6 @@
     "active": true,
     "startDate": "2026-02-15",
     "endDate": "2026-02-22",
-    "reason": "Verify and use everything built — no new apps/tools"
+    "reason": "Verify and fix existing tools — no new apps"
   }
 }
