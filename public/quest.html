@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Aviel's Quest</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { 
+  width: 100%; height: 100%; overflow: hidden; 
+  background: #1a1a2e; touch-action: none;
+  font-family: monospace;
+}
+canvas { display: block; image-rendering: pixelated; image-rendering: crisp-edges; }
+#ui-overlay {
+  position: fixed; top: 0; left: 0; right: 0;
+  padding: 8px 12px;
+  display: flex; justify-content: space-between; align-items: flex-start;
+  pointer-events: none; z-index: 10;
+}
+.ui-panel {
+  background: rgba(0,0,0,0.75);
+  border: 2px solid #c9a227;
+  border-radius: 6px;
+  padding: 6px 10px;
+  color: #fff;
+  font-size: 11px;
+  line-height: 1.5;
+}
+.bar { height: 8px; border-radius: 4px; margin-top: 2px; background: #333; overflow: hidden; }
+.bar-fill { height: 100%; border-radius: 4px; transition: width 0.3s; }
+.bar-hp .bar-fill { background: #e74c3c; }
+.bar-xp .bar-fill { background: #c9a227; }
+.bar-mp .bar-fill { background: #3498db; }
+#dpad {
+  position: fixed; bottom: 24px; left: 24px;
+  width: 130px; height: 130px; z-index: 20;
+}
+.dpad-btn {
+  position: absolute; width: 42px; height: 42px;
+  background: rgba(255,255,255,0.15);
+  border: 2px solid rgba(255,255,255,0.3);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 18px;
+  user-select: none; -webkit-user-select: none;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+.dpad-btn:active, .dpad-btn.pressed { background: rgba(255,255,255,0.35); }
+.dpad-up { top: 0; left: 50%; transform: translateX(-50%); }
+.dpad-down { bottom: 0; left: 50%; transform: translateX(-50%); }
+.dpad-left { top: 50%; left: 0; transform: translateY(-50%); }
+.dpad-right { top: 50%; right: 0; transform: translateY(-50%); }
+#action-btn {
+  position: fixed; bottom: 36px; right: 28px;
+  width: 64px; height: 64px;
+  background: rgba(201,162,39,0.3);
+  border: 3px solid #c9a227;
+  border-radius: 50%;
+  color: #c9a227; font-size: 13px; font-weight: bold;
+  font-family: monospace;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 20; cursor: pointer;
+  user-select: none; -webkit-user-select: none;
+  transition: background 0.1s;
+}
+#action-btn:active { background: rgba(201,162,39,0.5); }
+#dialog-box {
+  position: fixed; bottom: 160px; left: 12px; right: 12px;
+  background: rgba(0,0,0,0.9);
+  border: 2px solid #c9a227;
+  border-radius: 8px;
+  padding: 14px 16px;
+  color: #fff; font-family: monospace; font-size: 13px;
+  line-height: 1.6;
+  z-index: 30;
+  display: none;
+  max-width: 400px;
+  margin: 0 auto;
+}
+#dialog-box .speaker { color: #c9a227; font-weight: bold; margin-bottom: 4px; }
+#dialog-box .prompt { color: #888; font-size: 11px; margin-top: 8px; }
+#battle-screen {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.92);
+  z-index: 50;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-family: monospace;
+}
+#battle-screen.active { display: flex; }
+.battle-monster { text-align: center; margin-bottom: 24px; }
+.battle-monster-name { font-size: 16px; font-weight: bold; color: #e74c3c; margin-top: 8px; }
+.battle-monster-hp { margin-top: 6px; font-size: 12px; color: #ccc; }
+.battle-bar { width: 160px; height: 10px; background: #333; border-radius: 5px; margin: 4px auto; overflow: hidden; }
+.battle-bar-fill { height: 100%; background: #e74c3c; border-radius: 5px; transition: width 0.3s; }
+.battle-actions { display: flex; gap: 12px; margin-top: 20px; }
+.battle-btn {
+  padding: 12px 24px;
+  background: rgba(201,162,39,0.2);
+  border: 2px solid #c9a227;
+  border-radius: 8px;
+  color: #c9a227;
+  font-family: monospace;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.battle-btn:active { background: rgba(201,162,39,0.4); }
+.battle-btn.run { border-color: #888; color: #888; }
+.battle-log { margin-top: 16px; font-size: 12px; color: #aaa; text-align: center; min-height: 20px; }
+#xp-popup {
+  position: fixed; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: monospace;
+  font-size: 28px;
+  font-weight: bold;
+  color: #c9a227;
+  text-shadow: 0 0 20px rgba(201,162,39,0.5);
+  z-index: 60;
+  display: none;
+  animation: xpPop 1.5s ease-out forwards;
+  pointer-events: none;
+}
+@keyframes xpPop {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+  20% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
+  40% { transform: translate(-50%, -50%) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -70%) scale(1); }
+}
+#level-up {
+  position: fixed; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: monospace;
+  text-align: center;
+  z-index: 60;
+  display: none;
+  pointer-events: none;
+}
+#level-up .big { font-size: 36px; font-weight: bold; color: #c9a227; text-shadow: 0 0 30px rgba(201,162,39,0.6); }
+#level-up .sub { font-size: 14px; color: #fff; margin-top: 4px; }
+</style>
+</head>
+<body>
+
+<canvas id="game"></canvas>
+
+<div id="ui-overlay">
+  <div class="ui-panel" id="stats-panel">
+    <div><b style="color:#c9a227">Aviel</b> <span id="ui-class" style="color:#888">Archer</span></div>
+    <div>Lv.<span id="ui-level">1</span></div>
+    <div style="margin-top:4px">HP</div>
+    <div class="bar bar-hp" style="width:100px"><div class="bar-fill" id="ui-hp" style="width:100%"></div></div>
+    <div style="margin-top:2px">MP</div>
+    <div class="bar bar-mp" style="width:100px"><div class="bar-fill" id="ui-mp" style="width:100%"></div></div>
+    <div style="margin-top:2px">XP</div>
+    <div class="bar bar-xp" style="width:100px"><div class="bar-fill" id="ui-xp" style="width:0%"></div></div>
+  </div>
+  <div class="ui-panel" id="quest-panel">
+    <div style="color:#c9a227;font-weight:bold">Quest</div>
+    <div id="ui-quest">Explore the village</div>
+    <div id="ui-gold" style="margin-top:4px;color:#c9a227">0 Gold</div>
+  </div>
+</div>
+
+<div id="dpad">
+  <div class="dpad-btn dpad-up" data-dir="up">&#9650;</div>
+  <div class="dpad-btn dpad-down" data-dir="down">&#9660;</div>
+  <div class="dpad-btn dpad-left" data-dir="left">&#9664;</div>
+  <div class="dpad-btn dpad-right" data-dir="right">&#9654;</div>
+</div>
+<div id="action-btn">ACT</div>
+
+<div id="dialog-box">
+  <div class="speaker" id="dialog-speaker"></div>
+  <div id="dialog-text"></div>
+  <div class="prompt">Tap ACT to continue</div>
+</div>
+
+<div id="battle-screen">
+  <div class="battle-monster">
+    <canvas id="monster-canvas" width="64" height="64" style="image-rendering:pixelated"></canvas>
+    <div class="battle-monster-name" id="battle-name">Monster</div>
+    <div class="battle-monster-hp">HP: <span id="battle-hp-text">100/100</span></div>
+    <div class="battle-bar"><div class="battle-bar-fill" id="battle-hp-bar" style="width:100%"></div></div>
+  </div>
+  <div class="battle-actions">
+    <div class="battle-btn" id="btn-attack">ATTACK</div>
+    <div class="battle-btn" id="btn-skill">SKILL</div>
+    <div class="battle-btn run" id="btn-run">RUN</div>
+  </div>
+  <div class="battle-log" id="battle-log"></div>
+</div>
+
+<div id="xp-popup"></div>
+<div id="level-up"><div class="big">LEVEL UP!</div><div class="sub" id="level-up-text"></div></div>
+
+<script>
+// ============ GAME ENGINE ============
+const canvas = document.getElementById('game');
+const ctx = canvas.getContext('2d');
+const T = 16; // tile size in game pixels
+const SCALE = 3;
+const ST = T * SCALE; // scaled tile size
+
+// Colors
+const C = {
+  grass1: '#4a7c3f', grass2: '#3d6b34', path: '#c4a56a', pathDark: '#a8894e',
+  water: '#3468a8', waterLight: '#4a7ec4', wall: '#8b7355', wallDark: '#6b5535',
+  roof: '#c44b2f', roofDark: '#a33d25', door: '#5a3a1a', wood: '#8b6342',
+  tree1: '#2d5a1e', tree2: '#3a7028', trunk: '#6b4423',
+  sand: '#d4b87a', flower1: '#e84393', flower2: '#fdcb6e', flower3: '#74b9ff',
+};
+
+// Map tiles: 0=grass, 1=path, 2=water, 3=wall, 4=tree, 5=roof, 6=door, 7=fence, 8=flowers, 9=sand, 10=bridge
+const MAP_W = 24, MAP_H = 18;
+const map = [
+  [4,4,4,4,4,4,2,2,2,2,4,4,4,4,4,4,4,4,4,4,4,4,4,4],
+  [4,4,0,0,0,0,2,2,2,0,0,0,0,4,4,3,3,3,4,4,4,4,4,4],
+  [4,0,0,8,0,0,0,2,0,0,8,0,0,0,4,3,0,3,4,4,4,4,4,4],
+  [4,0,0,0,0,1,1,10,1,1,0,0,0,0,0,5,6,5,0,0,0,4,4,4],
+  [4,0,4,0,0,1,0,0,0,1,0,0,4,0,0,1,1,1,0,0,0,0,4,4],
+  [4,0,0,0,0,1,0,0,0,1,0,0,0,0,0,1,0,0,0,0,8,0,0,4],
+  [0,0,0,3,3,1,0,0,0,1,3,3,0,0,0,1,0,0,0,0,0,0,0,4],
+  [0,0,0,3,0,1,0,0,0,1,0,3,0,0,1,1,0,4,0,0,0,0,0,4],
+  [0,0,0,5,6,5,0,0,0,5,6,5,0,0,1,0,0,0,0,3,3,3,0,4],
+  [0,0,0,0,1,0,0,0,0,0,1,0,0,0,1,0,0,0,0,3,0,3,0,4],
+  [0,8,0,0,1,1,1,1,1,1,1,0,0,1,1,0,0,0,0,5,6,5,0,4],
+  [0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,8,0,0,0,1,0,0,4],
+  [4,0,0,0,0,0,0,1,0,0,0,0,1,1,0,0,0,0,0,0,1,0,0,4],
+  [4,0,4,0,0,0,0,1,1,1,1,1,1,0,0,0,4,0,0,0,1,0,4,4],
+  [4,0,0,0,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,4,4],
+  [4,4,0,0,0,0,4,0,0,0,0,0,4,0,0,8,0,0,0,1,4,4,4,4],
+  [4,4,4,0,0,4,4,4,0,0,0,4,4,4,0,0,0,4,1,1,4,4,4,4],
+  [4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4],
+];
+
+// Collision map (1 = blocked)
+function isBlocked(tx, ty) {
+  if (tx < 0 || ty < 0 || tx >= MAP_W || ty >= MAP_H) return true;
+  const t = map[ty][tx];
+  return t === 2 || t === 3 || t === 4 || t === 5 || t === 7;
+}
+
+// Player
+const player = {
+  x: 7, y: 9, dir: 0, // 0=down,1=left,2=right,3=up
+  hp: 100, maxHp: 100, mp: 40, maxMp: 50,
+  xp: 0, xpNext: 100, level: 1, gold: 0,
+  atk: 15, moving: false, moveTimer: 0,
+  frame: 0, animTimer: 0,
+};
+
+// NPCs
+const npcs = [
+  { x: 4, y: 8, name: 'Brandon', color: '#e67e22', dialog: [
+    "Yo boss! The shop's running smooth today.",
+    "Got 3 orders queued up for Monday.",
+    "Go handle that floor graphics pitch — I got the shop covered."
+  ], dialogIdx: 0 },
+  { x: 10, y: 8, name: 'Diandra', color: '#9b59b6', dialog: [
+    "Good evening! I organized the invoices.",
+    "We have 2 new quote requests from WhatsApp.",
+    "Want me to follow up on the Brooklyn Events lead?"
+  ], dialogIdx: 0 },
+  { x: 16, y: 3, name: 'ChetGPT', color: '#c9a227', dialog: [
+    "Welcome back, warrior.",
+    "Your quest today: defeat the Financial Blockers.",
+    "Each monster you defeat brings the shop closer to $0 checking.",
+    "I've marked 3 threats on the map. Hunt them down."
+  ], dialogIdx: 0 },
+];
+
+// Monsters (task-based)
+const monsters = [
+  { x: 1, y: 5, name: 'Debt Slime', hp: 40, maxHp: 40, atk: 8, xp: 35, gold: 50,
+    task: 'Send bank info to ChetGPT', color: '#e74c3c', alive: true },
+  { x: 17, y: 5, name: 'Quote Goblin', hp: 55, maxHp: 55, atk: 10, xp: 50, gold: 75,
+    task: 'Review Top-50 target accounts', color: '#8e44ad', alive: true },
+  { x: 20, y: 10, name: 'Invoice Wraith', hp: 80, maxHp: 80, atk: 14, xp: 80, gold: 120,
+    task: 'Close a floor graphic deal', color: '#2c3e50', alive: true },
+];
+
+// Game state
+let state = 'explore'; // explore, dialog, battle
+let dialogQueue = [];
+let currentBattle = null;
+let camera = { x: 0, y: 0 };
+let keys = {};
+let moveDir = null;
+let moveRepeat = null;
+
+// ============ DRAWING ============
+function drawTile(x, y, type) {
+  const sx = x * ST - camera.x;
+  const sy = y * ST - camera.y;
+  if (sx < -ST || sy < -ST || sx > canvas.width + ST || sy > canvas.height + ST) return;
+
+  switch(type) {
+    case 0: // grass
+      ctx.fillStyle = (x + y) % 2 === 0 ? C.grass1 : C.grass2;
+      ctx.fillRect(sx, sy, ST, ST);
+      // Grass detail
+      if ((x * 7 + y * 13) % 5 === 0) {
+        ctx.fillStyle = '#5a9a4f';
+        ctx.fillRect(sx + 6*SCALE, sy + 4*SCALE, SCALE, 3*SCALE);
+        ctx.fillRect(sx + 10*SCALE, sy + 8*SCALE, SCALE, 3*SCALE);
+      }
+      break;
+    case 1: // path
+      ctx.fillStyle = C.path;
+      ctx.fillRect(sx, sy, ST, ST);
+      ctx.fillStyle = C.pathDark;
+      if ((x + y * 3) % 4 === 0) ctx.fillRect(sx + 4*SCALE, sy + 6*SCALE, 2*SCALE, 2*SCALE);
+      break;
+    case 2: // water
+      ctx.fillStyle = C.water;
+      ctx.fillRect(sx, sy, ST, ST);
+      ctx.fillStyle = C.waterLight;
+      const waveOff = Math.sin(Date.now()/600 + x + y) * 2;
+      ctx.fillRect(sx + (3+waveOff)*SCALE, sy + 4*SCALE, 4*SCALE, SCALE);
+      ctx.fillRect(sx + (8+waveOff)*SCALE, sy + 10*SCALE, 3*SCALE, SCALE);
+      break;
+    case 3: // wall
+      ctx.fillStyle = C.wall;
+      ctx.fillRect(sx, sy, ST, ST);
+      ctx.fillStyle = C.wallDark;
+      ctx.fillRect(sx, sy + 12*SCALE, ST, 4*SCALE);
+      // Brick lines
+      ctx.fillStyle = '#7a6345';
+      ctx.fillRect(sx, sy + 5*SCALE, ST, SCALE);
+      ctx.fillRect(sx, sy + 11*SCALE, ST, SCALE);
+      ctx.fillRect(sx + 8*SCALE, sy, SCALE, 5*SCALE);
+      ctx.fillRect(sx + 4*SCALE, sy + 6*SCALE, SCALE, 5*SCALE);
+      ctx.fillRect(sx + 12*SCALE, sy + 6*SCALE, SCALE, 5*SCALE);
+      break;
+    case 4: // tree
+      ctx.fillStyle = (x + y) % 2 === 0 ? C.grass1 : C.grass2;
+      ctx.fillRect(sx, sy, ST, ST);
+      // Trunk
+      ctx.fillStyle = C.trunk;
+      ctx.fillRect(sx + 6*SCALE, sy + 8*SCALE, 4*SCALE, 8*SCALE);
+      // Canopy
+      ctx.fillStyle = C.tree1;
+      ctx.fillRect(sx + 2*SCALE, sy + 2*SCALE, 12*SCALE, 8*SCALE);
+      ctx.fillStyle = C.tree2;
+      ctx.fillRect(sx + 4*SCALE, sy + 1*SCALE, 8*SCALE, 6*SCALE);
+      ctx.fillRect(sx + 3*SCALE, sy + 3*SCALE, 10*SCALE, 5*SCALE);
+      break;
+    case 5: // roof
+      ctx.fillStyle = C.roof;
+      ctx.fillRect(sx, sy, ST, ST);
+      ctx.fillStyle = C.roofDark;
+      for (let i = 0; i < 4; i++) {
+        ctx.fillRect(sx, sy + i*4*SCALE, ST, SCALE);
+      }
+      break;
+    case 6: // door
+      ctx.fillStyle = C.wall;
+      ctx.fillRect(sx, sy, ST, ST);
+      ctx.fillStyle = C.door;
+      ctx.fillRect(sx + 4*SCALE, sy + 2*SCALE, 8*SCALE, 14*SCALE);
+      ctx.fillStyle = '#c9a227';
+      ctx.fillRect(sx + 10*SCALE, sy + 8*SCALE, 2*SCALE, 2*SCALE);
+      break;
+    case 8: // flowers
+      ctx.fillStyle = (x + y) % 2 === 0 ? C.grass1 : C.grass2;
+      ctx.fillRect(sx, sy, ST, ST);
+      const colors = [C.flower1, C.flower2, C.flower3];
+      for (let i = 0; i < 3; i++) {
+        ctx.fillStyle = colors[(x*3+y+i) % 3];
+        ctx.fillRect(sx + (3+i*4)*SCALE, sy + (4+((i*5)%7))*SCALE, 2*SCALE, 2*SCALE);
+      }
+      break;
+    case 9: // sand
+      ctx.fillStyle = C.sand;
+      ctx.fillRect(sx, sy, ST, ST);
+      break;
+    case 10: // bridge
+      ctx.fillStyle = C.water;
+      ctx.fillRect(sx, sy, ST, ST);
+      ctx.fillStyle = C.wood;
+      ctx.fillRect(sx + 2*SCALE, sy, 12*SCALE, ST);
+      ctx.fillStyle = '#7a5530';
+      ctx.fillRect(sx + 2*SCALE, sy + 4*SCALE, 12*SCALE, SCALE);
+      ctx.fillRect(sx + 2*SCALE, sy + 10*SCALE, 12*SCALE, SCALE);
+      break;
+  }
+}
+
+function drawSprite(x, y, dir, frame, colors) {
+  const sx = x * ST - camera.x;
+  const sy = y * ST - camera.y;
+  const s = SCALE;
+  const f = frame % 2;
+
+  // Shadow
+  ctx.fillStyle = 'rgba(0,0,0,0.2)';
+  ctx.fillRect(sx + 3*s, sy + 14*s, 10*s, 2*s);
+
+  // Body
+  ctx.fillStyle = colors.body;
+  ctx.fillRect(sx + 5*s, sy + 6*s, 6*s, 7*s);
+
+  // Head
+  ctx.fillStyle = colors.skin;
+  ctx.fillRect(sx + 5*s, sy + 2*s, 6*s, 5*s);
+
+  // Hair
+  ctx.fillStyle = colors.hair;
+  ctx.fillRect(sx + 5*s, sy + 1*s, 6*s, 2*s);
+  if (dir === 1) ctx.fillRect(sx + 4*s, sy + 2*s, 2*s, 3*s);
+  if (dir === 2) ctx.fillRect(sx + 10*s, sy + 2*s, 2*s, 3*s);
+
+  // Eyes
+  if (dir !== 3) {
+    ctx.fillStyle = '#1a1a1a';
+    if (dir === 0) {
+      ctx.fillRect(sx + 6*s, sy + 4*s, s, s);
+      ctx.fillRect(sx + 9*s, sy + 4*s, s, s);
+    } else if (dir === 1) {
+      ctx.fillRect(sx + 5*s, sy + 4*s, s, s);
+    } else {
+      ctx.fillRect(sx + 10*s, sy + 4*s, s, s);
+    }
+  }
+
+  // Legs
+  ctx.fillStyle = colors.legs;
+  const legOff = f === 1 ? 1 : 0;
+  ctx.fillRect(sx + 5*s, sy + 13*s, 2*s, 3*s - legOff*s);
+  ctx.fillRect(sx + 9*s, sy + 13*s - legOff*s, 2*s, 3*s);
+
+  // Weapon (bow for archer)
+  ctx.fillStyle = '#8B4513';
+  if (dir === 2 || dir === 0) {
+    // Bow on right side
+    ctx.fillRect(sx + 12*s, sy + 5*s, s, 7*s);
+    ctx.fillStyle = '#c9a227';
+    ctx.fillRect(sx + 13*s, sy + 6*s, s, s);
+    ctx.fillRect(sx + 13*s, sy + 10*s, s, s);
+    // String
+    ctx.fillStyle = '#ddd';
+    ctx.fillRect(sx + 13*s, sy + 7*s, s, 3*s);
+  } else if (dir === 1) {
+    ctx.fillRect(sx + 3*s, sy + 5*s, s, 7*s);
+  }
+}
+
+const playerColors = { body: '#2d6b30', skin: '#f0c8a0', hair: '#3a2010', legs: '#4a3728' };
+
+function drawNPC(npc) {
+  const colors = { body: npc.color, skin: '#f0c8a0', hair: '#2a2a2a', legs: '#333' };
+  drawSprite(npc.x, npc.y, 0, 0, colors);
+  // Name tag
+  const sx = npc.x * ST - camera.x;
+  const sy = npc.y * ST - camera.y;
+  ctx.fillStyle = 'rgba(0,0,0,0.6)';
+  ctx.font = `${10*SCALE/2}px monospace`;
+  ctx.textAlign = 'center';
+  const tw = ctx.measureText(npc.name).width;
+  ctx.fillRect(sx + ST/2 - tw/2 - 4, sy - 4*SCALE, tw + 8, 12*SCALE/2 + 2);
+  ctx.fillStyle = '#fff';
+  ctx.fillText(npc.name, sx + ST/2, sy - 1*SCALE);
+  ctx.textAlign = 'left';
+}
+
+function drawMonster(m) {
+  if (!m.alive) return;
+  const sx = m.x * ST - camera.x;
+  const sy = m.y * ST - camera.y;
+  const s = SCALE;
+  const bob = Math.sin(Date.now()/300 + m.x) * 2;
+
+  // Shadow
+  ctx.fillStyle = 'rgba(0,0,0,0.3)';
+  ctx.fillRect(sx + 3*s, sy + 14*s, 10*s, 2*s);
+
+  // Body
+  ctx.fillStyle = m.color;
+  ctx.fillRect(sx + 4*s, sy + (4+bob)*s, 8*s, 9*s);
+
+  // Eyes (menacing)
+  ctx.fillStyle = '#e74c3c';
+  ctx.fillRect(sx + 5*s, sy + (6+bob)*s, 2*s, 2*s);
+  ctx.fillRect(sx + 9*s, sy + (6+bob)*s, 2*s, 2*s);
+  ctx.fillStyle = '#fff';
+  ctx.fillRect(sx + 6*s, sy + (7+bob)*s, s, s);
+  ctx.fillRect(sx + 10*s, sy + (7+bob)*s, s, s);
+
+  // Exclamation mark
+  ctx.fillStyle = '#c9a227';
+  ctx.font = `bold ${8*SCALE/2}px monospace`;
+  ctx.textAlign = 'center';
+  ctx.fillText('!', sx + ST/2, sy - 2*s);
+  ctx.textAlign = 'left';
+
+  // Task name below
+  ctx.fillStyle = 'rgba(0,0,0,0.6)';
+  ctx.font = `${8*SCALE/2}px monospace`;
+  ctx.textAlign = 'center';
+  const tw = ctx.measureText(m.name).width;
+  ctx.fillRect(sx + ST/2 - tw/2 - 3, sy + 16*s, tw + 6, 10*SCALE/2);
+  ctx.fillStyle = '#e74c3c';
+  ctx.fillText(m.name, sx + ST/2, sy + 19*s);
+  ctx.textAlign = 'left';
+}
+
+function drawBattleMonster(m) {
+  const mc = document.getElementById('monster-canvas');
+  mc.width = 96; mc.height = 96;
+  const mctx = mc.getContext('2d');
+  const s = 6;
+  
+  // Body
+  mctx.fillStyle = m.color;
+  mctx.fillRect(16, 16, 64, 64);
+  mctx.fillRect(8, 24, 80, 48);
+  
+  // Eyes
+  mctx.fillStyle = '#e74c3c';
+  mctx.fillRect(24, 32, 16, 12);
+  mctx.fillRect(56, 32, 16, 12);
+  mctx.fillStyle = '#fff';
+  mctx.fillRect(32, 36, 6, 6);
+  mctx.fillRect(64, 36, 6, 6);
+  
+  // Mouth
+  mctx.fillStyle = '#1a1a1a';
+  mctx.fillRect(32, 56, 32, 8);
+  mctx.fillStyle = '#fff';
+  mctx.fillRect(36, 56, 6, 4);
+  mctx.fillRect(46, 56, 6, 4);
+  mctx.fillRect(56, 56, 6, 4);
+}
+
+// ============ GAME LOGIC ============
+function resize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+
+function updateCamera() {
+  const targetX = player.x * ST - canvas.width / 2 + ST / 2;
+  const targetY = player.y * ST - canvas.height / 2 + ST / 2;
+  camera.x += (targetX - camera.x) * 0.15;
+  camera.y += (targetY - camera.y) * 0.15;
+  // Clamp
+  camera.x = Math.max(0, Math.min(MAP_W * ST - canvas.width, camera.x));
+  camera.y = Math.max(0, Math.min(MAP_H * ST - canvas.height, camera.y));
+}
+
+function tryMove(dir) {
+  if (state !== 'explore' || player.moving) return;
+  
+  let nx = player.x, ny = player.y;
+  if (dir === 'up') { ny--; player.dir = 3; }
+  else if (dir === 'down') { ny++; player.dir = 0; }
+  else if (dir === 'left') { nx--; player.dir = 1; }
+  else if (dir === 'right') { nx++; player.dir = 2; }
+
+  // Check NPC collision
+  for (const npc of npcs) {
+    if (npc.x === nx && npc.y === ny) return;
+  }
+  // Check monster collision
+  for (const m of monsters) {
+    if (m.alive && m.x === nx && m.y === ny) {
+      startBattle(m);
+      return;
+    }
+  }
+  if (!isBlocked(nx, ny)) {
+    player.x = nx;
+    player.y = ny;
+    player.frame++;
+  }
+}
+
+function interact() {
+  if (state === 'dialog') {
+    if (dialogQueue.length > 0) {
+      showDialog(dialogQueue.shift().speaker, dialogQueue.length > 0 ? dialogQueue[0].text : null);
+      if (dialogQueue.length === 0) {
+        setTimeout(() => { 
+          document.getElementById('dialog-box').style.display = 'none';
+          state = 'explore';
+        }, 100);
+      } else {
+        document.getElementById('dialog-speaker').textContent = dialogQueue[0].speaker || '';
+        document.getElementById('dialog-text').textContent = dialogQueue[0].text;
+      }
+      return;
+    }
+    document.getElementById('dialog-box').style.display = 'none';
+    state = 'explore';
+    return;
+  }
+
+  if (state === 'explore') {
+    // Check for adjacent NPC
+    const facingX = player.x + (player.dir === 1 ? -1 : player.dir === 2 ? 1 : 0);
+    const facingY = player.y + (player.dir === 3 ? -1 : player.dir === 0 ? 1 : 0);
+    
+    for (const npc of npcs) {
+      if (npc.x === facingX && npc.y === facingY) {
+        const line = npc.dialog[npc.dialogIdx % npc.dialog.length];
+        npc.dialogIdx++;
+        state = 'dialog';
+        dialogQueue = [{ speaker: npc.name, text: line }];
+        document.getElementById('dialog-box').style.display = 'block';
+        document.getElementById('dialog-speaker').textContent = npc.name;
+        document.getElementById('dialog-text').textContent = line;
+        return;
+      }
+    }
+  }
+}
+
+// ============ BATTLE SYSTEM ============
+function startBattle(monster) {
+  state = 'battle';
+  currentBattle = { ...monster, ref: monster };
+  document.getElementById('battle-screen').classList.add('active');
+  document.getElementById('battle-name').textContent = monster.name;
+  document.getElementById('battle-hp-text').textContent = `${monster.hp}/${monster.maxHp}`;
+  document.getElementById('battle-hp-bar').style.width = '100%';
+  document.getElementById('battle-log').textContent = `A wild ${monster.name} appeared! Task: ${monster.task}`;
+  drawBattleMonster(monster);
+}
+
+function battleAttack(isSkill) {
+  if (!currentBattle) return;
+  const dmg = player.atk + Math.floor(Math.random() * 8) + (isSkill ? 10 : 0);
+  const mpCost = isSkill ? 15 : 0;
+  
+  if (isSkill && player.mp < mpCost) {
+    document.getElementById('battle-log').textContent = 'Not enough MP!';
+    return;
+  }
+  
+  if (isSkill) player.mp -= mpCost;
+  currentBattle.hp = Math.max(0, currentBattle.hp - dmg);
+  
+  document.getElementById('battle-hp-text').textContent = `${currentBattle.hp}/${currentBattle.maxHp}`;
+  document.getElementById('battle-hp-bar').style.width = `${(currentBattle.hp/currentBattle.maxHp)*100}%`;
+  
+  if (currentBattle.hp <= 0) {
+    // Victory!
+    const xpGain = currentBattle.xp;
+    const goldGain = currentBattle.gold;
+    currentBattle.ref.alive = false;
+    
+    document.getElementById('battle-log').textContent = `${currentBattle.name} defeated! +${xpGain} XP, +${goldGain} Gold`;
+    
+    setTimeout(() => {
+      document.getElementById('battle-screen').classList.remove('active');
+      state = 'explore';
+      
+      player.gold += goldGain;
+      player.xp += xpGain;
+      
+      // Show XP popup
+      const popup = document.getElementById('xp-popup');
+      popup.textContent = `+${xpGain} XP`;
+      popup.style.display = 'block';
+      popup.style.animation = 'none';
+      popup.offsetHeight;
+      popup.style.animation = 'xpPop 1.5s ease-out forwards';
+      setTimeout(() => popup.style.display = 'none', 1500);
+      
+      // Level up check
+      if (player.xp >= player.xpNext) {
+        player.level++;
+        player.xp -= player.xpNext;
+        player.xpNext = Math.floor(player.xpNext * 1.5);
+        player.maxHp += 10;
+        player.hp = player.maxHp;
+        player.maxMp += 5;
+        player.mp = player.maxMp;
+        player.atk += 3;
+        
+        setTimeout(() => {
+          const lu = document.getElementById('level-up');
+          document.getElementById('level-up-text').textContent = `Level ${player.level}! ATK +3, HP +10, MP +5`;
+          lu.style.display = 'block';
+          setTimeout(() => lu.style.display = 'none', 2500);
+        }, 500);
+      }
+      
+      // Update quest
+      const alive = monsters.filter(m => m.alive).length;
+      if (alive === 0) {
+        document.getElementById('ui-quest').textContent = 'All threats cleared!';
+        setTimeout(() => {
+          state = 'dialog';
+          dialogQueue = [{ speaker: 'ChetGPT', text: 'All threats defeated! The village is safe. Your checking account lives to fight another day. Rest well, warrior.' }];
+          document.getElementById('dialog-box').style.display = 'block';
+          document.getElementById('dialog-speaker').textContent = 'ChetGPT';
+          document.getElementById('dialog-text').textContent = dialogQueue[0].text;
+        }, 1000);
+      } else {
+        document.getElementById('ui-quest').textContent = `Defeat ${alive} more threat${alive>1?'s':''}`;
+      }
+      
+      currentBattle = null;
+      updateUI();
+    }, 1200);
+    return;
+  }
+  
+  // Monster attacks back
+  const mDmg = currentBattle.atk + Math.floor(Math.random() * 5);
+  player.hp = Math.max(0, player.hp - mDmg);
+  
+  const skillName = isSkill ? 'Arrow Rain' : 'Arrow Shot';
+  document.getElementById('battle-log').textContent = 
+    `${skillName}: ${dmg} dmg! ${currentBattle.name} strikes back: ${mDmg} dmg!`;
+  
+  updateUI();
+  
+  if (player.hp <= 0) {
+    player.hp = Math.floor(player.maxHp * 0.3);
+    document.getElementById('battle-log').textContent = 'You were knocked out... but warriors don\'t quit. Recovering...';
+    setTimeout(() => {
+      document.getElementById('battle-screen').classList.remove('active');
+      state = 'explore';
+      currentBattle = null;
+      updateUI();
+    }, 2000);
+  }
+}
+
+function battleRun() {
+  document.getElementById('battle-log').textContent = 'Got away safely! The task remains...';
+  setTimeout(() => {
+    document.getElementById('battle-screen').classList.remove('active');
+    state = 'explore';
+    // Move player back
+    player.x = player.x + (player.dir === 1 ? 1 : player.dir === 2 ? -1 : 0);
+    player.y = player.y + (player.dir === 3 ? 1 : player.dir === 0 ? -1 : 0);
+    currentBattle = null;
+  }, 800);
+}
+
+function updateUI() {
+  document.getElementById('ui-level').textContent = player.level;
+  document.getElementById('ui-hp').style.width = `${(player.hp/player.maxHp)*100}%`;
+  document.getElementById('ui-mp').style.width = `${(player.mp/player.maxMp)*100}%`;
+  document.getElementById('ui-xp').style.width = `${(player.xp/player.xpNext)*100}%`;
+  document.getElementById('ui-gold').textContent = `${player.gold} Gold`;
+}
+
+// ============ INPUT ============
+// Keyboard
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowUp' || e.key === 'w') { moveDir = 'up'; tryMove('up'); }
+  else if (e.key === 'ArrowDown' || e.key === 's') { moveDir = 'down'; tryMove('down'); }
+  else if (e.key === 'ArrowLeft' || e.key === 'a') { moveDir = 'left'; tryMove('left'); }
+  else if (e.key === 'ArrowRight' || e.key === 'd') { moveDir = 'right'; tryMove('right'); }
+  else if (e.key === ' ' || e.key === 'Enter') interact();
+});
+document.addEventListener('keyup', e => { moveDir = null; });
+
+// D-pad touch
+document.querySelectorAll('.dpad-btn').forEach(btn => {
+  const dir = btn.dataset.dir;
+  let interval;
+  const start = (e) => {
+    e.preventDefault();
+    btn.classList.add('pressed');
+    tryMove(dir);
+    interval = setInterval(() => tryMove(dir), 180);
+  };
+  const stop = (e) => {
+    e.preventDefault();
+    btn.classList.remove('pressed');
+    clearInterval(interval);
+  };
+  btn.addEventListener('touchstart', start, { passive: false });
+  btn.addEventListener('touchend', stop, { passive: false });
+  btn.addEventListener('touchcancel', stop, { passive: false });
+  btn.addEventListener('mousedown', start);
+  btn.addEventListener('mouseup', stop);
+  btn.addEventListener('mouseleave', stop);
+});
+
+// Action button
+document.getElementById('action-btn').addEventListener('touchstart', e => { e.preventDefault(); interact(); }, { passive: false });
+document.getElementById('action-btn').addEventListener('click', interact);
+
+// Battle buttons
+document.getElementById('btn-attack').addEventListener('click', () => battleAttack(false));
+document.getElementById('btn-skill').addEventListener('click', () => battleAttack(true));
+document.getElementById('btn-run').addEventListener('click', battleRun);
+// Touch support for battle
+document.getElementById('btn-attack').addEventListener('touchstart', e => { e.preventDefault(); battleAttack(false); }, { passive: false });
+document.getElementById('btn-skill').addEventListener('touchstart', e => { e.preventDefault(); battleAttack(true); }, { passive: false });
+document.getElementById('btn-run').addEventListener('touchstart', e => { e.preventDefault(); battleRun(); }, { passive: false });
+
+// ============ MAIN LOOP ============
+function gameLoop() {
+  resize();
+  updateCamera();
+  
+  // Clear
+  ctx.fillStyle = '#1a1a2e';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  
+  // Draw map
+  for (let y = 0; y < MAP_H; y++) {
+    for (let x = 0; x < MAP_W; x++) {
+      drawTile(x, y, map[y][x]);
+    }
+  }
+  
+  // Draw monsters
+  for (const m of monsters) drawMonster(m);
+  
+  // Draw NPCs
+  for (const npc of npcs) drawNPC(npc);
+  
+  // Draw player
+  drawSprite(player.x, player.y, player.dir, player.frame, playerColors);
+  
+  requestAnimationFrame(gameLoop);
+}
+
+// Start
+resize();
+camera.x = player.x * ST - canvas.width / 2;
+camera.y = player.y * ST - canvas.height / 2;
+updateUI();
+document.getElementById('ui-quest').textContent = 'Defeat 3 threats';
+gameLoop();
+
+// Intro dialog
+setTimeout(() => {
+  state = 'dialog';
+  dialogQueue = [
+    { speaker: 'ChetGPT', text: 'Welcome to INKredible Village, warrior.' },
+    { speaker: 'ChetGPT', text: 'Your quest: defeat 3 Financial Threats roaming the map.' },
+    { speaker: 'ChetGPT', text: 'Use the D-pad to move. Tap ACT to talk to allies.' },
+    { speaker: 'ChetGPT', text: 'Walk into a monster to engage in battle. Good luck!' },
+  ];
+  document.getElementById('dialog-box').style.display = 'block';
+  document.getElementById('dialog-speaker').textContent = dialogQueue[0].speaker;
+  document.getElementById('dialog-text').textContent = dialogQueue[0].text;
+}, 500);
+</script>
+</body>
+</html>
